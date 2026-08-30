@@ -1,0 +1,752 @@
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body, .film-title, .category-title, #filmSearch {
+  font-family: 'Open Sans', sans-serif !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   FOND SOMBRE + BOBINES DE FILM
+   ============================================================ */
+body {
+  background: #1a1a2e;
+  min-height: 100vh;
+  position: relative;
+}
+
+.reel-bg {
+  position: fixed;
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================================
+   TITRE BILINGUE (haut de page)
+   ============================================================ */
+.page-header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding-top: 25px;
+}
+.page-header .lang-title {
+  font-size: 26px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+.page-header .lang-native {
+  font-size: 16px;
+  font-style: italic;
+  color: #7da1c9;
+  margin-top: 4px;
+}
+
+.film-list-wrapper {
+  overflow-x: hidden;
+  padding: 10px 20px;
+  padding-bottom: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+#filmSearch {
+  width: 300px;
+  padding: 8px 12px;
+  font-size: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin: 20px auto;
+  display: block;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 1;
+}
+#filmSearch:focus {
+  outline: none;
+  border-color: #7da1c9;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.category-title {
+  font-size: 20px !important;
+  margin-top: 35px;
+  margin-bottom: 15px;
+  font-weight: 600 !important;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  position: relative;
+  z-index: 1;
+}
+
+.film-list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+/* ============================================================
+   EFFET VERRE DEPOLI (remplace le fond blanc des cartes)
+   ============================================================ */
+.film-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 0.5px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  padding: 6px;
+  min-height: 200px;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.25);
+}
+
+.film-title.has-link::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -150%;
+  width: 300%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.18) 45%,
+    rgba(255,255,255,0.25) 50%,
+    rgba(255,255,255,0.18) 55%,
+    rgba(255,255,255,0) 100%
+  );
+  transform: rotate(20deg) translateX(-150%);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.film-title.has-link:hover::before {
+  opacity: 1;
+  animation: projectorSweepOnce 1.5s ease forwards;
+}
+
+@keyframes projectorSweepOnce {
+  0%   { transform: rotate(20deg) translateX(-150%); }
+  100% { transform: rotate(20deg) translateX(150%); }
+}
+
+.film-title.has-link:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.35);
+  cursor: pointer;
+}
+
+.film-title img {
+  width: 100%;
+  max-height: 120px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+
+.film-title .film-year {
+  font-weight: bold;
+  font-size: 12px;
+  margin-bottom: 4px;
+  color: #ffffff;
+}
+.film-title .film-name {
+  font-size: 12px;
+  margin: 0;
+  color: #ffffff;
+}
+.film-title a {
+  color: #8ab4f8;
+  text-decoration: none;
+  font-size: 12px;
+  font-style: italic;
+}
+.film-title a:hover {
+  text-decoration: none;
+}
+
+.category-title img {
+  width: 34px;
+  height: 34px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.keywords {
+  display: none;
+}
+
+.no-dub {
+  filter: grayscale(100%) brightness(0.92);
+  opacity: 0.9;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+.no-dub:hover {
+  filter: grayscale(80%) brightness(1);
+  opacity: 1;
+}
+
+.no-dub.has-link::before {
+  display: none;
+}
+
+.no-dub img {
+  filter: grayscale(100%);
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.no-dub:hover img {
+  opacity: 1;
+}
+
+.no-dub-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+.no-dub-title img {
+  width: 38px;
+  height: 38px;
+  opacity: 0.85;
+}
+
+/* Studio filter buttons */
+.studio-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin: 30px 20px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.studio-btn {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  padding: 6px 18px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+  color: #333;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.studio-btn:not(.active):hover {
+  background: #e0e0e0;
+}
+
+.studio-btn.active {
+  background: #1a4a8a;
+  border-color: #1a4a8a;
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(26, 74, 138, 0.35);
+}
+
+.studio-btn .count {
+  font-size: 10px;
+  opacity: 0.75;
+  margin-left: 2px;
+}
+
+/* ============================================================
+   SECTION TRIVIA (bas de page)
+   ============================================================ */
+.trivia-section {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 50px auto 40px;
+  padding: 0 20px;
+  color: #e0e0e0;
+}
+.trivia-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #e0e0e0;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+.trivia-title .highlight {
+  color: #d9534f;
+}
+.trivia-section ul {
+  padding-left: 20px;
+  margin: 0;
+}
+.trivia-section li {
+  margin-bottom: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+@media (max-width: 900px) {
+  .film-list { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 500px) {
+  .film-list { grid-template-columns: 1fr; }
+}
+</style>
+
+<!-- ============================================================
+     BOBINES DE FILM EN FILIGRANE (fond)
+     ============================================================ -->
+<svg class="reel-bg" style="top:-40px;left:-40px;width:300px;height:300px" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="45" fill="none" stroke="white" stroke-width="3"/>
+  <circle cx="50" cy="50" r="30" fill="none" stroke="white" stroke-width="2"/>
+  <circle cx="50" cy="50" r="8" fill="white"/>
+  <circle cx="50" cy="20" r="5" fill="white"/>
+  <circle cx="50" cy="80" r="5" fill="white"/>
+  <circle cx="20" cy="50" r="5" fill="white"/>
+  <circle cx="80" cy="50" r="5" fill="white"/>
+  <line x1="50" y1="5" x2="50" y2="95" stroke="white" stroke-width="1.5"/>
+  <line x1="5" y1="50" x2="95" y2="50" stroke="white" stroke-width="1.5"/>
+</svg>
+<svg class="reel-bg" style="bottom:-60px;right:50px;width:400px;height:400px;opacity:0.04" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="45" fill="none" stroke="white" stroke-width="3"/>
+  <circle cx="50" cy="50" r="30" fill="none" stroke="white" stroke-width="2"/>
+  <circle cx="50" cy="50" r="8" fill="white"/>
+  <circle cx="50" cy="20" r="5" fill="white"/>
+  <circle cx="50" cy="80" r="5" fill="white"/>
+  <circle cx="20" cy="50" r="5" fill="white"/>
+  <circle cx="80" cy="50" r="5" fill="white"/>
+  <line x1="50" y1="5" x2="50" y2="95" stroke="white" stroke-width="1.5"/>
+  <line x1="5" y1="50" x2="95" y2="50" stroke="white" stroke-width="1.5"/>
+</svg>
+
+<!-- ============================================================
+     TITRE BILINGUE
+     MODIFIE ICI selon la page : nom anglais + nom natif en dessous
+     ============================================================ -->
+<div class="page-header">
+  <h1 class="lang-title">ENGLISH credits</h1>
+  <div class="lang-native">English</div>
+</div>
+
+<!-- SEARCH BAR -->
+<input type="text" id="filmSearch" placeholder="Search a film..." />
+
+<!-- STUDIO FILTER -->
+<div class="studio-filter">
+  <button class="studio-btn active" data-studio="all">All <span class="count"></span></button>
+  <button class="studio-btn" data-studio="disney">Disney <span class="count"></span></button>
+  <button class="studio-btn" data-studio="disneytoon">Disneytoon <span class="count"></span></button>
+  <button class="studio-btn" data-studio="pixar">Pixar <span class="count"></span></button>
+  <button class="studio-btn" data-studio="others">Others <span class="count"></span></button>
+</div>
+
+<!-- CONTAINERS -->
+<h2 class="category-title" id="title-classics">
+  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/clap-cinema_orig.gif">Original Classics
+</h2>
+<div class="film-list-wrapper" id="wrapper-classics">
+  <ul class="film-list" id="list-classics"></ul>
+</div>
+
+<h2 class="category-title" id="title-shorts">
+  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/clap-cinema_orig.gif">Shorts
+</h2>
+<div class="film-list-wrapper" id="wrapper-shorts">
+  <ul class="film-list" id="list-shorts"></ul>
+</div>
+
+<h2 class="category-title" id="title-live">
+  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/clap-cinema_orig.gif">Live-action/Remakes
+</h2>
+<div class="film-list-wrapper" id="wrapper-live">
+  <ul class="film-list" id="list-live"></ul>
+</div>
+
+<h2 class="category-title no-dub-title" id="title-nodub">
+  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/no-sound-movie-cast_orig.gif">No Dub
+</h2>
+<div class="film-list-wrapper" id="wrapper-nodub">
+  <ul class="film-list" id="list-nodub"></ul>
+</div>
+
+<!-- ============================================================
+     SECTION TRIVIA
+     MODIFIE ICI : remplace le "N/A" par tes anecdotes (une <li> par anecdote)
+     ============================================================ -->
+<div class="trivia-section">
+  <div class="trivia-title"><span class="highlight">T</span>RIVIA</div>
+  <ul>
+    <li>N/A</li>
+  </ul>
+</div>
+
+<script>
+// ============================================================
+//  FILM DATA
+//  Fields:
+//    name      : display name (use <br> for line breaks)
+//    year      : (optionnel) année affichée sur la carte — si absent, extrait de date:
+//                utile pour afficher une année de doublage différente, ou "20??" etc.
+//    date      : date de sortie originale (YYYY-MM-DD), utilisée pour le tri
+//    img       : full URL to the poster image
+//    link      : URL to the cast page (omit if not yet made)
+//    keywords  : extra search terms (optional array)
+//    noDub     : true  → goes to No Dub section
+//    category  : "classics" | "shorts" | "live"
+//    badge     : override badge text (default "No Dub")
+// ============================================================
+
+const PIC     = "https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/";
+const DISNEY  = "https://disneyinternationaldubbings.weebly.com/";
+const NDISNEY = "https://nondisneyinternationaldubbings.weebly.com/";
+
+const films = [
+
+
+  // ── ORIGINAL CLASSICS ────────────────────────────────────
+
+
+  { category:"classics", date:"1937-12-21", year:"1938", name:"Snow White and the Seven Dwarfs", img:PIC+"snow-white-and-the-seven-dwarfs-1937-logo-language-page-2_orig.png", studio:"disney" },
+  { category:"classics", date:"1940-02-07", name:"Pinocchio", img:PIC+"pinocchio-1940-logo-language-page-2_orig.png", studio:"disney", link:DISNEY+"pinocchio--hindi-cast.html" },
+  { category:"classics", date:"1940-11-13", name:"Fantasia", img:PIC+"fantasia-1940-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1941-10-23", name:"Dumbo", img:PIC+"dumbo-1941-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1942-08-13", name:"Bambi", img:PIC+"bambi-1942-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1942-08-24", name:"Saludos Amigos", img:PIC+"saludos-amigos-1942-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1944-12-21", name:"The Three Caballeros", img:PIC+"the-three-caballeros-1944-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1946-08-15", name:"Make Mine Music", img:PIC+"make-mine-music-1946-logo-language-page_orig.png", studio:"disney", noDub:true },
+  { category:"classics", date:"1947-09-27", name:"Fun and Fancy Free", img:PIC+"fun-and-fancy-free-1947-logo-language-page_orig.png", keywords:["mickey"], studio:"disney" },
+  { category:"classics", date:"1948-05-27", name:"Melody Time", img:PIC+"melody-time-1948-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1949-10-05", name:"The Adventures of Ichabod<br>and Mr. Toad", img:PIC+"the-adventures-of-ichabod-and-mr-toad-1949-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1950-02-15", name:"Cinderella", img:PIC+"cinderella-1950-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1951-07-28", name:"Alice in Wonderland", img:PIC+"alice-in-wonderland-1951-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1953-02-05", name:"Peter Pan", img:PIC+"peter-pan-1953-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1955-06-22", name:"Lady and the Tramp", img:PIC+"lady-and-the-tramp-1955-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1959-01-29", name:"Sleeping Beauty", img:PIC+"sleeping-beauty-1959-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1961-01-25", name:"One Hundred and One Dalmatians", img:PIC+"one-hundred-and-one-dalmatians-1961-logo-language-page_orig.png", keywords:["101 dalmatians"], studio:"disney" },
+  { category:"classics", date:"1963-12-25", name:"The Sword in the Stone", img:PIC+"the-sword-and-the-stone-1963-logo-language-page-2_orig.png", studio:"disney" },
+  { category:"classics", date:"1967-10-18", name:"The Jungle Book", img:PIC+"the-jungle-book-1967-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1970-12-24", name:"The Aristocats", img:PIC+"the-aristocats-1970-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1973-11-08", name:"Robin Hood", img:PIC+"robin-hood-1973-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1977-03-11", name:"The Many Adventures of Winnie the Pooh", img:PIC+"the-many-adventures-of-winnie-the-pooh-1977-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1977-11-03", name:"The Rescuers", img:PIC+"the-rescuers-1977-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1981-07-10", name:"The Fox and the Hound", img:PIC+"the-fox-and-the-hound-1981-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1985-07-24", name:"The Black Cauldron", img:PIC+"the-black-cauldron-1985-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1986-07-02", name:"The Great Mouse Detective", img:PIC+"the-great-mouse-detective-1986-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1988-11-18", name:"Oliver & Company", img:PIC+"oliver-company-1988-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1989-11-17", name:"The Little Mermaid", img:PIC+"the-little-mermaid-1989-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1990-08-03", name:"DuckTales the Movie:<br>Treasure of the Lost Lamp", img:PIC+"ducktales-the-movie-treasure-of-the-lost-lamp-1990-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"1990-11-16", name:"The Rescuers Down Under", img:PIC+"the-rescuers-down-under-1990-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1991-11-22", name:"Beauty and the Beast", img:PIC+"beauty-and-the-beast-1991-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1992-11-25", name:"Aladdin", img:PIC+"aladdin-1992-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1994-03-30", name:"Thumbelina", img:PIC+"thumbelina-1994-logo-language-page_orig.png", studio:"donbluth" },
+  { category:"classics", date:"1994-05-20", name:"The Return of Jafar", img:PIC+"the-return-of-jafar-1994-logo-language-page_orig.png", keywords:["aladdin"], studio:"disneytoon" },
+  { category:"classics", date:"1994-06-24", name:"The Lion King", img:PIC+"the-lion-king-1994-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1994-10-17", name:"The Swan Princess", img:PIC+"the-swan-princess-1994-logo-language-page_orig.png", studio:"richard_rich" },
+  { category:"classics", date:"1995-06-23", name:"Pocahontas", img:PIC+"pocahontas-1995-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1995-04-07", name:"A Goofy Movie", img:PIC+"a-goofy-movie-1995-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"1995-11-22", name:"Toy Story", img:PIC+"toy-story-1995-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"1996-06-21", name:"The Hunchback of Notre Dame", img:PIC+"the-hunchback-of-notre-dame-1996-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1996-08-13", name:"Aladdin and the King of Thieves", img:PIC+"aladdin-and-the-king-of-thieves-1996-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"1997-06-27", name:"Hercules", img:PIC+"hercules-1997-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1997-06-28", name:"Anastasia", img:PIC+"anastasia-1997-logo-language-page_orig.png", studio:"fox" },
+  { category:"classics", date:"1997-11-11", name:"Beauty and the Beast:<br>The Enchanted Christmas", img:PIC+"beauty-and-the-beast-the-enchanted-christmas-1997-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"1998-02-17", name:"Beauty and the Beast:<br>Belle's Magical World", img:PIC+"belle-s-magical-world-1998-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"1998-03-01", name:"Quest for Camelot", img:PIC+"quest-for-camelot-1998-logo-language-page_orig.png", studio:"warner" },
+  { category:"classics", date:"1998-06-19", name:"Mulan", img:PIC+"mulan-1998-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1998-08-25", name:"Pocahontas II:<br>Journey to a New World", img:PIC+"pocahontas-2-journey-to-a-new-world-1998-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"1998-10-27", name:"The Lion King II: Simba's Pride", img:PIC+"the-lion-king-2-simba-s-pride-1998-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"1998-11-25", name:"A Bug's Life", img:PIC+"a-bug-s-life-1998-logo-language-page-2_orig.png", studio:"pixar" },
+  { category:"classics", date:"1998-12-16", name:"The Prince of Egypt", img:PIC+"the-prince-of-egypt-1998-logo-language-page_orig.png", studio:"dreamworks" },
+  { category:"classics", date:"1999-06-18", name:"Tarzan", img:PIC+"tarzan-1999-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"1999-11-24", name:"Toy Story 2", img:PIC+"toy-story-2-1999-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"1999-12-17", name:"Fantasia 2000", img:PIC+"fantasia-2000-1999-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2000-02-29", name:"An Extremely Goofy Movie", img:PIC+"an-extremely-goofy-movie-2000-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2000-05-19", name:"Dinosaur", img:PIC+"dinosaur-2000-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2000-09-19", name:"The Little Mermaid II:<br>Return to the Sea", img:PIC+"the-little-mermaid-2-return-to-the-sea-2000-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2000-12-15", name:"The Emperor's New Groove", img:PIC+"the-emperor-s-new-groove-2000-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2001-02-27", name:"Lady and the Tramp II:<br>Scamp's Adventure", img:PIC+"lady-and-the-tramp-2-scamp-s-adventure-2001-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2001-06-15", name:"Atlantis: The Lost Empire", img:PIC+"atlantis-the-lost-empire-2001-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2001-11-02", name:"Monsters, Inc.", img:PIC+"monsters-inc-2001-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"2002-02-15", name:"Return to Neverland", img:PIC+"return-to-neverland-2002-logo-language-page_orig.png", keywords:["peter pan"], studio:"disneytoon" },
+  { category:"classics", date:"2002-02-26", name:"Cinderella II: Dreams Come True", img:PIC+"cinderella-2-dreams-come-true-2002-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2002-03-19", name:"The Hunchback of Notre Dame II", img:PIC+"the-hunchback-of-notre-dame-2-2002-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2002-06-21", name:"Lilo & Stitch", img:PIC+"lilo-stitch-2002-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2002-11-27", name:"Treasure Planet", img:PIC+"treasure-planet-2002-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2003-01-21", name:"101 Dalmatians II:<br>Patch's London Adventure", img:PIC+"101-dalmatians-2-patch-s-london-adventure-2002-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2003-02-14", name:"The Jungle Book 2", img:PIC+"the-jungle-book-2-2003-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2003-05-20", name:"Atlantis: Milo's Return", img:PIC+"atlantis-milo-s-return-2003-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2003-05-30", name:"Finding Nemo", img:PIC+"finding-nemo-2003-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"2003-11-01", name:"Brother Bear", img:PIC+"brother-bear-2003-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2004-02-10", name:"The Lion King 3: Hakuna Matata", img:PIC+"the-lion-king-3-hakuna-matata-2004-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2004-04-02", name:"Home on the Range", img:PIC+"home-on-the-range-2004-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2004-11-05", name:"The Incredibles", img:PIC+"the-incredibles-2004-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"2004-12-28", name:"Mulan II", img:PIC+"mulan-2-2004-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2005-06-14", name:"Tarzan II", img:PIC+"tarzan-2-2005-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2005-08-30", name:"Lilo & Stitch 2: Stitch Has a Glitch", img:PIC+"lilo-stitch-2-stitch-has-a-glitch-2005-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2005-11-04", name:"Chicken Little", img:PIC+"chicken-little-2005-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2005-12-13", name:"Kronk's New Groove", img:PIC+"kronk-s-new-groove-2005-logo-language-page_orig.png", keywords:["the emperor's new groove"], studio:"disneytoon" },
+  { category:"classics", date:"2006-02-07", name:"Bambi II", img:PIC+"bambi-2-2006-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2006-08-29", name:"Brother Bear 2", img:PIC+"brother-bear-2-2006-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2006-12-12", name:"The Fox and the Hound 2", img:PIC+"the-fox-and-the-hound-2-2006-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2007-02-06", name:"Cinderella III: A Twist in Time", img:PIC+"cinderella-3-a-twist-in-time-2007-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2007-03-30", name:"Meet the Robinsons", img:PIC+"meet-the-robinsons-2007-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2007-06-29", name:"Ratatouille", img:PIC+"ratatouille-2007-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"2007-09-04", name:"Disney Princess Enchanted Tales<br>Follow Your Dreams", img:PIC+"disney-princess-enchanted-tales-2007-logo-language-page_orig.png", keywords:["aladdin", "sleeping beauty"], studio:"disneytoon" },
+  { category:"classics", date:"2008-06-27", name:"WALL·E", img:PIC+"walle-2008-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"2008-08-26", name:"The Little Mermaid:<br>Ariel's Beginning", img:PIC+"ariel-s-beginning-2008-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2008-10-28", name:"Tinker Bell", img:PIC+"tinker-bell-2008-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2008-11-21", name:"Bolt", img:PIC+"bolt-2008-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2009-05-29", name:"Up", img:PIC+"up-2009-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"2009-08-27", name:"Tinker Bell and the Lost Treasure", img:PIC+"tinker-bell-and-the-lost-treasure-2009-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2009-12-11", name:"The Princess and the Frog", img:PIC+"the-princess-and-the-frog-2009-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2010-06-18", name:"Toy Story 3", img:PIC+"toy-story-3-2010-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"2010-09-21", name:"Tinker Bell and the Great Fairy Rescue", img:PIC+"tinker-bell-and-the-great-fairy-rescue-2010-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2010-11-24", name:"Tangled", img:PIC+"tangled-2010-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2011-07-15", name:"Winnie the Pooh", img:PIC+"winnie-the-pooh-2011-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2012-06-22", name:"Brave", img:PIC+"brave-2012-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"2012-10-10", name:"Rise of the Guardians", img:PIC+"rise-of-the-guardians-2012-logo-language-page_orig.png", studio:"dreamworks" },
+  { category:"classics", date:"2012-10-23", name:"Secret of the Wings", img:PIC+"secret-of-the-wings-2012-logo-language-page_orig.png", keywords:["tinker bell"], studio:"disneytoon" },
+  { category:"classics", date:"2012-11-02", name:"Wreck-it Ralph", img:PIC+"wreck-it-ralph-2012-logo-language-page_orig.png", keywords:["wreck it ralph"], studio:"disney" },
+  { category:"classics", date:"2013-06-21", name:"Monsters University", img:PIC+"monsters-university-2013-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"2013-11-27", name:"Frozen", img:PIC+"frozen-2013-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2014-04-01", name:"The Pirate Fairy", img:PIC+"the-pirate-fairy-2014-logo-language-page_orig.png", keywords:["tinker bell"], studio:"disneytoon" },
+  { category:"classics", date:"2014-11-07", name:"Big Hero 6", img:PIC+"big-hero-6-2014-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2014-12-12", name:"Tinker Bell and the Legend of the Neverbeast", img:PIC+"tinker-bell-and-the-legend-of-the-neverbeast-2014-logo-language-page_orig.png", studio:"disneytoon" },
+  { category:"classics", date:"2015-06-19", name:"Inside Out", img:PIC+"inside-out-2015-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"2015-11-25", name:"The Good Dinosaur", img:PIC+"the-good-dinosaur-2015-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"2016-03-04", name:"Zootopia", img:PIC+"zootopia-2016-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2016-06-17", name:"Finding Dory", img:PIC+"finding-dory-2016-logo-language-page_orig.png", keywords:["finding nemo"], studio:"pixar" },
+  { category:"classics", date:"2016-11-23", name:"Moana", img:PIC+"moana-2016-logo-language-page_orig.png", keywords:["vaiana"], studio:"disney" },
+  { category:"classics", date:"2017-11-22", name:"Coco", img:PIC+"coco-2017-logo-language-page_orig.png", studio:"pixar"},
+  { category:"classics", date:"2018-06-15", name:"Incredibles 2", img:PIC+"incredibles-2-2018-logo-language-page_orig.png", keywords:["the incredibles 2"], studio:"pixar" },
+  { category:"classics", date:"2018-11-21", name:"Ralph Breaks the Internet", img:PIC+"ralph-breaks-the-internet-2018-logo-language-page_orig.png", keywords:["wreck it ralph"], studio:"disney" },
+  { category:"classics", date:"2019-06-21", name:"Toy Story 4", img:PIC+"toy-story-4-2019-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"2019-11-22", name:"Frozen II", img:PIC+"frozen-2-2019-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2020-03-06", name:"Onward", img:PIC+"onward-2020-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"2020-12-25", name:"Soul", img:PIC+"soul-2020-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"2021-03-05", name:"Raya and the Last Dragon", img:PIC+"raya-and-the-last-dragon-2021-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2021-06-01", name:"Luca", img:PIC+"luca-2021-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"2021-11-24", name:"Encanto", img:PIC+"encanto-2021-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2022-03-01", name:"Turning Red", img:PIC+"turning-red-2022-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"2022-06-17", name:"Lightyear", img:PIC+"lightyear-2022-logo-language-page_orig.png", keywords:["toy story"], studio:"pixar" },
+  { category:"classics", date:"2022-11-23", name:"Strange World", img:PIC+"strange-world-2022-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2023-06-16", name:"Elemental", img:PIC+"elemental-2023-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"2023-11-22", name:"Wish", img:PIC+"wish-2023-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2024-06-14", name:"Inside Out 2", img:PIC+"inside-out-2-2024-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"2024-11-27", name:"Moana 2", img:PIC+"moana-2-2024-logo-language-page-2_orig.png", keywords:["vaiana 2"], studio:"disney" },
+  { category:"classics", date:"2025-06-20", name:"Elio", img:PIC+"elio-2025-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"2025-11-26", name:"Zootopia 2", img:PIC+"zootopia-2-2025-logo-language-page_orig.png", studio:"disney" },
+  { category:"classics", date:"2026-03-06", name:"Hoppers", img:PIC+"hoppers-2026-logo-language-page_orig.png", studio:"pixar" },
+  { category:"classics", date:"2026-06-19", name:"Toy Story 5", img:PIC+"toy-story-5-2026-logo-language-page_orig.png", studio:"pixar" },
+
+
+  // ── SHORTS ───────────────────────────────────────────────
+
+
+  { category:"shorts", date:"1983-12-16", name:"Mickey's Christmas Carol", img:PIC+"mickey-s-christmas-carol-1983-logo-language-page_orig.png", studio:"disney" },
+  { category:"shorts", date:"1990-11-16", name:"The Prince and the Pauper", img:PIC+"the-prince-and-the-pauper-1990-logo-language-page-2_orig.png", keywords:["mickey"], studio:"disney" },
+  { category:"shorts", date:"2012-01-13", name:"Tangled Ever After", img:PIC+"tangled-ever-after-2012-logo-language-page_orig.png", studio:"disney" },
+  { category:"shorts", date:"2015-03-13", name:"Frozen Fever", img:PIC+"frozen-fever-2015-logo-language-page_orig.png", studio:"disney" },
+  { category:"shorts", date:"2017-11-22", name:"Olaf's Frozen Adventure", img:PIC+"olaf-s-frozen-adventure-2017-logo-language-page_orig.png", studio:"disney" },
+  { category:"shorts", date:"2023-10-15", name:"Once Upon a Studio", img:PIC+"once-upon-a-studio-2023-logo-language-page_orig.png", studio:"disney" },
+
+
+  // ── LIVE-ACTION / REMAKES ────────────────────────────────
+
+
+  { category:"live", date:"1964-08-27", name:"Mary Poppins", img:PIC+"mary-poppins-1964-logo-language-page-2_orig.png", studio:"disney" },
+  { category:"live", date:"1971-10-07", name:"Bedknobs and Broomsticks", img:PIC+"bedknobs-and-broomsticks-1971-logo-language-page_orig.png", studio:"disney" },
+  { category:"live", date:"1996-11-27", name:"101 Dalmatians", img:PIC+"101-dalmatians-1996-logo-language-page_orig.png", studio:"disney" },
+  { category:"live", date:"2000-11-22", name:"102 Dalmatians", img:PIC+"102-dalmatians-2000-logo-language-page_orig.png", keywords:["101 dalmatians"], studio:"disney" },
+  { category:"live", date:"2007-11-21", name:"Enchanted", img:PIC+"enchanted-2007-logo-language-page_orig.png", studio:"disney" },
+  { category:"live", date:"2010-03-05", name:"Alice in Wonderland", img:PIC+"alice-in-wonderland-2010-logo-language-page_orig.png", studio:"disney" },
+  { category:"live", date:"2014-05-30", name:"Maleficent", img:PIC+"maleficent-2014-logo-language-page_orig.png", keywords:["sleeping beauty"], studio:"disney" },
+  { category:"live", date:"2015-03-13", name:"Cinderella", img:PIC+"cinderella-2015-logo-language-page-2_orig.png", studio:"disney" },
+  { category:"live", date:"2016-04-15", name:"The Jungle Book", img:PIC+"the-jungle-book-2016-logo-language-page_orig.png", studio:"disney" },
+  { category:"live", date:"2016-05-27", name:"Alice Through the Looking Glass", img:PIC+"alice-through-the-looking-glass-2016-logo-language-page_orig.png", studio:"disney" },
+  { category:"live", date:"2017-03-17", name:"Beauty and the Beast", img:PIC+"beauty-and-the-beast-2017-logo-language-page_orig.png", studio:"disney" },
+  { category:"live", date:"2018-12-19", name:"Mary Poppins Returns", img:PIC+"mary-poppins-returns-2018-logo-language-page_orig.png", studio:"disney" },
+  { category:"live", date:"2019-03-29", name:"Dumbo", img:PIC+"dumbo-2019-logo-language-page_orig.png", studio:"disney" },
+  { category:"live", date:"2019-05-24", name:"Aladdin", img:PIC+"aladdin-2019-logo-language-page-2_orig.png", studio:"disney" },
+  { category:"live", date:"2019-07-19", name:"The Lion King", img:PIC+"the-lion-king-2019-logo-language-page_orig.png", studio:"disney" },
+  { category:"live", date:"2019-10-18", name:"Maleficent: Mistress of Evil", img:PIC+"maleficent-mistress-of-evil-2019-logo-language-page_orig.png", keywords:["sleeping beauty"], studio:"disney" },
+  { category:"live", date:"2019-11-12", name:"Lady and the Tramp", img:PIC+"lady-and-the-tramp-2019-logo-language-page_orig.png", studio:"disney" },
+  { category:"live", date:"2020-09-04", name:"Mulan", img:PIC+"mulan-2020-logo-language-page_orig.png", studio:"disney" },
+  { category:"live", date:"2021-05-28", name:"Cruella", img:PIC+"cruella-2021-logo-language-page_orig.png", keywords:["101 dalmatians"], studio:"disney" },
+  { category:"live", date:"2022-09-08", name:"Pinocchio", img:PIC+"pinocchio-2022-logo-language-page_orig.png", studio:"disney" },
+  { category:"live", date:"2022-11-18", name:"Disenchanted", img:PIC+"disenchanted-2022-logo-language-page_orig.png", studio:"disney" },
+  { category:"live", date:"2023-04-28", name:"Peter Pan & Wendy", img:PIC+"peter-pan-wendy-2023-logo-language-page_orig.png", studio:"disney" },
+  { category:"live", date:"2023-05-26", name:"The Little Mermaid", img:PIC+"the-little-mermaid-2023-logo-language-page-3_orig.png", studio:"disney" },
+  { category:"live", date:"2024-12-20", name:"Mufasa: The Lion King", img:PIC+"mufasa-the-lion-king-2024-logo-language-page_orig.png", studio:"disney" },
+  { category:"live", date:"2025-03-21", name:"Snow White", img:PIC+"snow-white-2025-logo-language-page_orig.png", studio:"disney" },
+  { category:"live", date:"2025-05-23", name:"Lilo & Stitch", img:PIC+"lilo-stitch-2025-logo-language-page_orig.png", studio:"disney" },
+  { category:"live", date:"2026-07-10", name:"Moana", img:PIC+"moana-2026-logo-language-page_orig.png", keywords:["vaiana"], studio:"disney" },
+
+
+  // ── NO DUB ────────────────────────────────
+
+
+];
+
+// ============================================================
+//  RENDERING
+// ============================================================
+
+function buildFilmItem(film) {
+  const li = document.createElement('li');
+  const isNoDub = !!film.noDub;
+
+  li.className = 'film-title' + (isNoDub ? ' no-dub' : '');
+  li.dataset.studio = film.studio || 'disney';
+
+  // Keywords span(s)
+  const kwHTML = film.keywords
+    ? film.keywords.map(k => `<span class="keywords">${k}</span>`).join('')
+    : '';
+
+  // Badge
+  const badgeText = film.badge || 'No Dub';
+  const badgeHTML = (isNoDub || film.badge) ? `<span class="no-dub-badge">${badgeText}</span>` : '';
+
+  // Name / link
+  const nameHTML = film.link
+    ? `<a href="${film.link}">${film.name}</a>`
+    : `<span class="film-name">${film.name}</span>`;
+
+  li.innerHTML = `
+    <img src="${film.img}" alt="${film.name.replace(/<br>/g,' ')}">
+    <span class="film-year">${film.year || film.date?.substring(0,4) || '????'}</span>
+    ${nameHTML}
+    ${kwHTML}
+    ${badgeHTML}
+  `;
+
+  if (film.link && !isNoDub) {
+    li.classList.add('has-link');
+    li.addEventListener('click', () => { window.location.href = film.link; });
+  }
+
+  return li;
+}
+
+function parseDate(dateStr) {
+  if (!dateStr) return new Date('9999-01-01');
+  if (dateStr === '????') return new Date('0001-01-01');
+  const normalized = dateStr
+    .replace('20??', '1999-12-31')
+    .replace('201?', '2009-12-31')
+    .replace('202?', '2019-12-31')
+    .replace(/\?/g, '0');
+  const d = new Date(normalized);
+  return isNaN(d) ? new Date('9999-01-01') : d;
+}
+
+films.sort((a, b) => parseDate(a.date || a.year) - parseDate(b.date || b.year));
+
+// Separate dubbed and no-dub per category, then append dubbed first, no-dub into nodub list
+const categoryLists = { classics: [], shorts: [], live: [] };
+const noDubItems = [];
+
+films.forEach(film => {
+  if (film.noDub) {
+    noDubItems.push(film);
+  } else {
+    categoryLists[film.category].push(film);
+  }
+});
+
+['classics','shorts','live'].forEach(cat => {
+  const ul = document.getElementById('list-' + cat);
+  categoryLists[cat].forEach(film => ul.appendChild(buildFilmItem(film)));
+});
+
+const noDubUl = document.getElementById('list-nodub');
+noDubItems.forEach(film => noDubUl.appendChild(buildFilmItem(film)));
+
+// ============================================================
+//  STUDIO FILTER + SEARCH (combined)
+// ============================================================
+
+// Track active studio filter
+let activeStudio = 'all';
+
+// Studios grouped under "others" button
+const OTHERS = ['dreamworks', 'donbluth', 'richard_rich', 'warner', 'netflix', 'fox'];
+
+function studioMatches(filmStudio, filterStudio) {
+  if (filterStudio === 'all') return true;
+  if (filterStudio === 'others') return OTHERS.includes(filmStudio);
+  return filmStudio === filterStudio;
+}
+
+function applyFilters() {
+  const search = document.getElementById('filmSearch').value.toLowerCase();
+
+  document.querySelectorAll('.film-title').forEach(function (el) {
+    const text        = el.textContent.toLowerCase();
+    const filmStudio  = el.dataset.studio || 'disney';
+    const matchSearch = text.includes(search);
+    const matchStudio = studioMatches(filmStudio, activeStudio);
+    el.style.display  = (matchSearch && matchStudio) ? 'flex' : 'none';
+  });
+
+  ['classics','shorts','live','nodub'].forEach(function (cat) {
+    const title   = document.getElementById('title-'   + cat);
+    const wrapper = document.getElementById('wrapper-' + cat);
+    const ul      = document.getElementById('list-'    + cat);
+    if (!ul) return;
+    const hasVisible = [...ul.querySelectorAll('.film-title')].some(f => f.style.display !== 'none');
+    title.style.display   = hasVisible ? '' : 'none';
+    wrapper.style.display = hasVisible ? '' : 'none';
+  });
+
+  // Mise à jour des compteurs
+  document.querySelectorAll('.studio-btn').forEach(function(btn) {
+    const studio = btn.dataset.studio;
+    const count = films.filter(f => !f.noDub && studioMatches(f.studio || 'disney', studio) && f.name.toLowerCase().includes(search)).length;
+    btn.querySelector('.count').textContent = '(' + count + ')';
+  });
+}
+
+// Studio buttons
+document.querySelectorAll('.studio-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    document.querySelectorAll('.studio-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeStudio = btn.dataset.studio;
+    applyFilters();
+  });
+});
+
+applyFilters(); // initialisation au chargement
+
+// Search bar
+document.getElementById('filmSearch').addEventListener('keyup', applyFilters);
+</script>
