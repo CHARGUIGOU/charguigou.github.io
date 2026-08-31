@@ -10,40 +10,22 @@ body, .film-title, .category-title, #filmSearch {
 }
 
 /* ============================================================
-   FOND SOMBRE + BOBINES DE FILM
-   ============================================================ */
-body {
-  background: #1a1a2e;
-  min-height: 100vh;
-  position: relative;
-}
-
-.reel-bg {
-  position: fixed;
-  opacity: 0.07;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ============================================================
    TITRE BILINGUE (haut de page)
    ============================================================ */
 .page-header {
-  position: relative;
-  z-index: 1;
   text-align: center;
   padding-top: 25px;
 }
 .page-header .lang-title {
   font-size: 26px;
   font-weight: 600;
-  color: #ffffff;
+  color: #222;
   margin: 0;
 }
 .page-header .lang-native {
   font-size: 16px;
   font-style: italic;
-  color: #7da1c9;
+  color: #1a4a8a;
   margin-top: 4px;
 }
 
@@ -51,8 +33,6 @@ body {
   overflow-x: hidden;
   padding: 10px 20px;
   padding-bottom: 40px;
-  position: relative;
-  z-index: 1;
 }
 
 #filmSearch {
@@ -66,8 +46,6 @@ body {
   box-sizing: border-box;
   transition: all 0.3s ease;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  position: relative;
-  z-index: 1;
 }
 #filmSearch:focus {
   outline: none;
@@ -82,9 +60,6 @@ body {
   font-weight: 600 !important;
   display: flex;
   align-items: center;
-  color: #ffffff;
-  position: relative;
-  z-index: 1;
 }
 
 .film-list {
@@ -92,23 +67,17 @@ body {
   padding-left: 0;
   margin-top: 10px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 12px;
   margin-bottom: 10px;
 }
 
-/* ============================================================
-   EFFET VERRE DEPOLI (remplace le fond blanc des cartes)
-   ============================================================ */
 .film-title {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 0.5px solid rgba(255,255,255,0.15);
+  background: #fff;
   border-radius: 8px;
   padding: 6px;
   min-height: 200px;
@@ -116,7 +85,7 @@ body {
   position: relative;
   overflow: hidden;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.25);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .film-title.has-link::before {
@@ -151,7 +120,7 @@ body {
 
 .film-title.has-link:hover {
   transform: scale(1.05);
-  box-shadow: 0 10px 15px rgba(0,0,0,0.35);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.25);
   cursor: pointer;
 }
 
@@ -167,15 +136,15 @@ body {
   font-weight: bold;
   font-size: 12px;
   margin-bottom: 4px;
-  color: #ffffff;
+  color: #000;
 }
 .film-title .film-name {
   font-size: 12px;
   margin: 0;
-  color: #ffffff;
+  color: #000;
 }
 .film-title a {
-  color: #8ab4f8;
+  color: #1a0dab;
   text-decoration: none;
   font-size: 12px;
   font-style: italic;
@@ -245,8 +214,6 @@ body {
   gap: 8px;
   justify-content: center;
   margin: 30px 20px 20px;
-  position: relative;
-  z-index: 1;
 }
 
 .studio-btn {
@@ -284,17 +251,15 @@ body {
    SECTION TRIVIA (bas de page)
    ============================================================ */
 .trivia-section {
-  position: relative;
-  z-index: 1;
   max-width: 900px;
   margin: 50px auto 40px;
   padding: 0 20px;
-  color: #e0e0e0;
+  color: #333;
 }
 .trivia-title {
   font-size: 20px;
   font-weight: 600;
-  color: #e0e0e0;
+  color: #222;
   letter-spacing: 1px;
   margin-bottom: 12px;
 }
@@ -312,6 +277,9 @@ body {
 }
 
 
+@media (max-width: 1400px) {
+  .film-list { grid-template-columns: repeat(4, 1fr); }
+}
 @media (max-width: 900px) {
   .film-list { grid-template-columns: repeat(2, 1fr); }
 }
@@ -319,32 +287,6 @@ body {
   .film-list { grid-template-columns: 1fr; }
 }
 </style>
-
-<!-- ============================================================
-     BOBINES DE FILM EN FILIGRANE (fond)
-     ============================================================ -->
-<svg class="reel-bg" style="top:-40px;left:-40px;width:300px;height:300px" viewBox="0 0 100 100">
-  <circle cx="50" cy="50" r="45" fill="none" stroke="white" stroke-width="3"/>
-  <circle cx="50" cy="50" r="30" fill="none" stroke="white" stroke-width="2"/>
-  <circle cx="50" cy="50" r="8" fill="white"/>
-  <circle cx="50" cy="20" r="5" fill="white"/>
-  <circle cx="50" cy="80" r="5" fill="white"/>
-  <circle cx="20" cy="50" r="5" fill="white"/>
-  <circle cx="80" cy="50" r="5" fill="white"/>
-  <line x1="50" y1="5" x2="50" y2="95" stroke="white" stroke-width="1.5"/>
-  <line x1="5" y1="50" x2="95" y2="50" stroke="white" stroke-width="1.5"/>
-</svg>
-<svg class="reel-bg" style="bottom:-60px;right:50px;width:400px;height:400px;opacity:0.04" viewBox="0 0 100 100">
-  <circle cx="50" cy="50" r="45" fill="none" stroke="white" stroke-width="3"/>
-  <circle cx="50" cy="50" r="30" fill="none" stroke="white" stroke-width="2"/>
-  <circle cx="50" cy="50" r="8" fill="white"/>
-  <circle cx="50" cy="20" r="5" fill="white"/>
-  <circle cx="50" cy="80" r="5" fill="white"/>
-  <circle cx="20" cy="50" r="5" fill="white"/>
-  <circle cx="80" cy="50" r="5" fill="white"/>
-  <line x1="50" y1="5" x2="50" y2="95" stroke="white" stroke-width="1.5"/>
-  <line x1="5" y1="50" x2="95" y2="50" stroke="white" stroke-width="1.5"/>
-</svg>
 
 <!-- ============================================================
      TITRE BILINGUE
