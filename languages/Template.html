@@ -2,6 +2,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
+/* MODIFIE ICI : marge latérale globale du site (touche toutes les sections) */
+:root {
+  --page-margin: 4%;
+}
+
 body, .film-title, .category-title, #filmSearch {
   font-family: 'Open Sans', sans-serif !important;
   margin: 0;
@@ -9,30 +14,11 @@ body, .film-title, .category-title, #filmSearch {
   box-sizing: border-box;
 }
 
-/* ============================================================
-   TITRE BILINGUE (haut de page)
-   ============================================================ */
-.page-header {
-  text-align: center;
-  padding-top: 25px;
-}
-.page-header .lang-title {
-  font-size: 26px;
-  font-weight: 600;
-  color: #222;
-  margin: 0;
-}
-.page-header .lang-native {
-  font-size: 16px;
-  font-style: italic;
-  color: #1a4a8a;
-  margin-top: 4px;
-}
-
 .film-list-wrapper {
   overflow-x: hidden;
-  padding: 10px 20px;
+  padding: 10px var(--page-margin);
   padding-bottom: 40px;
+  box-sizing: border-box;
 }
 
 #filmSearch {
@@ -67,7 +53,7 @@ body, .film-title, .category-title, #filmSearch {
   padding-left: 0;
   margin-top: 10px;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 12px;
   margin-bottom: 10px;
 }
@@ -137,6 +123,7 @@ body, .film-title, .category-title, #filmSearch {
   font-size: 12px;
   margin-bottom: 4px;
   color: #000;
+  letter-spacing: 1px;
 }
 .film-title .film-name {
   font-size: 12px;
@@ -213,7 +200,7 @@ body, .film-title, .category-title, #filmSearch {
   flex-wrap: wrap;
   gap: 8px;
   justify-content: center;
-  margin: 30px 20px 20px;
+  margin: 30px var(--page-margin) 20px;
 }
 
 .studio-btn {
@@ -251,9 +238,9 @@ body, .film-title, .category-title, #filmSearch {
    SECTION TRIVIA (bas de page)
    ============================================================ */
 .trivia-section {
-  max-width: 900px;
-  margin: 50px auto 40px;
-  padding: 0 20px;
+  margin: 50px 0 40px;
+  padding: 0 var(--page-margin);
+  box-sizing: border-box;
   color: #333;
 }
 .trivia-title {
@@ -262,6 +249,7 @@ body, .film-title, .category-title, #filmSearch {
   color: #222;
   letter-spacing: 1px;
   margin-bottom: 12px;
+  text-align: center;
 }
 .trivia-title .highlight {
   color: #d9534f;
@@ -277,7 +265,7 @@ body, .film-title, .category-title, #filmSearch {
 }
 
 
-@media (max-width: 1400px) {
+@media (max-width: 1300px) {
   .film-list { grid-template-columns: repeat(4, 1fr); }
 }
 @media (max-width: 900px) {
@@ -289,12 +277,17 @@ body, .film-title, .category-title, #filmSearch {
 </style>
 
 <!-- ============================================================
-     TITRE BILINGUE
+     TITRE BILINGUE — HTML pur, tout est modifiable ligne par ligne
      MODIFIE ICI selon la page : nom anglais + nom natif en dessous
      ============================================================ -->
-<div class="page-header">
-  <h1 class="lang-title">ENGLISH credits</h1>
-  <div class="lang-native">English</div>
+<div style="text-align:center; padding-top:25px;">
+
+  <!-- Nom de la langue en anglais -->
+  <div style="font-family:'Open Sans', sans-serif; font-size:26px; font-weight:600; color:#222222; line-height:1.3; margin:0;">ENGLISH credits</div>
+
+  <!-- Nom natif de la langue -->
+  <div style="font-family:'Open Sans', sans-serif; font-size:16px; font-weight:700; font-style:italic; color:#1a4a8a; line-height:1.4; letter-spacing:1px; margin-top:4px;">English</div>
+
 </div>
 
 <!-- SEARCH BAR -->
