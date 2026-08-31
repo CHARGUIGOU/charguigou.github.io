@@ -1,0 +1,126 @@
+<!-- ============================================================
+     HEADER GLOBAL DU SITE
+     Ce fichier va dans le dossier _includes/ à la racine du dépôt GitHub.
+     Jekyll (utilisé automatiquement par GitHub Pages) l'insère partout
+     où tu écris {% include header.html %} dans une page.
+     Un seul fichier à modifier = ça se met à jour sur TOUTES les pages.
+     ============================================================ -->
+
+<style>
+.site-header {
+  position: relative;
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  /* ============================================================
+     MODIFIE ICI quand l'image sera sur Cloudinary :
+     remplace le "background:" ci-dessous par :
+     background-image: url('https://res.cloudinary.com/dofvjifeo/image/upload/TON-IMAGE.jpg');
+     background-size: cover;
+     background-position: center;
+     ============================================================ */
+  background: linear-gradient(135deg, #0a4f6b, #1c7fa3);
+  background-size: cover;
+  background-position: center;
+}
+
+/* Léger voile sombre pour garder le texte lisible quelle que soit l'image */
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.15);
+  z-index: 0;
+}
+
+/* MODIFIE ICI : la petite citation en haut à droite */
+.site-header-quote {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  z-index: 1;
+  color: #ffffff;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+/* MODIFIE ICI : le titre du site */
+.site-title {
+  position: relative;
+  z-index: 1;
+  color: #ffffff;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 56px;
+  font-weight: 300;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+.site-nav {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 35px;
+  padding: 0 20px;
+}
+
+/* MODIFIE ICI : le style des liens du menu */
+.site-nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.25s ease;
+}
+.site-nav a:hover {
+  border-bottom-color: #ffffff;
+}
+
+@media (max-width: 700px) {
+  .site-title { font-size: 34px; letter-spacing: 4px; }
+  .site-nav { gap: 18px; }
+  .site-header-quote { display: none; }
+}
+</style>
+
+<header class="site-header">
+
+  <!-- MODIFIE ICI : la citation -->
+  <div class="site-header-quote">&laquo; Part of my world &raquo;</div>
+
+  <!-- MODIFIE ICI : le titre -->
+  <h1 class="site-title">CHARGUIGOU</h1>
+
+  <!-- ============================================================
+       MENU DE NAVIGATION
+       Les liens commencent par un "/" (chemin absolu depuis la racine
+       du site) : ça marche pareil peu importe où se trouve la page
+       qui inclut ce header (racine, languages/, cast/, etc.)
+       MODIFIE ICI les chemins une fois les pages créées.
+       ============================================================ -->
+  <nav class="site-nav">
+    <a href="/index.html">Home</a>
+    <a href="/characters/index.html">Character Voices</a>
+    <a href="/cast/index.html">Movie Cast</a>
+    <a href="/voice-artists.html">Voice Artists</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/update.html">Update</a>
+  </nav>
+
+</header>
