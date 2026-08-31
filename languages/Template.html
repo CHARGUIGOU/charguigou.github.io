@@ -4,7 +4,7 @@
 <style>
 /* MODIFIE ICI : marge latérale globale du site (touche toutes les sections) */
 :root {
-  --page-margin: 10%;
+  --page-margin: 4%;
 }
 
 body, .film-title, .category-title, #filmSearch {
@@ -43,9 +43,11 @@ body, .film-title, .category-title, #filmSearch {
   font-size: 20px !important;
   margin-top: 35px;
   margin-bottom: 15px;
+  padding: 0 var(--page-margin);
   font-weight: 600 !important;
   display: flex;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .film-list {
@@ -53,7 +55,7 @@ body, .film-title, .category-title, #filmSearch {
   padding-left: 0;
   margin-top: 10px;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 12px;
   margin-bottom: 10px;
 }
