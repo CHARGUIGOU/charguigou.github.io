@@ -355,12 +355,18 @@ body, #charSearch {
 //  Fields:
 //    name        : nom affiché sur la carte
 //    img         : URL de l'image (portrait du personnage)
+//    keywords    : (optionnel) tableau de mots-clés invisibles supplémentaires
+//                  pour la recherche "By character" (surnom, orthographe
+//                  alternative, nom dans une autre langue...)
 //    link        : URL de la fiche complète du personnage. Tant que ce champ
 //                  n'est pas rempli, la carte affiche "Full profile coming
 //                  soon" au dos et n'est pas cliquable.
 //    appearances : liste des films où il apparaît (affichée en entier au dos de la carte)
 //        film     : titre du film
 //        year     : année
+//        keywords : (optionnel) tableau de mots-clés invisibles supplémentaires
+//                   pour la recherche "By film" (autre orthographe, chiffre
+//                   romain vs normal, titre alternatif...)
 //        upcoming : true si le doublage/la page n'est pas encore sortie (affiche un badge rouge)
 // ============================================================
 
@@ -384,14 +390,32 @@ const characters = [
     ]
   },
 
+  {
+    name: "Cinderella",
+    img: PIC + "Cinderella1950.png",
+    keywords: ["cenicienta", "cendrillon"],
+    link: "/characters/snowwhite.html",
+    appearances: [
+      { film: "Cinderella", year: "1950" },
+      { film: "Disney's House of Mouse", year: "2001", upcoming:true },
+      { film: "Cinderella II: Dreams Come True", year: "2002", keywords: ["cinderella 2: dreams come true"] },
+      { film: "Cinderella III: A Twist in Time", year: "2007", keywords: ["cinderella 3"] },
+      { film: "Cinderella (live-action)", year: "2015" },
+      { film: "Ralph Breaks the Internet", year: "2018" },
+      { film: "Once Upon a Studio", year: "2023" },
+      { film: "LEGO Disney Princess: Villains Unite", year: "2025" }
+    ]
+  },
+
   // ── MODELE A DUPLIQUER POUR CHAQUE NOUVEAU PERSONNAGE ────────
   // {
   //   name: "NOM DU PERSONNAGE",
   //   img: PIC + "nomdufichierimage.png",
+  //   keywords: ["surnom", "autre orthographe"], // optionnel, à retirer si pas besoin
   //   link: "/characters/nomdufichier.html", // à retirer si la page n'existe pas encore
   //   appearances: [
   //     { film: "Titre du film", year: "Année" },
-  //     { film: "Titre du film 2", year: "Année 2", upcoming: true }
+  //     { film: "Titre du film 2", year: "Année 2", keywords: ["autre orthographe"], upcoming: true }
   //   ]
   // },
 
@@ -410,9 +434,13 @@ function buildCharacterCard(character) {
   const hasLink = !!character.link;
   if (!hasLink) li.classList.add('no-link');
 
-  // Deux textes de recherche séparés : un pour le nom, un pour les films
-  li.dataset.searchName = character.name.toLowerCase();
-  li.dataset.searchFilms = character.appearances.map(a => a.film).join(' ').toLowerCase();
+  // Deux textes de recherche séparés : un pour le nom (+ mots-clés), un pour les films (+ leurs mots-clés)
+  const keywordText = character.keywords ? ' ' + character.keywords.join(' ') : '';
+  li.dataset.searchName = (character.name + keywordText).toLowerCase();
+  li.dataset.searchFilms = character.appearances
+    .map(a => a.film + (a.keywords ? ' ' + a.keywords.join(' ') : ''))
+    .join(' ')
+    .toLowerCase();
 
   li.innerHTML = `
     <div class="flip-inner">
