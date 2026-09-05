@@ -73,7 +73,8 @@ body, .character-name, #charSearch {
 :root {
   --card-tilt: 2deg;              /* inclinaison du polaroïd */
   --card-ratio: 4 / 4.5;          /* rapport largeur/hauteur de la carte (plus petit = carte moins haute) */
-  --bg-blur: 18px;                 /* flou de la copie qui comble les bords derrière la photo nette */
+  --main-height: 62%;              /* hauteur de la partie nette de l'image (le reste = zone du reflet) */
+  --reflection-blur: 4px;          /* flou appliqué au reflet miroir */
   --caption-height: 60px;          /* hauteur de la bande vitrée du bas, où repose le nom */
   --caption-blur: 8px;              /* flou de cette bande */
   --corner-size: 20px;            /* taille des coins "photo" à l'ancienne */
@@ -172,24 +173,30 @@ body, .character-name, #charSearch {
   overflow: hidden;
 }
 
-/* Copie floutée et agrandie de la même image : comble les bords sans jamais déformer la photo nette */
-.photo-frame .photo-bg {
+/* Photo nette, alignée en haut de la carte */
+.photo-frame .photo-main {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
+  height: var(--main-height);
   object-fit: cover;
-  filter: blur(var(--bg-blur));
-  transform: scale(1.2);
+  object-position: top;
 }
 
-/* Photo nette, jamais déformée (object-fit: contain garde ses proportions intactes) */
-.photo-frame .photo-fg {
+/* Reflet miroir de la même image (étiré pour combler le bas), qui s'estompe progressivement */
+.photo-frame .photo-reflection {
   position: absolute;
-  inset: 0;
+  top: var(--main-height);
+  left: 0;
   width: 100%;
-  height: 100%;
-  object-fit: contain;
+  height: calc(100% - var(--main-height));
+  object-fit: cover;
+  object-position: bottom;
+  transform: scaleY(-1);
+  filter: blur(var(--reflection-blur));
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0) 90%);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0) 90%);
 }
 
 /* Bande vitrée en bas de la carte, seulement là où repose le nom */
@@ -384,8 +391,8 @@ function buildCharacterCard(character) {
     <div class="flip-inner">
       <div class="card-face card-front">
         <div class="photo-frame">
-          <img class="photo-bg" src="${character.img}" alt="">
-          <img class="photo-fg" src="${character.img}" alt="${character.name}">
+          <img class="photo-main" src="${character.img}" alt="${character.name}">
+          <img class="photo-reflection" src="${character.img}" alt="">
           <div class="card-caption">
             <span class="character-name">${character.name}</span>
           </div>
