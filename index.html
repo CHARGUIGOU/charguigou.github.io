@@ -60,47 +60,88 @@ body {
   padding: 10px 22px;
   border-radius: 25px;
   text-decoration: none;
-  box-shadow: 0 3px 8px rgba(217, 83, 79, 0.35);
+  box-shadow: 0 3px 8px rgba(91, 143, 201, 0.4);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .youtube-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(51, 51, 51, 0.45);
+  box-shadow: 0 6px 14px rgba(91, 143, 201, 0.5);
 }
 
 /* ============================================================
-   SECTION GENERALE (titre avec icône, comme sur les autres pages)
+   ACCORDEON "GENERAL INFORMATION / NAME ORDER / SPECIAL THANKS"
    ============================================================ */
-.category-title {
-  font-size: 20px;
-  margin: 45px 0 20px;
-  padding: 0 var(--page-margin);
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-}
-
-.category-title img {
-  width: 34px;
-  height: 34px;
-  margin-right: 8px;
-  vertical-align: middle;
-}
-
 .info-wrapper {
   padding: 0 var(--page-margin) 40px;
   box-sizing: border-box;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-/* Sous-blocs d'information (romanisation, ordre des noms, remerciements) */
-.info-block {
-  margin-bottom: 40px;
+.accordion-item {
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.accordion-item:first-child {
+  border-top: 1px solid #e2e2e2;
+}
+
+/* Bouton titre cliquable */
+.accordion-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 18px 4px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: #222;
+  text-align: left;
+}
+
+.accordion-header img {
+  width: 28px;
+  height: 28px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.accordion-header .accordion-title {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+/* Flèche qui tourne quand ouvert */
+.accordion-icon {
+  font-size: 14px;
+  color: #1a4a8a;
+  transition: transform 0.3s ease;
+  margin-left: 10px;
+}
+
+.accordion-item.open .accordion-icon {
+  transform: rotate(180deg);
+}
+
+/* Contenu repliable */
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.accordion-content-inner {
+  padding: 0 4px 26px;
 }
 
 .info-block h3 {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: #1a4a8a;
   letter-spacing: 0.5px;
@@ -186,68 +227,126 @@ body {
 </div>
 
 <!-- ============================================================
-     GENERAL INFORMATION
+     ACCORDEON : General Information / Name Order / Special Thanks
+     MODIFIE ICI : le contenu de chaque section reste dans son
+     .accordion-content-inner ; le titre cliquable est dans .accordion-header
      ============================================================ -->
-<h2 class="category-title">
-  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/clap-cinema_orig.gif">General Information
-</h2>
-
 <div class="info-wrapper">
 
-  <!-- ROMANIZATION SYSTEMS -->
-  <div class="info-block">
-    <h3>Romanization systems</h3>
-    <table class="roman-table">
-      <tr><td>Arabic</td><td>Classical Arabic romanization</td></tr>
-      <tr><td>Bulgarian</td><td><a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/811509/ROMANIZATION_OF_BULGARIAN.pdf" target="_blank">BGN/PCGN</a> (2013 Agreement) / Verified in 2019</td></tr>
-      <tr><td>Cantonese</td><td>JyutPing (used by Hong Kong government)</td></tr>
-      <tr><td>Greek</td><td>Phonetic</td></tr>
-      <tr><td>Hebrew</td><td><em>need help!</em></td></tr>
-      <tr><td>Hindi</td><td>Romanagari</td></tr>
-      <tr><td>Japanese</td><td>Romaji</td></tr>
-      <tr><td>Karachay-Balkar</td><td><a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/829206/TABLE_OF_CORRESPONDENCES_FOR_KARACHAY-BALKAR.pdf" target="_blank">BGN/PCGN</a> (2008 Agreement) / Verified in 2019</td></tr>
-      <tr><td>Korean</td><td>Revised Romanization of Korean</td></tr>
-      <tr><td>Mandarin</td><td><a href="https://fr.wikipedia.org/wiki/Hanyu_pinyin" target="_blank">Pinyin</a></td></tr>
-      <tr><td>Nogai</td><td><a href="https://www.eki.ee/knab/lat/kblnog.pdf" target="_blank">KNAB 1995</a></td></tr>
-      <tr><td>Russian</td><td>BGN/PCGN (1947 System) / Verified in 2019</td></tr>
-      <tr><td>Serbian</td><td>Gaj's Latin alphabet</td></tr>
-      <tr><td>Thai</td><td>Royal Thai General System of Transcription (RTGS)</td></tr>
-      <tr><td>Ukrainian</td><td><a href="https://unstats.un.org/unsd/geoinfo/UNGEGN/docs/26th-gegn-docs/WP/WP21_Roma_system_Ukraine%20_engl._.pdf" target="_blank">Romanization System in Ukraine</a></td></tr>
-    </table>
+  <!-- GENERAL INFORMATION (romanisation) -->
+  <div class="accordion-item">
+    <button class="accordion-header" type="button">
+      <span class="accordion-title">
+        General Information
+      </span>
+      <span class="accordion-icon">▼</span>
+    </button>
+    <div class="accordion-content">
+      <div class="accordion-content-inner">
+        <div class="info-block">
+          <h3>Romanization systems</h3>
+          <table class="roman-table">
+            <tr><td>Arabic</td><td>Classical Arabic romanization</td></tr>
+            <tr><td>Bulgarian</td><td><a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/811509/ROMANIZATION_OF_BULGARIAN.pdf" target="_blank">BGN/PCGN</a> (2013 Agreement) / Verified in 2019</td></tr>
+            <tr><td>Cantonese</td><td>JyutPing (used by Hong Kong government)</td></tr>
+            <tr><td>Greek</td><td>Phonetic</td></tr>
+            <tr><td>Hebrew</td><td><em>need help!</em></td></tr>
+            <tr><td>Hindi</td><td>Romanagari</td></tr>
+            <tr><td>Japanese</td><td>Romaji</td></tr>
+            <tr><td>Karachay-Balkar</td><td><a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/829206/TABLE_OF_CORRESPONDENCES_FOR_KARACHAY-BALKAR.pdf" target="_blank">BGN/PCGN</a> (2008 Agreement) / Verified in 2019</td></tr>
+            <tr><td>Korean</td><td>Revised Romanization of Korean</td></tr>
+            <tr><td>Mandarin</td><td><a href="https://fr.wikipedia.org/wiki/Hanyu_pinyin" target="_blank">Pinyin</a></td></tr>
+            <tr><td>Nogai</td><td><a href="https://www.eki.ee/knab/lat/kblnog.pdf" target="_blank">KNAB 1995</a></td></tr>
+            <tr><td>Russian</td><td>BGN/PCGN (1947 System) / Verified in 2019</td></tr>
+            <tr><td>Serbian</td><td>Gaj's Latin alphabet</td></tr>
+            <tr><td>Thai</td><td>Royal Thai General System of Transcription (RTGS)</td></tr>
+            <tr><td>Ukrainian</td><td><a href="https://unstats.un.org/unsd/geoinfo/UNGEGN/docs/26th-gegn-docs/WP/WP21_Roma_system_Ukraine%20_engl._.pdf" target="_blank">Romanization System in Ukraine</a></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- NAME ORDER -->
-  <div class="info-block">
-    <h3>Name Order</h3>
-    <p style="font-size:13px; color:#555; margin-bottom:14px;">
-      Unlike most of languages/countries, the languages/countries in the list below list the names as:
-      <strong>Family name</strong> + <strong>First Name</strong>. This order is respected on every page of this site:
-    </p>
-    <ul class="name-order-list">
-      <li><strong>CANTONESE</strong> (Hong Kong)</li>
-      <li><strong>HUNGARIAN</strong> (Hungary)</li>
-      <li><strong>JAPANESE</strong> (Japan)</li>
-      <li><strong>KARACHAY-BALKAR</strong></li>
-      <li><strong>KOREAN</strong> (South Korea)</li>
-      <li><strong>MANDARIN</strong> (Taiwan/China)</li>
-      <li><strong>VIETNAMESE</strong> (Vietnam)</li>
-    </ul>
+  <div class="accordion-item">
+    <button class="accordion-header" type="button">
+      <span class="accordion-title">Name Order</span>
+      <span class="accordion-icon">▼</span>
+    </button>
+    <div class="accordion-content">
+      <div class="accordion-content-inner">
+        <p style="font-size:13px; color:#555; margin-bottom:14px;">
+          Unlike most of languages/countries, the languages/countries in the list below list the names as:
+          <strong>Family name</strong> + <strong>First Name</strong>. This order is respected on every page of this site:
+        </p>
+        <ul class="name-order-list">
+          <li><strong>CANTONESE</strong> (Hong Kong)</li>
+          <li><strong>HUNGARIAN</strong> (Hungary)</li>
+          <li><strong>JAPANESE</strong> (Japan)</li>
+          <li><strong>KARACHAY-BALKAR</strong></li>
+          <li><strong>KOREAN</strong> (South Korea)</li>
+          <li><strong>MANDARIN</strong> (Taiwan/China)</li>
+          <li><strong>VIETNAMESE</strong> (Vietnam)</li>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <!-- SPECIAL THANKS -->
-  <div class="info-block">
-    <h3>Special thanks...</h3>
-    <p class="thanks-text">
-      <em>To these people who help me regularly and with many languages:</em><br>
-      <a href="https://www.youtube.com/@agltie5763" target="_blank">Agust Ingi Adalheidarson</a> ;
-      Матија Карличић ;
-      Louis Rowan ;
-      Veera Länsimäki ;
-      <a href="https://www.youtube.com/@anon.wonderland" target="_blank">Anonymous of Wonderland</a> ...
-      <br><br>
-      <em>and</em> <a href="https://www.youtube.com/@Robodl96" target="_blank">Robodl96</a>,
-      <em>who inspired me to create this site.</em>
-    </p>
+  <div class="accordion-item">
+    <button class="accordion-header" type="button">
+      <span class="accordion-title">Special Thanks</span>
+      <span class="accordion-icon">▼</span>
+    </button>
+    <div class="accordion-content">
+      <div class="accordion-content-inner">
+        <p class="thanks-text">
+          <em>To these people who help me regularly and with many languages:</em><br>
+          <a href="https://www.youtube.com/@agltie5763" target="_blank">Agust Ingi Adalheidarson</a> ;
+          Матија Карличић ;
+          Louis Rowan ;
+          Veera Länsimäki ;
+          <a href="https://www.youtube.com/@anon.wonderland" target="_blank">Anonymous of Wonderland</a> ...
+          <br><br>
+          <em>and</em> <a href="https://www.youtube.com/@Robodl96" target="_blank">Robodl96</a>,
+          <em>who inspired me to create this site.</em>
+        </p>
+      </div>
+    </div>
   </div>
 
 </div>
+
+<script>
+// ============================================================
+//  ACCORDEON : ouverture/fermeture au clic sur le titre
+//  Par défaut, tout est fermé. Change OPEN_FIRST_BY_DEFAULT en
+//  "true" si tu veux que la 1ère section soit ouverte au chargement.
+// ============================================================
+const OPEN_FIRST_BY_DEFAULT = false;
+
+document.querySelectorAll('.accordion-header').forEach(function (header, index) {
+  const item = header.closest('.accordion-item');
+  const content = item.querySelector('.accordion-content');
+
+  header.addEventListener('click', function () {
+    const isOpen = item.classList.contains('open');
+
+    // Ferme toutes les autres sections (comportement "accordéon" classique)
+    document.querySelectorAll('.accordion-item').forEach(function (otherItem) {
+      otherItem.classList.remove('open');
+      otherItem.querySelector('.accordion-content').style.maxHeight = null;
+    });
+
+    // Rouvre celle-ci si elle était fermée
+    if (!isOpen) {
+      item.classList.add('open');
+      content.style.maxHeight = content.scrollHeight + 'px';
+    }
+  });
+
+  if (OPEN_FIRST_BY_DEFAULT && index === 0) {
+    header.click();
+  }
+});
+</script>
