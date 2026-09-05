@@ -185,18 +185,27 @@ body, .character-name, #charSearch {
 }
 
 /* Reflet miroir de la même image (étiré pour combler le bas), qui s'estompe progressivement */
-.photo-frame .photo-reflection {
+/* Conteneur du reflet : porte le masque en dégradé (fondu progressif) */
+.photo-frame .reflection-wrap {
   position: absolute;
   top: var(--main-height);
   left: 0;
   width: 100%;
   height: calc(100% - var(--main-height));
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0) 90%);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0) 90%);
+}
+
+/* Image du reflet : porte le flou et le retournement miroir */
+.photo-frame .photo-reflection {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: top;
   transform: scaleY(-1);
   filter: blur(var(--reflection-blur));
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0) 90%);
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0) 90%);
+  display: block;
 }
 
 /* Bande vitrée en bas de la carte, seulement là où repose le nom */
@@ -392,7 +401,9 @@ function buildCharacterCard(character) {
       <div class="card-face card-front">
         <div class="photo-frame">
           <img class="photo-main" src="${character.img}" alt="${character.name}">
-          <img class="photo-reflection" src="${character.img}" alt="">
+          <div class="reflection-wrap">
+            <img class="photo-reflection" src="${character.img}" alt="">
+          </div>
           <div class="card-caption">
             <span class="character-name">${character.name}</span>
           </div>
