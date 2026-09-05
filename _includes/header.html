@@ -5,7 +5,7 @@
      où tu ajoutes la balise include "header.html" dans une page.
      Un seul fichier à modifier = ça se met à jour sur TOUTES les pages.
      ============================================================ -->
-
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
 <style>
 .site-header {
   position: relative;
@@ -15,7 +15,6 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-
   /* ============================================================
      MODIFIE ICI quand l'image sera sur Cloudinary :
      remplace le "background:" ci-dessous par :
@@ -27,7 +26,6 @@
   background-size: cover;
   background-position: center 45%;
 }
-
 /* Léger voile sombre pour garder le texte lisible quelle que soit l'image */
 .site-header::before {
   content: "";
@@ -36,7 +34,6 @@
   background: rgba(0,0,0,0.15);
   z-index: 0;
 }
-
 /* MODIFIE ICI : la petite citation en haut à droite */
 .site-header-quote {
   position: absolute;
@@ -44,13 +41,12 @@
   right: 40px;
   z-index: 1;
   color: #ffffff;
-  font-family: 'Palatino', sans-serif;
+  font-family: 'Playfair Display', serif;
   font-weight: 700;
   font-style: italic;
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: 0.5px;
 }
-
 /* MODIFIE ICI : le titre du site */
 .site-title {
   position: relative;
@@ -64,7 +60,6 @@
   margin: 0 0 20px;
   text-align: center;
 }
-
 .site-nav {
   position: relative;
   z-index: 1;
@@ -74,7 +69,6 @@
   gap: 35px;
   padding: 0 20px;
 }
-
 /* MODIFIE ICI : le style des liens du menu */
 .site-nav a {
   color: #ffffff;
@@ -91,26 +85,20 @@
 .site-nav a:hover {
   border-bottom-color: #ffffff;
 }
-
 @media (max-width: 700px) {
   .site-title { font-size: 34px; letter-spacing: 4px; }
   .site-nav { gap: 18px; }
   .site-header-quote { display: none; }
 }
-
 @media (max-width: 400px) {
   .site-title { font-size: 24px; letter-spacing: 2px; }
 }
 </style>
-
 <header class="site-header">
-
   <!-- MODIFIE ICI : la citation -->
   <div class="site-header-quote">&laquo; Part of my world &raquo;</div>
-
   <!-- MODIFIE ICI : le titre -->
   <h1 class="site-title">CHARGUIGOU</h1>
-
   <!-- ============================================================
        MENU DE NAVIGATION
        Les liens commencent par un "/" (chemin absolu depuis la racine
@@ -126,5 +114,4 @@
     <a href="/contact.html">Contact</a>
     <a href="/update.html">Update</a>
   </nav>
-
 </header>
