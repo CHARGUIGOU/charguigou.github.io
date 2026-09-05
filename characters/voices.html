@@ -181,25 +181,16 @@ body, .character-name, #charSearch {
   object-position: top;
 }
 
-/* Conteneur de la bande du bas : porte le masque qui fait apparaître l'effet en fondu (pas de bord net) */
+/* Bande du bas : flou vitré + voile sombre en dégradé (l'assombrissement, lui, est progressif) */
 .card-caption {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
   height: var(--caption-height);
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 65%);
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 65%);
-}
-
-/* Contenu réel de la bande : flou vitré + voile sombre (posé sur le conteneur masqué ci-dessus) */
-.card-caption-inner {
-  position: absolute;
-  inset: 0;
   backdrop-filter: blur(var(--caption-blur));
   -webkit-backdrop-filter: blur(var(--caption-blur));
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0));
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -384,9 +375,7 @@ function buildCharacterCard(character) {
         <div class="photo-frame">
           <img class="photo-main" src="${character.img}" alt="${character.name}">
           <div class="card-caption">
-            <div class="card-caption-inner">
-              <span class="character-name">${character.name}</span>
-            </div>
+            <span class="character-name">${character.name}</span>
           </div>
         </div>
         <span class="corner corner-tl"></span>
