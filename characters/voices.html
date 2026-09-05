@@ -54,7 +54,34 @@ body, #charSearch {
   text-align: center;
   font-size: 12px;
   color: #888;
-  margin-bottom: 30px;
+  margin-bottom: 16px;
+}
+
+/* Bouton bascule "By character" / "By film" */
+.search-mode-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.mode-btn {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  padding: 5px 16px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+  color: #333;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.mode-btn:hover:not(.active) {
+  background: #e8e8e8;
+}
+.mode-btn.active {
+  background: #1a4a8a;
+  border-color: #1a4a8a;
+  color: #fff;
 }
 
 /* Compteur de résultats */
@@ -311,8 +338,12 @@ body, #charSearch {
 
 <div class="page-title">Character Voices</div>
 
-<input type="text" id="charSearch" placeholder="Search by character or film..." />
-<div class="search-hint">Tip: search a film title to see every character who appears in it</div>
+<input type="text" id="charSearch" placeholder="Search by character..." />
+<div class="search-mode-toggle">
+  <button class="mode-btn active" data-mode="name" type="button">By character</button>
+  <button class="mode-btn" data-mode="film" type="button">By film</button>
+</div>
+<div class="search-hint">Tip: switch to "By film" to see every character who appears in it</div>
 <div id="resultCount"></div>
 
 <ul class="character-grid" id="characterGrid"></ul>
@@ -379,9 +410,9 @@ function buildCharacterCard(character) {
   const hasLink = !!character.link;
   if (!hasLink) li.classList.add('no-link');
 
-  // Texte utilisé pour la recherche : nom + tous les films (invisible à l'écran)
-  const searchText = (character.name + ' ' + character.appearances.map(a => a.film).join(' ')).toLowerCase();
-  li.dataset.search = searchText;
+  // Deux textes de recherche séparés : un pour le nom, un pour les films
+  li.dataset.searchName = character.name.toLowerCase();
+  li.dataset.searchFilms = character.appearances.map(a => a.film).join(' ').toLowerCase();
 
   li.innerHTML = `
     <div class="flip-inner">
@@ -482,6 +513,15 @@ function setupAutoScroll(li) {
 
 const searchInput = document.getElementById('charSearch');
 const resultCount = document.getElementById('resultCount');
+const modeButtons = document.querySelectorAll('.mode-btn');
+
+// Mode actif : 'name' (par défaut) ou 'film'
+let searchMode = 'name';
+
+const PLACEHOLDERS = {
+  name: 'Search by character...',
+  film: 'Search by film title...'
+};
 
 // Durée de l'animation de fondu/rétrécissement (doit correspondre à la
 // transition définie sur .character-card dans le CSS ci-dessus)
@@ -492,7 +532,8 @@ function applySearch() {
   let visibleCount = 0;
 
   document.querySelectorAll('.character-card').forEach(card => {
-    const matches = card.dataset.search.includes(query);
+    const haystack = searchMode === 'film' ? card.dataset.searchFilms : card.dataset.searchName;
+    const matches = haystack.includes(query);
     const isHidden = card.style.display === 'none';
 
     if (matches) {
@@ -526,6 +567,16 @@ function applySearch() {
     ? `${visibleCount} character${visibleCount !== 1 ? 's' : ''} found`
     : '';
 }
+
+modeButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.dataset.mode === searchMode) return;
+    searchMode = btn.dataset.mode;
+    modeButtons.forEach(b => b.classList.toggle('active', b === btn));
+    searchInput.placeholder = PLACEHOLDERS[searchMode];
+    applySearch();
+  });
+});
 
 searchInput.addEventListener('keyup', applySearch);
 </script>
