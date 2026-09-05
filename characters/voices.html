@@ -73,17 +73,13 @@ body, .character-name, #charSearch {
 :root {
   --card-tilt: 2deg;              /* inclinaison du polaroïd */
   --card-ratio: 4 / 4.5;          /* rapport largeur/hauteur de la carte (plus petit = carte moins haute) */
-  --card-pad-top: 16px;           /* espace au-dessus de la photo */
-  --card-pad-side: 16px;          /* espace à gauche/droite */
-  --card-pad-bottom: 10px;        /* espace entre le bas du polaroïd et le nom */
-  --photo-size: 95%;              /* taille du cercle de la photo, en % de la largeur de la carte */
-  --photo-text-gap: 6px;          /* espace entre la photo et le nom */
-  --fade-start: 100%;             /* à 100%, pas de fondu du tout (cercle net) */
-  --fade-end: 100%;               /* où l'image est totalement transparente (100% = pile au bord) */
+  --bg-blur: 18px;                 /* flou de la copie qui comble les bords derrière la photo nette */
+  --caption-height: 60px;          /* hauteur de la bande vitrée du bas, où repose le nom */
+  --caption-blur: 8px;              /* flou de cette bande */
   --corner-size: 20px;            /* taille des coins "photo" à l'ancienne */
-  --corner-color: #6b5636;        /* couleur des coins (sépia, discret même en grand nombre) */
-  --card-tint: rgba(250, 247, 240, 0.65);  /* couleur/opacité du verre teinté de la carte */
-  --card-blur: 6px;                /* intensité du flou "vitré" */
+  --corner-color: #d4b876;        /* couleur des coins (plus claire) */
+  --card-tint: rgba(250, 247, 240, 0.65);  /* couleur/opacité du verre teinté du dos de carte */
+  --card-blur: 6px;                /* intensité du flou "vitré" du dos de carte */
 }
 
 /* ============================================================
@@ -113,34 +109,30 @@ body, .character-name, #charSearch {
 /* Coins "photo" à l'ancienne, façon scrapbook, sur les 4 coins de chaque face */
 .corner {
   position: absolute;
-  width: 0;
-  height: 0;
-  border-style: solid;
+  width: var(--corner-size);
+  height: var(--corner-size);
+  background: var(--corner-color);
   pointer-events: none;
 }
 .corner-tl {
   top: 0;
   left: 0;
-  border-width: var(--corner-size) 0 0 var(--corner-size);
-  border-color: var(--corner-color) transparent transparent var(--corner-color);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
 }
 .corner-tr {
   top: 0;
   right: 0;
-  border-width: var(--corner-size) var(--corner-size) 0 0;
-  border-color: var(--corner-color) var(--corner-color) transparent transparent;
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
 }
 .corner-bl {
   bottom: 0;
   left: 0;
-  border-width: 0 0 var(--corner-size) var(--corner-size);
-  border-color: transparent transparent var(--corner-color) var(--corner-color);
+  clip-path: polygon(0 100%, 0 0, 100% 100%);
 }
 .corner-br {
   bottom: 0;
   right: 0;
-  border-width: 0 var(--corner-size) var(--corner-size) 0;
-  border-color: transparent var(--corner-color) var(--corner-color) transparent;
+  clip-path: polygon(100% 100%, 100% 0, 0 100%);
 }
 
 .flip-inner {
@@ -157,49 +149,79 @@ body, .character-name, #charSearch {
   position: absolute;
   inset: 0;
   backface-visibility: hidden;
-  background: var(--card-tint);
-  backdrop-filter: blur(var(--card-blur));
-  -webkit-backdrop-filter: blur(var(--card-blur));
-  border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 4px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
-/* Face avant : photo + nom, façon polaroïd incliné */
+/* Face avant : photo plein cadre, façon polaroïd incliné */
 .card-front {
-  padding: var(--card-pad-top) var(--card-pad-side) var(--card-pad-bottom);
+  padding: 0;
+  overflow: hidden;
   justify-content: flex-start;
   transform: rotate(var(--card-tilt));
 }
 
 .photo-frame {
-  width: var(--photo-size);
-  aspect-ratio: 1 / 1;
+  position: absolute;
+  inset: 0;
   overflow: hidden;
-  -webkit-mask-image: radial-gradient(circle closest-side, black var(--fade-start), transparent var(--fade-end));
-  mask-image: radial-gradient(circle closest-side, black var(--fade-start), transparent var(--fade-end));
 }
-.photo-frame img {
+
+/* Copie floutée et agrandie de la même image : comble les bords sans jamais déformer la photo nette */
+.photo-frame .photo-bg {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
+  filter: blur(var(--bg-blur));
+  transform: scale(1.2);
+}
+
+/* Photo nette, jamais déformée (object-fit: contain garde ses proportions intactes) */
+.photo-frame .photo-fg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Bande vitrée en bas de la carte, seulement là où repose le nom */
+.card-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--caption-height);
+  backdrop-filter: blur(var(--caption-blur));
+  -webkit-backdrop-filter: blur(var(--caption-blur));
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0));
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 10px;
+  box-sizing: border-box;
 }
 
 .character-name {
   font-size: 13px;
   font-weight: 600;
-  color: #222;
-  margin-top: var(--photo-text-gap);
+  color: #fff;
   text-align: center;
 }
 
 /* Face arrière : liste complète des apparitions, défilement auto au survol (voir JS) */
 .card-back {
+  background: var(--card-tint);
+  backdrop-filter: blur(var(--card-blur));
+  -webkit-backdrop-filter: blur(var(--card-blur));
+  border: 1px solid rgba(255, 255, 255, 0.5);
   transform: rotate(var(--card-tilt)) rotateY(180deg);
   justify-content: flex-start;
   padding: 14px;
@@ -362,9 +384,12 @@ function buildCharacterCard(character) {
     <div class="flip-inner">
       <div class="card-face card-front">
         <div class="photo-frame">
-          <img src="${character.img}" alt="${character.name}">
+          <img class="photo-bg" src="${character.img}" alt="">
+          <img class="photo-fg" src="${character.img}" alt="${character.name}">
+          <div class="card-caption">
+            <span class="character-name">${character.name}</span>
+          </div>
         </div>
-        <span class="character-name">${character.name}</span>
         <span class="corner corner-tl"></span>
         <span class="corner corner-tr"></span>
         <span class="corner corner-bl"></span>
