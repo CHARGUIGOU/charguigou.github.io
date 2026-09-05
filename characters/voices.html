@@ -104,10 +104,20 @@ body, #charSearch {
   aspect-ratio: var(--card-ratio);
   perspective: 1000px;
   cursor: pointer;
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 .character-card.no-link {
   cursor: default;
+}
+
+/* Etat transitoire pendant le filtrage de recherche (voir JS applySearch) */
+.character-card.hiding {
+  opacity: 0;
+  transform: scale(0.85);
+  pointer-events: none;
 }
 
 /* Coins "photo" à l'ancienne, façon scrapbook, sur les 4 coins de chaque face */
@@ -473,14 +483,43 @@ function setupAutoScroll(li) {
 const searchInput = document.getElementById('charSearch');
 const resultCount = document.getElementById('resultCount');
 
+// Durée de l'animation de fondu/rétrécissement (doit correspondre à la
+// transition définie sur .character-card dans le CSS ci-dessus)
+const TRANSITION_MS = 250;
+
 function applySearch() {
   const query = searchInput.value.toLowerCase().trim();
   let visibleCount = 0;
 
   document.querySelectorAll('.character-card').forEach(card => {
     const matches = card.dataset.search.includes(query);
-    card.style.display = matches ? '' : 'none';
-    if (matches) visibleCount++;
+    const isHidden = card.style.display === 'none';
+
+    if (matches) {
+      visibleCount++;
+
+      if (isHidden) {
+        // Réapparition : on la remet dans la grille (encore invisible),
+        // puis on relâche l'état "hiding" au prochain frame pour que
+        // la transition de fondu/agrandissement se joue.
+        card.style.display = '';
+        card.classList.add('hiding');
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            card.classList.remove('hiding');
+          });
+        });
+      }
+    } else if (!isHidden) {
+      // Disparition : on lance l'animation, puis on retire vraiment
+      // la carte de la grille une fois la transition terminée.
+      card.classList.add('hiding');
+      setTimeout(() => {
+        if (card.classList.contains('hiding')) {
+          card.style.display = 'none';
+        }
+      }, TRANSITION_MS);
+    }
   });
 
   resultCount.textContent = query
