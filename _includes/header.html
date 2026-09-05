@@ -9,7 +9,7 @@
 <style>
 .site-header {
   position: relative;
-  min-height: 300px;
+  min-height: 400px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -41,10 +41,10 @@
 .site-header-quote {
   position: absolute;
   top: 20px;
-  right: 30px;
+  right: 40px;
   z-index: 1;
   color: #ffffff;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Palatino', sans-serif;
   font-weight: 700;
   font-style: italic;
   font-size: 14px;
@@ -81,7 +81,7 @@
   text-decoration: none;
   font-family: 'Open Sans', sans-serif;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: 1px;
   text-transform: uppercase;
   padding-bottom: 4px;
@@ -96,6 +96,10 @@
   .site-title { font-size: 34px; letter-spacing: 4px; }
   .site-nav { gap: 18px; }
   .site-header-quote { display: none; }
+}
+
+@media (max-width: 400px) {
+  .site-title { font-size: 24px; letter-spacing: 2px; }
 }
 </style>
 
