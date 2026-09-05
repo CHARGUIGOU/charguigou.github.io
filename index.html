@@ -8,6 +8,7 @@ layout: null
 <style>
 :root {
   --page-margin: 10%;
+  --content-margin: 3%;
 }
 
 body {
@@ -138,6 +139,7 @@ body {
 
 .accordion-content-inner {
   padding: 0 4px 26px;
+  margin: 0 calc(-1 * (var(--page-margin) - var(--content-margin)));
 }
 
 .info-block h3 {
