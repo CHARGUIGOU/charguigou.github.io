@@ -1,0 +1,440 @@
+---
+layout: null
+---
+{% include header.html %}
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --page-margin: 10%;
+}
+
+body, .character-name, #charSearch {
+  font-family: 'Open Sans', sans-serif !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   TITRE DE PAGE
+   ============================================================ */
+.page-title {
+  text-align: center;
+  padding-top: 60px;
+  font-size: 26px;
+  font-weight: 600;
+  color: #222;
+  letter-spacing: 1px;
+}
+
+/* ============================================================
+   BARRE DE RECHERCHE
+   ============================================================ */
+#charSearch {
+  width: 320px;
+  padding: 9px 14px;
+  font-size: 13px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin: 24px auto 10px;
+  display: block;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+#charSearch:focus {
+  outline: none;
+  border-color: #7da1c9;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.search-hint {
+  text-align: center;
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 30px;
+}
+
+/* Compteur de résultats */
+#resultCount {
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 20px;
+}
+
+/* ============================================================
+   GRILLE DE PERSONNAGES
+   ============================================================ */
+.character-grid {
+  list-style: none;
+  padding: 0 var(--page-margin) 60px;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+  box-sizing: border-box;
+}
+
+.character-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: #fff;
+  border-radius: 8px;
+  padding: 10px;
+  min-height: 180px;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Effet de brillance au survol, comme sur la page des films */
+.character-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -150%;
+  width: 300%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.18) 45%,
+    rgba(255,255,255,0.25) 50%,
+    rgba(255,255,255,0.18) 55%,
+    rgba(255,255,255,0) 100%
+  );
+  transform: rotate(20deg) translateX(-150%);
+  pointer-events: none;
+  opacity: 0;
+}
+.character-card:hover::before {
+  opacity: 1;
+  animation: cardSweepOnce 1.5s ease forwards;
+}
+@keyframes cardSweepOnce {
+  0%   { transform: rotate(20deg) translateX(-150%); }
+  100% { transform: rotate(20deg) translateX(150%); }
+}
+.character-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.25);
+}
+
+.character-card img {
+  width: 100%;
+  max-height: 130px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.character-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #222;
+  margin: 0;
+}
+
+.character-count {
+  font-size: 11px;
+  color: #999;
+  margin-top: 2px;
+}
+
+/* ============================================================
+   POPUP (liste complète des apparitions)
+   ============================================================ */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal-box {
+  background: #fff;
+  border-radius: 12px;
+  max-width: 480px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 30px;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-size: 20px;
+  color: #888;
+  cursor: pointer;
+  border: none;
+  background: none;
+  line-height: 1;
+}
+.modal-close:hover {
+  color: #222;
+}
+
+.modal-box h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #222;
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+.appearance-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.appearance-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 4px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  color: #333;
+}
+.appearance-item:last-child {
+  border-bottom: none;
+}
+
+.appearance-year {
+  font-weight: 700;
+  color: #1a4a8a;
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+.upcoming-badge {
+  display: inline-block;
+  background: #d9534f;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 8px;
+}
+
+/* Bouton "voir la fiche complète" en bas de la popup */
+.modal-link-btn {
+  display: block;
+  text-align: center;
+  margin: 22px auto 0;
+  background: #1a4a8a;
+  color: #fff;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 11px 20px;
+  border-radius: 25px;
+  transition: background 0.25s ease;
+}
+.modal-link-btn:hover {
+  background: #14396b;
+}
+
+/* Affiché à la place du bouton quand la fiche n'existe pas encore */
+.modal-link-pending {
+  display: block;
+  text-align: center;
+  margin: 22px auto 0;
+  font-size: 12px;
+  color: #999;
+  font-style: italic;
+}
+
+@media (max-width: 1300px) {
+  .character-grid { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 900px) {
+  .character-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 500px) {
+  .character-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+
+<div class="page-title">Character Voices</div>
+
+<input type="text" id="charSearch" placeholder="Search by character or film..." />
+<div class="search-hint">Tip: search a film title to see every character who appears in it</div>
+<div id="resultCount"></div>
+
+<ul class="character-grid" id="characterGrid"></ul>
+
+<!-- POPUP -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose">&times;</button>
+    <h3 id="modalName"></h3>
+    <ul class="appearance-list" id="modalList"></ul>
+    <div id="modalLinkWrapper"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+//  CHARACTER DATA
+//  MODIFIE ICI : ajoute un objet par personnage.
+//  Fields:
+//    name        : nom affiché sur la carte et en haut de la popup
+//    img         : URL de l'image (portrait du personnage)
+//    link        : URL de la fiche complète du personnage (omets ce champ
+//                  si la page n'est pas encore créée : un message
+//                  "à venir" s'affichera à la place du bouton)
+//    appearances : liste des films où il apparaît
+//        film     : titre du film
+//        year     : année (affichée à droite dans la popup)
+//        upcoming : true si le doublage/la page n'est pas encore sortie (affiche un badge rouge)
+// ============================================================
+
+const PIC = "https://res.cloudinary.com/dofvjifeo/image/upload/";
+
+const characters = [
+
+  {
+    name: "Snow White",
+    img: PIC + "snowwhitecharacter.png",
+    link: "/characters/snowwhite.html",
+    appearances: [
+      { film: "Snow White and the Seven Dwarfs", year: "1937" },
+      { film: "Sofia the First: The Enchanted Feast", year: "2014" },
+      { film: "Ralph Breaks the Internet", year: "2018" },
+      { film: "LEGO Disney Princess: The Castle Quest", year: "2023" },
+      { film: "Once Upon a Studio", year: "2023", upcoming: true },
+      { film: "Snow White", year: "2025", upcoming: true }
+    ]
+  },
+
+  // ── MODELE A DUPLIQUER POUR CHAQUE NOUVEAU PERSONNAGE ────────
+  // {
+  //   name: "NOM DU PERSONNAGE",
+  //   img: PIC + "nomdufichierimage.png",
+  //   link: "/characters/nomdufichier.html", // à retirer si la page n'existe pas encore
+  //   appearances: [
+  //     { film: "Titre du film", year: "Année" },
+  //     { film: "Titre du film 2", year: "Année 2", upcoming: true }
+  //   ]
+  // },
+
+];
+
+// ============================================================
+//  RENDERING
+// ============================================================
+
+const grid = document.getElementById('characterGrid');
+
+function buildCharacterCard(character) {
+  const li = document.createElement('li');
+  li.className = 'character-card';
+
+  // Texte utilisé pour la recherche : nom + tous les films (invisible à l'écran)
+  const searchText = (character.name + ' ' + character.appearances.map(a => a.film).join(' ')).toLowerCase();
+  li.dataset.search = searchText;
+
+  li.innerHTML = `
+    <img src="${character.img}" alt="${character.name}">
+    <span class="character-name">${character.name}</span>
+    <span class="character-count">${character.appearances.length} appearance${character.appearances.length > 1 ? 's' : ''}</span>
+  `;
+
+  li.addEventListener('click', () => openModal(character));
+
+  return li;
+}
+
+characters.forEach(character => grid.appendChild(buildCharacterCard(character)));
+
+// ============================================================
+//  POPUP
+// ============================================================
+
+const modalOverlay = document.getElementById('modalOverlay');
+const modalName = document.getElementById('modalName');
+const modalList = document.getElementById('modalList');
+const modalLinkWrapper = document.getElementById('modalLinkWrapper');
+const modalClose = document.getElementById('modalClose');
+
+function openModal(character) {
+  modalName.textContent = character.name;
+  modalList.innerHTML = character.appearances.map(a => `
+    <li class="appearance-item">
+      <span>${a.film}</span>
+      <span class="appearance-year">
+        ${a.year}
+        ${a.upcoming ? '<span class="upcoming-badge">Upcoming</span>' : ''}
+      </span>
+    </li>
+  `).join('');
+
+  modalLinkWrapper.innerHTML = character.link
+    ? `<a class="modal-link-btn" href="${character.link}">See full profile</a>`
+    : `<span class="modal-link-pending">Full profile coming soon</span>`;
+
+  modalOverlay.classList.add('open');
+}
+
+function closeModal() {
+  modalOverlay.classList.remove('open');
+}
+
+modalClose.addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// ============================================================
+//  SEARCH (nom du personnage OU titre de film)
+// ============================================================
+
+const searchInput = document.getElementById('charSearch');
+const resultCount = document.getElementById('resultCount');
+
+function applySearch() {
+  const query = searchInput.value.toLowerCase().trim();
+  let visibleCount = 0;
+
+  document.querySelectorAll('.character-card').forEach(card => {
+    const matches = card.dataset.search.includes(query);
+    card.style.display = matches ? 'flex' : 'none';
+    if (matches) visibleCount++;
+  });
+
+  resultCount.textContent = query
+    ? `${visibleCount} character${visibleCount !== 1 ? 's' : ''} found`
+    : '';
+}
+
+searchInput.addEventListener('keyup', applySearch);
+</script>
