@@ -3,14 +3,14 @@ layout: null
 ---
 {% include header.html %}
 <!-- GOOGLE FONT -->
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
 <style>
 :root {
   --page-margin: 10%;
 }
 
-body, .character-name, #charSearch {
+body, #charSearch {
   font-family: 'Open Sans', sans-serif !important;
   margin: 0;
   padding: 0;
@@ -73,12 +73,14 @@ body, .character-name, #charSearch {
 :root {
   --card-tilt: 2deg;              /* inclinaison du polaroïd */
   --card-ratio: 4 / 4.5;          /* rapport largeur/hauteur de la carte (plus petit = carte moins haute) */
-  --caption-height: 90px;          /* hauteur de la bande du bas (plus grand = fondu plus progressif) */
-  --caption-blur: 8px;              /* flou de cette bande, une fois pleinement apparu */
+  --card-max-width: 150px;        /* largeur maximale d'une carte (plus petit = cartes plus petites) */
+  --caption-height: 70px;         /* hauteur de la bande du bas (dégradé sombre) */
   --corner-size: 20px;            /* taille des coins "photo" à l'ancienne */
   --corner-color: #d4b876;        /* couleur des coins (plus claire) */
   --card-tint: rgba(250, 247, 240, 0.65);  /* couleur/opacité du verre teinté du dos de carte */
   --card-blur: 6px;                /* intensité du flou "vitré" du dos de carte */
+  --name-font: 'Playfair Display', serif;  /* police du nom du personnage */
+  --name-font-size: 15px;          /* taille du nom du personnage */
 }
 
 /* ============================================================
@@ -96,6 +98,9 @@ body, .character-name, #charSearch {
 
 .character-card {
   position: relative;
+  width: 100%;
+  max-width: var(--card-max-width);
+  margin: 0 auto;
   aspect-ratio: var(--card-ratio);
   perspective: 1000px;
   cursor: pointer;
@@ -181,16 +186,14 @@ body, .character-name, #charSearch {
   object-position: top;
 }
 
-/* Bande du bas : flou vitré + voile sombre en dégradé (l'assombrissement, lui, est progressif) */
+/* Bande du bas : simple dégradé sombre, fiable sur tous les navigateurs */
 .card-caption {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
   height: var(--caption-height);
-  backdrop-filter: blur(var(--caption-blur));
-  -webkit-backdrop-filter: blur(var(--caption-blur));
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0));
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -199,7 +202,8 @@ body, .character-name, #charSearch {
 }
 
 .character-name {
-  font-size: 13px;
+  font-family: var(--name-font);
+  font-size: var(--name-font-size);
   font-weight: 600;
   color: #fff;
   text-align: center;
