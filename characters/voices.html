@@ -73,10 +73,8 @@ body, .character-name, #charSearch {
 :root {
   --card-tilt: 2deg;              /* inclinaison du polaroïd */
   --card-ratio: 4 / 4.5;          /* rapport largeur/hauteur de la carte (plus petit = carte moins haute) */
-  --main-height: 62%;              /* hauteur de la partie nette de l'image (le reste = zone du reflet) */
-  --reflection-blur: 4px;          /* flou appliqué au reflet miroir */
-  --caption-height: 60px;          /* hauteur de la bande vitrée du bas, où repose le nom */
-  --caption-blur: 8px;              /* flou de cette bande */
+  --caption-height: 90px;          /* hauteur de la bande du bas (plus grand = fondu plus progressif) */
+  --caption-blur: 8px;              /* flou de cette bande, une fois pleinement apparu */
   --corner-size: 20px;            /* taille des coins "photo" à l'ancienne */
   --corner-color: #d4b876;        /* couleur des coins (plus claire) */
   --card-tint: rgba(250, 247, 240, 0.65);  /* couleur/opacité du verre teinté du dos de carte */
@@ -173,51 +171,35 @@ body, .character-name, #charSearch {
   overflow: hidden;
 }
 
-/* Photo nette, alignée en haut de la carte */
+/* Photo unique, plein cadre */
 .photo-frame .photo-main {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: var(--main-height);
-  object-fit: cover;
-  object-position: top;
-}
-
-/* Reflet miroir de la même image (étiré pour combler le bas), qui s'estompe progressivement */
-/* Conteneur du reflet : porte le masque en dégradé (fondu progressif) */
-.photo-frame .reflection-wrap {
-  position: absolute;
-  top: var(--main-height);
-  left: 0;
-  width: 100%;
-  height: calc(100% - var(--main-height));
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0) 90%);
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0) 90%);
-}
-
-/* Image du reflet : porte le flou et le retournement miroir */
-.photo-frame .photo-reflection {
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: top;
-  transform: scaleY(-1);
-  filter: blur(var(--reflection-blur));
-  display: block;
 }
 
-/* Bande vitrée en bas de la carte, seulement là où repose le nom */
+/* Conteneur de la bande du bas : porte le masque qui fait apparaître l'effet en fondu (pas de bord net) */
 .card-caption {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
   height: var(--caption-height);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 65%);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 65%);
+}
+
+/* Contenu réel de la bande : flou vitré + voile sombre (posé sur le conteneur masqué ci-dessus) */
+.card-caption-inner {
+  position: absolute;
+  inset: 0;
   backdrop-filter: blur(var(--caption-blur));
   -webkit-backdrop-filter: blur(var(--caption-blur));
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0));
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -401,11 +383,10 @@ function buildCharacterCard(character) {
       <div class="card-face card-front">
         <div class="photo-frame">
           <img class="photo-main" src="${character.img}" alt="${character.name}">
-          <div class="reflection-wrap">
-            <img class="photo-reflection" src="${character.img}" alt="">
-          </div>
           <div class="card-caption">
-            <span class="character-name">${character.name}</span>
+            <div class="card-caption-inner">
+              <span class="character-name">${character.name}</span>
+            </div>
           </div>
         </div>
         <span class="corner corner-tl"></span>
