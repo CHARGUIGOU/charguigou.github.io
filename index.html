@@ -74,7 +74,7 @@ body {
    ACCORDEON "GENERAL INFORMATION / NAME ORDER / SPECIAL THANKS"
    ============================================================ */
 .info-wrapper {
-  padding: 0 var(--page-margin) 40px;
+  padding: 0 0 40px;
   box-sizing: border-box;
   max-width: 1100px;
   margin: 0 auto;
@@ -97,12 +97,13 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 18px 4px;
+  padding: 18px var(--page-margin);
   font-family: 'Open Sans', sans-serif;
   font-size: 17px;
   font-weight: 600;
   color: #222;
   text-align: left;
+  box-sizing: border-box;
 }
 
 .accordion-header img {
@@ -133,14 +134,13 @@ body {
 /* Contenu repliable */
 .accordion-content {
   max-height: 0;
-  overflow-y: hidden;
-  overflow-x: visible;
+  overflow: hidden;
   transition: max-height 0.4s ease;
 }
 
 .accordion-content-inner {
-  padding: 0 4px 26px;
-  margin: 0 calc(-1 * (var(--page-margin) - var(--content-margin)));
+  padding: 0 var(--content-margin) 26px;
+  box-sizing: border-box;
 }
 
 .info-block h3 {
