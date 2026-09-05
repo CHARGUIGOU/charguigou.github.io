@@ -1,0 +1,253 @@
+---
+layout: null
+---
+{% include header.html %}
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --page-margin: 10%;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #333;
+}
+
+/* ============================================================
+   HERO / INTRO
+   MODIFIE ICI : titre principal + sous-titre + bouton Youtube
+   ============================================================ */
+.home-hero {
+  text-align: center;
+  padding: 70px var(--page-margin) 50px;
+}
+
+.home-hero h1 {
+  font-size: 34px;
+  font-weight: 300;
+  color: #222222;
+  letter-spacing: 1px;
+  margin: 0 0 12px;
+}
+
+.home-hero h1 strong {
+  font-weight: 700;
+  color: #1a4a8a;
+}
+
+.home-hero p {
+  font-size: 15px;
+  color: #555;
+  margin: 0 0 24px;
+}
+
+.youtube-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: #d9534f;
+  padding: 10px 22px;
+  border-radius: 25px;
+  text-decoration: none;
+  box-shadow: 0 3px 8px rgba(217, 83, 79, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.youtube-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(217, 83, 79, 0.45);
+}
+
+/* ============================================================
+   SECTION GENERALE (titre avec icône, comme sur les autres pages)
+   ============================================================ */
+.category-title {
+  font-size: 20px;
+  margin: 45px 0 20px;
+  padding: 0 var(--page-margin);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.category-title img {
+  width: 34px;
+  height: 34px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.info-wrapper {
+  padding: 0 var(--page-margin) 40px;
+  box-sizing: border-box;
+}
+
+/* Sous-blocs d'information (romanisation, ordre des noms, remerciements) */
+.info-block {
+  margin-bottom: 40px;
+}
+
+.info-block h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a4a8a;
+  letter-spacing: 0.5px;
+  margin: 0 0 14px;
+}
+
+/* Tableau de romanisation */
+.roman-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.roman-table tr {
+  border-bottom: 1px solid #eee;
+}
+
+.roman-table td {
+  padding: 8px 10px;
+  vertical-align: top;
+}
+
+.roman-table td:first-child {
+  font-weight: 700;
+  color: #222;
+  width: 220px;
+}
+
+.roman-table a {
+  color: #1a0dab;
+  text-decoration: none;
+}
+
+.roman-table a:hover {
+  text-decoration: underline;
+}
+
+/* Liste "Name Order" */
+.name-order-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+.name-order-list li strong {
+  color: #222;
+}
+
+/* Remerciements */
+.thanks-text {
+  font-size: 13px;
+  line-height: 1.9;
+  color: #444;
+}
+
+.thanks-text a {
+  color: #1a0dab;
+  text-decoration: none;
+}
+
+.thanks-text a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+  .home-hero h1 { font-size: 26px; }
+  .roman-table td:first-child { width: 140px; }
+}
+</style>
+
+<!-- ============================================================
+     HERO
+     MODIFIE ICI : titre, sous-titre, lien de la chaîne Youtube
+     ============================================================ -->
+<div class="home-hero">
+  <h1>Disney <strong>International</strong> dubbings</h1>
+  <p>Find out about International animated voices, dubbings and trivia</p>
+  <a class="youtube-btn" href="https://www.youtube.com/channel/UCw5Jdty5b4QcxJIwm6EyLRg" target="_blank">
+    ▶ My Disney Youtube Channel
+  </a>
+</div>
+
+<!-- ============================================================
+     GENERAL INFORMATION
+     ============================================================ -->
+<h2 class="category-title">
+  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/clap-cinema_orig.gif">General Information
+</h2>
+
+<div class="info-wrapper">
+
+  <!-- ROMANIZATION SYSTEMS -->
+  <div class="info-block">
+    <h3>Romanization systems</h3>
+    <table class="roman-table">
+      <tr><td>Arabic</td><td>Classical Arabic romanization</td></tr>
+      <tr><td>Bulgarian</td><td><a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/811509/ROMANIZATION_OF_BULGARIAN.pdf" target="_blank">BGN/PCGN</a> (2013 Agreement) / Verified in 2019</td></tr>
+      <tr><td>Cantonese</td><td>JyutPing (used by Hong Kong government)</td></tr>
+      <tr><td>Greek</td><td>Phonetic</td></tr>
+      <tr><td>Hebrew</td><td><em>need help!</em></td></tr>
+      <tr><td>Hindi</td><td>Romanagari</td></tr>
+      <tr><td>Japanese</td><td>Romaji</td></tr>
+      <tr><td>Karachay-Balkar</td><td><a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/829206/TABLE_OF_CORRESPONDENCES_FOR_KARACHAY-BALKAR.pdf" target="_blank">BGN/PCGN</a> (2008 Agreement) / Verified in 2019</td></tr>
+      <tr><td>Korean</td><td>Revised Romanization of Korean</td></tr>
+      <tr><td>Mandarin</td><td><a href="https://fr.wikipedia.org/wiki/Hanyu_pinyin" target="_blank">Pinyin</a></td></tr>
+      <tr><td>Nogai</td><td><a href="https://www.eki.ee/knab/lat/kblnog.pdf" target="_blank">KNAB 1995</a></td></tr>
+      <tr><td>Russian</td><td>BGN/PCGN (1947 System) / Verified in 2019</td></tr>
+      <tr><td>Serbian</td><td>Gaj's Latin alphabet</td></tr>
+      <tr><td>Thai</td><td>Royal Thai General System of Transcription (RTGS)</td></tr>
+      <tr><td>Ukrainian</td><td><a href="https://unstats.un.org/unsd/geoinfo/UNGEGN/docs/26th-gegn-docs/WP/WP21_Roma_system_Ukraine%20_engl._.pdf" target="_blank">Romanization System in Ukraine</a></td></tr>
+    </table>
+  </div>
+
+  <!-- NAME ORDER -->
+  <div class="info-block">
+    <h3>Name Order</h3>
+    <p style="font-size:13px; color:#555; margin-bottom:14px;">
+      Unlike most of languages/countries, the languages/countries in the list below list the names as:
+      <strong>Family name</strong> + <strong>First Name</strong>. This order is respected on every page of this site:
+    </p>
+    <ul class="name-order-list">
+      <li><strong>CANTONESE</strong> (Hong Kong)</li>
+      <li><strong>HUNGARIAN</strong> (Hungary)</li>
+      <li><strong>JAPANESE</strong> (Japan)</li>
+      <li><strong>KARACHAY-BALKAR</strong></li>
+      <li><strong>KOREAN</strong> (South Korea)</li>
+      <li><strong>MANDARIN</strong> (Taiwan/China)</li>
+      <li><strong>VIETNAMESE</strong> (Vietnam)</li>
+    </ul>
+  </div>
+
+  <!-- SPECIAL THANKS -->
+  <div class="info-block">
+    <h3>Special thanks...</h3>
+    <p class="thanks-text">
+      <em>To these people who help me regularly and with many languages:</em><br>
+      <a href="https://www.youtube.com/@agltie5763" target="_blank">Agust Ingi Adalheidarson</a> ;
+      Матија Карличић ;
+      Louis Rowan ;
+      Veera Länsimäki ;
+      <a href="https://www.youtube.com/@anon.wonderland" target="_blank">Anonymous of Wonderland</a> ...
+      <br><br>
+      <em>and</em> <a href="https://www.youtube.com/@Robodl96" target="_blank">Robodl96</a>,
+      <em>who inspired me to create this site.</em>
+    </p>
+  </div>
+
+</div>
