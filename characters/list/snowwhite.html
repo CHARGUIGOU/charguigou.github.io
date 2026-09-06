@@ -198,7 +198,7 @@ body {
    "onerror" sur chaque <img> (voir plus bas), pas besoin d'y toucher. */
 .film-header.banner-fallback {
   min-height: var(--banner-height);
-  background: linear-gradient(135deg, #1a4a8a, #0d2c54);
+  background: linear-gradient(to bottom, #ffffff 0%, #1a4a8a 45%, #0d2c54 100%);
 }
 
 /* L'IMAGE du bandeau elle-même (hauteur et cadrage via variables --root) */
@@ -258,7 +258,7 @@ body {
   font-style: italic;
   color: #666;
   font-size: 14px;
-  margin: 0 0 20px;
+  margin: 16px var(--page-margin) 20px;
 }
 
 /* Tableau des doublages */
@@ -342,7 +342,8 @@ body {
 }
 /* Cachées dès qu'une recherche est active (classe ajoutée sur <body>
    par le script), pour ne laisser que les résultats de la recherche */
-body.searching .anecdotes {
+body.searching .anecdotes,
+body.searching .subgroup-title {
   display: none;
 }
 /* Le mot "ANECDOTES" en majuscules, tout en haut de la boîte */
