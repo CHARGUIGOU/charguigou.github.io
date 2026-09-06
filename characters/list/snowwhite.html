@@ -380,7 +380,8 @@ body {
 /* Cachées dès qu'une recherche est active (classe ajoutée sur <body>
    par le script), pour ne laisser que les résultats de la recherche */
 body.searching .anecdotes,
-body.searching .subgroup-title {
+body.searching .subgroup-title,
+body.searching .continuity {
   display: none;
 }
 /* Le mot "ANECDOTES" en majuscules, tout en haut de la boîte */
@@ -408,6 +409,60 @@ body.searching .subgroup-title {
 }
 .anecdotes a:hover {
   text-decoration: underline;
+}
+
+/* ============================================================
+   CONTINUITY : pour les infos "qui a déjà doublé le perso avant"
+   (regroupées par film d'origine), différent d'une vraie anecdote.
+   C'est un accordéon FERMÉ par défaut : cliquer sur "Continuity"
+   ouvre/ferme le contenu (voir le script en bas de page).
+   ============================================================ */
+.continuity {
+  margin: 16px var(--page-margin) 0;
+  border-left: 3px solid var(--accent);
+  padding: 4px 0 4px 16px;
+}
+/* Le titre "Continuity" devient un bouton cliquable */
+.continuity-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-family: 'Open Sans', sans-serif;
+}
+/* La petite flèche qui tourne à l'ouverture */
+.continuity-icon {
+  font-size: 11px;
+  transition: transform 0.25s ease;
+}
+.continuity.open .continuity-icon {
+  transform: rotate(180deg);
+}
+/* Le contenu repliable (fermé par défaut) */
+.continuity-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+.continuity-content-inner {
+  padding-top: 10px;
+}
+.continuity p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #444;
+  margin: 0 0 10px;
+}
+.continuity strong {
+  color: #222;
 }
 
 .last-update {
@@ -529,8 +584,6 @@ body.searching .subgroup-title {
 
 <!-- ============================================================
      FILM 2 : Sofia the First: The Enchanted Feast (2014)
-     ⚠️ EXEMPLE PARTIEL : ajoute les langues manquantes en suivant
-     le même modèle de <tr> que ci-dessus.
      ============================================================ -->
 <section class="film-section" id="film-2014">
   <div class="film-header">
@@ -552,7 +605,6 @@ body.searching .subgroup-title {
 
 <!-- ============================================================
      FILM 3 : Ralph Breaks the Internet (2018)
-     ⚠️ EXEMPLE PARTIEL
      ============================================================ -->
 <section class="film-section" id="film-2018">
   <div class="film-header">
@@ -564,11 +616,15 @@ body.searching .subgroup-title {
 
   <div class="voice-table-mount" id="voices-2018"></div>
 
-  <div class="anecdotes">
-    <h3>Anecdotes</h3>
-    <ul>
-      <li>Voices who returned from <em>Snow White and the Seven Dwarfs</em>: Arabic (TV dub); Castilian; Croatian; French (3rd dub); Indonesian; Latin Spanish (3rd dub); Taiwanese Mandarin; Mandarin Chinese (TV dub); Norwegian; Polish (2nd dub); Romanian; Thai (2nd dub); Turkish and Ukrainian(?).</li>
-    </ul>
+  <div class="continuity">
+    <button class="continuity-toggle" type="button">
+      Continuity <span class="continuity-icon">▼</span>
+    </button>
+    <div class="continuity-content">
+      <div class="continuity-content-inner">
+        <p><strong>From Snow White and the Seven Dwarfs (1937):</strong><br>Arabic (TV dub), Castilian, Croatian, French (3rd dub), Indonesian, Latin Spanish (3rd dub), Taiwanese Mandarin, Mandarin Chinese (TV dub), Norwegian, Polish (2nd dub), Romanian, Thai (2nd dub), Turkish, Ukrainian (?)</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -606,13 +662,23 @@ body.searching .subgroup-title {
 
   <div class="voice-table-mount" id="voices-2023b"></div>
 
+  <div class="continuity">
+    <button class="continuity-toggle" type="button">
+      Continuity <span class="continuity-icon">▼</span>
+    </button>
+    <div class="continuity-content">
+      <div class="continuity-content-inner">
+        <p><strong>From Snow White and the Seven Dwarfs (1937):</strong><br>French (2001 re-dub), Polish (2009 re-dub), Romanian (2009 dub), Serbian (2019 dub)</p>
+        <p><strong>From later sequels or TV series:</strong><br>Dutch, Slovak (LEGO)</p>
+        <p><strong>New voices:</strong><br>English, German, Hebrew</p>
+      </div>
+    </div>
+  </div>
+
   <div class="anecdotes">
     <h3>Anecdotes</h3>
     <ul>
       <li>Snow White only sings one line in this short - the voices here are all only singing.</li>
-      <li>Voices who returned from the original movie: French (2001 re-dub); Polish (2009 re-dub); Romanian (2009 dub); Serbian (2019 dub).</li>
-      <li>Voices who returned from the sequels or TV series: Dutch; Slovak (LEGO).</li>
-      <li>New voices: English; German; Hebrew.</li>
       <li>In Slovak and Turkish, Natália Kóšová and Selen Severcan would later dub Rachel Zegler as Snow White in the 2025 live-action remake.</li>
     </ul>
   </div>
@@ -664,6 +730,9 @@ body.searching .subgroup-title {
 
 <!-- ============================================================
      FILM 8 : LEGO Disney Princess: Magical Mayhem (2026)
+     ⚠️ J'ai aussi mis "Continuity" ici, même principe que Ralph et
+     Once Upon a Studio — dis-moi si tu préfères que je revienne aux
+     anecdotes classiques pour celle-ci.
      ============================================================ -->
 <section class="film-section" id="film-2026">
   <div class="film-header">
@@ -675,15 +744,25 @@ body.searching .subgroup-title {
 
   <div class="voice-table-mount" id="voices-2026"></div>
 
+  <div class="continuity">
+    <button class="continuity-toggle" type="button">
+      Continuity <span class="continuity-icon">▼</span>
+    </button>
+    <div class="continuity-content">
+      <div class="continuity-content-inner">
+        <p><strong>From the original movie (1937):</strong><br>Cantonese, French, German, Hungarian, Indonesian, Japanese, Malay, Romanian, Latin American Spanish, Castilian Spanish, Thai</p>
+        <p><strong>From Sofia the First (2014):</strong><br>English, Finnish</p>
+        <p><strong>From Ralph Breaks the Internet (2018):</strong><br>Brazilian Portuguese, Portuguese</p>
+        <p><strong>From the Live-action remake (2025):</strong><br>Croatian, Greek, Swedish</p>
+        <p><strong>From previous LEGO shorts:</strong><br>Czech, Danish, Dutch, Korean, Taiwanese Mandarin, Polish, Slovak</p>
+        <p><strong>New voices:</strong><br>Norwegian (Fei Fei and Merida in Ralph)</p>
+      </div>
+    </div>
+  </div>
+
   <div class="anecdotes">
     <h3>Anecdotes</h3>
     <ul>
-      <li>From the original movie (1937): Cantonese, French, German, Hungarian, Indonesian, Japanese, Malay, Romanian, Latin American Spanish, Castilian Spanish, Thai.</li>
-      <li>From Sofia the First (2014): English, Finnish.</li>
-      <li>From Ralph Breaks the Internet (2018): Brazilian Portuguese, Portuguese.</li>
-      <li>From the Live-action remake (2025): Croatian, Greek, Swedish.</li>
-      <li>From previous LEGO shorts: Czech, Danish, Dutch, Korean, Taiwanese Mandarin, Polish, Slovak.</li>
-      <li>New voices: Norwegian (Fei Fei and Merida in Ralph).</li>
       <li>In the Greek dub, Litó Abatzí (Λητώ Αμπατζή) also voiced <a href="/characters/mulan.html">Mulan</a>.</li>
       <li>In the Mandarin version, Mù Xuān-Míng (穆宣名) also dubbed <a href="/characters/rapunzel.html">Rapunzel</a>.</li>
     </ul>
@@ -756,7 +835,7 @@ const voices_1937 = [
   { lang: "Polish (1938)", voice: 'Maria Modzelewska <em>(speaking &amp; singing)</em>' },
   { lang: "Polish (2009)", voice: 'Edyta Krzemień <em>(speaking &amp; singing)</em>' },
   { lang: "<em>BRAZILIAN</em> Portuguese (1938)", voice: 'Dalva de Oliveira <em>(speaking)</em> &amp; Maria Clara Tati Jacome <em>(singing)</em>' },
-  { lang: "<em>BRAZILIAN</em>Portuguese (1965)", voice: 'Maria Alice Barreto <em>(speaking)</em> &amp; Cybele Freire <em>(singing)</em>' },
+  { lang: "<em>BRAZILIAN</em> Portuguese (1965)", voice: 'Maria Alice Barreto <em>(speaking)</em> &amp; Cybele Freire <em>(singing)</em>' },
   { lang: "Portuguese (2001)", voice: 'Sandra de Castro <em>(speaking &amp; singing)</em>' },
   { lang: "Romanian (2009)", voice: 'Mediana Vlad <em>(speaking &amp; singing)</em>' },
   { lang: "Russian (2001)", voice: 'Yevgeniya Igumnova / Евгения Игумнова <em>(speaking)</em> &amp; Yelena Ushakova / Елена Ушакова <em>(singing)</em>' },
@@ -823,7 +902,6 @@ const voices_2014 = [
   { lang: "Thai", voice: "?" },
   { lang: "Turkish", voice: "Nurhan Yılma" },
   { lang: "Ukrainian", voice: "?" }
-
 ];
 
 const voices_2018 = [
@@ -1080,6 +1158,29 @@ document.querySelectorAll('.film-banner').forEach(img => {
   img.addEventListener('error', () => {
     img.style.display = 'none';
     img.closest('.film-header').classList.add('banner-fallback');
+  });
+});
+
+// ============================================================
+//  ACCORDEON "CONTINUITY"
+//  Fermé par défaut. Chaque bloc s'ouvre/se ferme indépendamment
+//  des autres (ce n'est pas un accordéon "un seul ouvert à la fois").
+// ============================================================
+
+document.querySelectorAll('.continuity').forEach(box => {
+  const toggle = box.querySelector('.continuity-toggle');
+  const content = box.querySelector('.continuity-content');
+
+  toggle.addEventListener('click', () => {
+    const isOpen = box.classList.contains('open');
+
+    if (isOpen) {
+      box.classList.remove('open');
+      content.style.maxHeight = null;
+    } else {
+      box.classList.add('open');
+      content.style.maxHeight = content.scrollHeight + 'px';
+    }
   });
 });
 </script>
