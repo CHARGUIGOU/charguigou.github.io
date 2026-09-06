@@ -60,6 +60,8 @@ body {
   gap: 40px;
   align-items: flex-start;
   flex-wrap: wrap;
+  max-width: 900px;
+  margin: 0 auto;
   padding: 24px 20px 10px;
   box-sizing: border-box;
 }
@@ -211,7 +213,7 @@ body {
 }
 
 .film-header-overlay .film-year {
-  color: var(--year-color);
+  color: inherit;
   font-weight: 600;
 }
 
@@ -340,7 +342,7 @@ body {
 <div class="top-section">
   <div class="top-left">
     <h1 class="page-title">Snow White</h1>
-    <input type="text" id="langSearch" placeholder="Search a language (e.g. French, Japanese...)">
+    <input type="text" id="langSearch" placeholder="Search a language or a voice actor...">
     <div id="langResultInfo"></div>
   </div>
 
@@ -375,11 +377,10 @@ body {
 
 <!-- ============================================================
      FILM 1 : Snow White and the Seven Dwarfs (1937)
-     MODIFIE ICI : chaque <tr> = une langue. Plus besoin d'écrire
-     data-lang toi-même, il est calculé automatiquement depuis le texte
-     de la langue (voir le script tout en bas de la page). Ajoute
-     data-lang="..." uniquement si tu veux un mot-clé de recherche
-     différent du texte affiché.
+     MODIFIE ICI : les données sont dans le tableau JS "voices_1937"
+     tout en bas de la page (section CHARACTER DATA). Chaque ligne
+     = { lang: "...", voice: "..." }. Le champ "voice" accepte du HTML
+     libre (<em>, scripts natifs, etc.)
      ============================================================ -->
 <section class="film-section" id="film-1937">
   <div class="film-header">
@@ -389,84 +390,10 @@ body {
     </div>
   </div>
 
-  <table class="voice-table">
-    <tbody>
-      <tr data-lang="albanian"><td class="lang-cell">Albanian 2002</td><td class="voice-cell">Julka Gramo <em>(speaking)</em> &amp; Adriana Caselotti <em>(singing - original version)</em></td></tr>
-      <tr data-lang="albanian"><td class="lang-cell">Albanian 2005</td><td class="voice-cell">Esmeralda Kame <em>(speaking)</em> &amp; Eltina Minarolli <em>(singing)</em></td></tr>
-      <tr data-lang="arabic egyptian"><td class="lang-cell">Arabic - Egyptian (1978)</td><td class="voice-cell">Fatma Mazhar / فاطمة مظهر <em>(speaking)</em> &amp; Ratiba Al-Hefny / رتيبة الحفني <em>(singing)</em></td></tr>
-      <tr data-lang="arabic modern standard"><td class="lang-cell">Arabic TV - Modern Standard (2015)</td><td class="voice-cell">Noha Qais / نهى قيس <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="arabic modern standard"><td class="lang-cell">Arabic - Modern Standard (2023)</td><td class="voice-cell">Shahd Ezz / شهد عز <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="bulgarian"><td class="lang-cell">Bulgarian (2001)</td><td class="voice-cell">Ventsislava Stoilova / Венцислава Стоилова <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="cantonese"><td class="lang-cell">Cantonese (1995)</td><td class="voice-cell">"Agnes Lam" Lam Si-Cung / 林司聰 <em>(speaking)</em> &amp; Ceoi Wai / 徐慧 <em>(singing)</em></td></tr>
-      <tr data-lang="croatian"><td class="lang-cell">Croatian (2009)</td><td class="voice-cell">Hana Hegedušić <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="crimean tatar"><td class="lang-cell">Crimean Tatar TV (20??)</td><td class="voice-cell">? <em>(speaking)</em> &amp; Adriana Caselotti <em>(singing - original version)</em></td></tr>
-      <tr data-lang="czech"><td class="lang-cell">Czech 1938</td><td class="voice-cell">Ella Rixová <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="czech"><td class="lang-cell">Czech 1970</td><td class="voice-cell">Klára Jerneková <em>(speaking)</em> &amp; Marie Sikulová <em>(singing)</em></td></tr>
-      <tr data-lang="danish"><td class="lang-cell">Danish 1938</td><td class="voice-cell">Annie Jessen <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="danish"><td class="lang-cell">Danish 1982</td><td class="voice-cell">Tove Hyldgaard <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="dutch"><td class="lang-cell">Dutch 1938</td><td class="voice-cell">Cecilia "Cilly" Bach <em>(speaking)</em> &amp; Frieda van Hessen <em>(singing)</em></td></tr>
-      <tr data-lang="dutch"><td class="lang-cell">Dutch 1984</td><td class="voice-cell">Bernadette Kraakman <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="english"><td class="lang-cell">English (1937)</td><td class="voice-cell">Adriana Caselotti <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="finnish"><td class="lang-cell">Finnish 1962</td><td class="voice-cell">Eeva-Kaarina Volanen <em>(speaking)</em> &amp; Tatiana Angelini <em>(singing - original Swedish version)</em></td></tr>
-      <tr data-lang="finnish"><td class="lang-cell">Finnish 1982</td><td class="voice-cell">Jaana Oravisto <em>(speaking)</em> &amp; Johanna Nurmimaa <em>(singing)</em></td></tr>
-      <tr data-lang="finnish"><td class="lang-cell">Finnish 1994</td><td class="voice-cell">Riikka Väyrynen <em>(speaking)</em> &amp; Kukka-Maaria Ahonen <em>(singing)</em></td></tr>
-      <tr data-lang="french"><td class="lang-cell">French 1938</td><td class="voice-cell">Christiane Tourneur <em>(speaking)</em> &amp; Beatrice Hagen <em>(singing)</em></td></tr>
-      <tr data-lang="french"><td class="lang-cell">French 1962</td><td class="voice-cell">Lucie Dolène <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="french"><td class="lang-cell">French 2001</td><td class="voice-cell">Valérie Siclay <em>(speaking)</em> &amp; Rachel Pignot <em>(singing)</em></td></tr>
-      <tr data-lang="german"><td class="lang-cell">German 1938</td><td class="voice-cell">Hortense Raky <em>(speaking)</em> &amp; Claire Eiselmeyer <em>(singing)</em></td></tr>
-      <tr data-lang="german"><td class="lang-cell">German 1966</td><td class="voice-cell">Uschi Wolff <em>(speaking)</em> &amp; Susanne Tremper <em>(singing)</em></td></tr>
-      <tr data-lang="german"><td class="lang-cell">German 1994</td><td class="voice-cell">Manja Doering <em>(speaking)</em> &amp; Alexandra Wilcke <em>(singing)</em></td></tr>
-      <tr data-lang="greek"><td class="lang-cell">Greek (1974)</td><td class="voice-cell">Matína Karrá / Ματίνα Καρρά <em>(speaking)</em> &amp; Mítsa Roúti / Μήτσα Ρούτη <em>(singing)</em></td></tr>
-      <tr data-lang="hebrew"><td class="lang-cell">Hebrew (1992)</td><td class="voice-cell">Orit Yaron / אורית ירון <em>(speaking)</em> &amp; Limor Shapira / לימור שפירא <em>(singing)</em></td></tr>
-      <tr data-lang="hindi"><td class="lang-cell">Hindi (2005)</td><td class="voice-cell">Marianne D'Cruz Aiman <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="hungarian"><td class="lang-cell">Hungarian 1962</td><td class="voice-cell">Váradi Hédi <em>(speaking)</em> &amp; Házy Erzsébet <em>(singing)</em></td></tr>
-      <tr data-lang="hungarian"><td class="lang-cell">Hungarian 2001</td><td class="voice-cell">Oroszlán Szonja <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="icelandic"><td class="lang-cell">Icelandic (2001)</td><td class="voice-cell">Vigdís Hrefna Pálsdóttir <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="indonesian"><td class="lang-cell">Indonesian (2013)</td><td class="voice-cell">Apriliana Suci Ariesta <em>(speaking)</em> &amp; Justina Penina <em>(singing)</em></td></tr>
-      <tr data-lang="italian"><td class="lang-cell">Italian 1938</td><td class="voice-cell">Rosetta Calavetta <em>(speaking)</em> &amp; Lina Pagliughi <em>(singing)</em></td></tr>
-      <tr data-lang="italian"><td class="lang-cell">Italian 1972</td><td class="voice-cell">Melina Martello <em>(speaking)</em> &amp; Gianna Spagnulo <em>(singing)</em></td></tr>
-      <tr data-lang="japanese"><td class="lang-cell">Japanese 1958</td><td class="voice-cell">Tomizawa Shima / 富沢志満 <em>(speaking &amp; ?)</em></td></tr>
-      <tr data-lang="japanese"><td class="lang-cell">Japanese 1980</td><td class="voice-cell">Kobato Kurumi / 小鳩くるみ <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="kazakh"><td class="lang-cell">Kazakh (2015)</td><td class="voice-cell">Nazerke Serıkbolova / Назерке Серікболова <em>(speaking)</em> &amp; Janargul Janyamanova / Жанаргуль Жаныаманова <em>(singing)</em></td></tr>
-      <tr data-lang="korean"><td class="lang-cell">Korean (1994)</td><td class="voice-cell">Kim Su-gyeong / 김수경 <em>(speaking)</em> &amp; Lee Yun-seon / 이윤선 <em>(singing)</em></td></tr>
-      <tr data-lang="malay"><td class="lang-cell">Malay (2013?)</td><td class="voice-cell">Yatie Maslini <em>(speaking)</em> &amp; "Suki Low" Low Sook Yee / Liú Shūyú / 劉紓妤 <em>(singing)</em></td></tr>
-      <tr data-lang="mandarin taiwan"><td class="lang-cell">Mandarin - Taiwan (????)</td><td class="voice-cell">"Corisa Lee" Lǐ Zhí-Píng / 李直平 <em>(speaking)</em> &amp; "Judy Chen" Chén Xiù-Zhū / 陳秀珠 <em>(singing)</em></td></tr>
-      <tr data-lang="mandarin china"><td class="lang-cell">Mandarin - China (2009)</td><td class="voice-cell">Wú Xiǎo-Lěi / 吴晓蕾 <em>(speaking)</em> &amp; "Judy Chen" Chén Xiù-Zhū / 陳秀珠 <em>(singing - Taiwanese Mandarin version)</em></td></tr>
-      <tr data-lang="norwegian"><td class="lang-cell">Norwegian 1983</td><td class="voice-cell">Unn Vibeke Hol <em>(speaking)</em> &amp; Anne Lise Gjøstøl <em>(singing)</em></td></tr>
-      <tr data-lang="norwegian"><td class="lang-cell">Norwegian 1994</td><td class="voice-cell">Unn Vibeke Hol <em>(speaking)</em> &amp; Anne Aartun <em>(singing)</em></td></tr>
-      <tr data-lang="polish"><td class="lang-cell">Polish 1938</td><td class="voice-cell">Maria Modzelewska <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="polish"><td class="lang-cell">Polish 2009</td><td class="voice-cell">Edyta Krzemień <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="portuguese brazilian"><td class="lang-cell">Portuguese - Brazilian 1938</td><td class="voice-cell">Dalva de Oliveira <em>(speaking)</em> &amp; Maria Clara Tati Jacome <em>(singing)</em></td></tr>
-      <tr data-lang="portuguese brazilian"><td class="lang-cell">Portuguese - Brazilian 1965</td><td class="voice-cell">Maria Alice Barreto <em>(speaking)</em> &amp; Cybele Freire <em>(singing)</em></td></tr>
-      <tr data-lang="portuguese"><td class="lang-cell">Portuguese (2001)</td><td class="voice-cell">Sandra de Castro <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="romanian"><td class="lang-cell">Romanian (2009)</td><td class="voice-cell">Mediana Vlad <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="russian"><td class="lang-cell">Russian (2001)</td><td class="voice-cell">Yevgeniya Igumnova / Евгения Игумнова <em>(speaking)</em> &amp; Yelena Ushakova / Елена Ушакова <em>(singing)</em></td></tr>
-      <tr data-lang="serbian"><td class="lang-cell">Serbian (2019)</td><td class="voice-cell">Irina Arsenijević / Ирина Арсенијевић <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="slovak"><td class="lang-cell">Slovak (1970)</td><td class="voice-cell">Darina Chmurová <em>(speaking)</em> &amp; Cecília Lévaiová <em>(singing)</em></td></tr>
-      <tr data-lang="spanish latin american"><td class="lang-cell">Spanish - Latin American 1938</td><td class="voice-cell">Thelma Hubbard <em>(speaking)</em> &amp; Diana Castillo <em>(singing)</em></td></tr>
-      <tr data-lang="spanish latin american"><td class="lang-cell">Spanish - Latin American 1964</td><td class="voice-cell">Amparo Garrido <em>(speaking)</em> &amp; Lupita Pérez Arias <em>(singing)</em></td></tr>
-      <tr data-lang="spanish latin american"><td class="lang-cell">Spanish - Latin American 2001</td><td class="voice-cell">Maggie Vera <em>(speaking)</em> + Alicia Diana Santos <em>(one loop speaking)</em> &amp; Vikina Michel <em>(singing)</em></td></tr>
-      <tr data-lang="spanish castilian"><td class="lang-cell">Spanish - Castilian (2001)</td><td class="voice-cell">Mar Bordallo <em>(speaking)</em> &amp; Yolanda de las Heras <em>(singing)</em></td></tr>
-      <tr data-lang="swedish"><td class="lang-cell">Swedish 1938</td><td class="voice-cell">Tatiana Angelini <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="swedish"><td class="lang-cell">Swedish 1982</td><td class="voice-cell">Anna-Lotta Larsson <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="tamil"><td class="lang-cell">Tamil (????)</td><td class="voice-cell">?</td></tr>
-      <tr data-lang="telugu"><td class="lang-cell">Telugu (????)</td><td class="voice-cell">?</td></tr>
-      <tr data-lang="thai"><td class="lang-cell">Thai 1994</td><td class="voice-cell">Marisa Sukosol Nunbhakdi / มาริสา สุโกศล หนุนภักดี <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="thai"><td class="lang-cell">Thai 2001</td><td class="voice-cell">Netnapha Hanrotchanawut / เนตรนภา หาญโรจนวุฒิ <em>(speaking)</em> &amp; Chairat Phithakcharoen / ใจรัตน์ พิทักษ์เจริญ <em>(singing)</em></td></tr>
-      <tr data-lang="turkish"><td class="lang-cell">Turkish (2009)</td><td class="voice-cell">Aliye Mutlu <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="ukrainian"><td class="lang-cell">Ukrainian (2010)</td><td class="voice-cell">Anzhelika Savchenko / Анжеліка Савченко <em>(speaking &amp; singing)</em></td></tr>
-    </tbody>
-  </table>
+  <div class="voice-table-mount" id="voices-1937"></div>
 
   <div class="subgroup-title">Radio Plays &amp; LPs</div>
-  <table class="voice-table">
-    <tbody>
-      <tr data-lang="estonian radio"><td class="lang-cell">Estonian - Radio Play (1956)</td><td class="voice-cell">Ellu Puudist <em>(speaking)</em> &amp; Veera Nelus <em>(singing)</em></td></tr>
-      <tr data-lang="latvian radio"><td class="lang-cell">Latvian - Radio Play (1958)</td><td class="voice-cell">Dagmāra Kupce <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="icelandic lp"><td class="lang-cell">Icelandic - LP (1978)</td><td class="voice-cell">Ólöf Kolbrún Harðardóttir <em>(singing)</em></td></tr>
-      <tr data-lang="serbian lp"><td class="lang-cell">Serbian - LP (1971) ("Whistle While You Work")</td><td class="voice-cell">Milica Manojlović / Милица Манојловић <em>(singing)</em></td></tr>
-    </tbody>
-  </table>
+  <div class="voice-table-mount" id="radio-1937"></div>
 
   <div class="anecdotes">
     <h3>Anecdotes</h3>
@@ -495,22 +422,7 @@ body {
     </div>
   </div>
 
-  <table class="voice-table">
-    <tbody>
-      <tr data-lang="arabic modern standard"><td class="lang-cell">Arabic - Modern Standard</td><td class="voice-cell">Noha Qais / نهى قيس</td></tr>
-      <tr data-lang="croatian"><td class="lang-cell">Croatian</td><td class="voice-cell">Monika Barberović</td></tr>
-      <tr data-lang="english"><td class="lang-cell">English</td><td class="voice-cell">Katherine Von Till</td></tr>
-      <tr data-lang="finnish"><td class="lang-cell">Finnish</td><td class="voice-cell">Riikka Väyrynen-Timonen</td></tr>
-      <tr data-lang="french"><td class="lang-cell">French</td><td class="voice-cell">Laetitia Liénart (?)</td></tr>
-      <tr data-lang="german"><td class="lang-cell">German</td><td class="voice-cell">Manja Doering</td></tr>
-      <tr data-lang="japanese"><td class="lang-cell">Japanese</td><td class="voice-cell">Kobato Kurumi / 小鳩くるみ</td></tr>
-      <tr data-lang="korean"><td class="lang-cell">Korean</td><td class="voice-cell">Jeong Hyeon-gyeong / 정현경</td></tr>
-      <tr data-lang="russian"><td class="lang-cell">Russian</td><td class="voice-cell">Kseniya Brzhezovskaya / Ксения Бржезовская</td></tr>
-      <tr data-lang="spanish latin american"><td class="lang-cell">Spanish - Latin American</td><td class="voice-cell">Maggie Vera</td></tr>
-      <tr data-lang="spanish castilian"><td class="lang-cell">Spanish - Castilian</td><td class="voice-cell">Mar Bordallo</td></tr>
-      <!-- AJOUTE LES AUTRES LANGUES ICI (Albanian, Bulgarian, Cantonese, Czech, Danish, Dutch, Greek, Hebrew, Hindi, Hungarian, Indonesian, Italian, Malay, Mandarin, Norwegian, Polish, Portuguese, Romanian, Serbian, Slovak, Slovene, Swedish, Tagalog, Tamil, Telugu, Thai, Turkish, Ukrainian) -->
-    </tbody>
-  </table>
+  <div class="voice-table-mount" id="voices-2014"></div>
 
   <div class="anecdotes">
     <h3>Anecdotes</h3>
@@ -532,22 +444,7 @@ body {
     </div>
   </div>
 
-  <table class="voice-table">
-    <tbody>
-      <tr data-lang="english"><td class="lang-cell">English</td><td class="voice-cell">Pamela Ribon <em>(speaking &amp; vocalizations)</em></td></tr>
-      <tr data-lang="french"><td class="lang-cell">French</td><td class="voice-cell">Valérie Siclay <em>(speaking &amp; ?)</em></td></tr>
-      <tr data-lang="german"><td class="lang-cell">German</td><td class="voice-cell">Magdalena Höfner <em>(speaking &amp; ?)</em></td></tr>
-      <tr data-lang="italian"><td class="lang-cell">Italian</td><td class="voice-cell">Ilaria Latini <em>(speaking &amp; ?)</em></td></tr>
-      <tr data-lang="korean"><td class="lang-cell">Korean</td><td class="voice-cell">Sa Mun-yeong / 사문영 <em>(speaking &amp; vocalizations)</em></td></tr>
-      <tr data-lang="mandarin china"><td class="lang-cell">Mandarin - China</td><td class="voice-cell">Wú Xiǎo-Lěi / 吴晓蕾 <em>(speaking &amp; ?)</em></td></tr>
-      <tr data-lang="polish"><td class="lang-cell">Polish</td><td class="voice-cell">Edyta Krzemień <em>(speaking &amp; vocalizes)</em></td></tr>
-      <tr data-lang="russian"><td class="lang-cell">Russian</td><td class="voice-cell">Yuliya Churakova / Юлия Чуракова <em>(speaking &amp; ?)</em></td></tr>
-      <tr data-lang="spanish latin american"><td class="lang-cell">Spanish - Latin American</td><td class="voice-cell">Maggie Vera <em>(speaking &amp; ?)</em></td></tr>
-      <tr data-lang="spanish castilian"><td class="lang-cell">Spanish - Castilian</td><td class="voice-cell">Mar Bordallo <em>(speaking &amp; ?)</em></td></tr>
-      <tr data-lang="turkish"><td class="lang-cell">Turkish</td><td class="voice-cell">Aliye Mutlu <em>(speaking &amp; vocalizes)</em></td></tr>
-      <!-- AJOUTE LES AUTRES LANGUES ICI (Albanian, Arabic, Bulgarian, Cantonese, Catalan, Croatian, Czech, Danish, Dutch, Estonian, Finnish, Flemish, French-Quebec, Greek, Hebrew, Hindi, Hungarian, Icelandic, Indonesian, Japanese, Kazakh, Latvian, Lithuanian, Malay, Mandarin-Taiwan, Norwegian, Portuguese, Romanian, Serbian, Slovak, Slovene, Swedish, Thai, Ukrainian, Vietnamese) -->
-    </tbody>
-  </table>
+  <div class="voice-table-mount" id="voices-2018"></div>
 
   <div class="anecdotes">
     <h3>Anecdotes</h3>
@@ -568,25 +465,7 @@ body {
     </div>
   </div>
 
-  <table class="voice-table">
-    <tbody>
-      <tr data-lang="arabic egyptian"><td class="lang-cell">Arabic - Egyptian</td><td class="voice-cell">Noha Qais / نهى قيس</td></tr>
-      <tr data-lang="arabic modern standard"><td class="lang-cell">Arabic - Modern Standard</td><td class="voice-cell">Noha Qais / نهى قيس</td></tr>
-      <tr data-lang="czech"><td class="lang-cell">Czech</td><td class="voice-cell">Barbora Červinková</td></tr>
-      <tr data-lang="danish"><td class="lang-cell">Danish</td><td class="voice-cell">Karoline Hamm</td></tr>
-      <tr data-lang="dutch"><td class="lang-cell">Dutch</td><td class="voice-cell">Maria Hengst</td></tr>
-      <tr data-lang="english"><td class="lang-cell">English</td><td class="voice-cell">Katherine Von Till</td></tr>
-      <tr data-lang="french"><td class="lang-cell">French</td><td class="voice-cell">Valérie Siclay</td></tr>
-      <tr data-lang="german"><td class="lang-cell">German</td><td class="voice-cell">Manja Doering</td></tr>
-      <tr data-lang="japanese"><td class="lang-cell">Japanese</td><td class="voice-cell">Kobato Kurumi / 小鳩くるみ</td></tr>
-      <tr data-lang="korean"><td class="lang-cell">Korean</td><td class="voice-cell">Lee Jae-hyeon / 이재현</td></tr>
-      <tr data-lang="polish"><td class="lang-cell">Polish</td><td class="voice-cell">Zuzanna Caban</td></tr>
-      <tr data-lang="spanish latin american"><td class="lang-cell">Spanish - Latin American</td><td class="voice-cell">Maggie Vera</td></tr>
-      <tr data-lang="spanish castilian"><td class="lang-cell">Spanish - Castilian</td><td class="voice-cell">Mar Bordallo</td></tr>
-      <tr data-lang="turkish"><td class="lang-cell">Turkish</td><td class="voice-cell">Nermin Koçak</td></tr>
-      <!-- AJOUTE LES AUTRES LANGUES ICI (Finnish, Greek, Hungarian, Italian, Norwegian, Portuguese, Romanian, Slovak, Swedish) -->
-    </tbody>
-  </table>
+  <div class="voice-table-mount" id="voices-2023a"></div>
 
   <div class="anecdotes">
     <h3>Anecdotes</h3>
@@ -607,22 +486,7 @@ body {
     </div>
   </div>
 
-  <table class="voice-table">
-    <tbody>
-      <tr data-lang="czech"><td class="lang-cell">Czech</td><td class="voice-cell">Nikola Ďuricová</td></tr>
-      <tr data-lang="dutch"><td class="lang-cell">Dutch</td><td class="voice-cell">Maria Hengst</td></tr>
-      <tr data-lang="english"><td class="lang-cell">English</td><td class="voice-cell">Natalie Babbitt Taylor</td></tr>
-      <tr data-lang="french"><td class="lang-cell">French</td><td class="voice-cell">Rachel Pignot</td></tr>
-      <tr data-lang="german"><td class="lang-cell">German</td><td class="voice-cell">Katrin Taylor</td></tr>
-      <tr data-lang="hebrew"><td class="lang-cell">Hebrew</td><td class="voice-cell">Alona Alexander / אלונה אלכסנדר</td></tr>
-      <tr data-lang="polish"><td class="lang-cell">Polish</td><td class="voice-cell">Edyta Krzemień</td></tr>
-      <tr data-lang="romanian"><td class="lang-cell">Romanian</td><td class="voice-cell">Mediana Vlad</td></tr>
-      <tr data-lang="serbian"><td class="lang-cell">Serbian</td><td class="voice-cell">Irina Arsenijević / Ирина Арсенијевић</td></tr>
-      <tr data-lang="slovak"><td class="lang-cell">Slovak</td><td class="voice-cell">Natália Kóšová</td></tr>
-      <tr data-lang="turkish"><td class="lang-cell">Turkish</td><td class="voice-cell">Selen Severcan</td></tr>
-      <!-- AJOUTE LES AUTRES LANGUES ICI (Arabic, Bulgarian, Danish, Finnish, Greek, Hindi, Hungarian, Italian, Japanese, Mandarin, Norwegian, Portuguese, Spanish, Swedish, Tamil, Telugu, Ukrainian) -->
-    </tbody>
-  </table>
+  <div class="voice-table-mount" id="voices-2023b"></div>
 
   <div class="anecdotes">
     <h3>Anecdotes</h3>
@@ -648,24 +512,7 @@ body {
   </div>
   <p class="portrayed-by">Portrayed by: Rachel Zegler</p>
 
-  <table class="voice-table">
-    <tbody>
-      <tr data-lang="arabic egyptian"><td class="lang-cell">Arabic - Egyptian</td><td class="voice-cell">Rana Adel / رنا عادل <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="arabic modern standard"><td class="lang-cell">Arabic - Modern Standard</td><td class="voice-cell">Rana Adel / رنا عادل <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="french"><td class="lang-cell">French</td><td class="voice-cell">Emmylou Homs <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="french quebec"><td class="lang-cell">French - Quebec</td><td class="voice-cell">Romane Denis <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="german"><td class="lang-cell">German</td><td class="voice-cell">Sophia Riedl <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="italian"><td class="lang-cell">Italian</td><td class="voice-cell">Arianna Vignoli <em>(speaking)</em> &amp; Eleonora Segaluscio <em>(singing)</em></td></tr>
-      <tr data-lang="japanese"><td class="lang-cell">Japanese</td><td class="voice-cell">Kiryu Sakura / 吉柳咲良 <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="korean"><td class="lang-cell">Korean</td><td class="voice-cell">Kim Su-yeon / 김수연 <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="polish"><td class="lang-cell">Polish</td><td class="voice-cell">Katarzyna Sawczuk <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="slovak"><td class="lang-cell">Slovak</td><td class="voice-cell">Natália Kóšová <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="spanish latin american"><td class="lang-cell">Spanish - Latin American</td><td class="voice-cell">Mariana Dávila <em>(speaking &amp; singing)</em></td></tr>
-      <tr data-lang="spanish castilian"><td class="lang-cell">Spanish - Castilian</td><td class="voice-cell">Laura Pastor <em>(speaking)</em> &amp; Anabel García <em>(singing)</em></td></tr>
-      <tr data-lang="turkish"><td class="lang-cell">Turkish</td><td class="voice-cell">Selen Severcan <em>(speaking &amp; singing)</em></td></tr>
-      <!-- AJOUTE LES AUTRES LANGUES ICI (Bulgarian, Croatian, Danish, Dutch, Finnish, Flemish, Georgian, Greek, Hebrew, Hindi, Hungarian, Kazakh, Mandarin, Norwegian, Portuguese, Romanian, Russian, Serbian, Slovene, Swedish, Thai, Ukrainian, Vietnamese) -->
-    </tbody>
-  </table>
+  <div class="voice-table-mount" id="voices-2025a"></div>
 
   <div class="anecdotes">
     <h3>Anecdotes</h3>
@@ -686,20 +533,7 @@ body {
     </div>
   </div>
 
-  <table class="voice-table">
-    <tbody>
-      <tr data-lang="cantonese"><td class="lang-cell">Cantonese</td><td class="voice-cell">"Agnes Lam" Lam Si-Cung / 林司聰</td></tr>
-      <tr data-lang="english"><td class="lang-cell">English</td><td class="voice-cell">Katherine Von Till</td></tr>
-      <tr data-lang="french"><td class="lang-cell">French</td><td class="voice-cell">Valérie Siclay</td></tr>
-      <tr data-lang="german"><td class="lang-cell">German</td><td class="voice-cell">Manja Doering</td></tr>
-      <tr data-lang="japanese"><td class="lang-cell">Japanese</td><td class="voice-cell">Kobato Kurumi / 小鳩くるみ</td></tr>
-      <tr data-lang="korean"><td class="lang-cell">Korean</td><td class="voice-cell">Lee Jae-hyeon / 이재현</td></tr>
-      <tr data-lang="mandarin taiwan"><td class="lang-cell">Mandarin - Taiwan</td><td class="voice-cell">Mù Xuān-Míng / 穆宣名</td></tr>
-      <tr data-lang="portuguese"><td class="lang-cell">Portuguese</td><td class="voice-cell">Carla Mendes</td></tr>
-      <tr data-lang="slovak"><td class="lang-cell">Slovak</td><td class="voice-cell">Natália Kóšová</td></tr>
-      <!-- AJOUTE LES AUTRES LANGUES ICI (Arabic, Czech, Danish, Dutch, Finnish, Greek, Hebrew, Hungarian, Indonesian, Italian, Malay, Norwegian, Polish, Brazilian Portuguese, Romanian, Spanish, Swedish, Thai, Turkish) -->
-    </tbody>
-  </table>
+  <div class="voice-table-mount" id="voices-2025b"></div>
 
   <div class="anecdotes">
     <h3>Anecdotes</h3>
@@ -721,21 +555,7 @@ body {
     </div>
   </div>
 
-  <table class="voice-table">
-    <tbody>
-      <tr data-lang="cantonese"><td class="lang-cell">Cantonese</td><td class="voice-cell">"Agnes Lam" Lam Si-Cung / 林司聰</td></tr>
-      <tr data-lang="czech"><td class="lang-cell">Czech</td><td class="voice-cell">Barbora Červinková</td></tr>
-      <tr data-lang="english"><td class="lang-cell">English</td><td class="voice-cell">Katie Von Till</td></tr>
-      <tr data-lang="french"><td class="lang-cell">French</td><td class="voice-cell">Valérie Siclay</td></tr>
-      <tr data-lang="german"><td class="lang-cell">German</td><td class="voice-cell">Manja Doering</td></tr>
-      <tr data-lang="japanese"><td class="lang-cell">Japanese</td><td class="voice-cell">Kobato Kurumi / 小鳩くるみ</td></tr>
-      <tr data-lang="korean"><td class="lang-cell">Korean</td><td class="voice-cell">Lee Jae-hyeon / 이재현</td></tr>
-      <tr data-lang="mandarin taiwan"><td class="lang-cell">Taiwanese Mandarin</td><td class="voice-cell">Mù Xuān-Míng / 穆宣名</td></tr>
-      <tr data-lang="polish"><td class="lang-cell">Polish</td><td class="voice-cell">Zuzanna Caban</td></tr>
-      <tr data-lang="slovak"><td class="lang-cell">Slovak</td><td class="voice-cell">Natália Kóšová</td></tr>
-      <!-- AJOUTE LES AUTRES LANGUES ICI (Croatian, Danish, Dutch, Finnish, Greek, Hungarian, Indonesian, Italian, Malay, Norwegian, Brazilian Portuguese, Portuguese, Romanian, Spanish, Swedish, Thai) -->
-    </tbody>
-  </table>
+  <div class="voice-table-mount" id="voices-2026"></div>
 
   <div class="anecdotes">
     <h3>Anecdotes</h3>
@@ -756,22 +576,242 @@ body {
 
 <script>
 // ============================================================
+//  DONNEES DES VOIX PAR FILM
+//  MODIFIE ICI : chaque entrée = { lang: "...", voice: "..." }.
+//  Le champ "voice" accepte du HTML libre (<em>, scripts natifs, etc.)
+// ============================================================
+
+const voices_1937 = [
+  { lang: "Albanian 2002", voice: 'Julka Gramo <em>(speaking)</em> &amp; Adriana Caselotti <em>(singing - original version)</em>' },
+  { lang: "Albanian 2005", voice: 'Esmeralda Kame <em>(speaking)</em> &amp; Eltina Minarolli <em>(singing)</em>' },
+  { lang: "Arabic - Egyptian (1978)", voice: 'Fatma Mazhar / فاطمة مظهر <em>(speaking)</em> &amp; Ratiba Al-Hefny / رتيبة الحفني <em>(singing)</em>' },
+  { lang: "Arabic TV - Modern Standard (2015)", voice: 'Noha Qais / نهى قيس <em>(speaking &amp; singing)</em>' },
+  { lang: "Arabic - Modern Standard (2023)", voice: 'Shahd Ezz / شهد عز <em>(speaking &amp; singing)</em>' },
+  { lang: "Bulgarian (2001)", voice: 'Ventsislava Stoilova / Венцислава Стоилова <em>(speaking &amp; singing)</em>' },
+  { lang: "Cantonese (1995)", voice: '"Agnes Lam" Lam Si-Cung / 林司聰 <em>(speaking)</em> &amp; Ceoi Wai / 徐慧 <em>(singing)</em>' },
+  { lang: "Croatian (2009)", voice: 'Hana Hegedušić <em>(speaking &amp; singing)</em>' },
+  { lang: "Crimean Tatar TV (20??)", voice: '? <em>(speaking)</em> &amp; Adriana Caselotti <em>(singing - original version)</em>' },
+  { lang: "Czech 1938", voice: 'Ella Rixová <em>(speaking &amp; singing)</em>' },
+  { lang: "Czech 1970", voice: 'Klára Jerneková <em>(speaking)</em> &amp; Marie Sikulová <em>(singing)</em>' },
+  { lang: "Danish 1938", voice: 'Annie Jessen <em>(speaking &amp; singing)</em>' },
+  { lang: "Danish 1982", voice: 'Tove Hyldgaard <em>(speaking &amp; singing)</em>' },
+  { lang: "Dutch 1938", voice: 'Cecilia "Cilly" Bach <em>(speaking)</em> &amp; Frieda van Hessen <em>(singing)</em>' },
+  { lang: "Dutch 1984", voice: 'Bernadette Kraakman <em>(speaking &amp; singing)</em>' },
+  { lang: "English (1937)", voice: 'Adriana Caselotti <em>(speaking &amp; singing)</em>' },
+  { lang: "Finnish 1962", voice: 'Eeva-Kaarina Volanen <em>(speaking)</em> &amp; Tatiana Angelini <em>(singing - original Swedish version)</em>' },
+  { lang: "Finnish 1982", voice: 'Jaana Oravisto <em>(speaking)</em> &amp; Johanna Nurmimaa <em>(singing)</em>' },
+  { lang: "Finnish 1994", voice: 'Riikka Väyrynen <em>(speaking)</em> &amp; Kukka-Maaria Ahonen <em>(singing)</em>' },
+  { lang: "French 1938", voice: 'Christiane Tourneur <em>(speaking)</em> &amp; Beatrice Hagen <em>(singing)</em>' },
+  { lang: "French 1962", voice: 'Lucie Dolène <em>(speaking &amp; singing)</em>' },
+  { lang: "French 2001", voice: 'Valérie Siclay <em>(speaking)</em> &amp; Rachel Pignot <em>(singing)</em>' },
+  { lang: "German 1938", voice: 'Hortense Raky <em>(speaking)</em> &amp; Claire Eiselmeyer <em>(singing)</em>' },
+  { lang: "German 1966", voice: 'Uschi Wolff <em>(speaking)</em> &amp; Susanne Tremper <em>(singing)</em>' },
+  { lang: "German 1994", voice: 'Manja Doering <em>(speaking)</em> &amp; Alexandra Wilcke <em>(singing)</em>' },
+  { lang: "Greek (1974)", voice: 'Matína Karrá / Ματίνα Καρρά <em>(speaking)</em> &amp; Mítsa Roúti / Μήτσα Ρούτη <em>(singing)</em>' },
+  { lang: "Hebrew (1992)", voice: 'Orit Yaron / אורית ירון <em>(speaking)</em> &amp; Limor Shapira / לימור שפירא <em>(singing)</em>' },
+  { lang: "Hindi (2005)", voice: "Marianne D'Cruz Aiman <em>(speaking &amp; singing)</em>" },
+  { lang: "Hungarian 1962", voice: 'Váradi Hédi <em>(speaking)</em> &amp; Házy Erzsébet <em>(singing)</em>' },
+  { lang: "Hungarian 2001", voice: 'Oroszlán Szonja <em>(speaking &amp; singing)</em>' },
+  { lang: "Icelandic (2001)", voice: 'Vigdís Hrefna Pálsdóttir <em>(speaking &amp; singing)</em>' },
+  { lang: "Indonesian (2013)", voice: 'Apriliana Suci Ariesta <em>(speaking)</em> &amp; Justina Penina <em>(singing)</em>' },
+  { lang: "Italian 1938", voice: 'Rosetta Calavetta <em>(speaking)</em> &amp; Lina Pagliughi <em>(singing)</em>' },
+  { lang: "Italian 1972", voice: 'Melina Martello <em>(speaking)</em> &amp; Gianna Spagnulo <em>(singing)</em>' },
+  { lang: "Japanese 1958", voice: 'Tomizawa Shima / 富沢志満 <em>(speaking &amp; ?)</em>' },
+  { lang: "Japanese 1980", voice: 'Kobato Kurumi / 小鳩くるみ <em>(speaking &amp; singing)</em>' },
+  { lang: "Kazakh (2015)", voice: 'Nazerke Serıkbolova / Назерке Серікболова <em>(speaking)</em> &amp; Janargul Janyamanova / Жанаргуль Жаныаманова <em>(singing)</em>' },
+  { lang: "Korean (1994)", voice: 'Kim Su-gyeong / 김수경 <em>(speaking)</em> &amp; Lee Yun-seon / 이윤선 <em>(singing)</em>' },
+  { lang: "Malay (2013?)", voice: '"Suki Low" Low Sook Yee / Liú Shūyú / 劉紓妤 <em>(singing)</em> &amp; Yatie Maslini <em>(speaking)</em>' },
+  { lang: "Mandarin - Taiwan (????)", voice: '"Corisa Lee" Lǐ Zhí-Píng / 李直平 <em>(speaking)</em> &amp; "Judy Chen" Chén Xiù-Zhū / 陳秀珠 <em>(singing)</em>' },
+  { lang: "Mandarin - China (2009)", voice: 'Wú Xiǎo-Lěi / 吴晓蕾 <em>(speaking)</em> &amp; "Judy Chen" Chén Xiù-Zhū / 陳秀珠 <em>(singing - Taiwanese Mandarin version)</em>' },
+  { lang: "Norwegian 1983", voice: 'Unn Vibeke Hol <em>(speaking)</em> &amp; Anne Lise Gjøstøl <em>(singing)</em>' },
+  { lang: "Norwegian 1994", voice: 'Unn Vibeke Hol <em>(speaking)</em> &amp; Anne Aartun <em>(singing)</em>' },
+  { lang: "Polish 1938", voice: 'Maria Modzelewska <em>(speaking &amp; singing)</em>' },
+  { lang: "Polish 2009", voice: 'Edyta Krzemień <em>(speaking &amp; singing)</em>' },
+  { lang: "Portuguese - Brazilian 1938", voice: 'Dalva de Oliveira <em>(speaking)</em> &amp; Maria Clara Tati Jacome <em>(singing)</em>' },
+  { lang: "Portuguese - Brazilian 1965", voice: 'Maria Alice Barreto <em>(speaking)</em> &amp; Cybele Freire <em>(singing)</em>' },
+  { lang: "Portuguese (2001)", voice: 'Sandra de Castro <em>(speaking &amp; singing)</em>' },
+  { lang: "Romanian (2009)", voice: 'Mediana Vlad <em>(speaking &amp; singing)</em>' },
+  { lang: "Russian (2001)", voice: 'Yevgeniya Igumnova / Евгения Игумнова <em>(speaking)</em> &amp; Yelena Ushakova / Елена Ушакова <em>(singing)</em>' },
+  { lang: "Serbian (2019)", voice: 'Irina Arsenijević / Ирина Арсенијевић <em>(speaking &amp; singing)</em>' },
+  { lang: "Slovak (1970)", voice: 'Darina Chmurová <em>(speaking)</em> &amp; Cecília Lévaiová <em>(singing)</em>' },
+  { lang: "Spanish - Latin American 1938", voice: 'Thelma Hubbard <em>(speaking)</em> &amp; Diana Castillo <em>(singing)</em>' },
+  { lang: "Spanish - Latin American 1964", voice: 'Amparo Garrido <em>(speaking)</em> &amp; Lupita Pérez Arias <em>(singing)</em>' },
+  { lang: "Spanish - Latin American 2001", voice: 'Maggie Vera <em>(speaking)</em> + Alicia Diana Santos <em>(one loop speaking)</em> &amp; Vikina Michel <em>(singing)</em>' },
+  { lang: "Spanish - Castilian (2001)", voice: 'Mar Bordallo <em>(speaking)</em> &amp; Yolanda de las Heras <em>(singing)</em>' },
+  { lang: "Swedish 1938", voice: 'Tatiana Angelini <em>(speaking &amp; singing)</em>' },
+  { lang: "Swedish 1982", voice: 'Anna-Lotta Larsson <em>(speaking &amp; singing)</em>' },
+  { lang: "Tamil (????)", voice: "?" },
+  { lang: "Telugu (????)", voice: "?" },
+  { lang: "Thai 1994", voice: 'Marisa Sukosol Nunbhakdi / มาริสา สุโกศล หนุนภักดี <em>(speaking &amp; singing)</em>' },
+  { lang: "Thai 2001", voice: 'Netnapha Hanrotchanawut / เนตรนภา หาญโรจนวุฒิ <em>(speaking)</em> &amp; Chairat Phithakcharoen / ใจรัตน์ พิทักษ์เจริญ <em>(singing)</em>' },
+  { lang: "Turkish (2009)", voice: 'Aliye Mutlu <em>(speaking &amp; singing)</em>' },
+  { lang: "Ukrainian (2010)", voice: 'Anzhelika Savchenko / Анжеліка Савченко <em>(speaking &amp; singing)</em>' }
+];
+
+const radio_1937 = [
+  { lang: "Estonian - Radio Play (1956)", voice: 'Ellu Puudist <em>(speaking)</em> &amp; Veera Nelus <em>(singing)</em>' },
+  { lang: "Latvian - Radio Play (1958)", voice: 'Dagmāra Kupce <em>(speaking &amp; singing)</em>' },
+  { lang: "Icelandic - LP (1978)", voice: 'Ólöf Kolbrún Harðardóttir <em>(singing)</em>' },
+  { lang: 'Serbian - LP (1971) ("Whistle While You Work")', voice: 'Milica Manojlović / Милица Манојловић <em>(singing)</em>' }
+];
+
+const voices_2014 = [
+  { lang: "Arabic - Modern Standard", voice: 'Noha Qais / نهى قيس' },
+  { lang: "Croatian", voice: "Monika Barberović" },
+  { lang: "English", voice: "Katherine Von Till" },
+  { lang: "Finnish", voice: "Riikka Väyrynen-Timonen" },
+  { lang: "French", voice: "Laetitia Liénart (?)" },
+  { lang: "German", voice: "Manja Doering" },
+  { lang: "Japanese", voice: 'Kobato Kurumi / 小鳩くるみ' },
+  { lang: "Korean", voice: 'Jeong Hyeon-gyeong / 정현경' },
+  { lang: "Russian", voice: 'Kseniya Brzhezovskaya / Ксения Бржезовская' },
+  { lang: "Spanish - Latin American", voice: "Maggie Vera" },
+  { lang: "Spanish - Castilian", voice: "Mar Bordallo" }
+  // AJOUTE LES AUTRES LANGUES ICI (Albanian, Bulgarian, Cantonese, Czech, Danish, Dutch, Greek, Hebrew, Hindi, Hungarian, Indonesian, Italian, Malay, Mandarin, Norwegian, Polish, Portuguese, Romanian, Serbian, Slovak, Slovene, Swedish, Tagalog, Tamil, Telugu, Thai, Turkish, Ukrainian)
+];
+
+const voices_2018 = [
+  { lang: "English", voice: 'Pamela Ribon <em>(speaking &amp; vocalizations)</em>' },
+  { lang: "French", voice: 'Valérie Siclay <em>(speaking &amp; ?)</em>' },
+  { lang: "German", voice: 'Magdalena Höfner <em>(speaking &amp; ?)</em>' },
+  { lang: "Italian", voice: 'Ilaria Latini <em>(speaking &amp; ?)</em>' },
+  { lang: "Korean", voice: 'Sa Mun-yeong / 사문영 <em>(speaking &amp; vocalizations)</em>' },
+  { lang: "Mandarin - China", voice: 'Wú Xiǎo-Lěi / 吴晓蕾 <em>(speaking &amp; ?)</em>' },
+  { lang: "Polish", voice: 'Edyta Krzemień <em>(speaking &amp; vocalizes)</em>' },
+  { lang: "Russian", voice: 'Yuliya Churakova / Юлия Чуракова <em>(speaking &amp; ?)</em>' },
+  { lang: "Spanish - Latin American", voice: 'Maggie Vera <em>(speaking &amp; ?)</em>' },
+  { lang: "Spanish - Castilian", voice: 'Mar Bordallo <em>(speaking &amp; ?)</em>' },
+  { lang: "Turkish", voice: 'Aliye Mutlu <em>(speaking &amp; vocalizes)</em>' }
+  // AJOUTE LES AUTRES LANGUES ICI (Albanian, Arabic, Bulgarian, Cantonese, Catalan, Croatian, Czech, Danish, Dutch, Estonian, Finnish, Flemish, French-Quebec, Greek, Hebrew, Hindi, Hungarian, Icelandic, Indonesian, Japanese, Kazakh, Latvian, Lithuanian, Malay, Mandarin-Taiwan, Norwegian, Portuguese, Romanian, Serbian, Slovak, Slovene, Swedish, Thai, Ukrainian, Vietnamese)
+];
+
+const voices_2023a = [
+  { lang: "Arabic - Egyptian", voice: 'Noha Qais / نهى قيس' },
+  { lang: "Arabic - Modern Standard", voice: 'Noha Qais / نهى قيس' },
+  { lang: "Czech", voice: "Barbora Červinková" },
+  { lang: "Danish", voice: "Karoline Hamm" },
+  { lang: "Dutch", voice: "Maria Hengst" },
+  { lang: "English", voice: "Katherine Von Till" },
+  { lang: "French", voice: "Valérie Siclay" },
+  { lang: "German", voice: "Manja Doering" },
+  { lang: "Japanese", voice: 'Kobato Kurumi / 小鳩くるみ' },
+  { lang: "Korean", voice: 'Lee Jae-hyeon / 이재현' },
+  { lang: "Polish", voice: "Zuzanna Caban" },
+  { lang: "Spanish - Latin American", voice: "Maggie Vera" },
+  { lang: "Spanish - Castilian", voice: "Mar Bordallo" },
+  { lang: "Turkish", voice: "Nermin Koçak" }
+  // AJOUTE LES AUTRES LANGUES ICI (Finnish, Greek, Hungarian, Italian, Norwegian, Portuguese, Romanian, Slovak, Swedish)
+];
+
+const voices_2023b = [
+  { lang: "Czech", voice: "Nikola Ďuricová" },
+  { lang: "Dutch", voice: "Maria Hengst" },
+  { lang: "English", voice: "Natalie Babbitt Taylor" },
+  { lang: "French", voice: "Rachel Pignot" },
+  { lang: "German", voice: "Katrin Taylor" },
+  { lang: "Hebrew", voice: 'Alona Alexander / אלונה אלכסנדר' },
+  { lang: "Polish", voice: "Edyta Krzemień" },
+  { lang: "Romanian", voice: "Mediana Vlad" },
+  { lang: "Serbian", voice: 'Irina Arsenijević / Ирина Арсенијевић' },
+  { lang: "Slovak", voice: "Natália Kóšová" },
+  { lang: "Turkish", voice: "Selen Severcan" }
+  // AJOUTE LES AUTRES LANGUES ICI (Arabic, Bulgarian, Danish, Finnish, Greek, Hindi, Hungarian, Italian, Japanese, Mandarin, Norwegian, Portuguese, Spanish, Swedish, Tamil, Telugu, Ukrainian)
+];
+
+const voices_2025a = [
+  { lang: "Arabic - Egyptian", voice: 'Rana Adel / رنا عادل <em>(speaking &amp; singing)</em>' },
+  { lang: "Arabic - Modern Standard", voice: 'Rana Adel / رنا عادل <em>(speaking &amp; singing)</em>' },
+  { lang: "French", voice: 'Emmylou Homs <em>(speaking &amp; singing)</em>' },
+  { lang: "French - Quebec", voice: 'Romane Denis <em>(speaking &amp; singing)</em>' },
+  { lang: "German", voice: 'Sophia Riedl <em>(speaking &amp; singing)</em>' },
+  { lang: "Italian", voice: 'Arianna Vignoli <em>(speaking)</em> &amp; Eleonora Segaluscio <em>(singing)</em>' },
+  { lang: "Japanese", voice: 'Kiryu Sakura / 吉柳咲良 <em>(speaking &amp; singing)</em>' },
+  { lang: "Korean", voice: 'Kim Su-yeon / 김수연 <em>(speaking &amp; singing)</em>' },
+  { lang: "Polish", voice: 'Katarzyna Sawczuk <em>(speaking &amp; singing)</em>' },
+  { lang: "Slovak", voice: 'Natália Kóšová <em>(speaking &amp; singing)</em>' },
+  { lang: "Spanish - Latin American", voice: 'Mariana Dávila <em>(speaking &amp; singing)</em>' },
+  { lang: "Spanish - Castilian", voice: 'Laura Pastor <em>(speaking)</em> &amp; Anabel García <em>(singing)</em>' },
+  { lang: "Turkish", voice: 'Selen Severcan <em>(speaking &amp; singing)</em>' }
+  // AJOUTE LES AUTRES LANGUES ICI (Bulgarian, Croatian, Danish, Dutch, Finnish, Flemish, Georgian, Greek, Hebrew, Hindi, Hungarian, Kazakh, Mandarin, Norwegian, Portuguese, Romanian, Russian, Serbian, Slovene, Swedish, Thai, Ukrainian, Vietnamese)
+];
+
+const voices_2025b = [
+  { lang: "Cantonese", voice: '"Agnes Lam" Lam Si-Cung / 林司聰' },
+  { lang: "English", voice: "Katherine Von Till" },
+  { lang: "French", voice: "Valérie Siclay" },
+  { lang: "German", voice: "Manja Doering" },
+  { lang: "Japanese", voice: 'Kobato Kurumi / 小鳩くるみ' },
+  { lang: "Korean", voice: 'Lee Jae-hyeon / 이재현' },
+  { lang: "Mandarin - Taiwan", voice: 'Mù Xuān-Míng / 穆宣名' },
+  { lang: "Portuguese", voice: "Carla Mendes" },
+  { lang: "Slovak", voice: "Natália Kóšová" }
+  // AJOUTE LES AUTRES LANGUES ICI (Arabic, Czech, Danish, Dutch, Finnish, Greek, Hebrew, Hungarian, Indonesian, Italian, Malay, Norwegian, Polish, Brazilian Portuguese, Romanian, Spanish, Swedish, Thai, Turkish)
+];
+
+const voices_2026 = [
+  { lang: "Cantonese", voice: '"Agnes Lam" Lam Si-Cung / 林司聰' },
+  { lang: "Czech", voice: "Barbora Červinková" },
+  { lang: "English", voice: "Katie Von Till" },
+  { lang: "French", voice: "Valérie Siclay" },
+  { lang: "German", voice: "Manja Doering" },
+  { lang: "Japanese", voice: 'Kobato Kurumi / 小鳩くるみ' },
+  { lang: "Korean", voice: 'Lee Jae-hyeon / 이재현' },
+  { lang: "Taiwanese Mandarin", voice: 'Mù Xuān-Míng / 穆宣名' },
+  { lang: "Polish", voice: "Zuzanna Caban" },
+  { lang: "Slovak", voice: "Natália Kóšová" }
+  // AJOUTE LES AUTRES LANGUES ICI (Croatian, Danish, Dutch, Finnish, Greek, Hungarian, Indonesian, Italian, Malay, Norwegian, Brazilian Portuguese, Portuguese, Romanian, Spanish, Swedish, Thai)
+];
+
+// ============================================================
+//  RENDU DES TABLEAUX DE VOIX
+//  Fonction générique : construit le <table> à partir d'un tableau
+//  { lang, voice } et l'insère dans le point de montage (id fourni).
+// ============================================================
+
+function renderVoiceTable(mountId, data) {
+  const mount = document.getElementById(mountId);
+  if (!mount) return;
+
+  const table = document.createElement('table');
+  table.className = 'voice-table';
+  const tbody = document.createElement('tbody');
+
+  data.forEach(entry => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td class="lang-cell">${entry.lang}</td><td class="voice-cell">${entry.voice}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  table.appendChild(tbody);
+  mount.appendChild(table);
+}
+
+renderVoiceTable('voices-1937', voices_1937);
+renderVoiceTable('radio-1937', radio_1937);
+renderVoiceTable('voices-2014', voices_2014);
+renderVoiceTable('voices-2018', voices_2018);
+renderVoiceTable('voices-2023a', voices_2023a);
+renderVoiceTable('voices-2023b', voices_2023b);
+renderVoiceTable('voices-2025a', voices_2025a);
+renderVoiceTable('voices-2025b', voices_2025b);
+renderVoiceTable('voices-2026', voices_2026);
+
+// ============================================================
 //  CALCUL AUTOMATIQUE DE data-lang
 //  Pour chaque ligne du tableau qui n'a pas déjà un data-lang manuel,
-//  on le déduit automatiquement du texte affiché dans la langue.
-//  Tu n'as donc PLUS BESOIN d'écrire data-lang="..." toi-même :
-//    <tr><td class="lang-cell">Albanian 2002</td><td class="voice-cell">...</td></tr>
-//  suffit. Tu peux quand même en mettre un manuellement si tu veux un
-//  mot-clé de recherche différent du texte affiché (ex: une variante
-//  orthographique), il sera alors utilisé à la place.
+//  on le déduit automatiquement du texte affiché : la langue ET les
+//  noms des voix (acteurs). Tu n'as donc PLUS BESOIN d'écrire
+//  data-lang="..." toi-même :
+//    <tr><td class="lang-cell">Albanian 2002</td><td class="voice-cell">Julka Gramo...</td></tr>
+//  suffit, et chercher "Julka" ou "Albanian" fonctionnera pareil.
+//  Tu peux quand même en mettre un manuellement si tu veux un mot-clé
+//  de recherche différent du texte affiché, il sera alors utilisé à
+//  la place (et n'inclura pas automatiquement les noms des voix).
 // ============================================================
 
 document.querySelectorAll('.voice-table tr').forEach(row => {
   if (!row.dataset.lang) {
-    const langCell = row.querySelector('.lang-cell');
-    if (langCell) {
-      row.dataset.lang = langCell.textContent.toLowerCase();
-    }
+    row.dataset.lang = row.textContent.toLowerCase();
   }
 });
 
