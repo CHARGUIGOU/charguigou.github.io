@@ -17,6 +17,7 @@ layout: null
   --banner-title-size: 50px;   /* taille du titre incrusté sur le bandeau */
   --banner-pad-side: 80px;     /* retrait du titre depuis le bord gauche/droit du bandeau */
   --banner-title-bottom: 30px; /* remonte le titre depuis le bas du bandeau */
+  --banner-margin-bottom: 30px; /* espace entre le bandeau et le contenu qui suit */
   --year-color: #7ea6d8;       /* couleur des années/dates (bleu pastel) */
 }
 
@@ -188,7 +189,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   width: 100vw;
-  margin: 24px 0 16px;
+  margin: 24px 0 var(--banner-margin-bottom);   /* espace entre le bandeau et ce qui suit (voix, "Portrayed by"...) */
   overflow: hidden;
 }
 
@@ -198,7 +199,14 @@ body {
    "onerror" sur chaque <img> (voir plus bas), pas besoin d'y toucher. */
 .film-header.banner-fallback {
   min-height: var(--banner-height);
-  background: linear-gradient(to bottom, #ffffff 0%, #1a4a8a 45%, #0d2c54 100%);
+  background: linear-gradient(to bottom,
+    #ffffff 0%,
+    #e4ecf6 15%,
+    #a9c0e0 35%,
+    #4874ad 55%,
+    #1a4a8a 75%,
+    #0d2c54 100%
+  );
 }
 
 /* L'IMAGE du bandeau elle-même (hauteur et cadrage via variables --root) */
@@ -255,14 +263,18 @@ body {
 }
 
 .portrayed-by {
-  font-style: italic;
   color: #666;
   font-size: 14px;
-  margin: 16px var(--page-margin) 20px;
+  text-align: right;
+  margin: 16px var(--page-margin) 6px;
+}
+.portrayed-by em {
+  font-style: italic;
 }
 
 /* Tableau des doublages */
 .voice-table {
+  table-layout: fixed;   /* force la colonne "langue" à toujours faire la même largeur, même si un texte est très long dans un autre tableau (ex: Radio Plays & LPs) */
   width: calc(100% - 2 * var(--page-margin));
   margin: 16px var(--page-margin) 0;
   border-collapse: collapse;
@@ -291,7 +303,7 @@ body {
   width: 230px;                 /* largeur de la colonne (= où "commence" la voix) */
   text-align: right;            /* aligne le texte à droite dans sa colonne */
   padding-right: 14px !important;
-  white-space: nowrap;
+  white-space: normal;          /* les langues très longues passent à la ligne au lieu de déborder */
 }
 
 /* Le " :" ajouté automatiquement après chaque langue (tu n'as pas à le taper) */
@@ -591,7 +603,7 @@ body.searching .subgroup-title {
       <h2 class="film-title">Snow White (Live-action) <span class="film-year">(2025)</span></h2>
     </div>
   </div>
-  <p class="portrayed-by">Portrayed by: Rachel Zegler</p>
+  <p class="portrayed-by"><em>Portrayed by</em> Rachel Zegler</p>
 
   <div class="voice-table-mount" id="voices-2025a"></div>
 
@@ -662,7 +674,6 @@ body.searching .subgroup-title {
 <button id="backToTop" aria-label="Back to top">
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M12 3c-1 0-1.8.8-1.8 1.8v6.4L8.6 9.6a1.6 1.6 0 0 0-2.3 2.2l4.2 4.4c.8.8 2.1.8 2.9 0l4.2-4.4a1.6 1.6 0 0 0-2.3-2.2l-1.6 1.6V4.8C13.8 3.8 13 3 12 3z" fill="#1a4a8a" transform="rotate(180 12 12)"/>
-    <rect x="6" y="17.5" width="12" height="2.5" rx="1.25" fill="#1a4a8a"/>
   </svg>
 </button>
 
