@@ -71,21 +71,23 @@ body {
   min-width: 280px;
 }
 
+/* Le "Snow White" affiché en haut à gauche de la page */
 .page-title {
   font-family: var(--name-font);
-  font-size: 44px;
+  font-size: 44px;      /* ← taille du titre de la page */
   font-weight: 400;
   color: #222;
   margin: 0 0 18px;
   text-align: left;
 }
 
+/* La barre de recherche elle-même (champ de saisie) */
 #langSearch {
   width: 100%;
-  max-width: 380px;
+  max-width: 380px;     /* largeur maximale de la barre */
   display: block;
   padding: 10px 16px;
-  font-size: 14px;
+  font-size: 14px;       /* taille du texte tapé/placeholder */
   border-radius: 10px;
   border: 1px solid #ccc;
   box-sizing: border-box;
@@ -93,10 +95,11 @@ body {
 }
 #langSearch:focus {
   outline: none;
-  border-color: #7da1c9;
+  border-color: #7da1c9;   /* couleur de la bordure quand on clique dedans */
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
+/* Le petit texte "X appearances found" sous la barre de recherche */
 #langResultInfo {
   font-size: 12px;
   color: #888;
@@ -106,17 +109,20 @@ body {
 /* ============================================================
    SOMMAIRE façon Wikipédia : boîte avec liste numérotée
    ============================================================ */
+
+/* La BOÎTE grise entière (fond, bordure, largeur) */
 .toc {
-  flex: 0 0 340px;
+  flex: 0 0 340px;       /* largeur fixe de l'encadré */
   padding: 16px 24px;
-  background: #f8f9fa;
+  background: #f8f9fa;   /* couleur de fond */
   border: 1px solid #dcdcdc;
   border-radius: 4px;
   box-sizing: border-box;
 }
 
+/* Le mot "Contents" tout en haut de l'encadré */
 .toc-title {
-  font-size: var(--toc-title-size);
+  font-size: var(--toc-title-size);  /* variable définie tout en haut du fichier */
   font-weight: 700;
   text-align: center;
   margin: 0 0 10px;
@@ -188,35 +194,45 @@ body {
   overflow: hidden;
 }
 
+/* L'IMAGE du bandeau elle-même (hauteur et cadrage via variables --root) */
 .film-banner {
   width: 100%;
-  height: var(--banner-height);
+  height: var(--banner-height);          /* hauteur du bandeau, en haut du fichier */
   object-fit: cover;
-  object-position: var(--banner-position);
+  object-position: var(--banner-position); /* cadrage de l'image, en haut du fichier */
   display: block;
 }
 
+/* Le VOILE SOMBRE (dégradé) posé sur le bas de l'image, qui rend le
+   texte lisible peu importe la photo en dessous. */
 .film-header-overlay {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 14px var(--banner-pad-side);
+  padding: 14px var(--banner-pad-side);   /* retrait gauche/droite du titre */
   background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));
 }
 
+/* Le TITRE DU FILM incrusté sur le bandeau (ex: "Snow White and the
+   Seven Dwarfs"). Uniquement quand il est DANS le bandeau (via l'overlay
+   ci-dessus) : voir plus bas ".film-title" pour la version normale
+   (actuellement inutilisée puisque tous les titres sont sur des bandeaux). */
 .film-header-overlay .film-title {
-  font-size: var(--banner-title-size);
+  font-size: var(--banner-title-size);    /* taille du titre, en haut du fichier */
   color: #fff;
   margin: 0;
   text-shadow: 0 2px 6px rgba(0,0,0,0.5);
 }
 
+/* L'ANNÉE entre parenthèses à côté du titre incrusté (ex: "(1937)") */
 .film-header-overlay .film-year {
-  color: inherit;
+  color: inherit;    /* prend la même couleur (blanc) que le titre juste au-dessus */
   font-weight: 600;
 }
 
+/* Version "de secours" du titre de film SI jamais il n'était pas incrusté
+   sur un bandeau (pas utilisée actuellement, gardée par sécurité). */
 .film-title {
   font-family: var(--name-font);
   font-size: 28px;
@@ -225,6 +241,7 @@ body {
   margin: 0 0 4px;
 }
 
+/* Version "de secours" de l'année (idem, pas utilisée actuellement) */
 .film-year {
   color: var(--year-color);
   font-weight: 600;
@@ -244,31 +261,55 @@ body {
   border-collapse: collapse;
 }
 .voice-table tr {
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: none;
 }
 .voice-table tr.row-hidden {
   display: none;
 }
+
+/* TAILLE DE BASE de tout le tableau : la langue ET la voix en héritent
+   toutes les deux (sauf si une règle plus bas la change spécifiquement). */
 .voice-table td {
-  padding: 8px 10px;
-  font-size: 13.5px;
+  padding: 3px 10px;    /* espace entre les lignes (1er chiffre = vertical) */
+  font-size: 13.5px;    /* ← change ici pour agrandir/réduire TOUT le tableau */
   vertical-align: top;
 }
+
+/* Colonne de la LANGUE (ex: "Albanian 2002"). Pas de font-size propre ici :
+   elle hérite du 13.5px ci-dessus. Ajoute "font-size: XXpx;" dans ce bloc
+   si tu veux que les langues soient plus grandes/petites que les voix. */
 .lang-cell {
-  font-weight: 700;
-  color: #222;
-  width: 230px;
-  text-align: right;
+  font-weight: 700;             /* langue en gras */
+  color: #222;                  /* couleur du texte de la langue */
+  width: 230px;                 /* largeur de la colonne (= où "commence" la voix) */
+  text-align: right;            /* aligne le texte à droite dans sa colonne */
   padding-right: 14px !important;
   white-space: nowrap;
 }
+
+/* Le " :" ajouté automatiquement après chaque langue (tu n'as pas à le taper) */
 .lang-cell::after {
-  content: ":";
+  content: " :";
 }
+
+/* Style d'un <em>mot</em> À L'INTÉRIEUR d'une langue (ex: "Egyptian" dans
+   "Egyptian Arabic"). Reste en gras automatiquement (hérité de .lang-cell
+   juste au-dessus) : pas besoin de le repréciser ici. */
+.lang-cell em {
+  font-style: normal;   /* enlève l'italique par défaut des balises <em> */
+  font-size: 0.85em;    /* ← TAILLE de "Egyptian" : 85% de la taille de la langue */
+}
+
+/* Style d'un <em>mot</em> À L'INTÉRIEUR de la voix (ex: "(speaking)",
+   "(singing)"). Pas de "color" ici : ils prennent donc automatiquement
+   la même couleur que le nom juste à côté. */
 .voice-cell em {
-  color: #888;
-  font-style: italic;
+  font-style: normal;
+  font-size: 0.82em;    /* ← TAILLE de "(speaking)" / "(singing)" */
 }
+
+/* Colonne de la VOIX (le nom de l'acteur/actrice). Pas de font-size propre
+   non plus : hérite du 13.5px de .voice-table td tout en haut de ce bloc. */
 .voice-cell a {
   color: #1a0dab;
   text-decoration: none;
@@ -277,6 +318,7 @@ body {
   text-decoration: underline;
 }
 
+/* Le texte "Radio Plays & LPs" au-dessus du tableau correspondant */
 .subgroup-title {
   font-size: 14px;
   font-weight: 700;
@@ -284,13 +326,14 @@ body {
   margin: 26px var(--page-margin) 4px;
 }
 
-/* Anecdotes */
+/* La BOÎTE crème "Anecdotes" (fond, coins arrondis) */
 .anecdotes {
   margin: 26px var(--page-margin) 0;
-  background: #faf8f3;
+  background: #faf8f3;      /* couleur de fond de la boîte */
   border-radius: 8px;
   padding: 16px 20px;
 }
+/* Le mot "ANECDOTES" en majuscules, tout en haut de la boîte */
 .anecdotes h3 {
   font-size: 13px;
   letter-spacing: 1px;
@@ -302,8 +345,9 @@ body {
   margin: 0;
   padding-left: 18px;
 }
+/* Le texte de chaque anecdote elle-même */
 .anecdotes li {
-  font-size: 13px;
+  font-size: 13px;      /* ← taille du texte des anecdotes */
   line-height: 1.6;
   margin-bottom: 8px;
   color: #444;
@@ -336,8 +380,9 @@ body {
 
 <!-- ============================================================
      TITRE + RECHERCHE (gauche) / SOMMAIRE (droite)
-     MODIFIE ICI : ajoute une ligne <li> par film dans le sommaire,
-     dans le même ordre que les sections plus bas
+     Le sommaire de droite se remplit TOUT SEUL à partir des sections
+     film plus bas (voir le script en bas de page) : tu n'as jamais
+     besoin d'y toucher, même en ajoutant un nouveau film.
      ============================================================ -->
 <div class="top-section">
   <div class="top-left">
@@ -348,16 +393,7 @@ body {
 
   <nav class="toc" id="toc">
     <div class="toc-title">Contents</div>
-    <ol>
-      <li><a href="#film-1937">Snow White and the Seven Dwarfs (1937)</a></li>
-      <li><a href="#film-2014">Sofia the First: The Enchanted Feast (2014)</a></li>
-      <li><a href="#film-2018">Ralph Breaks the Internet (2018)</a></li>
-      <li><a href="#film-2023a">LEGO Disney Princess: The Castle Quest (2023)</a></li>
-      <li><a href="#film-2023b">Once Upon a Studio (2023)</a></li>
-      <li><a href="#film-2025a">Snow White (Live-action) (2025)</a></li>
-      <li><a href="#film-2025b">LEGO Disney Princess: Villains Unite (2025)</a></li>
-      <li><a href="#film-2026">LEGO Disney Princess: Magical Mayhem (2026)</a></li>
-    </ol>
+    <ol id="tocList"></ol>
   </nav>
 </div>
 
@@ -584,7 +620,7 @@ body {
 const voices_1937 = [
   { lang: "Albanian 2002", voice: 'Julka Gramo <em>(speaking)</em> &amp; Adriana Caselotti <em>(singing - original version)</em>' },
   { lang: "Albanian 2005", voice: 'Esmeralda Kame <em>(speaking)</em> &amp; Eltina Minarolli <em>(singing)</em>' },
-  { lang: "Arabic - Egyptian (1978)", voice: 'Fatma Mazhar / فاطمة مظهر <em>(speaking)</em> &amp; Ratiba Al-Hefny / رتيبة الحفني <em>(singing)</em>' },
+  { lang: '<em>Egyptian</em> Arabic (1978)', voice: 'Fatma Mazhar / فاطمة مظهر <em>(speaking)</em> &amp; Ratiba Al-Hefny / رتيبة الحفني <em>(singing)</em>' },
   { lang: "Arabic TV - Modern Standard (2015)", voice: 'Noha Qais / نهى قيس <em>(speaking &amp; singing)</em>' },
   { lang: "Arabic - Modern Standard (2023)", voice: 'Shahd Ezz / شهد عز <em>(speaking &amp; singing)</em>' },
   { lang: "Bulgarian (2001)", voice: 'Ventsislava Stoilova / Венцислава Стоилова <em>(speaking &amp; singing)</em>' },
@@ -849,6 +885,29 @@ function applyLangSearch() {
 }
 
 langSearch.addEventListener('keyup', applyLangSearch);
+
+// ============================================================
+//  SOMMAIRE : construit automatiquement à partir des sections film
+//  Pour chaque .film-section trouvée sur la page, on lit son id et
+//  le texte de son titre (.film-title), et on crée le lien correspondant.
+//  Tu n'as jamais besoin de modifier "Contents" toi-même : ajoute
+//  juste une nouvelle <section class="film-section" id="..."> plus
+//  bas avec son titre, et elle apparaîtra ici automatiquement.
+// ============================================================
+
+const tocList = document.getElementById('tocList');
+
+document.querySelectorAll('.film-section').forEach(section => {
+  const titleEl = section.querySelector('.film-title');
+  if (!titleEl) return;
+
+  const li = document.createElement('li');
+  const a = document.createElement('a');
+  a.href = '#' + section.id;
+  a.textContent = titleEl.textContent.trim();
+  li.appendChild(a);
+  tocList.appendChild(li);
+});
 
 // ============================================================
 //  SOMMAIRE : surligne le lien du film actuellement visible à l'écran
