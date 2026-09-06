@@ -1,0 +1,688 @@
+---
+layout: null
+---
+{% include header.html %}
+<!-- GOOGLE FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --page-margin: 10%;
+  --accent: #1a4a8a;
+  --hero-height: 320px;
+  --hero-zoom-duration: 22s;   /* durée d'un aller (puis retour) du zoom */
+  --hero-zoom-scale: 1.1;      /* jusqu'où l'image zoome */
+  --name-font: 'IM Fell English', serif;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #333;
+}
+
+/* ============================================================
+   HERO : nom du personnage + image en fond avec zoom lent
+   MODIFIE ICI : l'image de fond, le nom affiché
+   ============================================================ */
+.char-hero {
+  position: relative;
+  height: var(--hero-height);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.char-hero img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  /* Zoom en va-et-vient (alternate) : jamais de retour brutal, le mouvement est continu */
+  animation: heroZoom var(--hero-zoom-duration) ease-in-out infinite alternate;
+}
+
+/* Pour désactiver le zoom : commente la ligne "animation" ci-dessus,
+   ou remplace par : animation: none; */
+@keyframes heroZoom {
+  from { transform: scale(1); }
+  to   { transform: scale(var(--hero-zoom-scale)); }
+}
+
+.char-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.65), rgba(0,0,0,0.1) 60%, rgba(0,0,0,0.25));
+  z-index: 1;
+}
+
+.char-hero h1 {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  font-family: var(--name-font);
+  font-size: 54px;
+  font-weight: 400;
+  margin: 0 0 22px;
+  text-align: center;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+}
+
+/* ============================================================
+   BARRE DE RECHERCHE PAR LANGUE
+   ============================================================ */
+.lang-search-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #fff;
+  padding: 16px var(--page-margin);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-sizing: border-box;
+}
+
+#langSearch {
+  width: 100%;
+  max-width: 420px;
+  display: block;
+  margin: 0 auto;
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+#langSearch:focus {
+  outline: none;
+  border-color: #7da1c9;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+#langResultInfo {
+  text-align: center;
+  font-size: 12px;
+  color: #888;
+  margin-top: 8px;
+}
+
+/* ============================================================
+   SOMMAIRE (liens vers chaque film)
+   ============================================================ */
+.toc {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 26px var(--page-margin) 10px;
+}
+
+.toc a {
+  font-size: 12px;
+  color: var(--accent);
+  text-decoration: none;
+  border: 1px solid var(--accent);
+  border-radius: 20px;
+  padding: 6px 14px;
+  transition: background 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+.toc a:hover,
+.toc a.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ============================================================
+   SECTION PAR FILM
+   ============================================================ */
+.film-section {
+  padding: 40px var(--page-margin);
+  border-top: 1px solid #eee;
+  scroll-margin-top: 90px; /* pour que le clic du sommaire ne cache pas le titre sous la barre sticky */
+}
+
+.film-section.no-match {
+  display: none;
+}
+
+.film-title {
+  font-family: var(--name-font);
+  font-size: 28px;
+  font-weight: 400;
+  color: #222;
+  margin: 0 0 4px;
+}
+
+.film-year {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.portrayed-by {
+  font-style: italic;
+  color: #666;
+  font-size: 14px;
+  margin: 0 0 20px;
+}
+
+/* Tableau des doublages */
+.voice-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+.voice-table tr {
+  border-bottom: 1px solid #f0f0f0;
+}
+.voice-table tr.row-hidden {
+  display: none;
+}
+.voice-table td {
+  padding: 8px 10px;
+  font-size: 13.5px;
+  vertical-align: top;
+}
+.lang-cell {
+  font-weight: 700;
+  color: #222;
+  width: 230px;
+  white-space: nowrap;
+}
+.voice-cell em {
+  color: #888;
+  font-style: italic;
+}
+.voice-cell a {
+  color: #1a0dab;
+  text-decoration: none;
+}
+.voice-cell a:hover {
+  text-decoration: underline;
+}
+
+.subgroup-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 26px 0 4px;
+}
+
+/* Anecdotes */
+.anecdotes {
+  margin-top: 26px;
+  background: #faf8f3;
+  border-radius: 8px;
+  padding: 16px 20px;
+}
+.anecdotes h3 {
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 10px;
+}
+.anecdotes ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.anecdotes li {
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 8px;
+  color: #444;
+}
+.anecdotes a {
+  color: #1a0dab;
+  text-decoration: none;
+}
+.anecdotes a:hover {
+  text-decoration: underline;
+}
+
+.last-update {
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+  padding: 30px 0 60px;
+}
+
+@media (max-width: 700px) {
+  .char-hero h1 { font-size: 34px; }
+  .lang-cell { width: 150px; white-space: normal; }
+}
+</style>
+
+<!-- ============================================================
+     HERO
+     MODIFIE ICI : l'image et le nom du personnage
+     ============================================================ -->
+<div class="char-hero">
+  <img src="https://res.cloudinary.com/dofvjifeo/image/upload/SnowWhite1937.png" alt="Snow White">
+  <h1>Snow White</h1>
+</div>
+
+<!-- ============================================================
+     RECHERCHE PAR LANGUE
+     ============================================================ -->
+<div class="lang-search-wrap">
+  <input type="text" id="langSearch" placeholder="Search a language (e.g. French, Japanese...)">
+  <div id="langResultInfo"></div>
+</div>
+
+<!-- ============================================================
+     SOMMAIRE
+     MODIFIE ICI : ajoute un lien par film, dans le même ordre que les sections plus bas
+     ============================================================ -->
+<nav class="toc" id="toc">
+  <a href="#film-1937">Snow White and the Seven Dwarfs (1937)</a>
+  <a href="#film-2014">Sofia the First: The Enchanted Feast (2014)</a>
+  <a href="#film-2018">Ralph Breaks the Internet (2018)</a>
+  <a href="#film-2023a">LEGO Disney Princess: The Castle Quest (2023)</a>
+  <a href="#film-2023b">Once Upon a Studio (2023)</a>
+  <a href="#film-2025a">Snow White (Live-action) (2025)</a>
+  <a href="#film-2025b">LEGO Disney Princess: Villains Unite (2025)</a>
+  <a href="#film-2026">LEGO Disney Princess: Magical Mayhem (2026)</a>
+</nav>
+
+<!-- ============================================================
+     FILM 1 : Snow White and the Seven Dwarfs (1937)
+     MODIFIE ICI : chaque <tr> = une langue. data-lang contient le texte
+     utilisé pour la recherche (invisible) : mets-y le nom de la langue,
+     l'année, et toute variante utile (ex: nom natif, abréviation...).
+     ============================================================ -->
+<section class="film-section" id="film-1937">
+  <h2 class="film-title">Snow White and the Seven Dwarfs <span class="film-year">(1937)</span></h2>
+
+  <table class="voice-table">
+    <tbody>
+      <tr data-lang="albanian"><td class="lang-cell">Albanian 2002</td><td class="voice-cell">Julka Gramo <em>(speaking)</em> &amp; Adriana Caselotti <em>(singing - original version)</em></td></tr>
+      <tr data-lang="albanian"><td class="lang-cell">Albanian 2005</td><td class="voice-cell">Esmeralda Kame <em>(speaking)</em> &amp; Eltina Minarolli <em>(singing)</em></td></tr>
+      <tr data-lang="arabic egyptian"><td class="lang-cell">Arabic - Egyptian (1978)</td><td class="voice-cell">Fatma Mazhar / فاطمة مظهر <em>(speaking)</em> &amp; Ratiba Al-Hefny / رتيبة الحفني <em>(singing)</em></td></tr>
+      <tr data-lang="arabic modern standard"><td class="lang-cell">Arabic TV - Modern Standard (2015)</td><td class="voice-cell">Noha Qais / نهى قيس <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="arabic modern standard"><td class="lang-cell">Arabic - Modern Standard (2023)</td><td class="voice-cell">Shahd Ezz / شهد عز <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="bulgarian"><td class="lang-cell">Bulgarian (2001)</td><td class="voice-cell">Ventsislava Stoilova / Венцислава Стоилова <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="cantonese"><td class="lang-cell">Cantonese (1995)</td><td class="voice-cell">"Agnes Lam" Lam Si-Cung / 林司聰 <em>(speaking)</em> &amp; Ceoi Wai / 徐慧 <em>(singing)</em></td></tr>
+      <tr data-lang="croatian"><td class="lang-cell">Croatian (2009)</td><td class="voice-cell">Hana Hegedušić <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="crimean tatar"><td class="lang-cell">Crimean Tatar TV (20??)</td><td class="voice-cell">? <em>(speaking)</em> &amp; Adriana Caselotti <em>(singing - original version)</em></td></tr>
+      <tr data-lang="czech"><td class="lang-cell">Czech 1938</td><td class="voice-cell">Ella Rixová <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="czech"><td class="lang-cell">Czech 1970</td><td class="voice-cell">Klára Jerneková <em>(speaking)</em> &amp; Marie Sikulová <em>(singing)</em></td></tr>
+      <tr data-lang="danish"><td class="lang-cell">Danish 1938</td><td class="voice-cell">Annie Jessen <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="danish"><td class="lang-cell">Danish 1982</td><td class="voice-cell">Tove Hyldgaard <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="dutch"><td class="lang-cell">Dutch 1938</td><td class="voice-cell">Cecilia "Cilly" Bach <em>(speaking)</em> &amp; Frieda van Hessen <em>(singing)</em></td></tr>
+      <tr data-lang="dutch"><td class="lang-cell">Dutch 1984</td><td class="voice-cell">Bernadette Kraakman <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="english"><td class="lang-cell">English (1937)</td><td class="voice-cell">Adriana Caselotti <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="finnish"><td class="lang-cell">Finnish 1962</td><td class="voice-cell">Eeva-Kaarina Volanen <em>(speaking)</em> &amp; Tatiana Angelini <em>(singing - original Swedish version)</em></td></tr>
+      <tr data-lang="finnish"><td class="lang-cell">Finnish 1982</td><td class="voice-cell">Jaana Oravisto <em>(speaking)</em> &amp; Johanna Nurmimaa <em>(singing)</em></td></tr>
+      <tr data-lang="finnish"><td class="lang-cell">Finnish 1994</td><td class="voice-cell">Riikka Väyrynen <em>(speaking)</em> &amp; Kukka-Maaria Ahonen <em>(singing)</em></td></tr>
+      <tr data-lang="french"><td class="lang-cell">French 1938</td><td class="voice-cell">Christiane Tourneur <em>(speaking)</em> &amp; Beatrice Hagen <em>(singing)</em></td></tr>
+      <tr data-lang="french"><td class="lang-cell">French 1962</td><td class="voice-cell">Lucie Dolène <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="french"><td class="lang-cell">French 2001</td><td class="voice-cell">Valérie Siclay <em>(speaking)</em> &amp; Rachel Pignot <em>(singing)</em></td></tr>
+      <tr data-lang="german"><td class="lang-cell">German 1938</td><td class="voice-cell">Hortense Raky <em>(speaking)</em> &amp; Claire Eiselmeyer <em>(singing)</em></td></tr>
+      <tr data-lang="german"><td class="lang-cell">German 1966</td><td class="voice-cell">Uschi Wolff <em>(speaking)</em> &amp; Susanne Tremper <em>(singing)</em></td></tr>
+      <tr data-lang="german"><td class="lang-cell">German 1994</td><td class="voice-cell">Manja Doering <em>(speaking)</em> &amp; Alexandra Wilcke <em>(singing)</em></td></tr>
+      <tr data-lang="greek"><td class="lang-cell">Greek (1974)</td><td class="voice-cell">Matína Karrá / Ματίνα Καρρά <em>(speaking)</em> &amp; Mítsa Roúti / Μήτσα Ρούτη <em>(singing)</em></td></tr>
+      <tr data-lang="hebrew"><td class="lang-cell">Hebrew (1992)</td><td class="voice-cell">Orit Yaron / אורית ירון <em>(speaking)</em> &amp; Limor Shapira / לימור שפירא <em>(singing)</em></td></tr>
+      <tr data-lang="hindi"><td class="lang-cell">Hindi (2005)</td><td class="voice-cell">Marianne D'Cruz Aiman <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="hungarian"><td class="lang-cell">Hungarian 1962</td><td class="voice-cell">Váradi Hédi <em>(speaking)</em> &amp; Házy Erzsébet <em>(singing)</em></td></tr>
+      <tr data-lang="hungarian"><td class="lang-cell">Hungarian 2001</td><td class="voice-cell">Oroszlán Szonja <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="icelandic"><td class="lang-cell">Icelandic (2001)</td><td class="voice-cell">Vigdís Hrefna Pálsdóttir <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="indonesian"><td class="lang-cell">Indonesian (2013)</td><td class="voice-cell">Apriliana Suci Ariesta <em>(speaking)</em> &amp; Justina Penina <em>(singing)</em></td></tr>
+      <tr data-lang="italian"><td class="lang-cell">Italian 1938</td><td class="voice-cell">Rosetta Calavetta <em>(speaking)</em> &amp; Lina Pagliughi <em>(singing)</em></td></tr>
+      <tr data-lang="italian"><td class="lang-cell">Italian 1972</td><td class="voice-cell">Melina Martello <em>(speaking)</em> &amp; Gianna Spagnulo <em>(singing)</em></td></tr>
+      <tr data-lang="japanese"><td class="lang-cell">Japanese 1958</td><td class="voice-cell">Tomizawa Shima / 富沢志満 <em>(speaking &amp; ?)</em></td></tr>
+      <tr data-lang="japanese"><td class="lang-cell">Japanese 1980</td><td class="voice-cell">Kobato Kurumi / 小鳩くるみ <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="kazakh"><td class="lang-cell">Kazakh (2015)</td><td class="voice-cell">Nazerke Serıkbolova / Назерке Серікболова <em>(speaking)</em> &amp; Janargul Janyamanova / Жанаргуль Жаныаманова <em>(singing)</em></td></tr>
+      <tr data-lang="korean"><td class="lang-cell">Korean (1994)</td><td class="voice-cell">Kim Su-gyeong / 김수경 <em>(speaking)</em> &amp; Lee Yun-seon / 이윤선 <em>(singing)</em></td></tr>
+      <tr data-lang="malay"><td class="lang-cell">Malay (2013?)</td><td class="voice-cell">Yatie Maslini <em>(speaking)</em> &amp; "Suki Low" Low Sook Yee / Liú Shūyú / 劉紓妤 <em>(singing)</em></td></tr>
+      <tr data-lang="mandarin taiwan"><td class="lang-cell">Mandarin - Taiwan (????)</td><td class="voice-cell">"Corisa Lee" Lǐ Zhí-Píng / 李直平 <em>(speaking)</em> &amp; "Judy Chen" Chén Xiù-Zhū / 陳秀珠 <em>(singing)</em></td></tr>
+      <tr data-lang="mandarin china"><td class="lang-cell">Mandarin - China (2009)</td><td class="voice-cell">Wú Xiǎo-Lěi / 吴晓蕾 <em>(speaking)</em> &amp; "Judy Chen" Chén Xiù-Zhū / 陳秀珠 <em>(singing - Taiwanese Mandarin version)</em></td></tr>
+      <tr data-lang="norwegian"><td class="lang-cell">Norwegian 1983</td><td class="voice-cell">Unn Vibeke Hol <em>(speaking)</em> &amp; Anne Lise Gjøstøl <em>(singing)</em></td></tr>
+      <tr data-lang="norwegian"><td class="lang-cell">Norwegian 1994</td><td class="voice-cell">Unn Vibeke Hol <em>(speaking)</em> &amp; Anne Aartun <em>(singing)</em></td></tr>
+      <tr data-lang="polish"><td class="lang-cell">Polish 1938</td><td class="voice-cell">Maria Modzelewska <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="polish"><td class="lang-cell">Polish 2009</td><td class="voice-cell">Edyta Krzemień <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="portuguese brazilian"><td class="lang-cell">Portuguese - Brazilian 1938</td><td class="voice-cell">Dalva de Oliveira <em>(speaking)</em> &amp; Maria Clara Tati Jacome <em>(singing)</em></td></tr>
+      <tr data-lang="portuguese brazilian"><td class="lang-cell">Portuguese - Brazilian 1965</td><td class="voice-cell">Maria Alice Barreto <em>(speaking)</em> &amp; Cybele Freire <em>(singing)</em></td></tr>
+      <tr data-lang="portuguese"><td class="lang-cell">Portuguese (2001)</td><td class="voice-cell">Sandra de Castro <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="romanian"><td class="lang-cell">Romanian (2009)</td><td class="voice-cell">Mediana Vlad <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="russian"><td class="lang-cell">Russian (2001)</td><td class="voice-cell">Yevgeniya Igumnova / Евгения Игумнова <em>(speaking)</em> &amp; Yelena Ushakova / Елена Ушакова <em>(singing)</em></td></tr>
+      <tr data-lang="serbian"><td class="lang-cell">Serbian (2019)</td><td class="voice-cell">Irina Arsenijević / Ирина Арсенијевић <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="slovak"><td class="lang-cell">Slovak (1970)</td><td class="voice-cell">Darina Chmurová <em>(speaking)</em> &amp; Cecília Lévaiová <em>(singing)</em></td></tr>
+      <tr data-lang="spanish latin american"><td class="lang-cell">Spanish - Latin American 1938</td><td class="voice-cell">Thelma Hubbard <em>(speaking)</em> &amp; Diana Castillo <em>(singing)</em></td></tr>
+      <tr data-lang="spanish latin american"><td class="lang-cell">Spanish - Latin American 1964</td><td class="voice-cell">Amparo Garrido <em>(speaking)</em> &amp; Lupita Pérez Arias <em>(singing)</em></td></tr>
+      <tr data-lang="spanish latin american"><td class="lang-cell">Spanish - Latin American 2001</td><td class="voice-cell">Maggie Vera <em>(speaking)</em> + Alicia Diana Santos <em>(one loop speaking)</em> &amp; Vikina Michel <em>(singing)</em></td></tr>
+      <tr data-lang="spanish castilian"><td class="lang-cell">Spanish - Castilian (2001)</td><td class="voice-cell">Mar Bordallo <em>(speaking)</em> &amp; Yolanda de las Heras <em>(singing)</em></td></tr>
+      <tr data-lang="swedish"><td class="lang-cell">Swedish 1938</td><td class="voice-cell">Tatiana Angelini <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="swedish"><td class="lang-cell">Swedish 1982</td><td class="voice-cell">Anna-Lotta Larsson <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="tamil"><td class="lang-cell">Tamil (????)</td><td class="voice-cell">?</td></tr>
+      <tr data-lang="telugu"><td class="lang-cell">Telugu (????)</td><td class="voice-cell">?</td></tr>
+      <tr data-lang="thai"><td class="lang-cell">Thai 1994</td><td class="voice-cell">Marisa Sukosol Nunbhakdi / มาริสา สุโกศล หนุนภักดี <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="thai"><td class="lang-cell">Thai 2001</td><td class="voice-cell">Netnapha Hanrotchanawut / เนตรนภา หาญโรจนวุฒิ <em>(speaking)</em> &amp; Chairat Phithakcharoen / ใจรัตน์ พิทักษ์เจริญ <em>(singing)</em></td></tr>
+      <tr data-lang="turkish"><td class="lang-cell">Turkish (2009)</td><td class="voice-cell">Aliye Mutlu <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="ukrainian"><td class="lang-cell">Ukrainian (2010)</td><td class="voice-cell">Anzhelika Savchenko / Анжеліка Савченко <em>(speaking &amp; singing)</em></td></tr>
+    </tbody>
+  </table>
+
+  <div class="subgroup-title">Radio Plays &amp; LPs</div>
+  <table class="voice-table">
+    <tbody>
+      <tr data-lang="estonian radio"><td class="lang-cell">Estonian - Radio Play (1956)</td><td class="voice-cell">Ellu Puudist <em>(speaking)</em> &amp; Veera Nelus <em>(singing)</em></td></tr>
+      <tr data-lang="latvian radio"><td class="lang-cell">Latvian - Radio Play (1958)</td><td class="voice-cell">Dagmāra Kupce <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="icelandic lp"><td class="lang-cell">Icelandic - LP (1978)</td><td class="voice-cell">Ólöf Kolbrún Harðardóttir <em>(singing)</em></td></tr>
+      <tr data-lang="serbian lp"><td class="lang-cell">Serbian - LP (1971) ("Whistle While You Work")</td><td class="voice-cell">Milica Manojlović / Милица Манојловић <em>(singing)</em></td></tr>
+    </tbody>
+  </table>
+
+  <div class="anecdotes">
+    <h3>Anecdotes</h3>
+    <ul>
+      <li><strong>Frieda van Hessen</strong>, the Dutch 1938 singing voice of Snow White, was forced into hiding during WW2, and survived the Holocaust. She wrote a book about her life "Life in the Shadow of the Swastika".</li>
+      <li><strong>Tatiana Angelini</strong>, the Swedish 1938 version, was Walt Disney's personal favourite foreign voice.</li>
+      <li>In 1996, <strong>Lucie Dolène</strong> (Snow White French 1962 voice) sued Disney France for the copyrights on her voice and won, leading to a complete redubbing of the movie in 2001.</li>
+      <li><strong>Ratiba Al-Hefny</strong> (رتيبة الحفنى) was originally chosen by Disney to be the first song director in the history of Walt Disney's Arabic dubbings. Lots of girls were refused by Disney for the role of Snow White, so Ratiba then decided to record herself and send it to the Company under a nickname. To everyone's surprise, Disney liked it and chose her.</li>
+      <li>The second Thai dub is only a partial re-dubbing. Only Snow White, the Prince, and Grumpy were redubbed.</li>
+      <li>The Brazilian Portuguese (1938) and Japanese (1957) dubs are lost now.</li>
+      <li>The Albanian dubs aren't officially Disney's.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     FILM 2 : Sofia the First: The Enchanted Feast (2014)
+     ⚠️ EXEMPLE PARTIEL : ajoute les langues manquantes en suivant
+     le même modèle de <tr> que ci-dessus.
+     ============================================================ -->
+<section class="film-section" id="film-2014">
+  <h2 class="film-title">Sofia the First: The Enchanted Feast <span class="film-year">(2014)</span></h2>
+
+  <table class="voice-table">
+    <tbody>
+      <tr data-lang="arabic modern standard"><td class="lang-cell">Arabic - Modern Standard</td><td class="voice-cell">Noha Qais / نهى قيس</td></tr>
+      <tr data-lang="croatian"><td class="lang-cell">Croatian</td><td class="voice-cell">Monika Barberović</td></tr>
+      <tr data-lang="english"><td class="lang-cell">English</td><td class="voice-cell">Katherine Von Till</td></tr>
+      <tr data-lang="finnish"><td class="lang-cell">Finnish</td><td class="voice-cell">Riikka Väyrynen-Timonen</td></tr>
+      <tr data-lang="french"><td class="lang-cell">French</td><td class="voice-cell">Laetitia Liénart (?)</td></tr>
+      <tr data-lang="german"><td class="lang-cell">German</td><td class="voice-cell">Manja Doering</td></tr>
+      <tr data-lang="japanese"><td class="lang-cell">Japanese</td><td class="voice-cell">Kobato Kurumi / 小鳩くるみ</td></tr>
+      <tr data-lang="korean"><td class="lang-cell">Korean</td><td class="voice-cell">Jeong Hyeon-gyeong / 정현경</td></tr>
+      <tr data-lang="russian"><td class="lang-cell">Russian</td><td class="voice-cell">Kseniya Brzhezovskaya / Ксения Бржезовская</td></tr>
+      <tr data-lang="spanish latin american"><td class="lang-cell">Spanish - Latin American</td><td class="voice-cell">Maggie Vera</td></tr>
+      <tr data-lang="spanish castilian"><td class="lang-cell">Spanish - Castilian</td><td class="voice-cell">Mar Bordallo</td></tr>
+      <!-- AJOUTE LES AUTRES LANGUES ICI (Albanian, Bulgarian, Cantonese, Czech, Danish, Dutch, Greek, Hebrew, Hindi, Hungarian, Indonesian, Italian, Malay, Mandarin, Norwegian, Polish, Portuguese, Romanian, Serbian, Slovak, Slovene, Swedish, Tagalog, Tamil, Telugu, Thai, Turkish, Ukrainian) -->
+    </tbody>
+  </table>
+
+  <div class="anecdotes">
+    <h3>Anecdotes</h3>
+    <ul>
+      <li>The Albanian dubbing was licensed.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     FILM 3 : Ralph Breaks the Internet (2018)
+     ⚠️ EXEMPLE PARTIEL
+     ============================================================ -->
+<section class="film-section" id="film-2018">
+  <h2 class="film-title">Ralph Breaks the Internet <span class="film-year">(2018)</span></h2>
+
+  <table class="voice-table">
+    <tbody>
+      <tr data-lang="english"><td class="lang-cell">English</td><td class="voice-cell">Pamela Ribon <em>(speaking &amp; vocalizations)</em></td></tr>
+      <tr data-lang="french"><td class="lang-cell">French</td><td class="voice-cell">Valérie Siclay <em>(speaking &amp; ?)</em></td></tr>
+      <tr data-lang="german"><td class="lang-cell">German</td><td class="voice-cell">Magdalena Höfner <em>(speaking &amp; ?)</em></td></tr>
+      <tr data-lang="italian"><td class="lang-cell">Italian</td><td class="voice-cell">Ilaria Latini <em>(speaking &amp; ?)</em></td></tr>
+      <tr data-lang="korean"><td class="lang-cell">Korean</td><td class="voice-cell">Sa Mun-yeong / 사문영 <em>(speaking &amp; vocalizations)</em></td></tr>
+      <tr data-lang="mandarin china"><td class="lang-cell">Mandarin - China</td><td class="voice-cell">Wú Xiǎo-Lěi / 吴晓蕾 <em>(speaking &amp; ?)</em></td></tr>
+      <tr data-lang="polish"><td class="lang-cell">Polish</td><td class="voice-cell">Edyta Krzemień <em>(speaking &amp; vocalizes)</em></td></tr>
+      <tr data-lang="russian"><td class="lang-cell">Russian</td><td class="voice-cell">Yuliya Churakova / Юлия Чуракова <em>(speaking &amp; ?)</em></td></tr>
+      <tr data-lang="spanish latin american"><td class="lang-cell">Spanish - Latin American</td><td class="voice-cell">Maggie Vera <em>(speaking &amp; ?)</em></td></tr>
+      <tr data-lang="spanish castilian"><td class="lang-cell">Spanish - Castilian</td><td class="voice-cell">Mar Bordallo <em>(speaking &amp; ?)</em></td></tr>
+      <tr data-lang="turkish"><td class="lang-cell">Turkish</td><td class="voice-cell">Aliye Mutlu <em>(speaking &amp; vocalizes)</em></td></tr>
+      <!-- AJOUTE LES AUTRES LANGUES ICI (Albanian, Arabic, Bulgarian, Cantonese, Catalan, Croatian, Czech, Danish, Dutch, Estonian, Finnish, Flemish, French-Quebec, Greek, Hebrew, Hindi, Hungarian, Icelandic, Indonesian, Japanese, Kazakh, Latvian, Lithuanian, Malay, Mandarin-Taiwan, Norwegian, Portuguese, Romanian, Serbian, Slovak, Slovene, Swedish, Thai, Ukrainian, Vietnamese) -->
+    </tbody>
+  </table>
+
+  <div class="anecdotes">
+    <h3>Anecdotes</h3>
+    <ul>
+      <li>Voices who returned from <em>Snow White and the Seven Dwarfs</em>: Arabic (TV dub); Castilian; Croatian; French (3rd dub); Indonesian; Latin Spanish (3rd dub); Taiwanese Mandarin; Mandarin Chinese (TV dub); Norwegian; Polish (2nd dub); Romanian; Thai (2nd dub); Turkish and Ukrainian(?).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     FILM 4 : LEGO Disney Princess: The Castle Quest (2023)
+     ============================================================ -->
+<section class="film-section" id="film-2023a">
+  <h2 class="film-title">LEGO Disney Princess: The Castle Quest <span class="film-year">(2023)</span></h2>
+
+  <table class="voice-table">
+    <tbody>
+      <tr data-lang="arabic egyptian"><td class="lang-cell">Arabic - Egyptian</td><td class="voice-cell">Noha Qais / نهى قيس</td></tr>
+      <tr data-lang="arabic modern standard"><td class="lang-cell">Arabic - Modern Standard</td><td class="voice-cell">Noha Qais / نهى قيس</td></tr>
+      <tr data-lang="czech"><td class="lang-cell">Czech</td><td class="voice-cell">Barbora Červinková</td></tr>
+      <tr data-lang="danish"><td class="lang-cell">Danish</td><td class="voice-cell">Karoline Hamm</td></tr>
+      <tr data-lang="dutch"><td class="lang-cell">Dutch</td><td class="voice-cell">Maria Hengst</td></tr>
+      <tr data-lang="english"><td class="lang-cell">English</td><td class="voice-cell">Katherine Von Till</td></tr>
+      <tr data-lang="french"><td class="lang-cell">French</td><td class="voice-cell">Valérie Siclay</td></tr>
+      <tr data-lang="german"><td class="lang-cell">German</td><td class="voice-cell">Manja Doering</td></tr>
+      <tr data-lang="japanese"><td class="lang-cell">Japanese</td><td class="voice-cell">Kobato Kurumi / 小鳩くるみ</td></tr>
+      <tr data-lang="korean"><td class="lang-cell">Korean</td><td class="voice-cell">Lee Jae-hyeon / 이재현</td></tr>
+      <tr data-lang="polish"><td class="lang-cell">Polish</td><td class="voice-cell">Zuzanna Caban</td></tr>
+      <tr data-lang="spanish latin american"><td class="lang-cell">Spanish - Latin American</td><td class="voice-cell">Maggie Vera</td></tr>
+      <tr data-lang="spanish castilian"><td class="lang-cell">Spanish - Castilian</td><td class="voice-cell">Mar Bordallo</td></tr>
+      <tr data-lang="turkish"><td class="lang-cell">Turkish</td><td class="voice-cell">Nermin Koçak</td></tr>
+      <!-- AJOUTE LES AUTRES LANGUES ICI (Finnish, Greek, Hungarian, Italian, Norwegian, Portuguese, Romanian, Slovak, Swedish) -->
+    </tbody>
+  </table>
+
+  <div class="anecdotes">
+    <h3>Anecdotes</h3>
+    <ul>
+      <li>Despite not reprising the role in the Disney+ Modern Standard Arabic re-dub of the original movie in 2023, <strong>Noha Qais</strong> (نهى قيس) has been the new voice of Snow White since 2001 in <em>House of Mouse</em> and all her following appearances.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     FILM 5 : Once Upon a Studio (2023)
+     ============================================================ -->
+<section class="film-section" id="film-2023b">
+  <h2 class="film-title">Once Upon a Studio <span class="film-year">(2023)</span></h2>
+
+  <table class="voice-table">
+    <tbody>
+      <tr data-lang="czech"><td class="lang-cell">Czech</td><td class="voice-cell">Nikola Ďuricová</td></tr>
+      <tr data-lang="dutch"><td class="lang-cell">Dutch</td><td class="voice-cell">Maria Hengst</td></tr>
+      <tr data-lang="english"><td class="lang-cell">English</td><td class="voice-cell">Natalie Babbitt Taylor</td></tr>
+      <tr data-lang="french"><td class="lang-cell">French</td><td class="voice-cell">Rachel Pignot</td></tr>
+      <tr data-lang="german"><td class="lang-cell">German</td><td class="voice-cell">Katrin Taylor</td></tr>
+      <tr data-lang="hebrew"><td class="lang-cell">Hebrew</td><td class="voice-cell">Alona Alexander / אלונה אלכסנדר</td></tr>
+      <tr data-lang="polish"><td class="lang-cell">Polish</td><td class="voice-cell">Edyta Krzemień</td></tr>
+      <tr data-lang="romanian"><td class="lang-cell">Romanian</td><td class="voice-cell">Mediana Vlad</td></tr>
+      <tr data-lang="serbian"><td class="lang-cell">Serbian</td><td class="voice-cell">Irina Arsenijević / Ирина Арсенијевић</td></tr>
+      <tr data-lang="slovak"><td class="lang-cell">Slovak</td><td class="voice-cell">Natália Kóšová</td></tr>
+      <tr data-lang="turkish"><td class="lang-cell">Turkish</td><td class="voice-cell">Selen Severcan</td></tr>
+      <!-- AJOUTE LES AUTRES LANGUES ICI (Arabic, Bulgarian, Danish, Finnish, Greek, Hindi, Hungarian, Italian, Japanese, Mandarin, Norwegian, Portuguese, Spanish, Swedish, Tamil, Telugu, Ukrainian) -->
+    </tbody>
+  </table>
+
+  <div class="anecdotes">
+    <h3>Anecdotes</h3>
+    <ul>
+      <li>Snow White only sings one line in this short - the voices here are all only singing.</li>
+      <li>Voices who returned from the original movie: French (2001 re-dub); Polish (2009 re-dub); Romanian (2009 dub); Serbian (2019 dub).</li>
+      <li>Voices who returned from the sequels or TV series: Dutch; Slovak (LEGO).</li>
+      <li>New voices: English; German; Hebrew.</li>
+      <li>In Slovak and Turkish, Natália Kóšová and Selen Severcan would later dub Rachel Zegler as Snow White in the 2025 live-action remake.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     FILM 6 : Snow White (Live-action) (2025)
+     ============================================================ -->
+<section class="film-section" id="film-2025a">
+  <h2 class="film-title">Snow White (Live-action) <span class="film-year">(2025)</span></h2>
+  <p class="portrayed-by">Portrayed by: Rachel Zegler</p>
+
+  <table class="voice-table">
+    <tbody>
+      <tr data-lang="arabic egyptian"><td class="lang-cell">Arabic - Egyptian</td><td class="voice-cell">Rana Adel / رنا عادل <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="arabic modern standard"><td class="lang-cell">Arabic - Modern Standard</td><td class="voice-cell">Rana Adel / رنا عادل <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="french"><td class="lang-cell">French</td><td class="voice-cell">Emmylou Homs <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="french quebec"><td class="lang-cell">French - Quebec</td><td class="voice-cell">Romane Denis <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="german"><td class="lang-cell">German</td><td class="voice-cell">Sophia Riedl <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="italian"><td class="lang-cell">Italian</td><td class="voice-cell">Arianna Vignoli <em>(speaking)</em> &amp; Eleonora Segaluscio <em>(singing)</em></td></tr>
+      <tr data-lang="japanese"><td class="lang-cell">Japanese</td><td class="voice-cell">Kiryu Sakura / 吉柳咲良 <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="korean"><td class="lang-cell">Korean</td><td class="voice-cell">Kim Su-yeon / 김수연 <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="polish"><td class="lang-cell">Polish</td><td class="voice-cell">Katarzyna Sawczuk <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="slovak"><td class="lang-cell">Slovak</td><td class="voice-cell">Natália Kóšová <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="spanish latin american"><td class="lang-cell">Spanish - Latin American</td><td class="voice-cell">Mariana Dávila <em>(speaking &amp; singing)</em></td></tr>
+      <tr data-lang="spanish castilian"><td class="lang-cell">Spanish - Castilian</td><td class="voice-cell">Laura Pastor <em>(speaking)</em> &amp; Anabel García <em>(singing)</em></td></tr>
+      <tr data-lang="turkish"><td class="lang-cell">Turkish</td><td class="voice-cell">Selen Severcan <em>(speaking &amp; singing)</em></td></tr>
+      <!-- AJOUTE LES AUTRES LANGUES ICI (Bulgarian, Croatian, Danish, Dutch, Finnish, Flemish, Georgian, Greek, Hebrew, Hindi, Hungarian, Kazakh, Mandarin, Norwegian, Portuguese, Romanian, Russian, Serbian, Slovene, Swedish, Thai, Ukrainian, Vietnamese) -->
+    </tbody>
+  </table>
+
+  <div class="anecdotes">
+    <h3>Anecdotes</h3>
+    <ul>
+      <li>Natália Kóšová, the Slovak voice, and Selen Severcan, the Turkish voice, reprised the role of Snow White whom they already dubbed in <em>Once Upon a Studio</em>. Natália Kóšová had also dubbed the character in <em>LEGO Disney Princess</em>.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     FILM 7 : LEGO Disney Princess: Villains Unite (2025)
+     ============================================================ -->
+<section class="film-section" id="film-2025b">
+  <h2 class="film-title">LEGO Disney Princess: Villains Unite <span class="film-year">(2025)</span></h2>
+
+  <table class="voice-table">
+    <tbody>
+      <tr data-lang="cantonese"><td class="lang-cell">Cantonese</td><td class="voice-cell">"Agnes Lam" Lam Si-Cung / 林司聰</td></tr>
+      <tr data-lang="english"><td class="lang-cell">English</td><td class="voice-cell">Katherine Von Till</td></tr>
+      <tr data-lang="french"><td class="lang-cell">French</td><td class="voice-cell">Valérie Siclay</td></tr>
+      <tr data-lang="german"><td class="lang-cell">German</td><td class="voice-cell">Manja Doering</td></tr>
+      <tr data-lang="japanese"><td class="lang-cell">Japanese</td><td class="voice-cell">Kobato Kurumi / 小鳩くるみ</td></tr>
+      <tr data-lang="korean"><td class="lang-cell">Korean</td><td class="voice-cell">Lee Jae-hyeon / 이재현</td></tr>
+      <tr data-lang="mandarin taiwan"><td class="lang-cell">Mandarin - Taiwan</td><td class="voice-cell">Mù Xuān-Míng / 穆宣名</td></tr>
+      <tr data-lang="portuguese"><td class="lang-cell">Portuguese</td><td class="voice-cell">Carla Mendes</td></tr>
+      <tr data-lang="slovak"><td class="lang-cell">Slovak</td><td class="voice-cell">Natália Kóšová</td></tr>
+      <!-- AJOUTE LES AUTRES LANGUES ICI (Arabic, Czech, Danish, Dutch, Finnish, Greek, Hebrew, Hungarian, Indonesian, Italian, Malay, Norwegian, Polish, Brazilian Portuguese, Romanian, Spanish, Swedish, Thai, Turkish) -->
+    </tbody>
+  </table>
+
+  <div class="anecdotes">
+    <h3>Anecdotes</h3>
+    <ul>
+      <li>In the Mandarin version, Mù Xuān-Míng (穆宣名) also dubbed <a href="/characters/rapunzel.html">Rapunzel</a>.</li>
+      <li>In the Portuguese version, even though Sandra de Castro returned for Snow White in the first LEGO short in 2023, she didn't reprise the role in this one and only dubbed instead <a href="/characters/cinderella.html">Cinderella</a>.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     FILM 8 : LEGO Disney Princess: Magical Mayhem (2026)
+     ============================================================ -->
+<section class="film-section" id="film-2026">
+  <h2 class="film-title">LEGO Disney Princess: Magical Mayhem <span class="film-year">(2026)</span></h2>
+
+  <table class="voice-table">
+    <tbody>
+      <tr data-lang="cantonese"><td class="lang-cell">Cantonese</td><td class="voice-cell">"Agnes Lam" Lam Si-Cung / 林司聰</td></tr>
+      <tr data-lang="czech"><td class="lang-cell">Czech</td><td class="voice-cell">Barbora Červinková</td></tr>
+      <tr data-lang="english"><td class="lang-cell">English</td><td class="voice-cell">Katie Von Till</td></tr>
+      <tr data-lang="french"><td class="lang-cell">French</td><td class="voice-cell">Valérie Siclay</td></tr>
+      <tr data-lang="german"><td class="lang-cell">German</td><td class="voice-cell">Manja Doering</td></tr>
+      <tr data-lang="japanese"><td class="lang-cell">Japanese</td><td class="voice-cell">Kobato Kurumi / 小鳩くるみ</td></tr>
+      <tr data-lang="korean"><td class="lang-cell">Korean</td><td class="voice-cell">Lee Jae-hyeon / 이재현</td></tr>
+      <tr data-lang="mandarin taiwan"><td class="lang-cell">Taiwanese Mandarin</td><td class="voice-cell">Mù Xuān-Míng / 穆宣名</td></tr>
+      <tr data-lang="polish"><td class="lang-cell">Polish</td><td class="voice-cell">Zuzanna Caban</td></tr>
+      <tr data-lang="slovak"><td class="lang-cell">Slovak</td><td class="voice-cell">Natália Kóšová</td></tr>
+      <!-- AJOUTE LES AUTRES LANGUES ICI (Croatian, Danish, Dutch, Finnish, Greek, Hungarian, Indonesian, Italian, Malay, Norwegian, Brazilian Portuguese, Portuguese, Romanian, Spanish, Swedish, Thai) -->
+    </tbody>
+  </table>
+
+  <div class="anecdotes">
+    <h3>Anecdotes</h3>
+    <ul>
+      <li>From the original movie (1937): Cantonese, French, German, Hungarian, Indonesian, Japanese, Malay, Romanian, Latin American Spanish, Castilian Spanish, Thai.</li>
+      <li>From Sofia the First (2014): English, Finnish.</li>
+      <li>From Ralph Breaks the Internet (2018): Brazilian Portuguese, Portuguese.</li>
+      <li>From the Live-action remake (2025): Croatian, Greek, Swedish.</li>
+      <li>From previous LEGO shorts: Czech, Danish, Dutch, Korean, Taiwanese Mandarin, Polish, Slovak.</li>
+      <li>New voices: Norwegian (Fei Fei and Merida in Ralph).</li>
+      <li>In the Greek dub, Litó Abatzí (Λητώ Αμπατζή) also voiced <a href="/characters/mulan.html">Mulan</a>.</li>
+      <li>In the Mandarin version, Mù Xuān-Míng (穆宣名) also dubbed <a href="/characters/rapunzel.html">Rapunzel</a>.</li>
+    </ul>
+  </div>
+</section>
+
+<div class="last-update">Last update - 31-Aug-2026</div>
+
+<script>
+// ============================================================
+//  RECHERCHE PAR LANGUE
+//  Filtre chaque ligne (<tr data-lang="...">) sur toutes les sections.
+//  Une section entière se cache si plus aucune de ses lignes ne matche.
+// ============================================================
+
+const langSearch = document.getElementById('langSearch');
+const langResultInfo = document.getElementById('langResultInfo');
+
+function applyLangSearch() {
+  const query = langSearch.value.toLowerCase().trim();
+  let totalMatches = 0;
+
+  document.querySelectorAll('.film-section').forEach(section => {
+    let sectionHasMatch = false;
+
+    section.querySelectorAll('tr[data-lang]').forEach(row => {
+      const matches = query === '' || row.dataset.lang.includes(query);
+      row.classList.toggle('row-hidden', !matches);
+      if (matches) {
+        sectionHasMatch = true;
+        if (query !== '') totalMatches++;
+      }
+    });
+
+    section.classList.toggle('no-match', query !== '' && !sectionHasMatch);
+  });
+
+  langResultInfo.textContent = query
+    ? `${totalMatches} appearance${totalMatches !== 1 ? 's' : ''} found for "${query}"`
+    : '';
+}
+
+langSearch.addEventListener('keyup', applyLangSearch);
+
+// ============================================================
+//  SOMMAIRE : surligne le lien du film actuellement visible à l'écran
+// ============================================================
+
+const tocLinks = document.querySelectorAll('.toc a');
+const sections = document.querySelectorAll('.film-section');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      tocLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+
+sections.forEach(section => observer.observe(section));
+</script>
