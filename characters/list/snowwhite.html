@@ -16,6 +16,11 @@ layout: null
   --toc-item-size: 12px;       /* taille des lignes ET des chiffres du sommaire */
   --optional-video-height: 300px; /* hauteur de la vidéo optionnelle sous le bloc du haut */
   --banner-height: 200px;      /* hauteur des bandeaux images par film */
+  --year-color: #7ea6d8;       /* couleur des années/dates (bleu pastel) */
+}
+
+html {
+  overflow-x: hidden;
 }
 
 body {
@@ -24,6 +29,7 @@ body {
   padding: 0;
   box-sizing: border-box;
   color: #333;
+  overflow-x: hidden;
 }
 
 /* ============================================================
@@ -37,7 +43,7 @@ body {
   text-decoration: none;
   font-size: 13px;
   font-weight: 600;
-  margin: 20px 0 0 var(--page-margin);
+  margin: 20px 0 0 20px;
 }
 .back-btn:hover {
   text-decoration: underline;
@@ -51,7 +57,7 @@ body {
   gap: 40px;
   align-items: flex-start;
   flex-wrap: wrap;
-  padding: 24px var(--page-margin) 10px;
+  padding: 24px 20px 10px;
   box-sizing: border-box;
 }
 
@@ -157,7 +163,7 @@ body {
    SECTION PAR FILM
    ============================================================ */
 .film-section {
-  padding: 0 var(--page-margin) 40px;
+  padding: 0 0 40px;
   border-top: 1px solid #eee;
   scroll-margin-top: 90px; /* pour que le clic du sommaire ne cache pas le titre sous la barre sticky */
 }
@@ -202,7 +208,7 @@ body {
 }
 
 .film-header-overlay .film-year {
-  color: #f0d9a8;
+  color: var(--year-color);
   font-weight: 600;
 }
 
@@ -215,7 +221,7 @@ body {
 }
 
 .film-year {
-  color: var(--accent);
+  color: var(--year-color);
   font-weight: 600;
 }
 
@@ -228,9 +234,9 @@ body {
 
 /* Tableau des doublages */
 .voice-table {
-  width: 100%;
+  width: calc(100% - 2 * var(--page-margin));
+  margin: 16px var(--page-margin) 0;
   border-collapse: collapse;
-  margin-top: 16px;
 }
 .voice-table tr {
   border-bottom: 1px solid #f0f0f0;
@@ -265,12 +271,12 @@ body {
   font-size: 14px;
   font-weight: 700;
   color: var(--accent);
-  margin: 26px 0 4px;
+  margin: 26px var(--page-margin) 4px;
 }
 
 /* Anecdotes */
 .anecdotes {
-  margin-top: 26px;
+  margin: 26px var(--page-margin) 0;
   background: #faf8f3;
   border-radius: 8px;
   padding: 16px 20px;
@@ -367,7 +373,7 @@ body {
      ============================================================ -->
 <section class="film-section" id="film-1937">
   <div class="film-header">
-    <img class="film-banner" src="https://res.cloudinary.com/dofvjifeo/image/upload/SnowWhite1937Banner.jpg" alt="Snow White and the Seven Dwarfs">
+    <img class="film-banner" src="https://res.cloudinary.com/dofvjifeo/image/upload/v1788693079/SnowWhite1937Header.png" alt="Snow White and the Seven Dwarfs">
     <div class="film-header-overlay">
       <h2 class="film-title">Snow White and the Seven Dwarfs <span class="film-year">(1937)</span></h2>
     </div>
