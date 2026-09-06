@@ -18,6 +18,9 @@ layout: null
   --banner-pad-side: 80px;     /* retrait du titre depuis le bord gauche/droit du bandeau */
   --banner-title-bottom: 30px; /* remonte le titre depuis le bas du bandeau */
   --banner-margin-bottom: 30px; /* espace entre le bandeau et le contenu qui suit */
+  --portrayed-by-indent: 120px; /* décalage vers la droite de "Portrayed by", en plus de la marge de page */
+  --lang-col-width: 340px;      /* largeur de la colonne "langue" dans les tableaux de voix */
+  --fallback-glow-duration: 12s; /* durée d'un aller (puis retour) de la lumière du fond de secours */
   --year-color: #7ea6d8;       /* couleur des années/dates (bleu pastel) */
 }
 
@@ -199,14 +202,17 @@ body {
    "onerror" sur chaque <img> (voir plus bas), pas besoin d'y toucher. */
 .film-header.banner-fallback {
   min-height: var(--banner-height);
-  background: linear-gradient(to bottom,
-    #ffffff 0%,
-    #e4ecf6 15%,
-    #a9c0e0 35%,
-    #4874ad 55%,
-    #1a4a8a 75%,
-    #0d2c54 100%
-  );
+  background-image: radial-gradient(circle, #2a5da0, #0d2c54 70%);
+  background-size: 200% 200%;   /* dégradé 2x plus grand que la boîte : on peut déplacer la partie visible */
+  background-position: 0% 50%;
+  animation: fallbackGlow var(--fallback-glow-duration) ease-in-out infinite alternate;
+}
+
+/* Va-et-vient (alternate) de la lumière douce : jamais de retour brutal,
+   le mouvement est continu d'un côté à l'autre. */
+@keyframes fallbackGlow {
+  from { background-position: 0% 50%; }
+  to   { background-position: 100% 50%; }
 }
 
 /* L'IMAGE du bandeau elle-même (hauteur et cadrage via variables --root) */
@@ -265,8 +271,7 @@ body {
 .portrayed-by {
   color: #666;
   font-size: 14px;
-  text-align: right;
-  margin: 16px var(--page-margin) 6px;
+  margin: 16px var(--page-margin) 6px calc(var(--page-margin) + var(--portrayed-by-indent));
 }
 .portrayed-by em {
   font-style: italic;
@@ -300,10 +305,10 @@ body {
 .lang-cell {
   font-weight: 700;             /* langue en gras */
   color: #222;                  /* couleur du texte de la langue */
-  width: 230px;                 /* largeur de la colonne (= où "commence" la voix) */
+  width: var(--lang-col-width); /* largeur de la colonne (= où "commence" la voix) */
   text-align: right;            /* aligne le texte à droite dans sa colonne */
   padding-right: 14px !important;
-  white-space: normal;          /* les langues très longues passent à la ligne au lieu de déborder */
+  white-space: nowrap;          /* remets "normal" si jamais un texte dépasse encore malgré la largeur augmentée */
 }
 
 /* Le " :" ajouté automatiquement après chaque langue (tu n'as pas à le taper) */
