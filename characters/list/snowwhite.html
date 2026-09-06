@@ -8,9 +8,6 @@ layout: null
 :root {
   --page-margin: 10%;
   --accent: #1a4a8a;
-  --hero-height: 320px;
-  --hero-zoom-duration: 10s;   /* durée d'un aller (puis retour) du zoom, image fixe uniquement */
-  --hero-zoom-scale: 1.06;     /* jusqu'où l'image zoome, image fixe uniquement */
   --name-font: 'IM Fell English', serif;
   --toc-title-size: 13px;      /* taille du titre "Contents" */
   --toc-item-size: 12px;       /* taille des lignes ET des chiffres du sommaire */
@@ -194,6 +191,15 @@ body {
   overflow: hidden;
 }
 
+/* Fallback : si l'image du bandeau ne charge pas (lien cassé, faute de
+   frappe, pas encore uploadée...), un dégradé bleu foncé la remplace au
+   lieu de laisser un vide/une icône d'image cassée. Déclenché par le
+   "onerror" sur chaque <img> (voir plus bas), pas besoin d'y toucher. */
+.film-header.banner-fallback {
+  min-height: var(--banner-height);
+  background: linear-gradient(135deg, #1a4a8a, #0d2c54);
+}
+
 /* L'IMAGE du bandeau elle-même (hauteur et cadrage via variables --root) */
 .film-banner {
   width: 100%;
@@ -367,8 +373,40 @@ body {
   padding: 30px 0 60px;
 }
 
+/* ============================================================
+   BOUTON "RETOUR EN HAUT" (apparaît après un peu de scroll)
+   ============================================================ */
+#backToTop {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--accent);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 50;
+}
+#backToTop.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+#backToTop svg {
+  width: 30px;
+  height: 30px;
+}
+
 @media (max-width: 700px) {
-  .char-hero h1 { font-size: 34px; }
   .lang-cell { width: 150px; white-space: normal; }
 }
 </style>
@@ -609,6 +647,17 @@ body {
 </section>
 
 <div class="last-update">Last update - 31-Aug-2026</div>
+
+<!-- ============================================================
+     BOUTON RETOUR EN HAUT
+     MODIFIE ICI : la couleur du contour vient de --accent en haut du fichier
+     ============================================================ -->
+<button id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 3c-1 0-1.8.8-1.8 1.8v6.4L8.6 9.6a1.6 1.6 0 0 0-2.3 2.2l4.2 4.4c.8.8 2.1.8 2.9 0l4.2-4.4a1.6 1.6 0 0 0-2.3-2.2l-1.6 1.6V4.8C13.8 3.8 13 3 12 3z" fill="#1a4a8a" transform="rotate(180 12 12)"/>
+    <rect x="6" y="17.5" width="12" height="2.5" rx="1.25" fill="#1a4a8a"/>
+  </svg>
+</button>
 
 <script>
 // ============================================================
@@ -928,4 +977,34 @@ const observer = new IntersectionObserver((entries) => {
 }, { rootMargin: '-30% 0px -60% 0px' });
 
 sections.forEach(section => observer.observe(section));
+
+// ============================================================
+//  BOUTON RETOUR EN HAUT
+//  Apparaît après 400px de scroll, ramène en douceur en haut de page.
+// ============================================================
+
+const backToTop = document.getElementById('backToTop');
+
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ============================================================
+//  FALLBACK DES BANDEAUX SANS IMAGE
+//  Si une image de bandeau ne charge pas (lien cassé, faute de frappe,
+//  pas encore uploadée...), on la cache et on affiche le dégradé bleu
+//  à la place. Fonctionne automatiquement pour tous les bandeaux,
+//  actuels ET futurs : rien à faire de ton côté.
+// ============================================================
+
+document.querySelectorAll('.film-banner').forEach(img => {
+  img.addEventListener('error', () => {
+    img.style.display = 'none';
+    img.closest('.film-header').classList.add('banner-fallback');
+  });
+});
 </script>
