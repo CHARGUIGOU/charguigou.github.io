@@ -166,11 +166,15 @@ body {
   display: none;
 }
 
-/* Bandeau image d'un film, avec le titre incrusté par-dessus */
+/* Bandeau image d'un film, avec le titre incrusté par-dessus.
+   Prend toute la largeur de la fenêtre (sort des marges de page --page-margin),
+   contrairement au reste du contenu de la section qui reste inset normalement. */
 .film-header {
   position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
   margin: 24px 0 16px;
-  border-radius: 6px;
   overflow: hidden;
 }
 
