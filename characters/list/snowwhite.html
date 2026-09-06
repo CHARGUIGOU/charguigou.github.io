@@ -340,6 +340,11 @@ body {
   border-radius: 8px;
   padding: 16px 20px;
 }
+/* Cachées dès qu'une recherche est active (classe ajoutée sur <body>
+   par le script), pour ne laisser que les résultats de la recherche */
+body.searching .anecdotes {
+  display: none;
+}
 /* Le mot "ANECDOTES" en majuscules, tout en haut de la boîte */
 .anecdotes h3 {
   font-size: 13px;
@@ -913,6 +918,10 @@ const langResultInfo = document.getElementById('langResultInfo');
 function applyLangSearch() {
   const query = langSearch.value.toLowerCase().trim();
   let totalMatches = 0;
+
+  // Active dès qu'une recherche est en cours : sert à cacher les anecdotes
+  // (voir la règle CSS "body.searching .anecdotes" un peu plus haut)
+  document.body.classList.toggle('searching', query !== '');
 
   document.querySelectorAll('.film-section').forEach(section => {
     let sectionHasMatch = false;
