@@ -1,7 +1,6 @@
 ---
 layout: null
 ---
-{% include header.html %}
 <!-- GOOGLE FONTS -->
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
 
@@ -10,8 +9,8 @@ layout: null
   --page-margin: 10%;
   --accent: #1a4a8a;
   --hero-height: 320px;
-  --hero-zoom-duration: 22s;   /* durée d'un aller (puis retour) du zoom */
-  --hero-zoom-scale: 1.1;      /* jusqu'où l'image zoome */
+  --hero-zoom-duration: 10s;   /* durée d'un aller (puis retour) du zoom, image fixe uniquement */
+  --hero-zoom-scale: 1.06;     /* jusqu'où l'image zoome, image fixe uniquement */
   --name-font: 'IM Fell English', serif;
 }
 
@@ -36,19 +35,44 @@ body {
   justify-content: center;
 }
 
+/* Bouton retour vers la grille des personnages */
+.back-btn {
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 8px 14px;
+  border-radius: 20px;
+  transition: background 0.2s ease;
+}
+.back-btn:hover {
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.char-hero video,
 .char-hero img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top;
-  /* Zoom en va-et-vient (alternate) : jamais de retour brutal, le mouvement est continu */
-  animation: heroZoom var(--hero-zoom-duration) ease-in-out infinite alternate;
+  object-position: center 25%;
 }
 
-/* Pour désactiver le zoom : commente la ligne "animation" ci-dessus,
-   ou remplace par : animation: none; */
+/* Zoom de secours UNIQUEMENT si tu utilises une image fixe (pas de vidéo).
+   Va-et-vient (alternate) : jamais de retour brutal, le mouvement est continu.
+   Pour désactiver : commente la ligne "animation" ci-dessous. */
+.char-hero img {
+  animation: heroZoom var(--hero-zoom-duration) ease-in-out infinite alternate;
+}
 @keyframes heroZoom {
   from { transform: scale(1); }
   to   { transform: scale(var(--hero-zoom-scale)); }
@@ -261,10 +285,21 @@ body {
 
 <!-- ============================================================
      HERO
-     MODIFIE ICI : l'image et le nom du personnage
+     MODIFIE ICI : le clip vidéo et le nom du personnage.
+
+     Option A (RECOMMANDÉ) : une courte vidéo en boucle, silencieuse.
+     Remplace le src ci-dessous par le lien Cloudinary de ton clip
+     (formats supportés partout : .mp4).
+
+     Option B : si tu n'as pas encore de clip, remplace le <video>...</video>
+     ci-dessous par une simple image (elle zoomera doucement toute seule) :
+       <img src="TON-IMAGE.png" alt="Snow White">
      ============================================================ -->
 <div class="char-hero">
-  <img src="https://res.cloudinary.com/dofvjifeo/image/upload/SnowWhite1937.png" alt="Snow White">
+  <a class="back-btn" href="/characters/voices.html">← All characters</a>
+  <video autoplay muted loop playsinline poster="https://res.cloudinary.com/dofvjifeo/image/upload/SnowWhite1937.png">
+    <source src="https://res.cloudinary.com/dofvjifeo/video/upload/SnowWhiteClip.mp4" type="video/mp4">
+  </video>
   <h1>Snow White</h1>
 </div>
 
