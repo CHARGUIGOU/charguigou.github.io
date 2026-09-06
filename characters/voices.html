@@ -106,8 +106,8 @@ body, #charSearch {
   --corner-color: #d4b876;        /* couleur des coins (plus claire) */
   --card-tint: rgba(250, 247, 240, 0.65);  /* couleur/opacité du verre teinté du dos de carte */
   --card-blur: 6px;                /* intensité du flou "vitré" du dos de carte */
-  --name-font: 'IM Fell English', cursive;  /* police du nom du personnage */
-  --name-font-size: 16px;          /* taille du nom du personnage */
+  --name-font: 'IM Fell English', serif;  /* police du nom du personnage */
+  --name-font-size: 18px;          /* taille du nom du personnage */
 }
 
 /* ============================================================
@@ -115,7 +115,7 @@ body, #charSearch {
    ============================================================ */
 .character-grid {
   list-style: none;
-  padding: 20 var(--page-margin) 100px;
+  padding: 0 var(--page-margin) 100px;
   margin: 0;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -355,6 +355,11 @@ body, #charSearch {
 //  Fields:
 //    name        : nom affiché sur la carte
 //    img         : URL de l'image (portrait du personnage)
+//    franchise   : nom de la saga (ex: "Toy Story", "Cinderella"). Sert à
+//                  regrouper les personnages ensemble même si certains
+//                  n'apparaissent qu'à partir d'une suite (ex: Jessie
+//                  n'apparaît qu'à partir de Toy Story 2, mais reste
+//                  rangée avec Woody et Buzz grâce à ce champ).
 //    keywords    : (optionnel) tableau de mots-clés invisibles supplémentaires
 //                  pour la recherche "By character" (surnom, orthographe
 //                  alternative, nom dans une autre langue...)
@@ -377,6 +382,8 @@ const characters = [
   {
     name: "Snow White",
     img: PIC + "SnowWhite1937.png",
+    franchise: "Snow White",
+    keywords: ["blanche neige", "princess snow white"],
     link: "/characters/snowwhite.html",
     appearances: [
       { film: "Snow White and the Seven Dwarfs", year: "1937" },
@@ -393,6 +400,7 @@ const characters = [
   {
     name: "Evil Queen / Hag",
     img: PIC + "EvilQueen1937.png",
+    franchise: "Snow White",
     appearances: [
       { film: "Snow White and the Seven Dwarfs", year: "1937" },
       { film: "Snow White (live-action)", year: "2025" },
@@ -403,6 +411,7 @@ const characters = [
   {
     name: "Prince Charming",
     img: PIC + "PrinceCharmingSW1937.png",
+    franchise: "Snow White",
     keywords: ["Florian"],
     appearances: [
       { film: "Snow White and the Seven Dwarfs", year: "1937" },
@@ -412,6 +421,7 @@ const characters = [
   {
     name: "Cinderella",
     img: PIC + "Cinderella1950.png",
+    franchise: "Cinderella",
     keywords: ["cenicienta", "cendrillon"],
     appearances: [
       { film: "Cinderella", year: "1950" },
@@ -428,6 +438,7 @@ const characters = [
   {
     name: "Lady Tremaine",
     img: PIC + "LadyTremaine1950.png",
+    franchise: "Cinderella",
     keywords: ["stepmother"],
     appearances: [
       { film: "Cinderella", year: "1950" },
@@ -440,6 +451,7 @@ const characters = [
   {
     name: "Prince Charming",
     img: PIC + "PrinceCharming1950.png",
+    franchise: "Cinderella",
     keywords: ["Henry", "Kit"],
     appearances: [
       { film: "Cinderella", year: "1950" },
@@ -454,6 +466,7 @@ const characters = [
   // {
   //   name: "NOM DU PERSONNAGE",
   //   img: PIC + "nomdufichierimage.png",
+  //   franchise: "Nom de la saga", // ex: "Toy Story" — sert au tri/regroupement
   //   keywords: ["surnom", "autre orthographe"], // optionnel, à retirer si pas besoin
   //   link: "/characters/nomdufichier.html", // à retirer si la page n'existe pas encore
   //   appearances: [
@@ -523,7 +536,36 @@ function buildCharacterCard(character) {
   return li;
 }
 
-characters.forEach(character => grid.appendChild(buildCharacterCard(character)));
+// Tri par franchise (regroupées entre elles, dans l'ordre chronologique de
+// sortie du 1er film de la franchise), puis par année du premier film de
+// CHAQUE personnage à l'intérieur de sa franchise (ex: Jessie, qui arrive
+// dans Toy Story 2, reste bien rangée avec Woody et Buzz, mais après eux).
+// Peu importe l'ordre dans lequel tu ajoutes les personnages ci-dessus,
+// ils s'affichent toujours rangés pareil.
+function firstYear(character) {
+  return Math.min(...character.appearances.map(a => parseInt(a.year, 10) || Infinity));
+}
+
+// Année d'ancrage de chaque franchise = l'année la plus ancienne parmi
+// tous les personnages qui lui sont rattachés
+const franchiseYears = {};
+characters.forEach(c => {
+  const key = c.franchise || c.name;
+  const y = firstYear(c);
+  if (!(key in franchiseYears) || y < franchiseYears[key]) {
+    franchiseYears[key] = y;
+  }
+});
+
+const sortedCharacters = [...characters].sort((a, b) => {
+  const keyA = a.franchise || a.name;
+  const keyB = b.franchise || b.name;
+  const franchiseDiff = franchiseYears[keyA] - franchiseYears[keyB];
+  if (franchiseDiff !== 0) return franchiseDiff;
+  return firstYear(a) - firstYear(b);
+});
+
+sortedCharacters.forEach(character => grid.appendChild(buildCharacterCard(character)));
 
 // ============================================================
 //  AUTO-SCROLL DE LA LISTE AU DOS DE LA CARTE
