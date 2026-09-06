@@ -15,7 +15,10 @@ layout: null
   --toc-title-size: 13px;      /* taille du titre "Contents" */
   --toc-item-size: 12px;       /* taille des lignes ET des chiffres du sommaire */
   --optional-video-height: 300px; /* hauteur de la vidéo optionnelle sous le bloc du haut */
-  --banner-height: 200px;      /* hauteur des bandeaux images par film */
+  --banner-height: 300px;      /* hauteur des bandeaux images par film */
+  --banner-position: center 25%; /* cadrage de l'image dans le bandeau (comme background-position) */
+  --banner-title-size: 28px;   /* taille du titre incrusté sur le bandeau */
+  --banner-pad-side: 30px;     /* retrait du titre depuis le bord gauche/droit du bandeau */
   --year-color: #7ea6d8;       /* couleur des années/dates (bleu pastel) */
 }
 
@@ -164,7 +167,6 @@ body {
    ============================================================ */
 .film-section {
   padding: 0 0 40px;
-  border-top: 1px solid #eee;
   scroll-margin-top: 90px; /* pour que le clic du sommaire ne cache pas le titre sous la barre sticky */
 }
 
@@ -188,7 +190,7 @@ body {
   width: 100%;
   height: var(--banner-height);
   object-fit: cover;
-  object-position: center 25%;
+  object-position: var(--banner-position);
   display: block;
 }
 
@@ -197,11 +199,12 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 14px 20px;
+  padding: 14px var(--banner-pad-side);
   background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));
 }
 
 .film-header-overlay .film-title {
+  font-size: var(--banner-title-size);
   color: #fff;
   margin: 0;
   text-shadow: 0 2px 6px rgba(0,0,0,0.5);
@@ -253,7 +256,12 @@ body {
   font-weight: 700;
   color: #222;
   width: 230px;
+  text-align: right;
+  padding-right: 14px !important;
   white-space: nowrap;
+}
+.lang-cell::after {
+  content: ":";
 }
 .voice-cell em {
   color: #888;
@@ -367,13 +375,15 @@ body {
 
 <!-- ============================================================
      FILM 1 : Snow White and the Seven Dwarfs (1937)
-     MODIFIE ICI : chaque <tr> = une langue. data-lang contient le texte
-     utilisé pour la recherche (invisible) : mets-y le nom de la langue,
-     l'année, et toute variante utile (ex: nom natif, abréviation...).
+     MODIFIE ICI : chaque <tr> = une langue. Plus besoin d'écrire
+     data-lang toi-même, il est calculé automatiquement depuis le texte
+     de la langue (voir le script tout en bas de la page). Ajoute
+     data-lang="..." uniquement si tu veux un mot-clé de recherche
+     différent du texte affiché.
      ============================================================ -->
 <section class="film-section" id="film-1937">
   <div class="film-header">
-    <img class="film-banner" src="https://res.cloudinary.com/dofvjifeo/image/upload/v1788693079/SnowWhite1937Header.png" alt="Snow White and the Seven Dwarfs">
+    <img class="film-banner" src="https://res.cloudinary.com/dofvjifeo/image/upload/SnowWhite1937Banner.jpg" alt="Snow White and the Seven Dwarfs">
     <div class="film-header-overlay">
       <h2 class="film-title">Snow White and the Seven Dwarfs <span class="film-year">(1937)</span></h2>
     </div>
@@ -745,6 +755,26 @@ body {
 <div class="last-update">Last update - 31-Aug-2026</div>
 
 <script>
+// ============================================================
+//  CALCUL AUTOMATIQUE DE data-lang
+//  Pour chaque ligne du tableau qui n'a pas déjà un data-lang manuel,
+//  on le déduit automatiquement du texte affiché dans la langue.
+//  Tu n'as donc PLUS BESOIN d'écrire data-lang="..." toi-même :
+//    <tr><td class="lang-cell">Albanian 2002</td><td class="voice-cell">...</td></tr>
+//  suffit. Tu peux quand même en mettre un manuellement si tu veux un
+//  mot-clé de recherche différent du texte affiché (ex: une variante
+//  orthographique), il sera alors utilisé à la place.
+// ============================================================
+
+document.querySelectorAll('.voice-table tr').forEach(row => {
+  if (!row.dataset.lang) {
+    const langCell = row.querySelector('.lang-cell');
+    if (langCell) {
+      row.dataset.lang = langCell.textContent.toLowerCase();
+    }
+  }
+});
+
 // ============================================================
 //  RECHERCHE PAR LANGUE
 //  Filtre chaque ligne (<tr data-lang="...">) sur toutes les sections.
