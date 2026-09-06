@@ -224,15 +224,32 @@ body {
   display: block;
 }
 
-/* Le VOILE SOMBRE (dégradé) posé sur le bas de l'image, qui rend le
-   texte lisible peu importe la photo en dessous. */
+/* Le VOILE SOMBRE (dégradé) posé sur le bas du bandeau, qui rend le
+   texte lisible peu importe l'image (ou la lumière animée) en dessous.
+   Il est appliqué via ::before (pas directement sur .film-header-overlay)
+   pour que "mix-blend-mode" ne touche QUE le voile, et pas le texte
+   du titre juste au-dessus (sinon le texte blanc se fondrait lui aussi
+   dans le fond et deviendrait illisible). */
 .film-header-overlay {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
   padding: 14px var(--banner-pad-side) var(--banner-title-bottom);   /* retrait haut / gauche-droite / bas */
-  background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));
+}
+.film-header-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+    rgba(0,0,0,0.75) 0%,
+    rgba(0,0,0,0.55) 30%,
+    rgba(0,0,0,0.3) 55%,
+    rgba(0,0,0,0.1) 80%,
+    rgba(0,0,0,0) 100%
+  );
+  mix-blend-mode: multiply;   /* le voile SE MÉLANGE au fond au lieu de le recouvrir platement */
+  pointer-events: none;
 }
 
 /* Le TITRE DU FILM incrusté sur le bandeau (ex: "Snow White and the
@@ -240,6 +257,8 @@ body {
    ci-dessus) : voir plus bas ".film-title" pour la version normale
    (actuellement inutilisée puisque tous les titres sont sur des bandeaux). */
 .film-header-overlay .film-title {
+  position: relative;   /* nécessaire pour que z-index le place au-dessus du voile ::before */
+  z-index: 1;
   font-size: var(--banner-title-size);    /* taille du titre, en haut du fichier */
   color: #fff;
   margin: 0;
