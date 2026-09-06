@@ -16,6 +16,7 @@ layout: null
   --banner-position: center 25%; /* cadrage de l'image dans le bandeau (comme background-position) */
   --banner-title-size: 50px;   /* taille du titre incrusté sur le bandeau */
   --banner-pad-side: 80px;     /* retrait du titre depuis le bord gauche/droit du bandeau */
+  --banner-title-bottom: 30px; /* remonte le titre depuis le bas du bandeau */
   --year-color: #7ea6d8;       /* couleur des années/dates (bleu pastel) */
 }
 
@@ -216,7 +217,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 14px var(--banner-pad-side);   /* retrait gauche/droite du titre */
+  padding: 14px var(--banner-pad-side) var(--banner-title-bottom);   /* retrait haut / gauche-droite / bas */
   background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));
 }
 
@@ -378,7 +379,7 @@ body {
    ============================================================ */
 #backToTop {
   position: fixed;
-  left: 24px;
+  right: 24px;
   bottom: 24px;
   width: 56px;
   height: 56px;
