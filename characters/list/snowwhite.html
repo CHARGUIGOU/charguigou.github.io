@@ -150,9 +150,6 @@ body {
 .toc a:hover {
   text-decoration: underline;
 }
-.toc a.active {
-  font-weight: 700;
-}
 
 /* ============================================================
    VIDEO OPTIONNELLE sous le bloc titre/recherche/sommaire
@@ -335,19 +332,17 @@ body {
   content: " :";
 }
 
-/* Style d'un <em>mot</em> À L'INTÉRIEUR d'une langue (ex: "Egyptian" dans
-   "Egyptian Arabic"). Reste en gras automatiquement (hérité de .lang-cell
-   juste au-dessus) : pas besoin de le repréciser ici. */
-.lang-cell em {
-  font-style: normal;   /* enlève l'italique par défaut des balises <em> */
-  font-size: 0.85em;    /* ← TAILLE de "Egyptian" : 85% de la taille de la langue */
+/* Style d'un <small>mot</small> À L'INTÉRIEUR d'une langue (ex: "EGYPTIAN"
+   dans "EGYPTIAN Arabic"). Reste en gras automatiquement (hérité de
+   .lang-cell juste au-dessus) : pas besoin de le repréciser ici. */
+.lang-cell small {
+  font-size: 0.85em;    /* ← TAILLE du qualificatif (ex: "EGYPTIAN") : 85% de la taille de la langue */
 }
 
-/* Style d'un <em>mot</em> À L'INTÉRIEUR de la voix (ex: "(speaking)",
+/* Style d'un <small>mot</small> À L'INTÉRIEUR de la voix (ex: "(speaking)",
    "(singing)"). Pas de "color" ici : ils prennent donc automatiquement
    la même couleur que le nom juste à côté. */
-.voice-cell em {
-  font-style: normal;
+.voice-cell small {
   font-size: 0.82em;    /* ← TAILLE de "(speaking)" / "(singing)" */
 }
 
@@ -422,7 +417,7 @@ body.searching .continuity {
   border-left: 3px solid var(--accent);
   padding: 4px 0 4px 16px;
 }
-/* Le titre "Continuity" devient un bouton cliquable */
+/* Le titre "Continuity" devient un bouton cliquable, toujours en gras */
 .continuity-toggle {
   display: flex;
   align-items: center;
@@ -433,6 +428,7 @@ body.searching .continuity {
   cursor: pointer;
   padding: 0;
   font-size: 13px;
+  font-weight: 700;      /* ← "CONTINUITY" toujours en gras */
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--accent);
@@ -460,9 +456,6 @@ body.searching .continuity {
   line-height: 1.6;
   color: #444;
   margin: 0 0 10px;
-}
-.continuity strong {
-  color: #222;
 }
 
 .last-update {
@@ -553,7 +546,7 @@ body.searching .continuity {
      MODIFIE ICI : les données sont dans le tableau JS "voices_1937"
      tout en bas de la page (section CHARACTER DATA). Chaque ligne
      = { lang: "...", voice: "..." }. Le champ "voice" accepte du HTML
-     libre (<em>, scripts natifs, etc.)
+     libre (<small>, <b>, <i>, scripts natifs, etc.)
      ============================================================ -->
 <section class="film-section" id="film-1937">
   <div class="film-header">
@@ -574,7 +567,7 @@ body.searching .continuity {
       <li><b>Frieda van Hessen</b>, the Dutch 1938 singing voice of Snow White, was forced into hiding during WW2, and survived the Holocaust. She wrote a book about her life "Life in the Shadow of the Swastika".</li>
       <li><b>Tatiana Angelini</b>, the Swedish 1938 version, was Walt Disney's personal favourite foreign voice.</li>
       <li>In 1996, <b>Lucie Dolène</b> (Snow White French 1962 voice) sued Disney France for the copyrights on her voice and won, leading to a complete redubbing of the movie in 2001.</li>
-      <li><b>Ratiba Al-Hefny</b> (رتيبة الحفنى) was originally chosen by Disney to be the first song director in the history of Walt Disney's Arabic dubbings. Lots of girls were refused by Disney for the role of Snow White, so Ratiba then decided to record herself and send it to the Company under a nickname. To everyone's surprise, Disney liked it and chose her.<br>Ratiba didn’t want her real name to be written on the movie's opening, and asked for a nickname to be shown instead. However, after some years, she told her friends the truth.</li>
+      <li><b>Ratiba Al-Hefny</b> (رتيبة الحفنى) was originally chosen by Disney to be the first song director in the history of Walt Disney's Arabic dubbings. Lots of girls were refused by Disney for the role of Snow White, so Ratiba then decided to record herself and send it to the Company under a nickname. To everyone's surprise, Disney liked it and chose her.<br>Ratiba didn't want her real name to be written on the movie's opening, and asked for a nickname to be shown instead. However, after some years, she told her friends the truth.</li>
       <li>The second <b>Thai dub</b> is only a partial re-dubbing. Only <i>Snow White</i>, <i>the Prince</i>, and <i>Grumpy</i> were redubbed.</li>
       <li>The Brazilian Portuguese (1938) and Japanese (1957) dubs are lost now.</li>
       <li>The Albanian dubs aren't official.</li>
@@ -630,8 +623,9 @@ body.searching .continuity {
 
 <!-- ============================================================
      FILM 4 : LEGO Disney Princess: The Castle Quest (2023)
+     ⚠️ id renommé : lego-2023 (au lieu de film-2023a)
      ============================================================ -->
-<section class="film-section" id="film-2023a">
+<section class="film-section" id="lego-2023">
   <div class="film-header">
     <img class="film-banner" src="https://res.cloudinary.com/dofvjifeo/image/upload/v1788720661/SnowWhite2023LegoHeader.png" alt="LEGO Disney Princess: The Castle Quest">
     <div class="film-header-overlay">
@@ -639,7 +633,7 @@ body.searching .continuity {
     </div>
   </div>
 
-  <div class="voice-table-mount" id="voices-2023a"></div>
+  <div class="voice-table-mount" id="voices-lego-2023"></div>
 
   <div class="continuity">
     <button class="continuity-toggle" type="button">
@@ -664,8 +658,9 @@ body.searching .continuity {
 
 <!-- ============================================================
      FILM 5 : Once Upon a Studio (2023)
+     ⚠️ id renommé : film-2023 (au lieu de film-2023b)
      ============================================================ -->
-<section class="film-section" id="film-2023b">
+<section class="film-section" id="film-2023">
   <div class="film-header">
     <img class="film-banner" src="https://res.cloudinary.com/dofvjifeo/image/upload/v1789222514/SnowWhite2023Header.png" alt="Once Upon a Studio">
     <div class="film-header-overlay">
@@ -673,7 +668,7 @@ body.searching .continuity {
     </div>
   </div>
 
-  <div class="voice-table-mount" id="voices-2023b"></div>
+  <div class="voice-table-mount" id="voices-film-2023"></div>
 
   <div class="continuity">
     <button class="continuity-toggle" type="button">
@@ -681,7 +676,7 @@ body.searching .continuity {
     </button>
     <div class="continuity-content">
       <div class="continuity-content-inner">
-        <p>From <i>Snow White and the Seven Dwarfs</i> (1937) :<br>French <small>(2001 re-dub)</small>,, Polish <small>(2009 re-dub)</small>, Romanian <small>(2009 dub)</small>, Serbian <small>(2019 dub)</small></p>
+        <p>From <i>Snow White and the Seven Dwarfs</i> (1937) :<br>French <small>(2001 re-dub)</small>, Polish <small>(2009 re-dub)</small>, Romanian <small>(2009 dub)</small>, Serbian <small>(2019 dub)</small></p>
         <p>From later sequels or TV series :<br>Dutch, Slovak <small>(LEGO)</small></p>
         <p><i>New voices</i> :<br>English, German, Hebrew</p>
       </div>
@@ -699,8 +694,9 @@ body.searching .continuity {
 
 <!-- ============================================================
      FILM 6 : Snow White (Live-action) (2025)
+     ⚠️ id renommé : film-2025 (au lieu de film-2025a)
      ============================================================ -->
-<section class="film-section" id="film-2025a">
+<section class="film-section" id="film-2025">
   <div class="film-header">
     <img class="film-banner" src="https://res.cloudinary.com/dofvjifeo/image/upload/v1788720664/SnowWhite2025Header.png" alt="Snow White (Live-action)">
     <div class="film-header-overlay">
@@ -709,7 +705,7 @@ body.searching .continuity {
   </div>
   <p class="portrayed-by"><em>Portrayed by</em> Rachel Zegler</p>
 
-  <div class="voice-table-mount" id="voices-2025a"></div>
+  <div class="voice-table-mount" id="voices-film-2025"></div>
 
   <div class="anecdotes">
     <h3>Anecdotes</h3>
@@ -721,8 +717,9 @@ body.searching .continuity {
 
 <!-- ============================================================
      FILM 7 : LEGO Disney Princess: Villains Unite (2025)
+     ⚠️ id renommé : lego-2025 (au lieu de film-2025b)
      ============================================================ -->
-<section class="film-section" id="film-2025b">
+<section class="film-section" id="lego-2025">
   <div class="film-header">
     <img class="film-banner" src="https://res.cloudinary.com/dofvjifeo/image/upload/v1788720666/SnowWhite2025LegoHeader.png" alt="LEGO Disney Princess: Villains Unite">
     <div class="film-header-overlay">
@@ -730,7 +727,7 @@ body.searching .continuity {
     </div>
   </div>
 
-  <div class="voice-table-mount" id="voices-2025b"></div>
+  <div class="voice-table-mount" id="voices-lego-2025"></div>
 
   <div class="anecdotes">
     <h3>Anecdotes</h3>
@@ -763,10 +760,10 @@ body.searching .continuity {
     <div class="continuity-content">
       <div class="continuity-content-inner">
         <p>From the original movie (1937) :<br>Cantonese, French, German, Hungarian, Indonesian, Japanese, Malay, Romanian, Latin American Spanish, Castilian Spanish, Thai</p>
-        <p>From <i>Sofia the First</i> (2014) :</strong><br>English, Finnish</p>
-        <p>From <i>Ralph Breaks the Internet</i> (2018) :</strong><br>Brazilian Portuguese, Portuguese</p>
-        <p>From the Live-action remake (2025) :</strong><br>Croatian, Greek, Swedish</p>
-        <p>From previous <i>LEGO shorts</i> :</strong><br>Czech, Danish, Dutch, Korean, Taiwanese Mandarin, Polish, Slovak</p>
+        <p>From <i>Sofia the First</i> (2014) :<br>English, Finnish</p>
+        <p>From <i>Ralph Breaks the Internet</i> (2018) :<br>Brazilian Portuguese, Portuguese</p>
+        <p>From the Live-action remake (2025) :<br>Croatian, Greek, Swedish</p>
+        <p>From previous <i>LEGO shorts</i> :<br>Czech, Danish, Dutch, Korean, Taiwanese Mandarin, Polish, Slovak</p>
         <p><i>New voices</i> :<br>Norwegian <small>(Fei Fei and Merida <i>in Ralph</i>)</small></p>
       </div>
     </div>
@@ -801,86 +798,86 @@ body.searching .continuity {
 // ============================================================
 //  DONNEES DES VOIX PAR FILM
 //  MODIFIE ICI : chaque entrée = { lang: "...", voice: "..." }.
-//  Le champ "voice" accepte du HTML libre (<em>, scripts natifs, etc.)
+//  Le champ "voice" accepte du HTML libre (<small>, <b>, <i>, scripts natifs, etc.)
 // ============================================================
 
 const voices_1937 = [
-  { lang: "Albanian (2002)", voice: 'Julka Gramo <em>(speaking)</em> &amp; Adriana Caselotti <em>(singing - original version)</em>' },
-  { lang: "Albanian (2005)", voice: 'Esmeralda Kame <em>(speaking)</em> &amp; Eltina Minarolli <em>(singing)</em>' },
-  { lang: '<em>EGYPTIAN</em> Arabic (1978)', voice: 'Fatma Mazhar / فاطمة مظهر <em>(speaking)</em> &amp; Ratiba Al-Hefny / رتيبة الحفني <em>(singing)</em>' },
-  { lang: "<em>MODERN STANDARD</em> Arabic TV (2015)", voice: 'Noha Qais / نهى قيس <em>(speaking &amp; singing)</em>' },
-  { lang: "<em>MODERN STANDARD</em> Arabic (2023)", voice: 'Shahd Ezz / شهد عز <em>(speaking &amp; singing)</em>' },
-  { lang: "Bulgarian (2001)", voice: 'Ventsislava Stoilova / Венцислава Стоилова <em>(speaking &amp; singing)</em>' },
-  { lang: "Cantonese (1995)", voice: '"Agnes Lam" Lam Si-Cung / 林司聰 <em>(speaking)</em> &amp; Ceoi Wai / 徐慧 <em>(singing)</em>' },
-  { lang: "Croatian (2009)", voice: 'Hana Hegedušić <em>(speaking &amp; singing)</em>' },
-  { lang: "Crimean Tatar TV (20??)", voice: '? <em>(speaking)</em> &amp; Adriana Caselotti <em>(singing - original version)</em>' },
-  { lang: "Czech (1938)", voice: 'Ella Rixová <em>(speaking &amp; singing)</em>' },
-  { lang: "Czech (1970)", voice: 'Klára Jerneková <em>(speaking)</em> &amp; Marie Sikulová <em>(singing)</em>' },
-  { lang: "Danish (1938)", voice: 'Annie Jessen <em>(speaking &amp; singing)</em>' },
-  { lang: "Danish (1982)", voice: 'Tove Hyldgaard <em>(speaking &amp; singing)</em>' },
-  { lang: "Dutch (1938)", voice: 'Cecilia "Cilly" Bach <em>(speaking)</em> &amp; Frieda van Hessen <em>(singing)</em>' },
-  { lang: "Dutch (1984)", voice: 'Bernadette Kraakman <em>(speaking &amp; singing)</em>' },
-  { lang: "English (1937)", voice: 'Adriana Caselotti <em>(speaking &amp; singing)</em>' },
-  { lang: "Finnish (1962)", voice: 'Eeva-Kaarina Volanen <em>(speaking)</em> &amp; Tatiana Angelini <em>(singing - original Swedish version)</em>' },
-  { lang: "Finnish (1982)", voice: 'Jaana Oravisto <em>(speaking)</em> &amp; Johanna Nurmimaa <em>(singing)</em>' },
-  { lang: "Finnish (1994)", voice: 'Riikka Väyrynen <em>(speaking)</em> &amp; Kukka-Maaria Ahonen <em>(singing)</em>' },
-  { lang: "French (1938)", voice: 'Christiane Tourneur <em>(speaking)</em> &amp; Beatrice Hagen <em>(singing)</em>' },
-  { lang: "French (1962)", voice: 'Lucie Dolène <em>(speaking &amp; singing)</em>' },
-  { lang: "French (2001)", voice: 'Valérie Siclay <em>(speaking)</em> &amp; Rachel Pignot <em>(singing)</em>' },
-  { lang: "German (1938)", voice: 'Hortense Raky <em>(speaking)</em> &amp; Claire Eiselmeyer <em>(singing)</em>' },
-  { lang: "German (1966)", voice: 'Uschi Wolff <em>(speaking)</em> &amp; Susanne Tremper <em>(singing)</em>' },
-  { lang: "German (1994)", voice: 'Manja Doering <em>(speaking)</em> &amp; Alexandra Wilcke <em>(singing)</em>' },
-  { lang: "Greek (1974)", voice: 'Matína Karrá / Ματίνα Καρρά <em>(speaking)</em> &amp; Mítsa Roúti / Μήτσα Ρούτη <em>(singing)</em>' },
-  { lang: "Hebrew (1992)", voice: 'Orit Yaron / אורית ירון <em>(speaking)</em> &amp; Limor Shapira / לימור שפירא <em>(singing)</em>' },
-  { lang: "Hindi (2005)", voice: "Marianne D'Cruz Aiman <em>(speaking &amp; singing)</em>" },
-  { lang: "Hungarian (1962)", voice: 'Váradi Hédi <em>(speaking)</em> &amp; Házy Erzsébet <em>(singing)</em>' },
-  { lang: "Hungarian (2001)", voice: 'Oroszlán Szonja <em>(speaking &amp; singing)</em>' },
-  { lang: "Icelandic (2001)", voice: 'Vigdís Hrefna Pálsdóttir <em>(speaking &amp; singing)</em>' },
-  { lang: "Indonesian (2013)", voice: 'Apriliana Suci Ariesta <em>(speaking)</em> &amp; Justina Penina <em>(singing)</em>' },
-  { lang: "Italian (1938)", voice: 'Rosetta Calavetta <em>(speaking)</em> &amp; Lina Pagliughi <em>(singing)</em>' },
-  { lang: "Italian (1972)", voice: 'Melina Martello <em>(speaking)</em> &amp; Gianna Spagnulo <em>(singing)</em>' },
-  { lang: "Japanese (1958)", voice: 'Tomizawa Shima / 富沢志満 <em>(speaking &amp; ?)</em>' },
-  { lang: "Japanese (1980)", voice: 'Kobato Kurumi / 小鳩くるみ <em>(speaking &amp; singing)</em>' },
-  { lang: "Kazakh (2015)", voice: 'Nazerke Serıkbolova / Назерке Серікболова <em>(speaking)</em> &amp; Janargul Janyamanova / Жанаргуль Жаныаманова <em>(singing)</em>' },
-  { lang: "Korean (1994)", voice: 'Kim Su-gyeong / 김수경 <em>(speaking)</em> &amp; Lee Yun-seon / 이윤선 <em>(singing)</em>' },
-  { lang: "Malay (2013?)", voice: '"Suki Low" Low Sook Yee / Liú Shūyú / 劉紓妤 <em>(singing)</em> &amp; Yatie Maslini <em>(speaking)</em>' },
-  { lang: "<em>TAIWANESE</em> Mandarin (????)", voice: '"Corisa Lee" Lǐ Zhí-Píng / 李直平 <em>(speaking)</em> &amp; "Judy Chen" Chén Xiù-Zhū / 陳秀珠 <em>(singing)</em>' },
-  { lang: "Mandarin <em>CHINESE</em> (2009)", voice: 'Wú Xiǎo-Lěi / 吴晓蕾 <em>(speaking)</em> &amp; "Judy Chen" Chén Xiù-Zhū / 陳秀珠 <em>(singing - Taiwanese Mandarin version)</em>' },
-  { lang: "Norwegian (1983)", voice: 'Unn Vibeke Hol <em>(speaking)</em> &amp; Anne Lise Gjøstøl <em>(singing)</em>' },
-  { lang: "Norwegian (1994)", voice: 'Unn Vibeke Hol <em>(speaking)</em> &amp; Anne Aartun <em>(singing)</em>' },
-  { lang: "Polish (1938)", voice: 'Maria Modzelewska <em>(speaking &amp; singing)</em>' },
-  { lang: "Polish (2009)", voice: 'Edyta Krzemień <em>(speaking &amp; singing)</em>' },
-  { lang: "<em>BRAZILIAN</em> Portuguese (1938)", voice: 'Dalva de Oliveira <em>(speaking)</em> &amp; Maria Clara Tati Jacome <em>(singing)</em>' },
-  { lang: "<em>BRAZILIAN</em> Portuguese (1965)", voice: 'Maria Alice Barreto <em>(speaking)</em> &amp; Cybele Freire <em>(singing)</em>' },
-  { lang: "Portuguese (2001)", voice: 'Sandra de Castro <em>(speaking &amp; singing)</em>' },
-  { lang: "Romanian (2009)", voice: 'Mediana Vlad <em>(speaking &amp; singing)</em>' },
-  { lang: "Russian (2001)", voice: 'Yevgeniya Igumnova / Евгения Игумнова <em>(speaking)</em> &amp; Yelena Ushakova / Елена Ушакова <em>(singing)</em>' },
-  { lang: "Serbian (2019)", voice: 'Irina Arsenijević / Ирина Арсенијевић <em>(speaking &amp; singing)</em>' },
-  { lang: "Slovak (1970)", voice: 'Darina Chmurová <em>(speaking)</em> &amp; Cecília Lévaiová <em>(singing)</em>' },
-  { lang: "<em>LATIN AMERICAN</em> Spanish (1938)", voice: 'Thelma Hubbard <em>(speaking)</em> &amp; Diana Castillo <em>(singing)</em>' },
-  { lang: "<em>LATIN AMERICAN</em> Spanish (1964)", voice: 'Amparo Garrido <em>(speaking)</em> &amp; Lupita Pérez Arias <em>(singing)</em>' },
-  { lang: "<em>LATIN AMERICAN</em> Spanish (2001)", voice: 'Maggie Vera <em>(speaking)</em> + Alicia Diana Santos <em>(one loop speaking)</em> &amp; Vikina Michel <em>(singing)</em>' },
-  { lang: "<em>CASTILIAN</em> Spanish (2001)", voice: 'Mar Bordallo <em>(speaking)</em> &amp; Yolanda de las Heras <em>(singing)</em>' },
-  { lang: "Swedish (1938)", voice: 'Tatiana Angelini <em>(speaking &amp; singing)</em>' },
-  { lang: "Swedish (1982)", voice: 'Anna-Lotta Larsson <em>(speaking &amp; singing)</em>' },
+  { lang: "Albanian (2002)", voice: 'Julka Gramo <small>(speaking)</small> &amp; Adriana Caselotti <small>(singing - original version)</small>' },
+  { lang: "Albanian (2005)", voice: 'Esmeralda Kame <small>(speaking)</small> &amp; Eltina Minarolli <small>(singing)</small>' },
+  { lang: '<small>EGYPTIAN</small> Arabic (1978)', voice: 'Fatma Mazhar / فاطمة مظهر <small>(speaking)</small> &amp; Ratiba Al-Hefny / رتيبة الحفني <small>(singing)</small>' },
+  { lang: "<small>MODERN STANDARD</small> Arabic TV (2015)", voice: 'Noha Qais / نهى قيس <small>(speaking &amp; singing)</small>' },
+  { lang: "<small>MODERN STANDARD</small> Arabic (2023)", voice: 'Shahd Ezz / شهد عز <small>(speaking &amp; singing)</small>' },
+  { lang: "Bulgarian (2001)", voice: 'Ventsislava Stoilova / Венцислава Стоилова <small>(speaking &amp; singing)</small>' },
+  { lang: "Cantonese (1995)", voice: '"Agnes Lam" Lam Si-Cung / 林司聰 <small>(speaking)</small> &amp; Ceoi Wai / 徐慧 <small>(singing)</small>' },
+  { lang: "Croatian (2009)", voice: 'Hana Hegedušić <small>(speaking &amp; singing)</small>' },
+  { lang: "Crimean Tatar TV (20??)", voice: '? <small>(speaking)</small> &amp; Adriana Caselotti <small>(singing - original version)</small>' },
+  { lang: "Czech (1938)", voice: 'Ella Rixová <small>(speaking &amp; singing)</small>' },
+  { lang: "Czech (1970)", voice: 'Klára Jerneková <small>(speaking)</small> &amp; Marie Sikulová <small>(singing)</small>' },
+  { lang: "Danish (1938)", voice: 'Annie Jessen <small>(speaking &amp; singing)</small>' },
+  { lang: "Danish (1982)", voice: 'Tove Hyldgaard <small>(speaking &amp; singing)</small>' },
+  { lang: "Dutch (1938)", voice: 'Cecilia "Cilly" Bach <small>(speaking)</small> &amp; Frieda van Hessen <small>(singing)</small>' },
+  { lang: "Dutch (1984)", voice: 'Bernadette Kraakman <small>(speaking &amp; singing)</small>' },
+  { lang: "English (1937)", voice: 'Adriana Caselotti <small>(speaking &amp; singing)</small>' },
+  { lang: "Finnish (1962)", voice: 'Eeva-Kaarina Volanen <small>(speaking)</small> &amp; Tatiana Angelini <small>(singing - original Swedish version)</small>' },
+  { lang: "Finnish (1982)", voice: 'Jaana Oravisto <small>(speaking)</small> &amp; Johanna Nurmimaa <small>(singing)</small>' },
+  { lang: "Finnish (1994)", voice: 'Riikka Väyrynen <small>(speaking)</small> &amp; Kukka-Maaria Ahonen <small>(singing)</small>' },
+  { lang: "French (1938)", voice: 'Christiane Tourneur <small>(speaking)</small> &amp; Beatrice Hagen <small>(singing)</small>' },
+  { lang: "French (1962)", voice: 'Lucie Dolène <small>(speaking &amp; singing)</small>' },
+  { lang: "French (2001)", voice: 'Valérie Siclay <small>(speaking)</small> &amp; Rachel Pignot <small>(singing)</small>' },
+  { lang: "German (1938)", voice: 'Hortense Raky <small>(speaking)</small> &amp; Claire Eiselmeyer <small>(singing)</small>' },
+  { lang: "German (1966)", voice: 'Uschi Wolff <small>(speaking)</small> &amp; Susanne Tremper <small>(singing)</small>' },
+  { lang: "German (1994)", voice: 'Manja Doering <small>(speaking)</small> &amp; Alexandra Wilcke <small>(singing)</small>' },
+  { lang: "Greek (1974)", voice: 'Matína Karrá / Ματίνα Καρρά <small>(speaking)</small> &amp; Mítsa Roúti / Μήτσα Ρούτη <small>(singing)</small>' },
+  { lang: "Hebrew (1992)", voice: 'Orit Yaron / אורית ירון <small>(speaking)</small> &amp; Limor Shapira / לימור שפירא <small>(singing)</small>' },
+  { lang: "Hindi (2005)", voice: "Marianne D'Cruz Aiman <small>(speaking &amp; singing)</small>" },
+  { lang: "Hungarian (1962)", voice: 'Váradi Hédi <small>(speaking)</small> &amp; Házy Erzsébet <small>(singing)</small>' },
+  { lang: "Hungarian (2001)", voice: 'Oroszlán Szonja <small>(speaking &amp; singing)</small>' },
+  { lang: "Icelandic (2001)", voice: 'Vigdís Hrefna Pálsdóttir <small>(speaking &amp; singing)</small>' },
+  { lang: "Indonesian (2013)", voice: 'Apriliana Suci Ariesta <small>(speaking)</small> &amp; Justina Penina <small>(singing)</small>' },
+  { lang: "Italian (1938)", voice: 'Rosetta Calavetta <small>(speaking)</small> &amp; Lina Pagliughi <small>(singing)</small>' },
+  { lang: "Italian (1972)", voice: 'Melina Martello <small>(speaking)</small> &amp; Gianna Spagnulo <small>(singing)</small>' },
+  { lang: "Japanese (1958)", voice: 'Tomizawa Shima / 富沢志満 <small>(speaking &amp; ?)</small>' },
+  { lang: "Japanese (1980)", voice: 'Kobato Kurumi / 小鳩くるみ <small>(speaking &amp; singing)</small>' },
+  { lang: "Kazakh (2015)", voice: 'Nazerke Serıkbolova / Назерке Серікболова <small>(speaking)</small> &amp; Janargul Janyamanova / Жанаргуль Жаныаманова <small>(singing)</small>' },
+  { lang: "Korean (1994)", voice: 'Kim Su-gyeong / 김수경 <small>(speaking)</small> &amp; Lee Yun-seon / 이윤선 <small>(singing)</small>' },
+  { lang: "Malay (2013?)", voice: '"Suki Low" Low Sook Yee / Liú Shūyú / 劉紓妤 <small>(singing)</small> &amp; Yatie Maslini <small>(speaking)</small>' },
+  { lang: "<small>TAIWANESE</small> Mandarin (????)", voice: '"Corisa Lee" Lǐ Zhí-Píng / 李直平 <small>(speaking)</small> &amp; "Judy Chen" Chén Xiù-Zhū / 陳秀珠 <small>(singing)</small>' },
+  { lang: "Mandarin <small>CHINESE</small> (2009)", voice: 'Wú Xiǎo-Lěi / 吴晓蕾 <small>(speaking)</small> &amp; "Judy Chen" Chén Xiù-Zhū / 陳秀珠 <small>(singing - Taiwanese Mandarin version)</small>' },
+  { lang: "Norwegian (1983)", voice: 'Unn Vibeke Hol <small>(speaking)</small> &amp; Anne Lise Gjøstøl <small>(singing)</small>' },
+  { lang: "Norwegian (1994)", voice: 'Unn Vibeke Hol <small>(speaking)</small> &amp; Anne Aartun <small>(singing)</small>' },
+  { lang: "Polish (1938)", voice: 'Maria Modzelewska <small>(speaking &amp; singing)</small>' },
+  { lang: "Polish (2009)", voice: 'Edyta Krzemień <small>(speaking &amp; singing)</small>' },
+  { lang: "<small>BRAZILIAN</small> Portuguese (1938)", voice: 'Dalva de Oliveira <small>(speaking)</small> &amp; Maria Clara Tati Jacome <small>(singing)</small>' },
+  { lang: "<small>BRAZILIAN</small> Portuguese (1965)", voice: 'Maria Alice Barreto <small>(speaking)</small> &amp; Cybele Freire <small>(singing)</small>' },
+  { lang: "Portuguese (2001)", voice: 'Sandra de Castro <small>(speaking &amp; singing)</small>' },
+  { lang: "Romanian (2009)", voice: 'Mediana Vlad <small>(speaking &amp; singing)</small>' },
+  { lang: "Russian (2001)", voice: 'Yevgeniya Igumnova / Евгения Игумнова <small>(speaking)</small> &amp; Yelena Ushakova / Елена Ушакова <small>(singing)</small>' },
+  { lang: "Serbian (2019)", voice: 'Irina Arsenijević / Ирина Арсенијевић <small>(speaking &amp; singing)</small>' },
+  { lang: "Slovak (1970)", voice: 'Darina Chmurová <small>(speaking)</small> &amp; Cecília Lévaiová <small>(singing)</small>' },
+  { lang: "<small>LATIN AMERICAN</small> Spanish (1938)", voice: 'Thelma Hubbard <small>(speaking)</small> &amp; Diana Castillo <small>(singing)</small>' },
+  { lang: "<small>LATIN AMERICAN</small> Spanish (1964)", voice: 'Amparo Garrido <small>(speaking)</small> &amp; Lupita Pérez Arias <small>(singing)</small>' },
+  { lang: "<small>LATIN AMERICAN</small> Spanish (2001)", voice: 'Maggie Vera <small>(speaking)</small> + Alicia Diana Santos <small>(one loop speaking)</small> &amp; Vikina Michel <small>(singing)</small>' },
+  { lang: "<small>CASTILIAN</small> Spanish (2001)", voice: 'Mar Bordallo <small>(speaking)</small> &amp; Yolanda de las Heras <small>(singing)</small>' },
+  { lang: "Swedish (1938)", voice: 'Tatiana Angelini <small>(speaking &amp; singing)</small>' },
+  { lang: "Swedish (1982)", voice: 'Anna-Lotta Larsson <small>(speaking &amp; singing)</small>' },
   { lang: "Tamil (????)", voice: "?" },
   { lang: "Telugu (????)", voice: "?" },
-  { lang: "Thai (1994)", voice: 'Marisa Sukosol Nunbhakdi / มาริสา สุโกศล หนุนภักดี <em>(speaking &amp; singing)</em>' },
-  { lang: "Thai (2001)", voice: 'Netnapha Hanrotchanawut / เนตรนภา หาญโรจนวุฒิ <em>(speaking)</em> &amp; Chairat Phithakcharoen / ใจรัตน์ พิทักษ์เจริญ <em>(singing)</em>' },
-  { lang: "Turkish (2009)", voice: 'Aliye Mutlu <em>(speaking &amp; singing)</em>' },
-  { lang: "Ukrainian (2010)", voice: 'Anzhelika Savchenko / Анжеліка Савченко <em>(speaking &amp; singing)</em>' }
+  { lang: "Thai (1994)", voice: 'Marisa Sukosol Nunbhakdi / มาริสา สุโกศล หนุนภักดี <small>(speaking &amp; singing)</small>' },
+  { lang: "Thai (2001)", voice: 'Netnapha Hanrotchanawut / เนตรนภา หาญโรจนวุฒิ <small>(speaking)</small> &amp; Chairat Phithakcharoen / ใจรัตน์ พิทักษ์เจริญ <small>(singing)</small>' },
+  { lang: "Turkish (2009)", voice: 'Aliye Mutlu <small>(speaking &amp; singing)</small>' },
+  { lang: "Ukrainian (2010)", voice: 'Anzhelika Savchenko / Анжеліка Савченко <small>(speaking &amp; singing)</small>' }
 ];
 
 const radio_1937 = [
-  { lang: "Estonian - Radio Play (1956)", voice: 'Ellu Puudist <em>(speaking)</em> &amp; Veera Nelus <em>(singing)</em>' },
-  { lang: "Latvian - Radio Play (1958)", voice: 'Dagmāra Kupce <em>(speaking &amp; singing)</em>' },
-  { lang: "Icelandic - LP (1978)", voice: 'Ólöf Kolbrún Harðardóttir <em>(singing)</em>' },
-  { lang: 'Serbian - LP (1971) <em>("Whistle While You Work")</em>', voice: 'Milica Manojlović / Милица Манојловић <em>(singing)</em>' }
+  { lang: "Estonian - Radio Play (1956)", voice: 'Ellu Puudist <small>(speaking)</small> &amp; Veera Nelus <small>(singing)</small>' },
+  { lang: "Latvian - Radio Play (1958)", voice: 'Dagmāra Kupce <small>(speaking &amp; singing)</small>' },
+  { lang: "Icelandic - LP (1978)", voice: 'Ólöf Kolbrún Harðardóttir <small>(singing)</small>' },
+  { lang: 'Serbian - LP (1971) <small>("Whistle While You Work")</small>', voice: 'Milica Manojlović / Милица Манојловић <small>(singing)</small>' }
 ];
 
 const voices_2014 = [
   { lang: "Albanian", voice: "?" },
-  { lang: "<em>MODERN STANDARD </em> Arabic", voice: "Noha Qais / نهى قيس" },
+  { lang: "<small>MODERN STANDARD</small> Arabic", voice: "Noha Qais / نهى قيس" },
   { lang: "Bulgarian", voice: "?" },
   { lang: "Cantonese", voice: "?" },
   { lang: "Croatian", voice: "Monika Barberović" },
@@ -902,15 +899,15 @@ const voices_2014 = [
   { lang: "Mandarin", voice: "?" },
   { lang: "Norwegian", voice: "?" },
   { lang: "Polish", voice: "Klaudia Kuchtyk" },
-  { lang: "<em>BRAZILIAN</em> Portuguese", voice: "Clarice Espíndola" },
+  { lang: "<small>BRAZILIAN</small> Portuguese", voice: "Clarice Espíndola" },
   { lang: "Portuguese", voice: "Sandra de Castro" },
   { lang: "Romanian", voice: "Mediana Vlad" },
   { lang: "Russian", voice: "Kseniya Brzhezovskaya / Ксения Бржезовская ?" },
   { lang: "Serbian (2017)", voice: "Marija Veljković / Марија Вељковић" },
   { lang: "Slovak (2017?)", voice: "?" },
   { lang: "Slovene", voice: "Špela Šavc" },
-  { lang: "<em>LATIN AMERICAN</em> Spanish", voice: "Maggie Vera" },
-  { lang: "<em>CASTILIAN</em> Spanish", voice: "Mar Bordallo" },
+  { lang: "<small>LATIN AMERICAN</small> Spanish", voice: "Maggie Vera" },
+  { lang: "<small>CASTILIAN</small> Spanish", voice: "Mar Bordallo" },
   { lang: "Swedish", voice: "?" },
   { lang: "Tagalog", voice: "?" },
   { lang: "Tamil", voice: "?" },
@@ -1044,7 +1041,7 @@ const voices_2025a = [
   { lang: "Flemish", voice: "Emma Malfliet <small>(speaking &amp; singing)</small>" },
   { lang: "French", voice: "Emmylou Homs <small>(speaking &amp; singing)</small>" },
   { lang: "<small>QUEBEC</small> French", voice: "Romane Denis <small>(speaking &amp; singing)</small>" },
-  { lang: "Georgian", voice: "Tek’la Javakhadze / თეკლა ჯავახაძე <small>(speaking) &amp;</small> Sophio Kakulia / სოფიო კაკულია <small>(singing)</small>" },
+  { lang: "Georgian", voice: "Tek'la Javakhadze / თეკლა ჯავახაძე <small>(speaking) &amp;</small> Sophio Kakulia / სოფიო კაკულია <small>(singing)</small>" },
   { lang: "German", voice: "Sophia Riedl <small>(speaking &amp; singing)</small>" },
   { lang: "Greek", voice: "Litó Abatzí / Λητώ Αμπατζή <small>(speaking &amp; singing)</small>" },
   { lang: "Hebrew", voice: "Elay Almani / אילי עלמני <small>(speaking &amp; singing)</small>" },
@@ -1055,13 +1052,13 @@ const voices_2025a = [
   { lang: "Kazakh", voice: "Jarqynai Hanaiym / Жарқынай Ханайым <small>(? &amp; singing)</small>" },
   { lang: "Korean", voice: "Kim Su-yeon / 김수연 <small>(speaking &amp; singing)</small>" },
   { lang: "<small>TAIWANESE</small> Mandarin", voice: "? <small>(speaking) &amp;</small> Zēng Sī-Yú / 曾思瑜 <small>(singing)</small>" },
-  { lang: "Mandarin Chinese", voice: "Zhū Jìng / 朱婧 <small>(speaking) &amp;</small> Chén Yù-Tíng / 陈玉婷  <small>(singing)</small>" },
+  { lang: "Mandarin Chinese", voice: "Zhū Jìng / 朱婧 <small>(speaking) &amp;</small> Chén Yù-Tíng / 陈玉婷 <small>(singing)</small>" },
   { lang: "Norwegian", voice: "Ida Sæther Kjørlaug <small>(speaking &amp; singing)</small>" },
   { lang: "Polish", voice: "Katarzyna Sawczuk <small>(speaking &amp; singing)</small>" },
   { lang: "<small>BRAZILIAN</small> Portuguese", voice: "Maria Clara Rosis <small>(speaking &amp; singing)</small>" },
   { lang: "Portuguese", voice: "Inês Pires Tavares <small>(speaking) &amp;</small> Inês Rosa <small>(singing)</small>" },
   { lang: "Romanian", voice: "Adina Răducan <small>(speaking &amp; singing)</small>" },
-  { lang: "Russian", voice: "Karina Kudekova / Карина Кудекова <small>(speaking) &amp;</small>Jarqynai Hanaiym / Жарқынай Ханайым<small>(singing)</small>" },
+  { lang: "Russian", voice: "Karina Kudekova / Карина Кудекова <small>(speaking) &amp;</small> Jarqynai Hanaiym / Жарқынай Ханайым <small>(singing)</small>" },
   { lang: "Serbian", voice: "Katarina Bogićević / Катарина Богићевић <small>(speaking &amp; singing)</small>" },
   { lang: "Slovak", voice: "Natália Kóšová <small>(speaking &amp; singing)</small>" },
   { lang: "Slovene", voice: "Saša Lešnjek <small>(speaking &amp; singing)</small>" },
@@ -1071,7 +1068,7 @@ const voices_2025a = [
   { lang: "Thai", voice: '"Bow" Melada Susi / "โบว์" เมลดา สุศรี <small>(speaking &amp; singing)</small>' },
   { lang: "Turkish", voice: "Selen Severcan <small>(speaking &amp; singing)</small>" },
   { lang: "Ukrainian", voice: "Khrystyna Starykova / Христина Старикова <small>(? &amp; singing)</small>" },
-  { lang: "Vietnamese", voice: "Đỗ Lê Hồng Nhung <small>(speaking &amp; singing)</small>" }
+  { lang: "Vietnamese", voice: "Đỗ Lê Hồng Nhung <small>(speaking &amp; singing)</small>" }
 ];
 
 const voices_2025b = [
@@ -1165,10 +1162,10 @@ renderVoiceTable('voices-1937', voices_1937);
 renderVoiceTable('radio-1937', radio_1937);
 renderVoiceTable('voices-2014', voices_2014);
 renderVoiceTable('voices-2018', voices_2018);
-renderVoiceTable('voices-2023a', voices_2023a);
-renderVoiceTable('voices-2023b', voices_2023b);
-renderVoiceTable('voices-2025a', voices_2025a);
-renderVoiceTable('voices-2025b', voices_2025b);
+renderVoiceTable('voices-lego-2023', voices_2023a);
+renderVoiceTable('voices-film-2023', voices_2023b);
+renderVoiceTable('voices-film-2025', voices_2025a);
+renderVoiceTable('voices-lego-2025', voices_2025b);
 renderVoiceTable('voices-2026', voices_2026);
 
 // ============================================================
@@ -1236,6 +1233,8 @@ langSearch.addEventListener('keyup', applyLangSearch);
 //  Tu n'as jamais besoin de modifier "Contents" toi-même : ajoute
 //  juste une nouvelle <section class="film-section" id="..."> plus
 //  bas avec son titre, et elle apparaîtra ici automatiquement.
+//  (Le surlignage automatique du film en cours de lecture au scroll
+//  a été retiré à la demande de l'utilisateur.)
 // ============================================================
 
 const tocList = document.getElementById('tocList');
@@ -1251,26 +1250,6 @@ document.querySelectorAll('.film-section').forEach(section => {
   li.appendChild(a);
   tocList.appendChild(li);
 });
-
-// ============================================================
-//  SOMMAIRE : surligne le lien du film actuellement visible à l'écran
-// ============================================================
-
-const tocLinks = document.querySelectorAll('.toc a');
-const sections = document.querySelectorAll('.film-section');
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const id = entry.target.id;
-      tocLinks.forEach(link => {
-        link.classList.toggle('active', link.getAttribute('href') === '#' + id);
-      });
-    }
-  });
-}, { rootMargin: '-30% 0px -60% 0px' });
-
-sections.forEach(section => observer.observe(section));
 
 // ============================================================
 //  BOUTON RETOUR EN HAUT
