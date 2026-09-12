@@ -11,14 +11,13 @@ layout: null
   --name-font: 'IM Fell English', serif;
   --toc-title-size: 13px;      /* taille du titre "Contents" */
   --toc-item-size: 12px;       /* taille des lignes ET des chiffres du sommaire */
-  --optional-video-height: 300px; /* hauteur de la vidéo optionnelle sous le bloc du haut */
   --banner-height: 300px;      /* hauteur des bandeaux images par film */
   --banner-position: center 25%; /* cadrage de l'image dans le bandeau (comme background-position) */
   --banner-title-size: 50px;   /* taille du titre incrusté sur le bandeau */
   --banner-pad-side: 80px;     /* retrait du titre depuis le bord gauche/droit du bandeau */
   --banner-title-bottom: 30px; /* remonte le titre depuis le bas du bandeau */
   --banner-margin-bottom: 30px; /* espace entre le bandeau et le contenu qui suit */
-  --portrayed-by-indent: 120px; /* décalage vers la droite de "Portrayed by", en plus de la marge de page */
+  --portrayed-by-indent: 200px; /* décalage vers la droite de "Portrayed by", en plus de la marge de page */
   --lang-col-width: 340px;      /* largeur de la colonne "langue" dans les tableaux de voix */
   --fallback-glow-duration: 12s; /* durée d'un aller (puis retour) de la lumière du fond de secours */
   --year-color: #7ea6d8;       /* couleur des années/dates (bleu pastel) */
@@ -149,24 +148,6 @@ body {
 }
 .toc a:hover {
   text-decoration: underline;
-}
-
-/* ============================================================
-   VIDEO OPTIONNELLE sous le bloc titre/recherche/sommaire
-   MODIFIE ICI : la hauteur (variable --optional-video-height plus haut)
-   ============================================================ */
-.optional-video-wrap {
-  width: 100%;
-  height: var(--optional-video-height);
-  overflow: hidden;
-  margin-top: 20px;
-}
-.optional-video-wrap video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 25%;
-  display: block;
 }
 
 /* ============================================================
@@ -364,51 +345,51 @@ body {
   margin: 26px var(--page-margin) 4px;
 }
 
-/* La BOÎTE crème "Anecdotes" (fond, coins arrondis) */
-.anecdotes {
+/* La BOÎTE crème "Trivia" (fond, coins arrondis) */
+.trivia {
   margin: 26px var(--page-margin) 0;
-  background: #faf8f3;      /* couleur de fond de la boîte */
+  background: #f5f7fa;      /* couleur de fond de la boîte (gris-bleu neutre) */
   border-radius: 8px;
   padding: 16px 20px;
   box-shadow: 0 3px 12px rgba(0,0,0,0.08);   /* ← ombre légère : augmente l'opacité (0.08) pour plus marqué */
 }
 /* Cachées dès qu'une recherche est active (classe ajoutée sur <body>
    par le script), pour ne laisser que les résultats de la recherche */
-body.searching .anecdotes,
+body.searching .trivia,
 body.searching .subgroup-title,
 body.searching .continuity {
   display: none;
 }
-/* Le mot "ANECDOTES" en majuscules, tout en haut de la boîte */
-.anecdotes h3 {
+/* Le mot "TRIVIA" en majuscules, tout en haut de la boîte */
+.trivia h3 {
   font-size: 13px;
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--accent);
   margin: 0 0 10px;
 }
-.anecdotes ul {
+.trivia ul {
   margin: 0;
   padding-left: 18px;
 }
-/* Le texte de chaque anecdote elle-même */
-.anecdotes li {
-  font-size: 13px;      /* ← taille du texte des anecdotes */
+/* Le texte de chaque ligne de trivia elle-même */
+.trivia li {
+  font-size: 13px;      /* ← taille du texte des trivia */
   line-height: 1.6;
   margin-bottom: 8px;
   color: #444;
 }
-.anecdotes a {
+.trivia a {
   color: #1a0dab;
   text-decoration: none;
 }
-.anecdotes a:hover {
+.trivia a:hover {
   text-decoration: underline;
 }
 
 /* ============================================================
    CONTINUITY : pour les infos "qui a déjà doublé le perso avant"
-   (regroupées par film d'origine), différent d'une vraie anecdote.
+   (regroupées par film d'origine), différent d'un vrai trivia.
    C'est un accordéon FERMÉ par défaut : cliquer sur "Continuity"
    ouvre/ferme le contenu (voir le script en bas de page).
    ============================================================ */
@@ -452,10 +433,23 @@ body.searching .continuity {
   padding-top: 10px;
 }
 .continuity p {
+  position: relative;         /* nécessaire pour positionner le rond ci-dessous */
+  padding-left: 16px;         /* fait de la place pour le rond */
   font-size: 13px;
   line-height: 1.6;
   color: #444;
   margin: 0 0 10px;
+}
+/* Le petit rond devant chaque paragraphe (une seule fois, jamais après un <br>) */
+.continuity p::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;                /* ajuste l'alignement vertical avec la 1ère ligne */
+  width: 5px;                 /* taille du rond */
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);  /* couleur du rond */
 }
 
 .last-update {
@@ -528,18 +522,6 @@ body.searching .continuity {
 </div>
 
 <!-- ============================================================
-     VIDEO OPTIONNELLE (facultatif)
-     MODIFIE ICI : décommente ce bloc et mets le lien Cloudinary de
-     ton clip pour l'afficher sous le bloc titre/recherche/sommaire.
-     Laisse-le en commentaire si tu n'en veux pas.
-     ============================================================ -->
-<div class="optional-video-wrap">
-  <video autoplay muted loop playsinline>
-    <source src="https://res.cloudinary.com/dofvjifeo/video/upload/v1788689902/Snow_White.mp4" type="video/mp4">
-  </video>
-</div>
-
-<!-- ============================================================
      FILM 1 : Snow White and the Seven Dwarfs (1937)
      MODIFIE ICI : les données sont dans le tableau JS "voices_1937"
      tout en bas de la page (section CHARACTER DATA). Chaque ligne
@@ -559,8 +541,8 @@ body.searching .continuity {
   <div class="subgroup-title">Radio Plays &amp; LPs</div>
   <div class="voice-table-mount" id="radio-1937"></div>
 
-  <div class="anecdotes">
-    <h3>Anecdotes</h3>
+  <div class="trivia">
+    <h3>Trivia</h3>
     <ul>
       <li><b>Frieda van Hessen</b>, the Dutch 1938 singing voice of Snow White, was forced into hiding during WW2, and survived the Holocaust. She wrote a book about her life "Life in the Shadow of the Swastika".</li>
       <li><b>Tatiana Angelini</b>, the Swedish 1938 version, was Walt Disney's personal favourite foreign voice.</li>
@@ -586,8 +568,8 @@ body.searching .continuity {
 
   <div class="voice-table-mount" id="voices-2014"></div>
 
-  <div class="anecdotes">
-    <h3>Anecdotes</h3>
+  <div class="trivia">
+    <h3>Trivia</h3>
     <ul>
       <li>The Albanian dub was licensed.</li>
     </ul>
@@ -646,8 +628,8 @@ body.searching .continuity {
     </div>
   </div>
 
-  <div class="anecdotes">
-    <h3>Anecdotes</h3>
+  <div class="trivia">
+    <h3>Trivia</h3>
     <ul>
       <li>Despite not reprising the role in the Disney+ Modern Standard Arabic re-dub of the original movie in 2023, <b>Noha Qais</b> (نهى قيس) has been the new voice of Snow White since 2001 in <i>House of Mouse</i> and all her following appearances.</li>
     </ul>
@@ -681,8 +663,8 @@ body.searching .continuity {
     </div>
   </div>
 
-  <div class="anecdotes">
-    <h3>Anecdotes</h3>
+  <div class="trivia">
+    <h3>Trivia</h3>
     <ul>
       <li>Snow White only sings one line in this short - the voices here are all only <b>singing</b>.</li>
       <li>In <b>Slovak</b> and <b>Turkish</b>, Natália Kóšová and Selen Severcan would later dub <i>Rachel Zegler</i> as Snow White in the 2025 live-action remake.</li>
@@ -705,8 +687,8 @@ body.searching .continuity {
 
   <div class="voice-table-mount" id="voices-film-2025"></div>
 
-  <div class="anecdotes">
-    <h3>Anecdotes</h3>
+  <div class="trivia">
+    <h3>Trivia</h3>
     <ul>
       <li>Natália Kóšová, the <b>Slovak</b> voice, and Selen Severcan, the <b>Turkish</b> voice, reprised the role of Snow White whom they already dubbed in <i>Once Upon a Studio</i>. Natália Kóšová had also dubbed the character in <i>LEGO Disney Princess</i>.</li>
     </ul>
@@ -727,8 +709,8 @@ body.searching .continuity {
 
   <div class="voice-table-mount" id="voices-lego-2025"></div>
 
-  <div class="anecdotes">
-    <h3>Anecdotes</h3>
+  <div class="trivia">
+    <h3>Trivia</h3>
     <ul>
       <li>In the <b>Mandarin</b> version, Mù Xuān-Míng (穆宣名) also dubbed <a href="/characters/list/rapunzel.html">Rapunzel</a>.</li>
       <li>In the <b>Portuguese</b> version, even though Sandra de Castro returned for Snow White in the first LEGO short in 2023, she didn't reprise the role in this one and only dubbed instead <a href="/characters/list/cinderella.html">Cinderella</a>.
@@ -767,8 +749,8 @@ body.searching .continuity {
     </div>
   </div>
 
-  <div class="anecdotes">
-    <h3>Anecdotes</h3>
+  <div class="trivia">
+    <h3>Trivia</h3>
     <ul>
       <li>In the <b>Greek</b> dub, Litó Abatzí (Λητώ Αμπατζή) also voiced <a href="/characters/list/mulan.html">Mulan</a>.
         <br>She replaces Iríni Tsíga (Ειρήνη Τσίγκα) who had previously dubbed the character in the <i>LEGO Disney Princess</i> shorts.</li>
@@ -1198,8 +1180,8 @@ function applyLangSearch() {
   const query = langSearch.value.toLowerCase().trim();
   let totalMatches = 0;
 
-  // Active dès qu'une recherche est en cours : sert à cacher les anecdotes
-  // (voir la règle CSS "body.searching .anecdotes" un peu plus haut)
+  // Active dès qu'une recherche est en cours : sert à cacher les trivia
+  // (voir la règle CSS "body.searching .trivia" un peu plus haut)
   document.body.classList.toggle('searching', query !== '');
 
   document.querySelectorAll('.film-section').forEach(section => {
