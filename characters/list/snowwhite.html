@@ -9,7 +9,7 @@ layout: null
   --page-margin: 10%;
   --accent: #1a4a8a;
   --name-font: 'IM Fell English', serif;
-  --toc-title-size: 13px;      /* taille du titre "Contents" */
+  --toc-title-size: 13px;      /* taille du titre "Appearances" */
   --toc-item-size: 12px;       /* taille des lignes ET des chiffres du sommaire */
   --banner-height: 300px;      /* hauteur des bandeaux images par film */
   --banner-position: center 25%; /* cadrage de l'image dans le bandeau (comme background-position) */
@@ -121,7 +121,7 @@ body {
   box-sizing: border-box;
 }
 
-/* Le mot "Contents" tout en haut de l'encadré */
+/* Le mot "Appearances" tout en haut de l'encadré */
 .toc-title {
   font-size: var(--toc-title-size);  /* variable définie tout en haut du fichier */
   font-weight: 700;
@@ -516,7 +516,7 @@ body.searching .continuity {
   </div>
 
   <nav class="toc" id="toc">
-    <div class="toc-title">Contents</div>
+    <div class="toc-title">Appearances</div>
     <ol id="tocList"></ol>
   </nav>
 </div>
@@ -1219,7 +1219,7 @@ langSearch.addEventListener('keyup', applyLangSearch);
 //  SOMMAIRE : construit automatiquement à partir des sections film
 //  Pour chaque .film-section trouvée sur la page, on lit son id et
 //  le texte de son titre (.film-title), et on crée le lien correspondant.
-//  Tu n'as jamais besoin de modifier "Contents" toi-même : ajoute
+//  Tu n'as jamais besoin de modifier "Appearances" toi-même : ajoute
 //  juste une nouvelle <section class="film-section" id="..."> plus
 //  bas avec son titre, et elle apparaîtra ici automatiquement.
 //  (Le surlignage automatique du film en cours de lecture au scroll
