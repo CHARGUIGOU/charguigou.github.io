@@ -498,22 +498,66 @@ const characters = [
 ];
 
 // ============================================================
-//  CONSTRUCTION DES GROUPES PAR FILM
+//  CONSTRUCTION DES GROUPES PAR SAGA (VUE PAR DÉFAUT)
+//  Chaque personnage n'apparaît qu'UNE SEULE FOIS, sous sa propre saga
+//  (champ "franchise"), peu importe le nombre de films où il apparaît.
+//  Les sagas sont triées chronologiquement (année du 1er film de la
+//  saga), et à l'intérieur d'une saga, les personnages sont triés par
+//  leur PROPRE première apparition (ex: Jessie, qui arrive dans Toy
+//  Story 2, reste bien après Woody et Buzz).
+// ============================================================
+
+function firstYear(character) {
+  return Math.min(...character.appearances.map(a => parseInt(a.year, 10) || Infinity));
+}
+
+const sagaMap = {}; // { "Nom de la saga": { anchorYear, entries: [character, ...] } }
+
+characters.forEach(character => {
+  const key = character.franchise || character.name;
+  const y = firstYear(character);
+  if (!sagaMap[key]) {
+    sagaMap[key] = { anchorYear: y, entries: [] };
+  } else if (y < sagaMap[key].anchorYear) {
+    sagaMap[key].anchorYear = y;
+  }
+  sagaMap[key].entries.push(character);
+});
+
+// Trie les personnages DANS chaque saga par leur propre première année
+Object.values(sagaMap).forEach(saga => {
+  saga.entries.sort((a, b) => firstYear(a) - firstYear(b));
+});
+
+const sagaKeysInOrder = Object.keys(sagaMap).sort((a, b) => sagaMap[a].anchorYear - sagaMap[b].anchorYear);
+
+// ============================================================
+//  CONSTRUCTION DES GROUPES PAR FILM (RECHERCHE "By film" UNIQUEMENT)
 //  Pour chaque personnage, pour chacune de ses apparitions, on range
 //  le personnage dans le groupe du film correspondant. Un même
 //  personnage peut donc se retrouver dans plusieurs groupes (un par
-//  film où il apparaît) — c'est normal et voulu.
+//  film où il apparaît) — normal, puisque ceci ne sert QUE pour la
+//  recherche par film (voir "dedupe" plus bas pour éviter les doublons
+//  dans les résultats affichés).
 // ============================================================
 
-const filmMap = {}; // { "Titre du film": { year, upcoming, entries: [character, ...] } }
+const filmMap = {}; // { "Titre du film": { year, entries: [character, ...], searchText } }
 
 characters.forEach(character => {
   character.appearances.forEach(a => {
     if (!filmMap[a.film]) {
-      filmMap[a.film] = { year: a.year, upcoming: a.upcoming, entries: [] };
+      filmMap[a.film] = { year: a.year, entries: [], keywords: new Set() };
     }
     filmMap[a.film].entries.push(character);
+    // Les mots-clés d'apparition (ex: "cinderella 2") viennent s'ajouter
+    // au texte de recherche de CE film, peu importe quel personnage les a définis.
+    (a.keywords || []).forEach(k => filmMap[a.film].keywords.add(k));
   });
+});
+
+// Texte de recherche final par film : titre + tous ses mots-clés
+Object.keys(filmMap).forEach(title => {
+  filmMap[title].searchText = (title + ' ' + [...filmMap[title].keywords].join(' ')).toLowerCase();
 });
 
 // Ordre des films : chronologique (par année). Modifie ce tri si tu
@@ -576,11 +620,51 @@ function buildCharacterCard(character) {
 }
 
 // Affichage GROUPÉ PAR FILM (vue par défaut, et mode "By film" pendant une recherche)
-function renderGrouped(titles) {
+// Affichage GROUPÉ PAR SAGA (VUE PAR DÉFAUT) : chaque personnage une seule fois
+function renderBySaga() {
   container.innerHTML = '';
+  sagaKeysInOrder.forEach(key => {
+    const saga = sagaMap[key];
+    if (!saga || saga.entries.length === 0) return;
+
+    const section = document.createElement('div');
+    section.className = 'film-group';
+
+    const heading = document.createElement('h2');
+    heading.className = 'film-group-title';
+    heading.textContent = `${key}${saga.anchorYear && saga.anchorYear !== Infinity ? ' (' + saga.anchorYear + ')' : ''}`;
+    section.appendChild(heading);
+
+    const ul = document.createElement('ul');
+    ul.className = 'character-grid';
+    saga.entries.forEach(character => ul.appendChild(buildCharacterCard(character)));
+    section.appendChild(ul);
+
+    container.appendChild(section);
+  });
+}
+
+// "dedupe" = true pendant une recherche : un personnage déjà affiché dans un
+// groupe précédent de CETTE recherche ne réapparaît pas dans les suivants
+// (évite qu'un même perso soit répété plusieurs fois à cause des films
+// "crossover" comme les LEGO, qui partagent des personnages entre eux).
+function renderGrouped(titles, dedupe = false) {
+  container.innerHTML = '';
+  const alreadyShown = new Set();
+
   titles.forEach(title => {
     const group = filmMap[title];
     if (!group || group.entries.length === 0) return;
+
+    const entriesToShow = dedupe
+      ? group.entries.filter(character => {
+          if (alreadyShown.has(character)) return false;
+          alreadyShown.add(character);
+          return true;
+        })
+      : group.entries;
+
+    if (entriesToShow.length === 0) return; // ce film ne "reste" avec plus rien à afficher
 
     const section = document.createElement('div');
     section.className = 'film-group';
@@ -592,7 +676,7 @@ function renderGrouped(titles) {
 
     const ul = document.createElement('ul');
     ul.className = 'character-grid';
-    group.entries.forEach(character => ul.appendChild(buildCharacterCard(character)));
+    entriesToShow.forEach(character => ul.appendChild(buildCharacterCard(character)));
     section.appendChild(ul);
 
     container.appendChild(section);
@@ -687,14 +771,14 @@ function applySearch() {
   const query = searchInput.value.toLowerCase().trim();
 
   if (query === '') {
-    renderGrouped(filmTitlesInOrder);
+    renderBySaga();
     resultCount.textContent = '';
     return;
   }
 
   if (searchMode === 'film') {
-    const matchingTitles = filmTitlesInOrder.filter(title => title.toLowerCase().includes(query));
-    renderGrouped(matchingTitles);
+    const matchingTitles = filmTitlesInOrder.filter(title => filmMap[title].searchText.includes(query));
+    renderGrouped(matchingTitles, true);
     resultCount.textContent = `${matchingTitles.length} film${matchingTitles.length !== 1 ? 's' : ''} found`;
   } else {
     const matches = characters.filter(character => {
@@ -720,5 +804,5 @@ modeButtons.forEach(btn => {
 searchInput.addEventListener('keyup', applySearch);
 
 // Rendu initial au chargement de la page
-renderGrouped(filmTitlesInOrder);
+renderBySaga();
 </script>
