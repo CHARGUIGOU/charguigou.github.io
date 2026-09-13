@@ -119,6 +119,17 @@ body, .search-input {
 }
 
 /* ============================================================
+   FONDU DU CONTENEUR PENDANT UNE RECHERCHE
+   MODIFIE ICI : la durée (0.18s) doit correspondre à FADE_MS dans le JS
+   ============================================================ */
+#charactersContainer {
+  transition: opacity 0.18s ease;
+}
+#charactersContainer.fading {
+  opacity: 0;
+}
+
+/* ============================================================
    REGLAGES DE LA CARTE PERSONNAGE
    MODIFIE ICI toutes les valeurs pour ajuster l'apparence :
    inclinaison, espacements, taille et fondu de la photo...
@@ -257,7 +268,7 @@ body, .search-input {
 .character-name {
   font-family: var(--name-font);
   font-size: var(--name-font-size);
-  font-weight: 300;
+  font-weight: 200;
   color: #fff;
   text-align: center;
 }
@@ -552,7 +563,8 @@ const sagaKeysInOrder = Object.keys(sagaMap).sort((a, b) => sagaMap[a].anchorYea
 //  film où il apparaît) — normal, puisque ceci ne sert QUE pour la
 //  recherche par film. Un même personnage peut apparaître dans plusieurs
 //  groupes affichés en même temps (ex: dans les 3 films LEGO) : c'est
-//  dans les résultats affichés).
+//  voulu, pour voir clairement le casting complet de chaque film pris
+//  individuellement (voir renderGrouped un peu plus bas).
 // ============================================================
 
 const filmMap = {}; // { "Titre du film": { year, entries: [character, ...], searchText } }
@@ -633,7 +645,6 @@ function buildCharacterCard(character) {
   return li;
 }
 
-// Affichage GROUPÉ PAR FILM (vue par défaut, et mode "By film" pendant une recherche)
 // Affichage GROUPÉ PAR SAGA (VUE PAR DÉFAUT) : chaque personnage une seule fois
 function renderBySaga() {
   container.innerHTML = '';
@@ -751,12 +762,12 @@ function setupAutoScroll(li) {
 
 // ============================================================
 //  SEARCH
-//  - Query vide            → toujours la vue groupée par film (par défaut)
+//  - Query vide            → toujours la vue groupée par saga (par défaut)
 //  - Mode "By character"   → liste plate des personnages correspondants,
 //                            sans titre ni regroupement
-//  - Mode "By film"        → ne garde que le(s) film(s) dont le TITRE
-//                            correspond à la recherche, toujours affiché
-//                            avec son titre
+//  - Mode "By film"        → ne garde que le(s) film(s) dont le TITRE (ou
+//                            les mots-clés d'apparition) correspond à la
+//                            recherche, toujours affiché avec son titre
 // ============================================================
 
 const charSearchInput = document.getElementById('charSearch');
@@ -790,15 +801,42 @@ function applySearch() {
   resultCount.textContent = `${matches.length} character${matches.length !== 1 ? 's' : ''} found`;
 }
 
+// ============================================================
+//  FONDU AUTOUR DE CHAQUE RECHERCHE
+//  Au lieu de reconstruire le contenu instantanément, on l'estompe
+//  d'abord, on remplace le contenu PENDANT qu'il est invisible, puis
+//  on le fait réapparaître en fondu. Beaucoup plus simple/fiable que
+//  d'animer chaque carte individuellement dans une grille qui change
+//  de structure (regroupée ↔ plate) à chaque frappe.
+//  FADE_MS doit correspondre à la durée dans le CSS (transition: opacity ...).
+// ============================================================
+
+const FADE_MS = 180;
+let fadeTimeout = null;
+
+function applySearchWithFade() {
+  container.classList.add('fading');
+
+  // Si l'utilisateur tape vite, on annule le rendu précédent en attente
+  // pour ne pas empiler plusieurs reconstructions inutiles.
+  if (fadeTimeout) clearTimeout(fadeTimeout);
+
+  fadeTimeout = setTimeout(() => {
+    applySearch();
+    container.classList.remove('fading');
+    fadeTimeout = null;
+  }, FADE_MS);
+}
+
 // Taper dans une barre vide automatiquement l'autre, pour ne jamais avoir
 // les deux recherches actives en même temps (ce qui serait ambigu).
 charSearchInput.addEventListener('input', () => {
   if (charSearchInput.value !== '') filmSearchInput.value = '';
-  applySearch();
+  applySearchWithFade();
 });
 filmSearchInput.addEventListener('input', () => {
   if (filmSearchInput.value !== '') charSearchInput.value = '';
-  applySearch();
+  applySearchWithFade();
 });
 
 // Rendu initial au chargement de la page
