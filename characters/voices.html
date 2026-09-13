@@ -93,6 +93,24 @@ body, #charSearch {
 }
 
 /* ============================================================
+   TITRE DE GROUPE PAR FILM (affiché par défaut / en mode "By film")
+   MODIFIE ICI : taille, couleur, espacement au-dessus de chaque film
+   ============================================================ */
+.film-group {
+  margin-bottom: 50px;
+}
+.film-group-title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #1a4a8a;
+  margin: 0 0 20px;
+  padding: 0 var(--page-margin);
+}
+
+/* ============================================================
    REGLAGES DE LA CARTE PERSONNAGE
    MODIFIE ICI toutes les valeurs pour ajuster l'apparence :
    inclinaison, espacements, taille et fondu de la photo...
@@ -115,7 +133,7 @@ body, #charSearch {
    ============================================================ */
 .character-grid {
   list-style: none;
-  padding: 20 var(--page-margin) 100px;
+  padding: 0 var(--page-margin);
   margin: 0;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -131,20 +149,10 @@ body, #charSearch {
   aspect-ratio: var(--card-ratio);
   perspective: 1000px;
   cursor: pointer;
-  opacity: 1;
-  transform: scale(1);
-  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 .character-card.no-link {
   cursor: default;
-}
-
-/* Etat transitoire pendant le filtrage de recherche (voir JS applySearch) */
-.character-card.hiding {
-  opacity: 0;
-  transform: scale(0.85);
-  pointer-events: none;
 }
 
 /* Coins "photo" à l'ancienne, façon scrapbook, sur les 4 coins de chaque face */
@@ -346,7 +354,13 @@ body, #charSearch {
 <div class="search-hint">Tip: switch to "By film" to see every character who appears in it</div>
 <div id="resultCount"></div>
 
-<ul class="character-grid" id="characterGrid"></ul>
+<!-- ============================================================
+     MODIFIE ICI (structure) : ce conteneur est rempli par le script.
+     Par défaut, il contient un .film-group par film (avec son titre)
+     ; pendant une recherche "By character", il ne contient plus
+     qu'une seule grille plate, sans titre.
+     ============================================================ -->
+<div id="charactersContainer"></div>
 
 <script>
 // ============================================================
@@ -373,6 +387,12 @@ body, #charSearch {
 //                   pour la recherche "By film" (autre orthographe, chiffre
 //                   romain vs normal, titre alternatif...)
 //        upcoming : true si le doublage/la page n'est pas encore sortie (affiche un badge rouge)
+//
+//  ORDRE D'AFFICHAGE PAR DÉFAUT : les personnages sont maintenant
+//  regroupés par film (voir plus bas). À l'intérieur d'un même film,
+//  l'ordre suit simplement l'ordre dans lequel tu écris les personnages
+//  ci-dessous — donc pour avoir "Snow White, puis Evil Queen, puis
+//  Prince Charming" sous le film de 1937, écris-les dans cet ordre.
 // ============================================================
 
 const PIC = "https://res.cloudinary.com/dofvjifeo/image/upload/";
@@ -478,10 +498,37 @@ const characters = [
 ];
 
 // ============================================================
+//  CONSTRUCTION DES GROUPES PAR FILM
+//  Pour chaque personnage, pour chacune de ses apparitions, on range
+//  le personnage dans le groupe du film correspondant. Un même
+//  personnage peut donc se retrouver dans plusieurs groupes (un par
+//  film où il apparaît) — c'est normal et voulu.
+// ============================================================
+
+const filmMap = {}; // { "Titre du film": { year, upcoming, entries: [character, ...] } }
+
+characters.forEach(character => {
+  character.appearances.forEach(a => {
+    if (!filmMap[a.film]) {
+      filmMap[a.film] = { year: a.year, upcoming: a.upcoming, entries: [] };
+    }
+    filmMap[a.film].entries.push(character);
+  });
+});
+
+// Ordre des films : chronologique (par année). Modifie ce tri si tu
+// préfères un autre ordre (ex: alphabétique).
+const filmTitlesInOrder = Object.keys(filmMap).sort((a, b) => {
+  const yearA = parseInt(filmMap[a].year, 10) || 9999;
+  const yearB = parseInt(filmMap[b].year, 10) || 9999;
+  return yearA - yearB;
+});
+
+// ============================================================
 //  RENDERING
 // ============================================================
 
-const grid = document.getElementById('characterGrid');
+const container = document.getElementById('charactersContainer');
 
 function buildCharacterCard(character) {
   const li = document.createElement('li');
@@ -489,14 +536,6 @@ function buildCharacterCard(character) {
 
   const hasLink = !!character.link;
   if (!hasLink) li.classList.add('no-link');
-
-  // Deux textes de recherche séparés : un pour le nom (+ mots-clés), un pour les films (+ leurs mots-clés)
-  const keywordText = character.keywords ? ' ' + character.keywords.join(' ') : '';
-  li.dataset.searchName = (character.name + keywordText).toLowerCase();
-  li.dataset.searchFilms = character.appearances
-    .map(a => a.film + (a.keywords ? ' ' + a.keywords.join(' ') : ''))
-    .join(' ')
-    .toLowerCase();
 
   li.innerHTML = `
     <div class="flip-inner">
@@ -536,36 +575,38 @@ function buildCharacterCard(character) {
   return li;
 }
 
-// Tri par franchise (regroupées entre elles, dans l'ordre chronologique de
-// sortie du 1er film de la franchise), puis par année du premier film de
-// CHAQUE personnage à l'intérieur de sa franchise (ex: Jessie, qui arrive
-// dans Toy Story 2, reste bien rangée avec Woody et Buzz, mais après eux).
-// Peu importe l'ordre dans lequel tu ajoutes les personnages ci-dessus,
-// ils s'affichent toujours rangés pareil.
-function firstYear(character) {
-  return Math.min(...character.appearances.map(a => parseInt(a.year, 10) || Infinity));
+// Affichage GROUPÉ PAR FILM (vue par défaut, et mode "By film" pendant une recherche)
+function renderGrouped(titles) {
+  container.innerHTML = '';
+  titles.forEach(title => {
+    const group = filmMap[title];
+    if (!group || group.entries.length === 0) return;
+
+    const section = document.createElement('div');
+    section.className = 'film-group';
+
+    const heading = document.createElement('h2');
+    heading.className = 'film-group-title';
+    heading.textContent = `${title}${group.year ? ' (' + group.year + ')' : ''}`;
+    section.appendChild(heading);
+
+    const ul = document.createElement('ul');
+    ul.className = 'character-grid';
+    group.entries.forEach(character => ul.appendChild(buildCharacterCard(character)));
+    section.appendChild(ul);
+
+    container.appendChild(section);
+  });
 }
 
-// Année d'ancrage de chaque franchise = l'année la plus ancienne parmi
-// tous les personnages qui lui sont rattachés
-const franchiseYears = {};
-characters.forEach(c => {
-  const key = c.franchise || c.name;
-  const y = firstYear(c);
-  if (!(key in franchiseYears) || y < franchiseYears[key]) {
-    franchiseYears[key] = y;
-  }
-});
-
-const sortedCharacters = [...characters].sort((a, b) => {
-  const keyA = a.franchise || a.name;
-  const keyB = b.franchise || b.name;
-  const franchiseDiff = franchiseYears[keyA] - franchiseYears[keyB];
-  if (franchiseDiff !== 0) return franchiseDiff;
-  return firstYear(a) - firstYear(b);
-});
-
-sortedCharacters.forEach(character => grid.appendChild(buildCharacterCard(character)));
+// Affichage PLAT (mode "By character" pendant une recherche) : pas de titre, pas de regroupement
+function renderFlat(list) {
+  container.innerHTML = '';
+  const ul = document.createElement('ul');
+  ul.className = 'character-grid';
+  list.forEach(character => ul.appendChild(buildCharacterCard(character)));
+  container.appendChild(ul);
+}
 
 // ============================================================
 //  AUTO-SCROLL DE LA LISTE AU DOS DE LA CARTE
@@ -621,7 +662,13 @@ function setupAutoScroll(li) {
 }
 
 // ============================================================
-//  SEARCH (nom du personnage OU titre de film)
+//  SEARCH
+//  - Query vide            → toujours la vue groupée par film (par défaut)
+//  - Mode "By character"   → liste plate des personnages correspondants,
+//                            sans titre ni regroupement
+//  - Mode "By film"        → ne garde que le(s) film(s) dont le TITRE
+//                            correspond à la recherche, toujours affiché
+//                            avec son titre
 // ============================================================
 
 const searchInput = document.getElementById('charSearch');
@@ -636,49 +683,28 @@ const PLACEHOLDERS = {
   film: 'Search by film title...'
 };
 
-// Durée de l'animation de fondu/rétrécissement (doit correspondre à la
-// transition définie sur .character-card dans le CSS ci-dessus)
-const TRANSITION_MS = 250;
-
 function applySearch() {
   const query = searchInput.value.toLowerCase().trim();
-  let visibleCount = 0;
 
-  document.querySelectorAll('.character-card').forEach(card => {
-    const haystack = searchMode === 'film' ? card.dataset.searchFilms : card.dataset.searchName;
-    const matches = haystack.includes(query);
-    const isHidden = card.style.display === 'none';
+  if (query === '') {
+    renderGrouped(filmTitlesInOrder);
+    resultCount.textContent = '';
+    return;
+  }
 
-    if (matches) {
-      visibleCount++;
-
-      if (isHidden) {
-        // Réapparition : on la remet dans la grille (encore invisible),
-        // puis on relâche l'état "hiding" au prochain frame pour que
-        // la transition de fondu/agrandissement se joue.
-        card.style.display = '';
-        card.classList.add('hiding');
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            card.classList.remove('hiding');
-          });
-        });
-      }
-    } else if (!isHidden) {
-      // Disparition : on lance l'animation, puis on retire vraiment
-      // la carte de la grille une fois la transition terminée.
-      card.classList.add('hiding');
-      setTimeout(() => {
-        if (card.classList.contains('hiding')) {
-          card.style.display = 'none';
-        }
-      }, TRANSITION_MS);
-    }
-  });
-
-  resultCount.textContent = query
-    ? `${visibleCount} character${visibleCount !== 1 ? 's' : ''} found`
-    : '';
+  if (searchMode === 'film') {
+    const matchingTitles = filmTitlesInOrder.filter(title => title.toLowerCase().includes(query));
+    renderGrouped(matchingTitles);
+    resultCount.textContent = `${matchingTitles.length} film${matchingTitles.length !== 1 ? 's' : ''} found`;
+  } else {
+    const matches = characters.filter(character => {
+      const keywordText = character.keywords ? ' ' + character.keywords.join(' ') : '';
+      const searchName = (character.name + keywordText).toLowerCase();
+      return searchName.includes(query);
+    });
+    renderFlat(matches);
+    resultCount.textContent = `${matches.length} character${matches.length !== 1 ? 's' : ''} found`;
+  }
 }
 
 modeButtons.forEach(btn => {
@@ -692,4 +718,7 @@ modeButtons.forEach(btn => {
 });
 
 searchInput.addEventListener('keyup', applySearch);
+
+// Rendu initial au chargement de la page
+renderGrouped(filmTitlesInOrder);
 </script>
