@@ -632,7 +632,7 @@ function renderBySaga() {
 
     const heading = document.createElement('h2');
     heading.className = 'film-group-title';
-    heading.textContent = `${key}${saga.anchorYear && saga.anchorYear !== Infinity ? ' (' + saga.anchorYear + ')' : ''}`;
+    heading.textContent = key;
     section.appendChild(heading);
 
     const ul = document.createElement('ul');
