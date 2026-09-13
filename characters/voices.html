@@ -18,15 +18,27 @@ body, .search-input {
 }
 
 /* ============================================================
-   TITRE DE PAGE
+   TITRE DE PAGE — réutilisable tel quel sur toutes tes pages
+   principales (Home, Character Voices, Movie Cast, etc.)
+   MODIFIE ICI les 6 variables : c'est tout ce que tu as à changer.
    ============================================================ */
+:root {
+  --page-title-font: 'IM Fell English', serif;  /* police d'écriture */
+  --page-title-size: 26px;                       /* taille du texte */
+  --page-title-weight: 600;                      /* graisse : 100 (très fin) à 900 (très gras) */
+  --page-title-spacing: 1px;                     /* espacement entre les lettres */
+  --page-title-align: center;                    /* alignement : left / center / right */
+  --page-title-color: #222;                      /* couleur du texte */
+}
+
 .page-title {
-  text-align: center;
-  padding-top: 60px;
-  font-size: 26px;
-  font-weight: 600;
-  color: #222;
-  letter-spacing: 1px;
+  font-family: var(--page-title-font);
+  font-size: var(--page-title-size);
+  font-weight: var(--page-title-weight);
+  letter-spacing: var(--page-title-spacing);
+  text-align: var(--page-title-align);
+  color: var(--page-title-color);
+  padding-top: 60px;   /* espace au-dessus, laissé à part : propre à chaque page si besoin */
 }
 
 /* ============================================================
@@ -245,7 +257,7 @@ body, .search-input {
 .character-name {
   font-family: var(--name-font);
   font-size: var(--name-font-size);
-  font-weight: 400;
+  font-weight: 300;
   color: #fff;
   text-align: center;
 }
@@ -403,7 +415,7 @@ const characters = [
   {
     name: "Snow White",
     img: PIC + "SnowWhite1937.png",
-    franchise: "Snow White and the Seven Dwarfs",
+    franchise: "Snow White",
     link: "/characters/list/snowwhite.html",
     appearances: [
       { film: "Snow White and the Seven Dwarfs", year: "1937" },
@@ -420,7 +432,7 @@ const characters = [
   {
     name: "Evil Queen / Hag",
     img: PIC + "EvilQueen1937.png",
-    franchise: "Snow White and the Seven Dwarfs",
+    franchise: "Snow White",
     appearances: [
       { film: "Snow White and the Seven Dwarfs", year: "1937" },
       { film: "Snow White (live-action)", year: "2025" },
@@ -431,7 +443,7 @@ const characters = [
   {
     name: "Prince Charming",
     img: PIC + "PrinceCharmingSW1937.png",
-    franchise: "Snow White and the Seven Dwarfs",
+    franchise: "Snow White",
     keywords: ["Florian"],
     appearances: [
       { film: "Snow White and the Seven Dwarfs", year: "1937" },
