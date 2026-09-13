@@ -10,7 +10,7 @@ layout: null
   --page-margin: 10%;
 }
 
-body, #charSearch {
+body, .search-input {
   font-family: 'Open Sans', sans-serif !important;
   margin: 0;
   padding: 0;
@@ -30,58 +30,54 @@ body, #charSearch {
 }
 
 /* ============================================================
-   BARRE DE RECHERCHE
+   DEUX BARRES DE RECHERCHE CÔTE À CÔTE
    ============================================================ */
-#charSearch {
-  width: 320px;
+.search-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 24px auto 40px;
+}
+
+/* Le "or" entre les deux barres : centré verticalement sur toute la
+   hauteur de la rangée (label + barre), donc à peu près face aux champs */
+.search-or {
+  align-self: center;
+  font-size: 13px;
+  color: #999;
+  margin-top: 18px;
+}
+
+.search-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search-box label {
+  font-size: 11px;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.search-input {
+  width: 260px;
   padding: 9px 14px;
   font-size: 13px;
   border-radius: 10px;
   border: 1px solid #ccc;
-  margin: 24px auto 10px;
-  display: block;
   box-sizing: border-box;
   transition: all 0.3s ease;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-#charSearch:focus {
+.search-input:focus {
   outline: none;
   border-color: #7da1c9;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-.search-hint {
-  text-align: center;
-  font-size: 12px;
-  color: #888;
-  margin-bottom: 16px;
-}
-
-/* Bouton bascule "By character" / "By film" */
-.search-mode-toggle {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 20px;
-}
-.mode-btn {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 12px;
-  padding: 5px 16px;
-  border-radius: 20px;
-  border: 1px solid #ccc;
-  background: #f5f5f5;
-  color: #333;
-  cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-}
-.mode-btn:hover:not(.active) {
-  background: #e8e8e8;
-}
-.mode-btn.active {
-  background: #1a4a8a;
-  border-color: #1a4a8a;
-  color: #fff;
 }
 
 /* Compteur de résultats */
@@ -346,12 +342,17 @@ body, #charSearch {
 
 <div class="page-title">Character Voices</div>
 
-<input type="text" id="charSearch" placeholder="Search by character..." />
-<div class="search-mode-toggle">
-  <button class="mode-btn active" data-mode="name" type="button">By character</button>
-  <button class="mode-btn" data-mode="film" type="button">By film</button>
+<div class="search-row">
+  <div class="search-box">
+    <label for="charSearch">By character</label>
+    <input type="text" id="charSearch" class="search-input" placeholder="Search by character..." />
+  </div>
+  <span class="search-or">or</span>
+  <div class="search-box">
+    <label for="filmSearch">By film</label>
+    <input type="text" id="filmSearch" class="search-input" placeholder="Search by film title..." />
+  </div>
 </div>
-<div class="search-hint">Tip: switch to "By film" to see every character who appears in it</div>
 <div id="resultCount"></div>
 
 <!-- ============================================================
@@ -402,7 +403,7 @@ const characters = [
   {
     name: "Snow White",
     img: PIC + "SnowWhite1937.png",
-    franchise: "Snow White",
+    franchise: "Snow White and the Seven Dwarfs",
     link: "/characters/list/snowwhite.html",
     appearances: [
       { film: "Snow White and the Seven Dwarfs", year: "1937" },
@@ -419,7 +420,7 @@ const characters = [
   {
     name: "Evil Queen / Hag",
     img: PIC + "EvilQueen1937.png",
-    franchise: "Snow White",
+    franchise: "Snow White and the Seven Dwarfs",
     appearances: [
       { film: "Snow White and the Seven Dwarfs", year: "1937" },
       { film: "Snow White (live-action)", year: "2025" },
@@ -430,7 +431,7 @@ const characters = [
   {
     name: "Prince Charming",
     img: PIC + "PrinceCharmingSW1937.png",
-    franchise: "Snow White",
+    franchise: "Snow White and the Seven Dwarfs",
     keywords: ["Florian"],
     appearances: [
       { film: "Snow White and the Seven Dwarfs", year: "1937" },
@@ -537,7 +538,8 @@ const sagaKeysInOrder = Object.keys(sagaMap).sort((a, b) => sagaMap[a].anchorYea
 //  le personnage dans le groupe du film correspondant. Un même
 //  personnage peut donc se retrouver dans plusieurs groupes (un par
 //  film où il apparaît) — normal, puisque ceci ne sert QUE pour la
-//  recherche par film (voir "dedupe" plus bas pour éviter les doublons
+//  recherche par film. Un même personnage peut apparaître dans plusieurs
+//  groupes affichés en même temps (ex: dans les 3 films LEGO) : c'est
 //  dans les résultats affichés).
 // ============================================================
 
@@ -644,27 +646,17 @@ function renderBySaga() {
   });
 }
 
-// "dedupe" = true pendant une recherche : un personnage déjà affiché dans un
-// groupe précédent de CETTE recherche ne réapparaît pas dans les suivants
-// (évite qu'un même perso soit répété plusieurs fois à cause des films
-// "crossover" comme les LEGO, qui partagent des personnages entre eux).
-function renderGrouped(titles, dedupe = false) {
+// Affichage GROUPÉ PAR FILM (recherche "By film" uniquement) : chaque film
+// correspondant affiche TOUS ses personnages, même si certains apparaissent
+// aussi dans un autre film déjà affiché juste au-dessus (ex: Snow White dans
+// les 3 films LEGO) — c'est voulu, pour voir clairement le casting complet
+// de chaque film pris individuellement.
+function renderGrouped(titles) {
   container.innerHTML = '';
-  const alreadyShown = new Set();
 
   titles.forEach(title => {
     const group = filmMap[title];
     if (!group || group.entries.length === 0) return;
-
-    const entriesToShow = dedupe
-      ? group.entries.filter(character => {
-          if (alreadyShown.has(character)) return false;
-          alreadyShown.add(character);
-          return true;
-        })
-      : group.entries;
-
-    if (entriesToShow.length === 0) return; // ce film ne "reste" avec plus rien à afficher
 
     const section = document.createElement('div');
     section.className = 'film-group';
@@ -676,7 +668,7 @@ function renderGrouped(titles, dedupe = false) {
 
     const ul = document.createElement('ul');
     ul.className = 'character-grid';
-    entriesToShow.forEach(character => ul.appendChild(buildCharacterCard(character)));
+    group.entries.forEach(character => ul.appendChild(buildCharacterCard(character)));
     section.appendChild(ul);
 
     container.appendChild(section);
@@ -755,53 +747,47 @@ function setupAutoScroll(li) {
 //                            avec son titre
 // ============================================================
 
-const searchInput = document.getElementById('charSearch');
+const charSearchInput = document.getElementById('charSearch');
+const filmSearchInput = document.getElementById('filmSearch');
 const resultCount = document.getElementById('resultCount');
-const modeButtons = document.querySelectorAll('.mode-btn');
-
-// Mode actif : 'name' (par défaut) ou 'film'
-let searchMode = 'name';
-
-const PLACEHOLDERS = {
-  name: 'Search by character...',
-  film: 'Search by film title...'
-};
 
 function applySearch() {
-  const query = searchInput.value.toLowerCase().trim();
+  const charQuery = charSearchInput.value.toLowerCase().trim();
+  const filmQuery = filmSearchInput.value.toLowerCase().trim();
 
-  if (query === '') {
+  if (charQuery === '' && filmQuery === '') {
     renderBySaga();
     resultCount.textContent = '';
     return;
   }
 
-  if (searchMode === 'film') {
-    const matchingTitles = filmTitlesInOrder.filter(title => filmMap[title].searchText.includes(query));
-    renderGrouped(matchingTitles, true);
+  if (filmQuery !== '') {
+    const matchingTitles = filmTitlesInOrder.filter(title => filmMap[title].searchText.includes(filmQuery));
+    renderGrouped(matchingTitles);
     resultCount.textContent = `${matchingTitles.length} film${matchingTitles.length !== 1 ? 's' : ''} found`;
-  } else {
-    const matches = characters.filter(character => {
-      const keywordText = character.keywords ? ' ' + character.keywords.join(' ') : '';
-      const searchName = (character.name + keywordText).toLowerCase();
-      return searchName.includes(query);
-    });
-    renderFlat(matches);
-    resultCount.textContent = `${matches.length} character${matches.length !== 1 ? 's' : ''} found`;
+    return;
   }
+
+  // charQuery !== ''
+  const matches = characters.filter(character => {
+    const keywordText = character.keywords ? ' ' + character.keywords.join(' ') : '';
+    const searchName = (character.name + keywordText).toLowerCase();
+    return searchName.includes(charQuery);
+  });
+  renderFlat(matches);
+  resultCount.textContent = `${matches.length} character${matches.length !== 1 ? 's' : ''} found`;
 }
 
-modeButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    if (btn.dataset.mode === searchMode) return;
-    searchMode = btn.dataset.mode;
-    modeButtons.forEach(b => b.classList.toggle('active', b === btn));
-    searchInput.placeholder = PLACEHOLDERS[searchMode];
-    applySearch();
-  });
+// Taper dans une barre vide automatiquement l'autre, pour ne jamais avoir
+// les deux recherches actives en même temps (ce qui serait ambigu).
+charSearchInput.addEventListener('input', () => {
+  if (charSearchInput.value !== '') filmSearchInput.value = '';
+  applySearch();
 });
-
-searchInput.addEventListener('keyup', applySearch);
+filmSearchInput.addEventListener('input', () => {
+  if (filmSearchInput.value !== '') charSearchInput.value = '';
+  applySearch();
+});
 
 // Rendu initial au chargement de la page
 renderBySaga();
