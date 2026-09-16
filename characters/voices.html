@@ -676,6 +676,7 @@ function buildCharacterCard(character) {
   }
 
   setupAutoScroll(li);
+  setupNeighborPush(li);
 
   return li;
 }
@@ -740,6 +741,48 @@ function renderFlat(list) {
   ul.className = 'character-grid';
   list.forEach(character => ul.appendChild(buildCharacterCard(character)));
   container.appendChild(ul);
+}
+
+// ============================================================
+//  POUSSÉE DES VOISINES SUR LA MÊME LIGNE (EXPÉRIMENTAL)
+//  Au survol, mesure quelles cartes partagent la même ligne (même
+//  position verticale) que la carte survolée, et les décale sur le
+//  côté pour "faire de la place" — effet façon Netflix. Contrairement
+//  au tassement vertical (qui vient gratuitement de la grille CSS),
+//  ceci est fait "à la main" en JS car CSS Grid ne recalcule pas la
+//  largeur des colonnes voisines automatiquement.
+//  SI CET EFFET NE TE CONVIENT PAS : retire simplement l'appel
+//  "setupNeighborPush(li);" juste au-dessus, et cette fonction entière
+//  peut être supprimée sans rien casser d'autre.
+// ============================================================
+
+function setupNeighborPush(li) {
+  let pushedSiblings = [];
+
+  li.addEventListener('mouseenter', () => {
+    const rowTop = li.offsetTop;
+    const allInGrid = Array.from(li.parentElement.children);
+    // Cartes qui partagent (à peu près) la même position verticale = même ligne
+    const rowSiblings = allInGrid.filter(el => Math.abs(el.offsetTop - rowTop) < 4);
+    const idx = rowSiblings.indexOf(li);
+
+    const rootStyle = getComputedStyle(document.documentElement);
+    const sizeDefault = parseFloat(rootStyle.getPropertyValue('--card-size'));
+    const sizeHover = parseFloat(rootStyle.getPropertyValue('--card-hover-width'));
+    const shift = (sizeHover - sizeDefault) / 2 + 9; // + la moitié de l'espacement (gap) entre cartes
+
+    pushedSiblings = rowSiblings.filter(el => el !== li);
+    pushedSiblings.forEach(sib => {
+      const sibIdx = rowSiblings.indexOf(sib);
+      sib.style.transition = 'transform 0.3s ease';
+      sib.style.transform = sibIdx < idx ? `translateX(-${shift}px)` : `translateX(${shift}px)`;
+    });
+  });
+
+  li.addEventListener('mouseleave', () => {
+    pushedSiblings.forEach(sib => { sib.style.transform = ''; });
+    pushedSiblings = [];
+  });
 }
 
 // ============================================================
