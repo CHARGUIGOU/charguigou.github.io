@@ -179,36 +179,37 @@ body, .search-input {
 
 /* ============================================================
    GRILLE DE PERSONNAGES
-   "auto-fit" + "minmax" calcule automatiquement le nombre de colonnes
+   "auto-fill" + "minmax" calcule automatiquement le nombre de colonnes
    qui tiennent sur la largeur disponible, en fonction de --card-size
    ci-dessus : plus besoin de fixer un nombre de colonnes par palier
    d'écran (les media queries à ce sujet, en bas du fichier, ne sont
    donc plus nécessaires et ont été retirées).
-   "auto-fit" (et pas "auto-fill") : quand une ligne a moins de cartes
-   que de colonnes possibles (ex: une petite saga de 3 personnages sur
-   un grand écran), les colonnes vides sont supprimées et les cartes
-   réelles se répartissent sur toute la largeur — sinon elles restent
-   coincées sur la gauche, ce qui cassait le centrage au survol.
+   "auto-fill" garde les cartes groupées/compactes à gauche même si une
+   saga a peu de personnages (contrairement à "auto-fit", qui les
+   étalait sur toute la largeur — trop espacé pour les petites sagas).
    ============================================================ */
 .character-grid {
   list-style: none;
   padding: 0 var(--page-margin);
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(var(--card-size), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(var(--card-size), 1fr));
   gap: 18px;
   box-sizing: border-box;
 }
 
 /* Carte : un petit carré par défaut, qui grossit au survol jusqu'à la
-   taille "normale" d'origine (200 x 225px). z-index monte au survol
-   pour que la carte agrandie passe bien AU-DESSUS de ses voisines
-   plutôt que d'être coupée par elles. */
+   taille "normale" d'origine (200 x 225px). "justify-self: center"
+   (plutôt que margin:auto, peu fiable ici) centre la carte dans sa
+   colonne même quand elle déborde en grossissant au survol — c'est ce
+   qui corrige le décalage vers la droite qu'on avait avec margin:auto.
+   z-index monte au survol pour que la carte agrandie passe bien
+   AU-DESSUS de ses voisines plutôt que d'être coupée par elles. */
 .character-card {
   position: relative;
   width: var(--card-size);
   height: var(--card-size);
-  margin: 0 auto;
+  justify-self: center;
   perspective: 1000px;
   cursor: pointer;
   z-index: 1;
