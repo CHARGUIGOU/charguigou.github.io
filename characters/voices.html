@@ -179,18 +179,23 @@ body, .search-input {
 
 /* ============================================================
    GRILLE DE PERSONNAGES
-   "auto-fill" + "minmax" calcule automatiquement le nombre de colonnes
+   "auto-fit" + "minmax" calcule automatiquement le nombre de colonnes
    qui tiennent sur la largeur disponible, en fonction de --card-size
    ci-dessus : plus besoin de fixer un nombre de colonnes par palier
    d'écran (les media queries à ce sujet, en bas du fichier, ne sont
    donc plus nécessaires et ont été retirées).
+   "auto-fit" (et pas "auto-fill") : quand une ligne a moins de cartes
+   que de colonnes possibles (ex: une petite saga de 3 personnages sur
+   un grand écran), les colonnes vides sont supprimées et les cartes
+   réelles se répartissent sur toute la largeur — sinon elles restent
+   coincées sur la gauche, ce qui cassait le centrage au survol.
    ============================================================ */
 .character-grid {
   list-style: none;
   padding: 0 var(--page-margin);
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--card-size), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(var(--card-size), 1fr));
   gap: 18px;
   box-sizing: border-box;
 }
