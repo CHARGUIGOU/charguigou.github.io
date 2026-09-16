@@ -148,7 +148,11 @@ body, .search-input {
    ============================================================ */
 #charactersContainer {
   transition: opacity 0.18s ease;
-  padding-bottom: 60px;   /* ← espace sous la dernière rangée, ajuste ici */
+  /* La carte grossit de --card-size (100px) à --card-hover-height (225px)
+     au survol, soit +125px de hauteur en plus. Ce padding doit rester
+     PLUS GRAND que cette différence, sinon la dernière rangée pousse
+     la page et oblige à défiler pour la voir en entier au survol. */
+  padding-bottom: 220px;
 }
 #charactersContainer.fading {
   opacity: 0;
@@ -161,7 +165,7 @@ body, .search-input {
    ============================================================ */
 :root {
   --card-tilt: 2deg;              /* inclinaison du polaroïd */
-  --card-size: 100px;              /* taille (carré) PAR DÉFAUT de chaque carte */
+  --card-size: 150px;              /* taille (carré) PAR DÉFAUT de chaque carte */
   --card-hover-width: 200px;       /* largeur au SURVOL (= l'ancienne taille normale) */
   --card-hover-height: 225px;      /* hauteur au SURVOL (garde le ratio 4/4.5 d'origine) */
   --caption-height: 30%;          /* hauteur de la bande du bas, EN % : s'adapte automatiquement, que la carte soit petite ou agrandie */
@@ -170,7 +174,7 @@ body, .search-input {
   --card-tint: rgba(250, 247, 240, 0.65);  /* couleur/opacité du verre teinté du dos de carte */
   --card-blur: 6px;                /* intensité du flou "vitré" du dos de carte */
   --name-font: 'IM Fell English', serif;  /* police du nom du personnage */
-  --name-font-size: 18px;          /* taille du nom du personnage */
+  --name-font-size: 13px;          /* taille du nom du personnage (visible uniquement sur le recto, jamais vraiment vue en grand puisque le survol retourne la carte) */
 }
 
 /* ============================================================
