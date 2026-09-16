@@ -3,866 +3,691 @@ layout: null
 ---
 {% include header.html %}
 <!-- GOOGLE FONT -->
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap" rel="stylesheet">
 
 <style>
+/* MODIFIE ICI : marge latérale globale du site (touche toutes les sections) */
 :root {
   --page-margin: 10%;
 }
 
-body, .search-input {
+body, .film-title, .category-title, #filmSearch {
   font-family: 'Open Sans', sans-serif !important;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* ============================================================
-   TITRE DE PAGE — réutilisable tel quel sur toutes tes pages
-   principales (Home, Character Voices, Movie Cast, etc.)
-   MODIFIE ICI les 6 variables : c'est tout ce que tu as à changer.
-   ============================================================ */
-:root {
-  --page-title-font: 'IM Fell English', serif;  /* police d'écriture */
-  --page-title-size: 30px;                       /* taille du texte */
-  --page-title-weight: 500;                      /* graisse : 100 (très fin) à 900 (très gras) */
-  --page-title-spacing: 2px;                     /* espacement entre les lettres */
-  --page-title-align: center;                    /* alignement : left / center / right */
-  --page-title-color: #222;                      /* couleur du texte */
+.film-list-wrapper {
+  overflow-x: hidden;
+  padding: 10px var(--page-margin);
+  padding-bottom: 40px;
+  box-sizing: border-box;
 }
 
-.page-title {
-  font-family: var(--page-title-font);
-  font-size: var(--page-title-size);
-  font-weight: var(--page-title-weight);
-  letter-spacing: var(--page-title-spacing);
-  text-align: var(--page-title-align);
-  color: var(--page-title-color);
-  padding-top: 60px;   /* espace au-dessus, laissé à part : propre à chaque page si besoin */
-}
-
-/* ============================================================
-   DEUX BARRES DE RECHERCHE CÔTE À CÔTE
-   ============================================================ */
-.search-row {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin: 35px auto 40px;     /*      haut droite bas  gauche */
-}
-
-/* Le "or" entre les deux barres : centré verticalement sur toute la
-   hauteur de la rangée (label + barre), donc à peu près face aux champs */
-.search-or {
-  align-self: center;
-  font-size: 13px;
-  color: #999;
-  margin-top: 18px;
-}
-
-.search-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.search-box label {
-  font-size: 11px;
-  color: #999;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
-}
-
-.search-input {
-  width: 260px;
-  padding: 9px 14px;
-  font-size: 13px;
+#filmSearch {
+  width: 300px;
+  padding: 8px 12px;
+  font-size: 12px;
   border-radius: 10px;
   border: 1px solid #ccc;
+  margin: 20px auto;
+  display: block;
   box-sizing: border-box;
   transition: all 0.3s ease;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-.search-input:focus {
+#filmSearch:focus {
   outline: none;
   border-color: #7da1c9;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* Compteur de résultats */
-#resultCount {
-  text-align: center;
-  font-size: 12px;
-  color: #999;
-  margin-bottom: 20px;
-}
-
-/* ============================================================
-   TITRE DE GROUPE PAR FILM (affiché par défaut / en mode "By film")
-   MODIFIE ICI : taille, couleur, espacement au-dessus de chaque film
-   ============================================================ */
-.film-group {
-  margin-bottom: 50px;
-}
-.film-group-title {
-  text-align: center;
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin: 0 0 20px;
+.category-title {
+  font-size: 20px !important;
+  margin-top: 35px;
+  margin-bottom: 15px;
   padding: 0 var(--page-margin);
-  /* Effet lumineux : dégradé radial bleu (mêmes couleurs que le bandeau
-     de secours des pages de voix), qui pulse doucement en intensité et
-     dérive légèrement, comme une petite luciole à l'intérieur du texte. */
-  background: radial-gradient(circle, #2a5da0 0%, #0d2c54 70%);
-  background-size: 250% 250%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: filmTitleGlow 4s ease-in-out infinite, filmTitleDrift 6s ease-in-out infinite;
-}
-
-/* Intensité de la lueur : ajuste 0.85 / 1.3 pour plus ou moins marqué */
-@keyframes filmTitleGlow {
-  0%, 100% { filter: brightness(0.85); }
-  50% { filter: brightness(1.3); }
-}
-
-/* Déplacement du point de lumière à l'intérieur du texte */
-@keyframes filmTitleDrift {
-  0%   { background-position: 30% 40%; }
-  25%  { background-position: 65% 30%; }
-  50%  { background-position: 70% 65%; }
-  75%  { background-position: 35% 70%; }
-  100% { background-position: 30% 40%; }
-}
-
-/* ============================================================
-   FONDU DU CONTENEUR PENDANT UNE RECHERCHE
-   MODIFIE ICI : la durée (0.18s) doit correspondre à FADE_MS dans le JS
-   ============================================================ */
-#charactersContainer {
-  transition: opacity 0.18s ease;
-  padding-bottom: 60px;   /* ← espace sous la dernière rangée, ajuste ici */
-}
-#charactersContainer.fading {
-  opacity: 0;
-}
-
-/* ============================================================
-   REGLAGES DE LA CARTE PERSONNAGE
-   MODIFIE ICI toutes les valeurs pour ajuster l'apparence :
-   inclinaison, espacements, taille et fondu de la photo...
-   ============================================================ */
-:root {
-  --card-tilt: 2deg;              /* inclinaison du polaroïd */
-  --card-ratio: 4 / 4.5;          /* rapport largeur/hauteur de la carte (plus petit = carte moins haute) */
-  --card-max-width: 200px;        /* largeur maximale d'une carte (plus petit = cartes plus petites) */
-  --caption-height: 70px;         /* hauteur de la bande du bas (dégradé sombre) */
-  --corner-size: 20px;            /* taille des coins "photo" à l'ancienne */
-  --corner-color: #d4b876;        /* couleur des coins (plus claire) */
-  --card-tint: rgba(250, 247, 240, 0.65);  /* couleur/opacité du verre teinté du dos de carte */
-  --card-blur: 6px;                /* intensité du flou "vitré" du dos de carte */
-  --name-font: 'IM Fell English', serif;  /* police du nom du personnage */
-  --name-font-size: 18px;          /* taille du nom du personnage */
-}
-
-/* ============================================================
-   GRILLE DE PERSONNAGES
-   ============================================================ */
-.character-grid {
-  list-style: none;
-  padding: 0 var(--page-margin);
-  margin: 0;
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 18px;
+  font-weight: 600 !important;
+  display: flex;
+  align-items: center;
   box-sizing: border-box;
 }
 
-.character-card {
-  position: relative;
-  width: 100%;
-  max-width: var(--card-max-width);
-  margin: 0 auto;
-  aspect-ratio: var(--card-ratio);
-  perspective: 1000px;
-  cursor: pointer;
+.film-list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  margin-bottom: 10px;
 }
 
-.character-card.no-link {
-  cursor: default;
-}
-
-/* Coins "photo" à l'ancienne, façon scrapbook, sur les 4 coins de chaque face */
-.corner {
-  position: absolute;
-  width: var(--corner-size);
-  height: var(--corner-size);
-  background: var(--corner-color);
-  pointer-events: none;
-}
-.corner-tl {
-  top: 0;
-  left: 0;
-  clip-path: polygon(0 0, 100% 0, 0 100%);
-}
-.corner-tr {
-  top: 0;
-  right: 0;
-  clip-path: polygon(100% 0, 0 0, 100% 100%);
-}
-.corner-bl {
-  bottom: 0;
-  left: 0;
-  clip-path: polygon(0 100%, 0 0, 100% 100%);
-}
-.corner-br {
-  bottom: 0;
-  right: 0;
-  clip-path: polygon(100% 100%, 100% 0, 0 100%);
-}
-
-.flip-inner {
-  position: absolute;
-  inset: 0;
-  transition: transform 0.6s ease;
-  transform-style: preserve-3d;
-}
-.character-card:hover .flip-inner {
-  transform: rotateY(180deg);
-}
-
-.card-face {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  border-radius: 4px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+.film-title {
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-/* Face avant : photo plein cadre, façon polaroïd incliné */
-.card-front {
-  padding: 0;
-  overflow: hidden;
-  justify-content: flex-start;
-  transform: rotate(var(--card-tilt));
-}
-
-.photo-frame {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-}
-
-/* Photo unique, plein cadre */
-.photo-frame .photo-main {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
-}
-
-/* Bande du bas : simple dégradé sombre, fiable sur tous les navigateurs */
-.card-caption {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: var(--caption-height);
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding-bottom: 10px;
-  box-sizing: border-box;
-}
-
-.character-name {
-  font-family: var(--name-font);
-  font-size: var(--name-font-size);
-  font-weight: 300;
-  color: #fff;
   text-align: center;
+  background: #fff;
+  border-radius: 8px;
+  padding: 6px;
+  min-height: 200px;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* Face arrière : liste complète des apparitions, défilement auto au survol (voir JS) */
-.card-back {
-  background: var(--card-tint);
-  backdrop-filter: blur(var(--card-blur));
-  -webkit-backdrop-filter: blur(var(--card-blur));
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  transform: rotate(var(--card-tilt)) rotateY(180deg);
-  justify-content: flex-start;
-  padding: 14px;
-  overflow-y: auto;
-  /* Masque la barre de défilement classique : le défilement se fait via le mouvement de la souris */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+.film-title.has-link::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -150%;
+  width: 300%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.18) 45%,
+    rgba(255,255,255,0.25) 50%,
+    rgba(255,255,255,0.18) 55%,
+    rgba(255,255,255,0) 100%
+  );
+  transform: rotate(20deg) translateX(-150%);
+  pointer-events: none;
+  opacity: 0;
 }
-.card-back::-webkit-scrollbar {
+
+.film-title.has-link:hover::before {
+  opacity: 1;
+  animation: projectorSweepOnce 1.5s ease forwards;
+}
+
+@keyframes projectorSweepOnce {
+  0%   { transform: rotate(20deg) translateX(-150%); }
+  100% { transform: rotate(20deg) translateX(150%); }
+}
+
+.film-title.has-link:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.25);
+  cursor: pointer;
+}
+
+.film-title img {
+  width: 100%;
+  max-height: 120px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+
+.film-title .film-year {
+  font-weight: bold;
+  font-size: 12px;
+  margin-bottom: 4px;
+  color: #000;
+  letter-spacing: 1px;
+}
+.film-title .film-name {
+  font-size: 12px;
+  margin: 0;
+  color: #000;
+}
+.film-title a {
+  color: #1a0dab;
+  text-decoration: none;
+  font-size: 12px;
+  font-style: italic;
+}
+.film-title a:hover {
+  text-decoration: none;
+}
+
+.category-title img {
+  width: 34px;
+  height: 34px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.keywords {
   display: none;
 }
 
-.card-back-count {
-  font-size: 12px;
-  font-weight: 700;
-  color: #1a4a8a;
-  margin-bottom: 8px;
-  text-align: center;
+.no-dub {
+  filter: grayscale(100%) brightness(0.92);
+  opacity: 0.9;
+  transition: filter 0.3s ease, opacity 0.3s ease;
 }
 
-.card-back-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 8px;
-  width: 100%;
+.no-dub:hover {
+  filter: grayscale(80%) brightness(1);
+  opacity: 1;
 }
 
-.card-back-list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 6px;
-  font-size: 10.5px;
-  color: #444;
-  padding: 4px 0;
-  border-bottom: 1px solid #f0f0f0;
-}
-.card-back-list li:last-child {
-  border-bottom: none;
+.no-dub.has-link::before {
+  display: none;
 }
 
-.card-back-film {
-  text-align: left;
+.no-dub img {
+  filter: grayscale(100%);
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
 }
 
-.card-back-year {
-  font-weight: 700;
-  color: #1a4a8a;
-  white-space: nowrap;
+.no-dub:hover img {
+  opacity: 1;
 }
 
-.card-back-hint {
+.no-dub-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
   font-size: 10px;
-  color: #999;
-  font-style: italic;
-  text-align: center;
+  padding: 2px 6px;
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+.no-dub-title img {
+  width: 38px;
+  height: 38px;
+  opacity: 0.85;
+}
+
+/* Studio filter buttons */
+.studio-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin: 30px var(--page-margin) 20px;
+}
+
+.studio-btn {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  padding: 6px 18px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+  color: #333;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.studio-btn:not(.active):hover {
+  background: #e0e0e0;
+}
+
+.studio-btn.active {
+  background: #1a4a8a;
+  border-color: #1a4a8a;
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(26, 74, 138, 0.35);
+}
+
+.studio-btn .count {
+  font-size: 10px;
+  opacity: 0.75;
+  margin-left: 2px;
 }
 
 /* ============================================================
-   BADGE "UPCOMING" (utilisé au dos de la carte)
+   SECTION TRIVIA (bas de page)
    ============================================================ */
-.upcoming-badge {
-  display: inline-block;
-  background: #d9534f;
-  color: #fff;
-  font-size: 8px;
-  font-weight: 700;
-  text-transform: uppercase;
-  padding: 1px 5px;
-  border-radius: 4px;
-  margin-left: 6px;
+.trivia-section {
+  margin: 50px 0 40px;
+  padding: 0 var(--page-margin);
+  box-sizing: border-box;
+  color: #333;
+}
+.trivia-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.trivia-title .highlight {
+  color: #d9534f;
+}
+.trivia-section ul {
+  padding-left: 20px;
+  margin: 0;
+}
+.trivia-section li {
+  margin-bottom: 6px;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
+
 @media (max-width: 1300px) {
-  .character-grid { grid-template-columns: repeat(4, 1fr); }
+  .film-list { grid-template-columns: repeat(4, 1fr); }
 }
 @media (max-width: 900px) {
-  .character-grid { grid-template-columns: repeat(3, 1fr); }
+  .film-list { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 500px) {
-  .character-grid { grid-template-columns: repeat(2, 1fr); }
+  .film-list { grid-template-columns: 1fr; }
 }
 </style>
 
-<div class="page-title">CHARACTER VOICES</div>
+<!-- ============================================================
+     TITRE BILINGUE — HTML pur, tout est modifiable ligne par ligne
+     MODIFIE ICI selon la page : nom anglais + nom natif en dessous
+     ============================================================ -->
+<div style="text-align:center; padding-top:100px;">
 
-<div class="search-row">
-  <div class="search-box">
-    <label for="charSearch">By character</label>
-    <input type="text" id="charSearch" class="search-input" placeholder="Search by character..." />
-  </div>
-  <span class="search-or">or</span>
-  <div class="search-box">
-    <label for="filmSearch">By film</label>
-    <input type="text" id="filmSearch" class="search-input" placeholder="Search by film title..." />
-  </div>
+  <!-- Nom de la langue en anglais -->
+  <div style="font-family:'Open Sans', sans-serif; font-size:26px; font-weight:600; color:#222222; line-height:1.3; letter-spacing:1px; margin:0;">ENGLISH credits</div>
+
+  <!-- Nom natif de la langue -->
+  <div style="font-family:'Open Sans', sans-serif; font-size:16px; font-weight:750; font-style:italic; color:#1a4a8a; line-height:1.4; letter-spacing:2px; margin-top:4px;">English</div>
+
 </div>
-<div id="resultCount"></div>
+
+<!-- SEARCH BAR -->
+<input type="text" id="filmSearch" placeholder="Search a film..." />
+
+<!-- STUDIO FILTER -->
+<div class="studio-filter">
+  <button class="studio-btn active" data-studio="all">All <span class="count"></span></button>
+  <button class="studio-btn" data-studio="disney">Disney <span class="count"></span></button>
+  <button class="studio-btn" data-studio="disneytoon">Disneytoon <span class="count"></span></button>
+  <button class="studio-btn" data-studio="pixar">Pixar <span class="count"></span></button>
+  <button class="studio-btn" data-studio="others">Others <span class="count"></span></button>
+</div>
+
+<!-- CONTAINERS -->
+<h2 class="category-title" id="title-classics">
+  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/clap-cinema_orig.gif">Original Classics
+</h2>
+<div class="film-list-wrapper" id="wrapper-classics">
+  <ul class="film-list" id="list-classics"></ul>
+</div>
+
+<h2 class="category-title" id="title-shorts">
+  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/clap-cinema_orig.gif">Shorts
+</h2>
+<div class="film-list-wrapper" id="wrapper-shorts">
+  <ul class="film-list" id="list-shorts"></ul>
+</div>
+
+<h2 class="category-title" id="title-live">
+  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/clap-cinema_orig.gif">Live-action/Remakes
+</h2>
+<div class="film-list-wrapper" id="wrapper-live">
+  <ul class="film-list" id="list-live"></ul>
+</div>
+
+<h2 class="category-title no-dub-title" id="title-nodub">
+  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/no-sound-movie-cast_orig.gif">No Dub
+</h2>
+<div class="film-list-wrapper" id="wrapper-nodub">
+  <ul class="film-list" id="list-nodub"></ul>
+</div>
 
 <!-- ============================================================
-     MODIFIE ICI (structure) : ce conteneur est rempli par le script.
-     Par défaut, il contient un .film-group par film (avec son titre)
-     ; pendant une recherche "By character", il ne contient plus
-     qu'une seule grille plate, sans titre.
+     SECTION TRIVIA
+     MODIFIE ICI : remplace le "N/A" par tes anecdotes (une <li> par anecdote)
      ============================================================ -->
-<div id="charactersContainer"></div>
+<div class="trivia-section">
+  <div class="trivia-title"><span class="highlight">T</span>RIVIA</div>
+  <ul>
+    <li>N/A</li>
+  </ul>
+</div>
 
 <script>
 // ============================================================
-//  CHARACTER DATA
-//  MODIFIE ICI : ajoute un objet par personnage.
+//  FILM DATA
 //  Fields:
-//    name        : nom affiché sur la carte
-//    img         : URL de l'image (portrait du personnage)
-//    franchise   : nom de la saga (ex: "Toy Story", "Cinderella"). Sert à
-//                  regrouper les personnages ensemble même si certains
-//                  n'apparaissent qu'à partir d'une suite (ex: Jessie
-//                  n'apparaît qu'à partir de Toy Story 2, mais reste
-//                  rangée avec Woody et Buzz grâce à ce champ).
-//    keywords    : (optionnel) tableau de mots-clés invisibles supplémentaires
-//                  pour la recherche "By character" (surnom, orthographe
-//                  alternative, nom dans une autre langue...)
-//    link        : URL de la fiche complète du personnage. Tant que ce champ
-//                  n'est pas rempli, la carte affiche "Full profile coming
-//                  soon" au dos et n'est pas cliquable.
-//    appearances : liste des films où il apparaît (affichée en entier au dos de la carte)
-//        film     : titre du film
-//        year     : année
-//        keywords : (optionnel) tableau de mots-clés invisibles supplémentaires
-//                   pour la recherche "By film" (autre orthographe, chiffre
-//                   romain vs normal, titre alternatif...)
-//        upcoming : true si le doublage/la page n'est pas encore sortie (affiche un badge rouge)
-//
-//  ORDRE D'AFFICHAGE PAR DÉFAUT : les personnages sont maintenant
-//  regroupés par film (voir plus bas). À l'intérieur d'un même film,
-//  l'ordre suit simplement l'ordre dans lequel tu écris les personnages
-//  ci-dessous — donc pour avoir "Snow White, puis Evil Queen, puis
-//  Prince Charming" sous le film de 1937, écris-les dans cet ordre.
+//    name      : display name (use <br> for line breaks)
+//    year      : (optionnel) année affichée sur la carte — si absent, extrait de date:
+//                utile pour afficher une année de doublage différente, ou "20??" etc.
+//    date      : date de sortie originale (YYYY-MM-DD), utilisée pour le tri
+//    img       : full URL to the poster image
+//    link      : URL to the cast page (omit if not yet made)
+//    keywords  : extra search terms (optional array)
+//    noDub     : true  → goes to No Dub section
+//    category  : "classics" | "shorts" | "live"
+//    badge     : override badge text (default "No Dub")
 // ============================================================
 
-const PIC = "https://res.cloudinary.com/dofvjifeo/image/upload/";
+const PIC     = "https://res.cloudinary.com/dofvjifeo/image/upload/";
+const DISNEY  = "https://disneyinternationaldubbings.weebly.com/";
+const NDISNEY = "https://nondisneyinternationaldubbings.weebly.com/";
 
-const characters = [
+const films = [
 
-  {
-    name: "Snow White",
-    img: PIC + "SnowWhite1937.png",
-    franchise: "Snow White",
-    link: "/characters/list/snowwhite.html",
-    appearances: [
-      { film: "Snow White and the Seven Dwarfs", year: "1937" },
-      { film: "Sofia the First: The Enchanted Feast", year: "2014" },
-      { film: "Ralph Breaks the Internet", year: "2018" },
-      { film: "LEGO Disney Princess: The Castle Quest", year: "2023" },
-      { film: "Once Upon a Studio", year: "2023" },
-      { film: "Snow White (live-action)", year: "2025" },
-      { film: "LEGO Disney Princess: Villains Unite", year: "2025" },
-      { film: "LEGO Disney Princess: Magical Mayhem", year: "2026" }
-    ]
-  },
 
-  {
-    name: "Evil Queen / Hag",
-    img: PIC + "EvilQueen1937.png",
-    franchise: "Snow White",
-    appearances: [
-      { film: "Snow White and the Seven Dwarfs", year: "1937" },
-      { film: "Snow White (live-action)", year: "2025" },
-      { film: "LEGO Disney Princess: Villains Unite", year: "2025" }
-    ]
-  },
+  // ── ORIGINAL CLASSICS ────────────────────────────────────
 
-  {
-    name: "Prince Charming",
-    img: PIC + "PrinceCharmingSW1937.png",
-    franchise: "Snow White",
-    keywords: ["Florian"],
-    appearances: [
-      { film: "Snow White and the Seven Dwarfs", year: "1937" },
-    ]
-  },
 
-  {
-    name: "Cinderella",
-    img: PIC + "Cinderella1950.png",
-    franchise: "Cinderella",
-    keywords: ["cenicienta", "cendrillon"],
-    appearances: [
-      { film: "Cinderella", year: "1950" },
-      { film: "Disney's House of Mouse", year: "2001", upcoming:true },
-      { film: "Cinderella II: Dreams Come True", year: "2002", keywords: ["cinderella 2: dreams come true"] },
-      { film: "Cinderella III: A Twist in Time", year: "2007", keywords: ["cinderella 3"] },
-      { film: "Sofia the First: Once Upon a Princess", year: "2012" },
-      { film: "Cinderella (live-action)", year: "2015" },
-      { film: "Ralph Breaks the Internet", year: "2018" },
-      { film: "Once Upon a Studio", year: "2023" },
-      { film: "LEGO Disney Princess: Villains Unite", year: "2025" }
-    ]
-  },
+  { category:"classics", date:"1937-12-21", year:"1938", name:"Snow White and the Seven Dwarfs", img:PIC+"snowwhiteandthesevendwarfs1937logo.png", studio:"disney" },
+  { category:"classics", date:"1940-02-07", name:"Pinocchio", img:PIC+"pinocchio1940logo2.png", studio:"disney", link:DISNEY+"pinocchio--hindi-cast.html" },
+  { category:"classics", date:"1940-11-13", name:"Fantasia", img:PIC+"fantasia1940logo.png", studio:"disney" },
+  { category:"classics", date:"1941-10-23", name:"Dumbo", img:PIC+"dumbo1941logo.png", studio:"disney" },
+  { category:"classics", date:"1942-08-13", name:"Bambi", img:PIC+"bambi1942logo.png", studio:"disney" },
+  { category:"classics", date:"1942-08-24", name:"Saludos Amigos", img:PIC+"saludosamigos1942logo.png", studio:"disney" },
+  { category:"classics", date:"1944-12-21", name:"The Three Caballeros", img:PIC+"thethreecaballeros1944logo.png", studio:"disney" },
+  { category:"classics", date:"1946-08-15", name:"Make Mine Music", img:PIC+"makeminemusic1946logo.png", studio:"disney", noDub:true },
+  { category:"classics", date:"1947-09-27", name:"Fun and Fancy Free", img:PIC+"funandfancyfree1947logo.png", keywords:["mickey"], studio:"disney" },
+  { category:"classics", date:"1948-05-27", name:"Melody Time", img:PIC+"melodytime1948logo.png", studio:"disney" },
+  { category:"classics", date:"1949-10-05", name:"The Adventures of Ichabod<br>and Mr. Toad", img:PIC+"theadventuresofIchabodandmrtoad1949logo.png", studio:"disney" },
+  { category:"classics", date:"1950-02-15", name:"Cinderella", img:PIC+"cinderella1950logo.png", studio:"disney" },
+  { category:"classics", date:"1951-07-28", name:"Alice in Wonderland", img:PIC+"aliceinwonderland1951logo.png", studio:"disney" },
+  { category:"classics", date:"1953-02-05", name:"Peter Pan", img:PIC+"peterpan1953logo.png", studio:"disney" },
+  { category:"classics", date:"1955-06-22", name:"Lady and the Tramp", img:PIC+"ladyandthetramp1955logo.png", studio:"disney" },
+  { category:"classics", date:"1959-01-29", name:"Sleeping Beauty", img:PIC+"sleepingbeauty1959logo2.png", studio:"disney" },
+  { category:"classics", date:"1961-01-25", name:"One Hundred and One Dalmatians", img:PIC+"onehundredandonedalmatians1961logo.png", keywords:["101 dalmatians"], studio:"disney" },
+  { category:"classics", date:"1963-12-25", name:"The Sword in the Stone", img:PIC+"theswordinthestone1963logo.png", studio:"disney" },
+  { category:"classics", date:"1967-10-18", name:"The Jungle Book", img:PIC+"thejunglebook1967logo.png", studio:"disney" },
+  { category:"classics", date:"1970-12-24", name:"The Aristocats", img:PIC+"thearistocats1970logo.png", studio:"disney" },
+  { category:"classics", date:"1973-11-08", name:"Robin Hood", img:PIC+"robinhood1973logo.png", studio:"disney" },
+  { category:"classics", date:"1977-03-11", name:"The Many Adventures of Winnie the Pooh", img:PIC+"themanyadventuresofwinniethepooh1977logo.png", studio:"disney" },
+  { category:"classics", date:"1977-11-03", name:"The Rescuers", img:PIC+"therescuers1977logo.png", studio:"disney" },
+  { category:"classics", date:"1981-07-10", name:"The Fox and the Hound", img:PIC+"thefoxandthehound1981logo.png", studio:"disney" },
+  { category:"classics", date:"1985-07-24", name:"The Black Cauldron", img:PIC+"theblackcauldron1985logo.png", studio:"disney" },
+  { category:"classics", date:"1986-07-02", name:"The Great Mouse Detective", img:PIC+"thegreatmousedetective1986logo.png", studio:"disney" },
+  { category:"classics", date:"1988-11-18", name:"Oliver & Company", img:PIC+"olivercompany1988logo.png", studio:"disney" },
+  { category:"classics", date:"1989-11-17", name:"The Little Mermaid", img:PIC+"thelittlemermaid1989logo.png", studio:"disney" },
+  { category:"classics", date:"1990-08-03", name:"DuckTales the Movie:<br>Treasure of the Lost Lamp", img:PIC+"ducktalesthemovie1990logo.png", studio:"disneytoon" },
+  { category:"classics", date:"1990-11-16", name:"The Rescuers Down Under", img:PIC+"therescuersdownunder1990logo.png", studio:"disney" },
+  { category:"classics", date:"1991-11-22", name:"Beauty and the Beast", img:PIC+"beautyandthebeast1991logo.png", studio:"disney" },
+  { category:"classics", date:"1992-11-25", name:"Aladdin", img:PIC+"aladdin1992logo.png", studio:"disney" },
+  { category:"classics", date:"1994-03-30", name:"Thumbelina", img:PIC+"thumbelina1994logo.png", studio:"donbluth" },
+  { category:"classics", date:"1994-05-20", name:"The Return of Jafar", img:PIC+"thereturnofjafar1994logo.png", keywords:["aladdin"], studio:"disneytoon" },
+  { category:"classics", date:"1994-06-24", name:"The Lion King", img:PIC+"thelionking1994logo.png", studio:"disney" },
+  { category:"classics", date:"1994-10-17", name:"The Swan Princess", img:PIC+"theswanprincess1994logo.png", studio:"richard_rich" },
+  { category:"classics", date:"1995-06-23", name:"Pocahontas", img:PIC+"pocahontas1995logo.png", studio:"disney" },
+  { category:"classics", date:"1995-04-07", name:"A Goofy Movie", img:PIC+"agoofymovie1995logo.png", studio:"disneytoon" },
+  { category:"classics", date:"1995-11-22", name:"Toy Story", img:PIC+"toystory1995logo.png", studio:"pixar" },
+  { category:"classics", date:"1996-06-21", name:"The Hunchback of Notre Dame", img:PIC+"thehunchbackofnotredame1996logo.png", studio:"disney" },
+  { category:"classics", date:"1996-08-13", name:"Aladdin and the King of Thieves", img:PIC+"aladdinandthekingofthieves1996logo.png", studio:"disneytoon" },
+  { category:"classics", date:"1997-06-27", name:"Hercules", img:PIC+"hercules1997logo.png", studio:"disney" },
+  { category:"classics", date:"1997-06-28", name:"Anastasia", img:PIC+"anastasia1997logo.png", studio:"fox" },
+  { category:"classics", date:"1997-11-11", name:"Beauty and the Beast:<br>The Enchanted Christmas", img:PIC+"beautyandthebeasttheenchantedchristmas1997logo.png", studio:"disneytoon" },
+  { category:"classics", date:"1998-02-17", name:"Beauty and the Beast:<br>Belle's Magical World", img:PIC+"bellesmagicalworld1998logo.png", studio:"disneytoon" },
+  { category:"classics", date:"1998-03-01", name:"Quest for Camelot", img:PIC+"questforcamelot1998logo.png", studio:"warner" },
+  { category:"classics", date:"1998-06-19", name:"Mulan", img:PIC+"mulan1998logo.png", studio:"disney" },
+  { category:"classics", date:"1998-08-25", name:"Pocahontas II:<br>Journey to a New World", img:PIC+"pocahontas2journeytoanewworld1998logo.png", studio:"disneytoon" },
+  { category:"classics", date:"1998-10-27", name:"The Lion King II: Simba's Pride", img:PIC+"thelionking2simbaspride1998logo.png", studio:"disneytoon" },
+  { category:"classics", date:"1998-11-25", name:"A Bug's Life", img:PIC+"abugslife1998logo.png", studio:"pixar" },
+  { category:"classics", date:"1998-12-16", name:"The Prince of Egypt", img:PIC+"theprinceofegypt1998logo.png", studio:"dreamworks" },
+  { category:"classics", date:"1999-06-18", name:"Tarzan", img:PIC+"tarzan1999logo.png", studio:"disney" },
+  { category:"classics", date:"1999-11-24", name:"Toy Story 2", img:PIC+"toystory21999logo.png", studio:"pixar" },
+  { category:"classics", date:"1999-12-17", name:"Fantasia 2000", img:PIC+"fantasia20001999logo.png", studio:"disney" },
+  { category:"classics", date:"2000-02-29", name:"An Extremely Goofy Movie", img:PIC+"anextremelygoofymovie2000logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2000-05-19", name:"Dinosaur", img:PIC+"dinosaur2000logo.png", studio:"disney" },
+  { category:"classics", date:"2000-09-19", name:"The Little Mermaid II:<br>Return to the Sea", img:PIC+"thelittlemermaid2returntothesea2000logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2000-12-15", name:"The Emperor's New Groove", img:PIC+"theemperorsnewgroove2000logo.png", studio:"disney" },
+  { category:"classics", date:"2001-02-27", name:"Lady and the Tramp II:<br>Scamp's Adventure", img:PIC+"ladyandthetramp2scampsadventure2001logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2001-06-15", name:"Atlantis: The Lost Empire", img:PIC+"atlantisthelostempire2001logo.png", studio:"disney" },
+  { category:"classics", date:"2001-11-02", name:"Monsters, Inc.", img:PIC+"monstersinc2001logo.png", studio:"pixar" },
+  { category:"classics", date:"2002-02-15", name:"Return to Neverland", img:PIC+"returntoneverland2002logo.png", keywords:["peter pan"], studio:"disneytoon" },
+  { category:"classics", date:"2002-02-26", name:"Cinderella II: Dreams Come True", img:PIC+"cinderella2dreamscomerrue2002logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2002-03-19", name:"The Hunchback of Notre Dame II", img:PIC+"thehunchbackofnotredame22002logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2002-06-21", name:"Lilo & Stitch", img:PIC+"lilostitch2002logo.png", studio:"disney" },
+  { category:"classics", date:"2002-11-27", name:"Treasure Planet", img:PIC+"treasureplanet2002logo.png", studio:"disney" },
+  { category:"classics", date:"2002-01-21", name:"101 Dalmatians II:<br>Patch's London Adventure", img:PIC+"101dalmatians2patchslondonadventure2002logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2003-02-14", name:"The Jungle Book 2", img:PIC+"thejunglebook22003logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2003-05-20", name:"Atlantis: Milo's Return", img:PIC+"atlantismilosreturn2003logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2003-05-30", name:"Finding Nemo", img:PIC+"findingnemo2003logo.png", studio:"pixar" },
+  { category:"classics", date:"2003-11-01", name:"Brother Bear", img:PIC+"brotherbear2003logo.png", studio:"disney" },
+  { category:"classics", date:"2004-02-10", name:"The Lion King 3: Hakuna Matata", img:PIC+"thelionking3hakunamatata2004logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2004-04-02", name:"Home on the Range", img:PIC+"homeontherange2004logo.png", studio:"disney" },
+  { category:"classics", date:"2004-11-05", name:"The Incredibles", img:PIC+"theincredibles2004logo.png", studio:"pixar" },
+  { category:"classics", date:"2004-12-28", name:"Mulan II", img:PIC+"mulan22004logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2005-06-14", name:"Tarzan II", img:PIC+"tarzan22005logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2005-08-30", name:"Lilo & Stitch 2: Stitch Has a Glitch", img:PIC+"lilostitch2stitchhasaglitch2005logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2005-11-04", name:"Chicken Little", img:PIC+"chickenlittle2005logo.png", studio:"disney" },
+  { category:"classics", date:"2005-12-13", name:"Kronk's New Groove", img:PIC+"kronksnewgroove2005logo.png", keywords:["the emperor's new groove"], studio:"disneytoon" },
+  { category:"classics", date:"2006-02-07", name:"Bambi II", img:PIC+"bambi22006logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2006-08-29", name:"Brother Bear 2", img:PIC+"brotherbear22006logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2006-11-01", name:"The Fox and the Hound 2", img:PIC+"thefoxandthehound22006logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2007-02-06", name:"Cinderella III: A Twist in Time", img:PIC+"cinderella3atwistintime2007logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2007-03-30", name:"Meet the Robinsons", img:PIC+"meettherobinsons2007logo.png", studio:"disney" },
+  { category:"classics", date:"2007-06-29", name:"Ratatouille", img:PIC+"ratatouille2007logo.png", studio:"pixar" },
+  { category:"classics", date:"2007-09-04", name:"Disney Princess Enchanted Tales<br>Follow Your Dreams", img:PIC+"disneyprincessenchantedtales2007logo.png", keywords:["aladdin", "sleeping beauty"], studio:"disneytoon" },
+  { category:"classics", date:"2008-06-27", name:"WALL·E", img:PIC+"walle2008logo.png", studio:"pixar" },
+  { category:"classics", date:"2008-08-26", name:"The Little Mermaid:<br>Ariel's Beginning", img:PIC+"arielsbeginning2008logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2008-10-28", name:"Tinker Bell", img:PIC+"tinkerbell2008logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2008-11-21", name:"Bolt", img:PIC+"bolt2008logo.png", studio:"disney" },
+  { category:"classics", date:"2009-05-29", name:"Up", img:PIC+"up2009logo.png", studio:"pixar" },
+  { category:"classics", date:"2009-08-27", name:"Tinker Bell and the Lost Treasure", img:PIC+"tinkerbellandthelosttreasure2009logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2009-12-11", name:"The Princess and the Frog", img:PIC+"theprincessandthefrog2009logo.png", studio:"disney" },
+  { category:"classics", date:"2010-06-18", name:"Toy Story 3", img:PIC+"toystory32010logo.png", studio:"pixar" },
+  { category:"classics", date:"2010-09-21", name:"Tinker Bell and the Great Fairy Rescue", img:PIC+"tinkerbellandthegreatfairyrescue2010logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2010-11-24", name:"Tangled", img:PIC+"tangled2010logo.png", studio:"disney" },
+  { category:"classics", date:"2011-07-15", name:"Winnie the Pooh", img:PIC+"winniethepooh2011logo.png", studio:"disney" },
+  { category:"classics", date:"2012-06-22", name:"Brave", img:PIC+"brave2012logo.png", studio:"pixar" },
+  { category:"classics", date:"2012-10-10", name:"Rise of the Guardians", img:PIC+"riseoftheguardians2012logo.png", studio:"dreamworks" },
+  { category:"classics", date:"2012-10-23", name:"Secret of the Wings", img:PIC+"secretofthewings2012logo.png", keywords:["tinker bell"], studio:"disneytoon" },
+  { category:"classics", date:"2012-11-02", name:"Wreck-it Ralph", img:PIC+"wreckitralph2012logo2.png", keywords:["wreck it ralph"], studio:"disney" },
+  { category:"classics", date:"2013-06-21", name:"Monsters University", img:PIC+"monstersuniversity2013logo.png", studio:"pixar" },
+  { category:"classics", date:"2013-11-27", name:"Frozen", img:PIC+"frozen2013logo.png", studio:"disney" },
+  { category:"classics", date:"2014-04-01", name:"The Pirate Fairy", img:PIC+"thepiratefairy2014logo.png", keywords:["tinker bell"], studio:"disneytoon" },
+  { category:"classics", date:"2014-11-07", name:"Big Hero 6", img:PIC+"bighero62014logo.png", studio:"disney" },
+  { category:"classics", date:"2014-12-12", name:"Tinker Bell and the Legend of the Neverbeast", img:PIC+"tinkerbellandthelegendoftheneverbeast2014logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2015-06-19", name:"Inside Out", img:PIC+"insideout2015logo.png", studio:"pixar" },
+  { category:"classics", date:"2015-11-25", name:"The Good Dinosaur", img:PIC+"thegooddinosaur2015logo.png", studio:"pixar" },
+  { category:"classics", date:"2016-03-04", name:"Zootopia", img:PIC+"zootopia2016logo.png", studio:"disney" },
+  { category:"classics", date:"2016-06-17", name:"Finding Dory", img:PIC+"findingdory2016logo.png", keywords:["finding nemo"], studio:"pixar" },
+  { category:"classics", date:"2016-11-23", name:"Moana", img:PIC+"moana2016logo.png", keywords:["vaiana"], studio:"disney" },
+  { category:"classics", date:"2017-11-22", name:"Coco", img:PIC+"coco2017logo.png", studio:"pixar"},
+  { category:"classics", date:"2018-06-15", name:"Incredibles 2", img:PIC+"incredibles22018logo.png", keywords:["the incredibles 2"], studio:"pixar" },
+  { category:"classics", date:"2018-11-21", name:"Ralph Breaks the Internet", img:PIC+"ralphbreakstheinternet2018logo.png", keywords:["wreck it ralph"], studio:"disney" },
+  { category:"classics", date:"2019-06-21", name:"Toy Story 4", img:PIC+"toystory42019logo.png", studio:"pixar" },
+  { category:"classics", date:"2019-11-22", name:"Frozen II", img:PIC+"frozen22019logo.png", studio:"disney" },
+  { category:"classics", date:"2020-03-06", name:"Onward", img:PIC+"onward2020logo.png", studio:"pixar" },
+  { category:"classics", date:"2020-12-25", name:"Soul", img:PIC+"soul2020logo.png", studio:"pixar" },
+  { category:"classics", date:"2021-03-05", name:"Raya and the Last Dragon", img:PIC+"rayaandthelastdragon2021logo.png", studio:"disney" },
+  { category:"classics", date:"2021-06-01", name:"Luca", img:PIC+"luca2021logo.png", studio:"pixar" },
+  { category:"classics", date:"2021-11-24", name:"Encanto", img:PIC+"encanto2021logo.png", studio:"disney" },
+  { category:"classics", date:"2022-03-01", name:"Turning Red", img:PIC+"turningred2022logo.png", studio:"pixar" },
+  { category:"classics", date:"2022-06-17", name:"Lightyear", img:PIC+"lightyear2022logo.png", keywords:["toy story"], studio:"pixar" },
+  { category:"classics", date:"2022-11-23", name:"Strange World", img:PIC+"strangeworld2022logo2.png", studio:"disney" },
+  { category:"classics", date:"2023-06-16", name:"Elemental", img:PIC+"elemental2023logo.png", studio:"pixar" },
+  { category:"classics", date:"2023-11-22", name:"Wish", img:PIC+"wish2023logo2.png", studio:"disney" },
+  { category:"classics", date:"2024-06-14", name:"Inside Out 2", img:PIC+"insideout22024logo.png", studio:"pixar" },
+  { category:"classics", date:"2024-11-27", name:"Moana 2", img:PIC+"moana22024logo.png", keywords:["vaiana 2"], studio:"disney" },
+  { category:"classics", date:"2025-06-20", name:"Elio", img:PIC+"elio2025logo.png", studio:"pixar" },
+  { category:"classics", date:"2025-11-26", name:"Zootopia 2", img:PIC+"zootopia22025logo.png", studio:"disney" },
+  { category:"classics", date:"2026-03-06", name:"Hoppers", img:PIC+"hoppers2026logo.png", studio:"pixar" },
+  { category:"classics", date:"2026-06-19", name:"Toy Story 5", img:PIC+"toystory52026logo.png", studio:"pixar" },
 
-  {
-    name: "Lady Tremaine",
-    img: PIC + "LadyTremaine1950.png",
-    franchise: "Cinderella",
-    keywords: ["stepmother"],
-    appearances: [
-      { film: "Cinderella", year: "1950" },
-      { film: "Cinderella II: Dreams Come True", year: "2002", keywords: ["cinderella 2: dreams come true"] },
-      { film: "Cinderella III: A Twist in Time", year: "2007", keywords: ["cinderella 3"] },
-      { film: "Cinderella (live-action)", year: "2015" },
-    ]
-  },
 
-  {
-    name: "Prince Charming",
-    img: PIC + "PrinceCharming1950.png",
-    franchise: "Cinderella",
-    keywords: ["Henry", "Kit"],
-    appearances: [
-      { film: "Cinderella", year: "1950" },
-      { film: "Cinderella II: Dreams Come True", year: "2002", keywords: ["cinderella 2: dreams come true"] },
-      { film: "Cinderella III: A Twist in Time", year: "2007", keywords: ["cinderella 3"] },
-      { film: "Cinderella (live-action)", year: "2015" },
-      { film: "Once Upon a Studio", year: "2023" },
-    ]
-  },
+  // ── SHORTS ───────────────────────────────────────────────
 
-  // ── MODELE A DUPLIQUER POUR CHAQUE NOUVEAU PERSONNAGE ────────
-  // {
-  //   name: "NOM DU PERSONNAGE",
-  //   img: PIC + "nomdufichierimage.png",
-  //   franchise: "Nom de la saga", // ex: "Toy Story" — sert au tri/regroupement
-  //   keywords: ["surnom", "autre orthographe"], // optionnel, à retirer si pas besoin
-  //   link: "/characters/nomdufichier.html", // à retirer si la page n'existe pas encore
-  //   appearances: [
-  //     { film: "Titre du film", year: "Année" },
-  //     { film: "Titre du film 2", year: "Année 2", keywords: ["autre orthographe"], upcoming: true }
-  //   ]
-  // },
+
+  { category:"shorts", date:"1983-12-16", name:"Mickey's Christmas Carol", img:PIC+"mickeyschristmascarol1983logo.png", studio:"disney" },
+  { category:"shorts", date:"1990-11-16", name:"The Prince and the Pauper", img:PIC+"theprinceandthepauper1990logo.png", keywords:["mickey"], studio:"disney" },
+  { category:"shorts", date:"2012-01-13", name:"Tangled Ever After", img:PIC+"tangledeverafter2012logo.png", studio:"disney" },
+  { category:"shorts", date:"2015-03-13", name:"Frozen Fever", img:PIC+"frozenfever2015logo.png", studio:"disney" },
+  { category:"shorts", date:"2017-11-22", name:"Olaf's Frozen Adventure", img:PIC+"olafsfrozenadventure2017logo.png", studio:"disney" },
+  { category:"shorts", date:"2023-10-15", name:"Once Upon a Studio", img:PIC+"onceuponastudio2023logo.png", studio:"disney" },
+
+
+  // ── LIVE-ACTION / REMAKES ────────────────────────────────
+
+
+  { category:"live", date:"1964-08-27", name:"Mary Poppins", img:PIC+"marypoppins1964logo.png", studio:"disney" },
+  { category:"live", date:"1971-10-07", name:"Bedknobs and Broomsticks", img:PIC+"bedknobsandbroomsticks1971logo.png", studio:"disney" },
+  { category:"live", date:"1996-11-27", name:"101 Dalmatians", img:PIC+"101dalmatians1996logo.png", studio:"disney" },
+  { category:"live", date:"2000-11-22", name:"102 Dalmatians", img:PIC+"102dalmatians2000logo.png", keywords:["101 dalmatians"], studio:"disney" },
+  { category:"live", date:"2007-11-21", name:"Enchanted", img:PIC+"enchanted2007logo.png", studio:"disney" },
+  { category:"live", date:"2010-03-05", name:"Alice in Wonderland", img:PIC+"aliceinwonderland2010logo.png", studio:"disney" },
+  { category:"live", date:"2014-05-30", name:"Maleficent", img:PIC+"Maleficent2014logo.png", keywords:["sleeping beauty"], studio:"disney" },
+  { category:"live", date:"2015-03-13", name:"Cinderella", img:PIC+"cinderella2015logo.png", studio:"disney" },
+  { category:"live", date:"2016-04-15", name:"The Jungle Book", img:PIC+"thejunglebook2016logo.png", studio:"disney" },
+  { category:"live", date:"2016-05-27", name:"Alice Through the Looking Glass", img:PIC+"alicethroughthelookingglass2016logo.png", studio:"disney" },
+  { category:"live", date:"2017-03-17", name:"Beauty and the Beast", img:PIC+"beautyandthebeast2017logo2.png", studio:"disney" },
+  { category:"live", date:"2018-12-19", name:"Mary Poppins Returns", img:PIC+"marypoppinsreturns2018logo2.png", studio:"disney" },
+  { category:"live", date:"2019-03-29", name:"Dumbo", img:PIC+"dumbo2019logo.png", studio:"disney" },
+  { category:"live", date:"2019-05-24", name:"Aladdin", img:PIC+"aladdin2019logo.png", studio:"disney" },
+  { category:"live", date:"2019-07-19", name:"The Lion King", img:PIC+"thelionking2019logo.png", studio:"disney" },
+  { category:"live", date:"2019-10-18", name:"Maleficent: Mistress of Evil", img:PIC+"maleficentmistressofevil2019logo.png", keywords:["sleeping beauty"], studio:"disney" },
+  { category:"live", date:"2019-11-12", name:"Lady and the Tramp", img:PIC+"ladyandthetramp2019.png", studio:"disney" },
+  { category:"live", date:"2020-09-04", name:"Mulan", img:PIC+"Mulan2020logo.png", studio:"disney" },
+  { category:"live", date:"2021-05-28", name:"Cruella", img:PIC+"cruella2021logo.png", keywords:["101 dalmatians"], studio:"disney" },
+  { category:"live", date:"2022-09-08", name:"Pinocchio", img:PIC+"pinocchio2022logo.png", studio:"disney" },
+  { category:"live", date:"2022-11-18", name:"Disenchanted", img:PIC+"disenchanted2022logo.png", studio:"disney" },
+  { category:"live", date:"2023-04-28", name:"Peter Pan & Wendy", img:PIC+"peterpanwendy2023logo.png", studio:"disney" },
+  { category:"live", date:"2023-05-26", name:"The Little Mermaid", img:PIC+"thelittlemermaid2023logo.png", studio:"disney" },
+  { category:"live", date:"2024-12-20", name:"Mufasa: The Lion King", img:PIC+"mufasathelionking2024logo.png", studio:"disney" },
+  { category:"live", date:"2025-03-21", name:"Snow White", img:PIC+"snowwhite2025logo.png", studio:"disney" },
+  { category:"live", date:"2025-05-23", name:"Lilo & Stitch", img:PIC+"lilostitch2025logo.png", studio:"disney" },
+  { category:"live", date:"2026-07-10", name:"Moana", img:PIC+"moana2026logo.png", keywords:["vaiana"], studio:"disney" },
+
+
+  // ── NO DUB ────────────────────────────────
+
 
 ];
-
-// ============================================================
-//  CONSTRUCTION DES GROUPES PAR SAGA (VUE PAR DÉFAUT)
-//  Chaque personnage n'apparaît qu'UNE SEULE FOIS, sous sa propre saga
-//  (champ "franchise"), peu importe le nombre de films où il apparaît.
-//  Les sagas sont triées chronologiquement (année du 1er film de la
-//  saga), et à l'intérieur d'une saga, les personnages sont triés par
-//  leur PROPRE première apparition (ex: Jessie, qui arrive dans Toy
-//  Story 2, reste bien après Woody et Buzz).
-// ============================================================
-
-function firstYear(character) {
-  return Math.min(...character.appearances.map(a => parseInt(a.year, 10) || Infinity));
-}
-
-const sagaMap = {}; // { "Nom de la saga": { anchorYear, entries: [character, ...] } }
-
-characters.forEach(character => {
-  const key = character.franchise || character.name;
-  const y = firstYear(character);
-  if (!sagaMap[key]) {
-    sagaMap[key] = { anchorYear: y, entries: [] };
-  } else if (y < sagaMap[key].anchorYear) {
-    sagaMap[key].anchorYear = y;
-  }
-  sagaMap[key].entries.push(character);
-});
-
-// Trie les personnages DANS chaque saga par leur propre première année
-Object.values(sagaMap).forEach(saga => {
-  saga.entries.sort((a, b) => firstYear(a) - firstYear(b));
-});
-
-const sagaKeysInOrder = Object.keys(sagaMap).sort((a, b) => sagaMap[a].anchorYear - sagaMap[b].anchorYear);
-
-// ============================================================
-//  CONSTRUCTION DES GROUPES PAR FILM (RECHERCHE "By film" UNIQUEMENT)
-//  Pour chaque personnage, pour chacune de ses apparitions, on range
-//  le personnage dans le groupe du film correspondant. Un même
-//  personnage peut donc se retrouver dans plusieurs groupes (un par
-//  film où il apparaît) — normal, puisque ceci ne sert QUE pour la
-//  recherche par film. Un même personnage peut apparaître dans plusieurs
-//  groupes affichés en même temps (ex: dans les 3 films LEGO) : c'est
-//  voulu, pour voir clairement le casting complet de chaque film pris
-//  individuellement (voir renderGrouped un peu plus bas).
-// ============================================================
-
-const filmMap = {}; // { "Titre du film": { year, entries: [character, ...], searchText } }
-
-characters.forEach(character => {
-  character.appearances.forEach(a => {
-    if (!filmMap[a.film]) {
-      filmMap[a.film] = { year: a.year, entries: [], keywords: new Set() };
-    }
-    filmMap[a.film].entries.push(character);
-    // Les mots-clés d'apparition (ex: "cinderella 2") viennent s'ajouter
-    // au texte de recherche de CE film, peu importe quel personnage les a définis.
-    (a.keywords || []).forEach(k => filmMap[a.film].keywords.add(k));
-  });
-});
-
-// Texte de recherche final par film : titre + tous ses mots-clés
-Object.keys(filmMap).forEach(title => {
-  filmMap[title].searchText = (title + ' ' + [...filmMap[title].keywords].join(' ')).toLowerCase();
-});
-
-// Ordre des films : chronologique (par année). Modifie ce tri si tu
-// préfères un autre ordre (ex: alphabétique).
-const filmTitlesInOrder = Object.keys(filmMap).sort((a, b) => {
-  const yearA = parseInt(filmMap[a].year, 10) || 9999;
-  const yearB = parseInt(filmMap[b].year, 10) || 9999;
-  return yearA - yearB;
-});
 
 // ============================================================
 //  RENDERING
 // ============================================================
 
-const container = document.getElementById('charactersContainer');
-
-function buildCharacterCard(character) {
+function buildFilmItem(film) {
   const li = document.createElement('li');
-  li.className = 'character-card';
+  const isNoDub = !!film.noDub;
 
-  const hasLink = !!character.link;
-  if (!hasLink) li.classList.add('no-link');
+  li.className = 'film-title' + (isNoDub ? ' no-dub' : '');
+  li.dataset.studio = film.studio || 'disney';
+
+  // Keywords span(s)
+  const kwHTML = film.keywords
+    ? film.keywords.map(k => `<span class="keywords">${k}</span>`).join('')
+    : '';
+
+  // Badge
+  const badgeText = film.badge || 'No Dub';
+  const badgeHTML = (isNoDub || film.badge) ? `<span class="no-dub-badge">${badgeText}</span>` : '';
+
+  // Name / link
+  const nameHTML = film.link
+    ? `<a href="${film.link}">${film.name}</a>`
+    : `<span class="film-name">${film.name}</span>`;
 
   li.innerHTML = `
-    <div class="flip-inner">
-      <div class="card-face card-front">
-        <div class="photo-frame">
-          <img class="photo-main" src="${character.img}" alt="${character.name}">
-          <div class="card-caption">
-            <span class="character-name">${character.name}</span>
-          </div>
-        </div>
-        <span class="corner corner-tl"></span>
-        <span class="corner corner-tr"></span>
-        <span class="corner corner-bl"></span>
-        <span class="corner corner-br"></span>
-      </div>
-      <div class="card-face card-back">
-        <span class="card-back-count">${character.appearances.length} appearance${character.appearances.length > 1 ? 's' : ''}</span>
-        <ul class="card-back-list">
-          ${character.appearances.map(a => `
-            <li>
-              <span class="card-back-film">${a.film}</span>
-              <span class="card-back-year">${a.year}${a.upcoming ? '<span class="upcoming-badge">Upcoming</span>' : ''}</span>
-            </li>
-          `).join('')}
-        </ul>
-        <span class="card-back-hint">${hasLink ? 'Click to view full profile' : 'Full profile coming soon'}</span>
-      </div>
-    </div>
+    <img src="${film.img}" alt="${film.name.replace(/<br>/g,' ')}">
+    <span class="film-year">${film.year || film.date?.substring(0,4) || '????'}</span>
+    ${nameHTML}
+    ${kwHTML}
+    ${badgeHTML}
   `;
 
-  if (hasLink) {
-    li.addEventListener('click', () => { window.location.href = character.link; });
+  if (film.link && !isNoDub) {
+    li.classList.add('has-link');
+    li.addEventListener('click', () => { window.location.href = film.link; });
   }
-
-  setupAutoScroll(li);
 
   return li;
 }
 
-// Affichage GROUPÉ PAR SAGA (VUE PAR DÉFAUT) : chaque personnage une seule fois
-function renderBySaga() {
-  container.innerHTML = '';
-  sagaKeysInOrder.forEach(key => {
-    const saga = sagaMap[key];
-    if (!saga || saga.entries.length === 0) return;
-
-    const section = document.createElement('div');
-    section.className = 'film-group';
-
-    const heading = document.createElement('h2');
-    heading.className = 'film-group-title';
-    heading.textContent = key;
-    section.appendChild(heading);
-
-    const ul = document.createElement('ul');
-    ul.className = 'character-grid';
-    saga.entries.forEach(character => ul.appendChild(buildCharacterCard(character)));
-    section.appendChild(ul);
-
-    container.appendChild(section);
-  });
+function parseDate(dateStr) {
+  if (!dateStr) return new Date('9999-01-01');
+  if (dateStr === '????') return new Date('0001-01-01');
+  const normalized = dateStr
+    .replace('20??', '1999-12-31')
+    .replace('201?', '2009-12-31')
+    .replace('202?', '2019-12-31')
+    .replace(/\?/g, '0');
+  const d = new Date(normalized);
+  return isNaN(d) ? new Date('9999-01-01') : d;
 }
 
-// Affichage GROUPÉ PAR FILM (recherche "By film" uniquement) : chaque film
-// correspondant affiche TOUS ses personnages, même si certains apparaissent
-// aussi dans un autre film déjà affiché juste au-dessus (ex: Snow White dans
-// les 3 films LEGO) — c'est voulu, pour voir clairement le casting complet
-// de chaque film pris individuellement.
-function renderGrouped(titles) {
-  container.innerHTML = '';
+films.sort((a, b) => parseDate(a.date || a.year) - parseDate(b.date || b.year));
 
-  titles.forEach(title => {
-    const group = filmMap[title];
-    if (!group || group.entries.length === 0) return;
+// Separate dubbed and no-dub per category, then append dubbed first, no-dub into nodub list
+const categoryLists = { classics: [], shorts: [], live: [] };
+const noDubItems = [];
 
-    const section = document.createElement('div');
-    section.className = 'film-group';
-
-    const heading = document.createElement('h2');
-    heading.className = 'film-group-title';
-    heading.textContent = `${title}${group.year ? ' (' + group.year + ')' : ''}`;
-    section.appendChild(heading);
-
-    const ul = document.createElement('ul');
-    ul.className = 'character-grid';
-    group.entries.forEach(character => ul.appendChild(buildCharacterCard(character)));
-    section.appendChild(ul);
-
-    container.appendChild(section);
-  });
-}
-
-// Affichage PLAT (mode "By character" pendant une recherche) : pas de titre, pas de regroupement
-function renderFlat(list) {
-  container.innerHTML = '';
-  const ul = document.createElement('ul');
-  ul.className = 'character-grid';
-  list.forEach(character => ul.appendChild(buildCharacterCard(character)));
-  container.appendChild(ul);
-}
-
-// ============================================================
-//  AUTO-SCROLL DE LA LISTE AU DOS DE LA CARTE
-//  MODIFIE ICI :
-//    DEAD_ZONE   : la zone centrale (en %) où la souris ne fait rien défiler.
-//                  0.35 veut dire que les 35% du haut et les 35% du bas
-//                  déclenchent le défilement, le milieu (30%) reste neutre.
-//    MAX_SPEED   : vitesse maximale de défilement (en pixels par frame),
-//                  atteinte quand la souris est tout en haut ou tout en bas.
-// ============================================================
-
-const DEAD_ZONE = 0.35;
-const MAX_SPEED = 3;
-
-function setupAutoScroll(li) {
-  const backEl = li.querySelector('.card-back');
-  let speed = 0;
-  let rafId = null;
-
-  function step() {
-    if (speed !== 0) {
-      backEl.scrollTop += speed;
-    }
-    rafId = requestAnimationFrame(step);
+films.forEach(film => {
+  if (film.noDub) {
+    noDubItems.push(film);
+  } else {
+    categoryLists[film.category].push(film);
   }
-
-  li.addEventListener('mousemove', (e) => {
-    const rect = li.getBoundingClientRect();
-    const relY = (e.clientY - rect.top) / rect.height; // 0 = haut, 1 = bas
-
-    if (relY < DEAD_ZONE) {
-      const intensity = (DEAD_ZONE - relY) / DEAD_ZONE; // 0 à 1
-      speed = -intensity * MAX_SPEED;
-    } else if (relY > 1 - DEAD_ZONE) {
-      const intensity = (relY - (1 - DEAD_ZONE)) / DEAD_ZONE;
-      speed = intensity * MAX_SPEED;
-    } else {
-      speed = 0;
-    }
-  });
-
-  li.addEventListener('mouseenter', () => {
-    if (!rafId) step();
-  });
-
-  li.addEventListener('mouseleave', () => {
-    speed = 0;
-    if (rafId) {
-      cancelAnimationFrame(rafId);
-      rafId = null;
-    }
-  });
-}
-
-// ============================================================
-//  SEARCH
-//  - Query vide            → toujours la vue groupée par saga (par défaut)
-//  - Mode "By character"   → liste plate des personnages correspondants,
-//                            sans titre ni regroupement
-//  - Mode "By film"        → ne garde que le(s) film(s) dont le TITRE (ou
-//                            les mots-clés d'apparition) correspond à la
-//                            recherche, toujours affiché avec son titre
-// ============================================================
-
-const charSearchInput = document.getElementById('charSearch');
-const filmSearchInput = document.getElementById('filmSearch');
-const resultCount = document.getElementById('resultCount');
-
-function applySearch() {
-  const charQuery = charSearchInput.value.toLowerCase().trim();
-  const filmQuery = filmSearchInput.value.toLowerCase().trim();
-
-  if (charQuery === '' && filmQuery === '') {
-    renderBySaga();
-    resultCount.textContent = '';
-    return;
-  }
-
-  if (filmQuery !== '') {
-    const matchingTitles = filmTitlesInOrder.filter(title => filmMap[title].searchText.includes(filmQuery));
-    renderGrouped(matchingTitles);
-    resultCount.textContent = `${matchingTitles.length} film${matchingTitles.length !== 1 ? 's' : ''} found`;
-    return;
-  }
-
-  // charQuery !== ''
-  const matches = characters.filter(character => {
-    const keywordText = character.keywords ? ' ' + character.keywords.join(' ') : '';
-    const searchName = (character.name + keywordText).toLowerCase();
-    return searchName.includes(charQuery);
-  });
-  renderFlat(matches);
-  resultCount.textContent = `${matches.length} character${matches.length !== 1 ? 's' : ''} found`;
-}
-
-// ============================================================
-//  FONDU AUTOUR DE CHAQUE RECHERCHE
-//  Au lieu de reconstruire le contenu instantanément, on l'estompe
-//  d'abord, on remplace le contenu PENDANT qu'il est invisible, puis
-//  on le fait réapparaître en fondu. Beaucoup plus simple/fiable que
-//  d'animer chaque carte individuellement dans une grille qui change
-//  de structure (regroupée ↔ plate) à chaque frappe.
-//  FADE_MS doit correspondre à la durée dans le CSS (transition: opacity ...).
-// ============================================================
-
-const FADE_MS = 180;
-let fadeTimeout = null;
-
-function applySearchWithFade() {
-  container.classList.add('fading');
-
-  // Si l'utilisateur tape vite, on annule le rendu précédent en attente
-  // pour ne pas empiler plusieurs reconstructions inutiles.
-  if (fadeTimeout) clearTimeout(fadeTimeout);
-
-  fadeTimeout = setTimeout(() => {
-    applySearch();
-    container.classList.remove('fading');
-    fadeTimeout = null;
-  }, FADE_MS);
-}
-
-// Taper dans une barre vide automatiquement l'autre, pour ne jamais avoir
-// les deux recherches actives en même temps (ce qui serait ambigu).
-charSearchInput.addEventListener('input', () => {
-  if (charSearchInput.value !== '') filmSearchInput.value = '';
-  applySearchWithFade();
-});
-filmSearchInput.addEventListener('input', () => {
-  if (filmSearchInput.value !== '') charSearchInput.value = '';
-  applySearchWithFade();
 });
 
-// Rendu initial au chargement de la page
-renderBySaga();
+['classics','shorts','live'].forEach(cat => {
+  const ul = document.getElementById('list-' + cat);
+  categoryLists[cat].forEach(film => ul.appendChild(buildFilmItem(film)));
+});
+
+const noDubUl = document.getElementById('list-nodub');
+noDubItems.forEach(film => noDubUl.appendChild(buildFilmItem(film)));
+
+// ============================================================
+//  STUDIO FILTER + SEARCH (combined)
+// ============================================================
+
+// Track active studio filter
+let activeStudio = 'all';
+
+// Studios grouped under "others" button
+const OTHERS = ['dreamworks', 'donbluth', 'richard_rich', 'warner', 'netflix', 'fox'];
+
+function studioMatches(filmStudio, filterStudio) {
+  if (filterStudio === 'all') return true;
+  if (filterStudio === 'others') return OTHERS.includes(filmStudio);
+  return filmStudio === filterStudio;
+}
+
+function applyFilters() {
+  const search = document.getElementById('filmSearch').value.toLowerCase();
+
+  document.querySelectorAll('.film-title').forEach(function (el) {
+    const text        = el.textContent.toLowerCase();
+    const filmStudio  = el.dataset.studio || 'disney';
+    const matchSearch = text.includes(search);
+    const matchStudio = studioMatches(filmStudio, activeStudio);
+    el.style.display  = (matchSearch && matchStudio) ? 'flex' : 'none';
+  });
+
+  ['classics','shorts','live','nodub'].forEach(function (cat) {
+    const title   = document.getElementById('title-'   + cat);
+    const wrapper = document.getElementById('wrapper-' + cat);
+    const ul      = document.getElementById('list-'    + cat);
+    if (!ul) return;
+    const hasVisible = [...ul.querySelectorAll('.film-title')].some(f => f.style.display !== 'none');
+    title.style.display   = hasVisible ? '' : 'none';
+    wrapper.style.display = hasVisible ? '' : 'none';
+  });
+
+  // Mise à jour des compteurs
+  document.querySelectorAll('.studio-btn').forEach(function(btn) {
+    const studio = btn.dataset.studio;
+    const count = films.filter(f => !f.noDub && studioMatches(f.studio || 'disney', studio) && f.name.toLowerCase().includes(search)).length;
+    btn.querySelector('.count').textContent = '(' + count + ')';
+  });
+}
+
+// Studio buttons
+document.querySelectorAll('.studio-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    document.querySelectorAll('.studio-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeStudio = btn.dataset.studio;
+    applyFilters();
+  });
+});
+
+applyFilters(); // initialisation au chargement
+
+// Search bar
+document.getElementById('filmSearch').addEventListener('keyup', applyFilters);
 </script>
