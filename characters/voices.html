@@ -780,7 +780,10 @@ function setupNeighborPush(li) {
   });
 
   li.addEventListener('mouseleave', () => {
-    pushedSiblings.forEach(sib => { sib.style.transform = ''; });
+    pushedSiblings.forEach(sib => {
+      sib.style.transform = '';
+      sib.style.transition = '';   // sinon cette carte perd sa transition width/height pour toujours
+    });
     pushedSiblings = [];
   });
 }
