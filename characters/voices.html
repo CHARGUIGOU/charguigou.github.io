@@ -161,9 +161,10 @@ body, .search-input {
    ============================================================ */
 :root {
   --card-tilt: 2deg;              /* inclinaison du polaroïd */
-  --card-ratio: 4 / 4.5;          /* rapport largeur/hauteur de la carte (plus petit = carte moins haute) */
-  --card-max-width: 200px;        /* largeur maximale d'une carte (plus petit = cartes plus petites) */
-  --caption-height: 70px;         /* hauteur de la bande du bas (dégradé sombre) */
+  --card-size: 100px;              /* taille (carré) PAR DÉFAUT de chaque carte */
+  --card-hover-width: 200px;       /* largeur au SURVOL (= l'ancienne taille normale) */
+  --card-hover-height: 225px;      /* hauteur au SURVOL (garde le ratio 4/4.5 d'origine) */
+  --caption-height: 30%;          /* hauteur de la bande du bas, EN % : s'adapte automatiquement, que la carte soit petite ou agrandie */
   --corner-size: 20px;            /* taille des coins "photo" à l'ancienne */
   --corner-color: #d4b876;        /* couleur des coins (plus claire) */
   --card-tint: rgba(250, 247, 240, 0.65);  /* couleur/opacité du verre teinté du dos de carte */
@@ -174,25 +175,40 @@ body, .search-input {
 
 /* ============================================================
    GRILLE DE PERSONNAGES
+   "auto-fill" + "minmax" calcule automatiquement le nombre de colonnes
+   qui tiennent sur la largeur disponible, en fonction de --card-size
+   ci-dessus : plus besoin de fixer un nombre de colonnes par palier
+   d'écran (les media queries à ce sujet, en bas du fichier, ne sont
+   donc plus nécessaires et ont été retirées).
    ============================================================ */
 .character-grid {
   list-style: none;
   padding: 0 var(--page-margin);
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(var(--card-size), 1fr));
   gap: 18px;
   box-sizing: border-box;
 }
 
+/* Carte : un petit carré par défaut, qui grossit au survol jusqu'à la
+   taille "normale" d'origine (200 x 225px). z-index monte au survol
+   pour que la carte agrandie passe bien AU-DESSUS de ses voisines
+   plutôt que d'être coupée par elles. */
 .character-card {
   position: relative;
-  width: 100%;
-  max-width: var(--card-max-width);
+  width: var(--card-size);
+  height: var(--card-size);
   margin: 0 auto;
-  aspect-ratio: var(--card-ratio);
   perspective: 1000px;
   cursor: pointer;
+  z-index: 1;
+  transition: width 0.3s ease, height 0.3s ease;
+}
+.character-card:hover {
+  width: var(--card-hover-width);
+  height: var(--card-hover-height);
+  z-index: 10;
 }
 
 .character-card.no-link {
@@ -376,16 +392,6 @@ body, .search-input {
   border-radius: 4px;
   margin-left: 6px;
 }
-
-@media (max-width: 1300px) {
-  .character-grid { grid-template-columns: repeat(4, 1fr); }
-}
-@media (max-width: 900px) {
-  .character-grid { grid-template-columns: repeat(3, 1fr); }
-}
-@media (max-width: 500px) {
-  .character-grid { grid-template-columns: repeat(2, 1fr); }
-}
 </style>
 
 <div class="page-title">CHARACTER VOICES</div>
@@ -451,7 +457,7 @@ const characters = [
   {
     name: "Snow White",
     img: PIC + "SnowWhite1937.png",
-    franchise: "Snow White and the Seven Dwarfs",
+    franchise: "Snow White",
     link: "/characters/list/snowwhite.html",
     appearances: [
       { film: "Snow White and the Seven Dwarfs", year: "1937" },
@@ -468,7 +474,7 @@ const characters = [
   {
     name: "Evil Queen / Hag",
     img: PIC + "EvilQueen1937.png",
-    franchise: "Snow White and the Seven Dwarfs",
+    franchise: "Snow White",
     appearances: [
       { film: "Snow White and the Seven Dwarfs", year: "1937" },
       { film: "Snow White (live-action)", year: "2025" },
@@ -479,7 +485,7 @@ const characters = [
   {
     name: "Prince Charming",
     img: PIC + "PrinceCharmingSW1937.png",
-    franchise: "Snow White and the Seven Dwarfs",
+    franchise: "Snow White",
     keywords: ["Florian"],
     appearances: [
       { film: "Snow White and the Seven Dwarfs", year: "1937" },
