@@ -105,7 +105,17 @@ body, .film-title, .category-title, #filmSearch {
   gap: 12px;
   margin-bottom: 10px;
 }
+/* Le <li> devient "invisible" structurellement : c'est directement
+   la carte (.film-title) à l'intérieur qui sert d'élément de grille,
+   maintenant que c'est parfois un vrai <a> et pas juste un <li>. */
+.film-list > li {
+  display: contents;
+}
 
+/* La carte peut maintenant être soit un <div> (pas de fiche) soit un
+   vrai <a href="..."> (fiche disponible) : on neutralise le style de
+   lien natif du navigateur (soulignement, couleur bleue par défaut)
+   pour garder l'apparence identique dans les deux cas. */
 .film-title {
   display: flex;
   flex-direction: column;
@@ -113,13 +123,15 @@ body, .film-title, .category-title, #filmSearch {
   text-align: center;
   background: #fff;
   border-radius: 8px;
-  padding: 6px;
+  padding: 10px;
   min-height: 200px;
   justify-content: flex-start;
   position: relative;
   overflow: hidden;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  text-decoration: none;
+  color: inherit;
 }
 
 .film-title.has-link::before {
@@ -173,19 +185,21 @@ body, .film-title, .category-title, #filmSearch {
   color: #000;
   letter-spacing: 1px;
 }
+/* Titre du film : plus grand qu'avant (13.5px au lieu de 12px), un peu
+   de padding gauche/droite pour ne plus toucher les bords de la carte.
+   Par défaut en italique (= pas de fiche disponible) ; devient normal
+   et prend le bleu du site dès que la carte a un lien (voir juste
+   après, ".has-link"). */
 .film-title .film-name {
-  font-size: 12px;
+  font-size: 13.5px;
   margin: 0;
+  padding: 0 6px;
   color: #000;
-}
-.film-title a {
-  color: #1a0dab;
-  text-decoration: none;
-  font-size: 12px;
   font-style: italic;
 }
-.film-title a:hover {
-  text-decoration: none;
+.film-title.has-link .film-name {
+  color: #1a4a8a;
+  font-style: normal;
 }
 
 .category-title img {
@@ -656,11 +670,19 @@ const films = [
 // ============================================================
 
 function buildFilmItem(film) {
-  const li = document.createElement('li');
   const isNoDub = !!film.noDub;
+  const hasLink = !!film.link && !isNoDub;
 
-  li.className = 'film-title' + (isNoDub ? ' no-dub' : '');
-  li.dataset.studio = film.studio || 'disney';
+  const li = document.createElement('li');
+
+  // La carte elle-même est un vrai <a href="..."> quand il y a un lien
+  // (clic droit → "ouvrir dans un nouvel onglet" marche alors PARTOUT
+  // sur la carte, pas juste sur le texte du titre), sinon un simple <div>.
+  const card = document.createElement(hasLink ? 'a' : 'div');
+  card.className = 'film-title' + (isNoDub ? ' no-dub' : '') + (hasLink ? ' has-link' : '');
+  card.dataset.studio = film.studio || 'disney';
+  if (hasLink) card.href = film.link;
+
   // Avertissement dans la console (invisible pour les visiteurs) si un
   // film n'a pas de studio défini : évite qu'il soit classé "Disney"
   // silencieusement par erreur.
@@ -675,24 +697,15 @@ function buildFilmItem(film) {
   const badgeText = film.badge || 'No Dub';
   const badgeHTML = (isNoDub || film.badge) ? `<span class="no-dub-badge">${badgeText}</span>` : '';
 
-  // Name / link
-  const nameHTML = film.link
-    ? `<a href="${film.link}">${film.name}</a>`
-    : `<span class="film-name">${film.name}</span>`;
-
-  li.innerHTML = `
+  card.innerHTML = `
     <img src="${film.img}" alt="${film.name.replace(/<br>/g,' ')}">
     <span class="film-year">${film.year || film.date?.substring(0,4) || '????'}</span>
-    ${nameHTML}
+    <span class="film-name">${film.name}</span>
     ${kwHTML}
     ${badgeHTML}
   `;
 
-  if (film.link && !isNoDub) {
-    li.classList.add('has-link');
-    li.addEventListener('click', () => { window.location.href = film.link; });
-  }
-
+  li.appendChild(card);
   return li;
 }
 
