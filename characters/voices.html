@@ -829,7 +829,7 @@ function setupNeighborPush(li) {
     pushedSiblings = rowSiblings.filter(el => el !== li);
     pushedSiblings.forEach(sib => {
       const sibIdx = rowSiblings.indexOf(sib);
-      sib.style.transition = 'transform 0.3s ease';
+      sib.style.transition = 'transform 0.3s ease, width 0.3s ease, height 0.3s ease';
       sib.style.transform = sibIdx < idx ? `translateX(-${shift}px)` : `translateX(${shift}px)`;
     });
   });
