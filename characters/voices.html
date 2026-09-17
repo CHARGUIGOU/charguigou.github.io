@@ -215,7 +215,11 @@ body, .search-input {
   z-index: 1;
   transition: width 0.3s ease, height 0.3s ease;
 }
-.character-card:hover {
+/* Agrandissement déclenché par la classe ".hovered" (ajoutée/retirée en
+   JS avec un petit délai anti-scintillement — voir setupGrowHover plus
+   bas), PAS directement par ":hover", pour pouvoir garder la ligne
+   "ouverte" en continu quand on passe d'une carte à sa voisine. */
+.character-card.hovered {
   width: var(--card-hover-width);
   height: var(--card-hover-height);
   z-index: 10;
@@ -260,7 +264,7 @@ body, .search-input {
   transition: transform 0.6s ease;
   transform-style: preserve-3d;
 }
-.character-card:hover .flip-inner {
+.character-card.hovered .flip-inner {
   transform: rotateY(180deg);
 }
 
@@ -683,6 +687,7 @@ function buildCharacterCard(character) {
 
   setupAutoScroll(li);
   setupNeighborPush(li);
+  setupGrowHover(li);
 
   return li;
 }
@@ -747,6 +752,50 @@ function renderFlat(list) {
   ul.className = 'character-grid';
   list.forEach(character => ul.appendChild(buildCharacterCard(character)));
   container.appendChild(ul);
+}
+
+// ============================================================
+//  AGRANDISSEMENT AU SURVOL, AVEC DÉLAI ANTI-SCINTILLEMENT
+//  Gère la classe ".hovered" (celle qui déclenche l'agrandissement en
+//  CSS) manuellement en JS, plutôt que de se fier à ":hover" directement.
+//  Pourquoi : quand on quitte une carte et qu'on entre sur sa voisine
+//  juste à côté, il y a un tout petit "trou" entre les deux pendant
+//  lequel aucune des deux n'est techniquement survolée — la carte se
+//  rétrécit puis se rouvre aussitôt, d'où l'effet "abrupt".
+//  Ici, quitter une carte NE la referme PAS tout de suite : ça programme
+//  juste une fermeture dans GRACE_MS. Si une autre carte est survolée
+//  entre-temps, cette fermeture programmée est annulée, ET l'ancienne
+//  carte se referme immédiatement EN MÊME TEMPS que la nouvelle s'ouvre
+//  (les deux transitions tournent en parallèle, sans "trou" au milieu).
+//  GRACE_MS : augmente si le trou entre les cartes est encore perceptible,
+//  diminue si la fermeture met trop de temps à démarrer quand on quitte
+//  vraiment la grille.
+// ============================================================
+
+const GRACE_MS = 150;
+let currentHoveredCard = null;
+let hoverCloseTimeout = null;
+
+function setupGrowHover(li) {
+  li.addEventListener('mouseenter', () => {
+    if (hoverCloseTimeout) {
+      clearTimeout(hoverCloseTimeout);
+      hoverCloseTimeout = null;
+    }
+    if (currentHoveredCard && currentHoveredCard !== li) {
+      currentHoveredCard.classList.remove('hovered');
+    }
+    li.classList.add('hovered');
+    currentHoveredCard = li;
+  });
+
+  li.addEventListener('mouseleave', () => {
+    hoverCloseTimeout = setTimeout(() => {
+      li.classList.remove('hovered');
+      if (currentHoveredCard === li) currentHoveredCard = null;
+      hoverCloseTimeout = null;
+    }, GRACE_MS);
+  });
 }
 
 // ============================================================
