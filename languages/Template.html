@@ -43,6 +43,43 @@ body, .film-title, .category-title, #filmSearch {
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
+/* ============================================================
+   MESSAGE "AUCUN RÉSULTAT"
+   Caché par défaut, affiché uniquement si une recherche ne donne
+   aucun film (dans aucune catégorie).
+   ============================================================ */
+#noResultsMsg {
+  display: none;
+  text-align: center;
+  font-size: 13px;
+  color: #999;
+  margin: 10px 0 30px;
+}
+#noResultsMsg strong {
+  color: #666;
+  font-weight: 600;
+}
+
+/* ============================================================
+   SOMMAIRE DE CATÉGORIES (liens d'ancrage en haut de page)
+   Volontairement discret : petits liens simples, pas un encadré.
+   ============================================================ */
+.category-nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin: 4px 0 10px;
+  font-size: 12px;
+}
+.category-nav a {
+  color: #1a4a8a;
+  text-decoration: none;
+}
+.category-nav a:hover {
+  text-decoration: underline;
+}
+
 .category-title {
   font-size: 20px !important;
   letter-spacing: 1px;
@@ -53,6 +90,7 @@ body, .film-title, .category-title, #filmSearch {
   display: flex;
   align-items: center;
   box-sizing: border-box;
+  scroll-margin-top: 20px;   /* petit espace au-dessus quand on arrive via le sommaire */
 }
 
 .film-list {
@@ -169,10 +207,6 @@ body, .film-title, .category-title, #filmSearch {
   opacity: 1;
 }
 
-.no-dub.has-link::before {
-  display: none;
-}
-
 .no-dub img {
   filter: grayscale(100%);
   opacity: 0.9;
@@ -271,6 +305,41 @@ body, .film-title, .category-title, #filmSearch {
   line-height: 1.5;
 }
 
+/* ============================================================
+   BOUTON "RETOUR EN HAUT"
+   Même design que sur les fiches personnage, pour rester cohérent
+   sur tout le site (apparaît après un peu de scroll).
+   ============================================================ */
+#backToTop {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #1a4a8a;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 50;
+}
+#backToTop.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+#backToTop svg {
+  width: 30px;
+  height: 30px;
+}
+
 
 @media (max-width: 1300px) {
   .film-list { grid-template-columns: repeat(4, 1fr); }
@@ -300,6 +369,19 @@ body, .film-title, .category-title, #filmSearch {
 <!-- SEARCH BAR -->
 <input type="text" id="filmSearch" placeholder="Search a film..." />
 
+<!-- Message affiché uniquement si la recherche ne donne aucun résultat -->
+<div id="noResultsMsg">No film found for "<strong id="noResultsQuery"></strong>"</div>
+
+<!-- ============================================================
+     SOMMAIRE DE CATÉGORIES (ancre vers chaque section)
+     ============================================================ -->
+<nav class="category-nav">
+  <a href="#title-classics">Classics</a>
+  <a href="#title-shorts">Shorts</a>
+  <a href="#title-live">Live-action/Remakes</a>
+  <a href="#title-nodub">No Dub</a>
+</nav>
+
 <!-- STUDIO FILTER -->
 <div class="studio-filter">
   <button class="studio-btn active" data-studio="all">All <span class="count"></span></button>
@@ -311,28 +393,28 @@ body, .film-title, .category-title, #filmSearch {
 
 <!-- CONTAINERS -->
 <h2 class="category-title" id="title-classics">
-  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/clap-cinema_orig.gif">Original Classics
+  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/clap-cinema_orig.gif" alt="">Original Classics
 </h2>
 <div class="film-list-wrapper" id="wrapper-classics">
   <ul class="film-list" id="list-classics"></ul>
 </div>
 
 <h2 class="category-title" id="title-shorts">
-  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/clap-cinema_orig.gif">Shorts
+  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/clap-cinema_orig.gif" alt="">Shorts
 </h2>
 <div class="film-list-wrapper" id="wrapper-shorts">
   <ul class="film-list" id="list-shorts"></ul>
 </div>
 
 <h2 class="category-title" id="title-live">
-  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/clap-cinema_orig.gif">Live-action/Remakes
+  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/clap-cinema_orig.gif" alt="">Live-action/Remakes
 </h2>
 <div class="film-list-wrapper" id="wrapper-live">
   <ul class="film-list" id="list-live"></ul>
 </div>
 
 <h2 class="category-title no-dub-title" id="title-nodub">
-  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/no-sound-movie-cast_orig.gif">No Dub
+  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/no-sound-movie-cast_orig.gif" alt="">No Dub
 </h2>
 <div class="film-list-wrapper" id="wrapper-nodub">
   <ul class="film-list" id="list-nodub"></ul>
@@ -348,6 +430,15 @@ body, .film-title, .category-title, #filmSearch {
     <li>N/A</li>
   </ul>
 </div>
+
+<!-- ============================================================
+     BOUTON RETOUR EN HAUT
+     ============================================================ -->
+<button id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 3c-1 0-1.8.8-1.8 1.8v6.4L8.6 9.6a1.6 1.6 0 0 0-2.3 2.2l4.2 4.4c.8.8 2.1.8 2.9 0l4.2-4.4a1.6 1.6 0 0 0-2.3-2.2l-1.6 1.6V4.8C13.8 3.8 13 3 12 3z" fill="#1a4a8a" transform="rotate(180 12 12)"/>
+  </svg>
+</button>
 
 <script>
 // ============================================================
@@ -567,6 +658,10 @@ function buildFilmItem(film) {
 
   li.className = 'film-title' + (isNoDub ? ' no-dub' : '');
   li.dataset.studio = film.studio || 'disney';
+  // Avertissement dans la console (invisible pour les visiteurs) si un
+  // film n'a pas de studio défini : évite qu'il soit classé "Disney"
+  // silencieusement par erreur.
+  if (!film.studio) console.warn('Film sans studio défini, classé "Disney" par défaut :', film.name);
 
   // Keywords span(s)
   const kwHTML = film.keywords
@@ -659,15 +754,28 @@ function applyFilters() {
     el.style.display  = (matchSearch && matchStudio) ? 'flex' : 'none';
   });
 
+  let anyVisible = false;
+
   ['classics','shorts','live','nodub'].forEach(function (cat) {
     const title   = document.getElementById('title-'   + cat);
     const wrapper = document.getElementById('wrapper-' + cat);
     const ul      = document.getElementById('list-'    + cat);
     if (!ul) return;
     const hasVisible = [...ul.querySelectorAll('.film-title')].some(f => f.style.display !== 'none');
+    if (hasVisible) anyVisible = true;
     title.style.display   = hasVisible ? '' : 'none';
     wrapper.style.display = hasVisible ? '' : 'none';
   });
+
+  // Message "aucun résultat" : affiché seulement si une recherche est en
+  // cours ET qu'elle ne donne rien, dans aucune catégorie.
+  const noResultsEl = document.getElementById('noResultsMsg');
+  if (search && !anyVisible) {
+    noResultsEl.style.display = 'block';
+    document.getElementById('noResultsQuery').textContent = document.getElementById('filmSearch').value;
+  } else {
+    noResultsEl.style.display = 'none';
+  }
 
   // Mise à jour des compteurs
   document.querySelectorAll('.studio-btn').forEach(function(btn) {
@@ -691,4 +799,19 @@ applyFilters(); // initialisation au chargement
 
 // Search bar
 document.getElementById('filmSearch').addEventListener('keyup', applyFilters);
+
+// ============================================================
+//  BOUTON RETOUR EN HAUT
+//  Apparaît après 400px de scroll, ramène en douceur en haut de page.
+// ============================================================
+
+const backToTop = document.getElementById('backToTop');
+
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
 </script>
