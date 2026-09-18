@@ -124,7 +124,7 @@ body, .film-title, .category-title, #filmSearch {
   background: #fff;
   border-radius: 8px;
   padding: 6px;   /* padding de base sur toute la carte (image incluse), comme à l'origine */
-  min-height: 200px;
+  min-height: 170px;   /* réduit de 200 à 170 : carte plus rectangulaire, moins de zoom nécessaire sur la photo pour couvrir toute la carte */
   justify-content: flex-start;
   position: relative;
   overflow: hidden;
@@ -152,6 +152,7 @@ body, .film-title, .category-title, #filmSearch {
   transform: rotate(20deg) translateX(-150%);
   pointer-events: none;
   opacity: 0;
+  z-index: 3;   /* au-dessus de l'image (0), du cache (1) et du texte (2) */
 }
 
 .film-title.has-link:hover::before {
@@ -184,9 +185,12 @@ body, .film-title, .category-title, #filmSearch {
 }
 
 /* Le CACHE BLANC : au repos, il recouvre tout sauf les 120px du haut
-   (la vignette classique). Au survol d'une carte AVEC lien, sa hauteur
-   se réduit à 0 en partant du bas — la photo "remonte" et envahit
-   toute la carte, comme une tache qui se répand. */
+   (la vignette classique). Au survol d'une carte AVEC lien, on ne
+   réduit plus une simple hauteur (ça faisait "rideau qui descend"),
+   mais un CERCLE ancré tout en haut du cache (juste à la jonction avec
+   la vignette) qui se referme sur lui-même : la photo semble alors
+   "déborder" et se répandre depuis cette ligne plutôt que descendre
+   en bloc uniforme — plus proche d'une tache qui s'étend. */
 .film-title .card-mask {
   position: absolute;
   left: 0;
@@ -195,10 +199,11 @@ body, .film-title, .category-title, #filmSearch {
   height: calc(100% - 120px);
   background: #fff;
   z-index: 1;
-  transition: height 0.45s ease;
+  clip-path: circle(150% at 50% 0%);
+  transition: clip-path 0.5s ease;
 }
 .film-title.has-link:hover .card-mask {
-  height: 0;
+  clip-path: circle(0% at 50% 0%);
 }
 
 /* Pousse le texte sous la vignette du haut, puisque l'image est
