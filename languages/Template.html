@@ -125,6 +125,7 @@ body, .film-title, .category-title, #filmSearch {
   border-radius: 8px;
   padding: 6px;   /* padding de base sur toute la carte (image incluse), comme à l'origine */
   aspect-ratio: 379 / 220;   /* même ratio que tes images (379×220) : la carte suit ce ratio automatiquement, à n'importe quelle largeur */
+  min-height: 190px;   /* garde-fou : empêche la carte d'être trop courte pour un titre sur 2 lignes, même si le ratio pur donnerait moins */
   justify-content: flex-start;
   position: relative;
   overflow: hidden;
@@ -242,6 +243,14 @@ body, .film-title, .category-title, #filmSearch {
   color: #000;
   font-style: italic;
   transition: color 0.3s ease, text-shadow 0.3s ease;
+  /* Filet de sécurité : jamais plus de 2 lignes, coupe avec "…" au
+     lieu de laisser une 2e ligne à moitié coupée si le titre est
+     vraiment très long */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .film-title.has-link .film-name {
   color: #1a4a8a;
