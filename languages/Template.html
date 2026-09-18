@@ -123,8 +123,9 @@ body, .film-title, .category-title, #filmSearch {
   text-align: center;
   background: #fff;
   border-radius: 8px;
-  padding-bottom: 10px;   /* espace sous le titre ; l'image, elle, colle aux 3 autres bords */
-  min-height: 170px;
+  padding: 6px;   /* padding de base sur toute la carte (image incluse) */
+  min-height: 190px;
+  justify-content: flex-start;
   position: relative;
   overflow: hidden;
   transition: box-shadow 0.25s ease;
@@ -136,26 +137,55 @@ body, .film-title, .category-title, #filmSearch {
 /* Au survol d'une carte AVEC lien : juste une ombre un peu plus
    marquée, pour un effet de "soulèvement" léger — sans agrandir la
    carte (un "transform: scale()" ici la ferait déborder de sa case
-   dans la grille et chevaucher la carte voisine). */
+   dans la grille et chevaucher la carte voisine, comme observé). */
 .film-title.has-link:hover {
-  box-shadow: 0 8px 14px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.25);
   cursor: pointer;
 }
 
-/* La photo de la carte : une vignette classique en haut de carte,
-   dans le flux normal (pas de position absolue) — sa hauteur ne
-   bouge jamais, donc pas de risque de bug de zoom ou de débordement. */
+/* La photo devient une couche de FOND qui couvre TOUJOURS toute la
+   carte (même quand on ne la voit pas en entier — elle est juste
+   cachée par le cache blanc ci-dessous). z-index:0 = tout en bas. */
 .film-title img {
-  width: 100%;
-  height: 140px;
+  position: absolute;
+  top: 6px;      /* petite bordure blanche par défaut */
+  left: 6px;
+  width: calc(100% - 12px);
+  height: calc(100% - 6px);
   object-fit: cover;
   object-position: center top;
-  border-radius: 8px 8px 0 0;
-  display: block;
+  z-index: 0;
+  transition: top 0.45s ease, left 0.45s ease, width 0.45s ease, height 0.45s ease;
+}
+/* Au survol : la bordure blanche se comble, la photo s'étend jusqu'aux bords */
+.film-title.has-link:hover img {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Le CACHE BLANC ("rideau") : au repos, il recouvre tout sauf les
+   120px du haut (la vignette classique). Au survol d'une carte AVEC
+   lien, sa hauteur se réduit à 0 en partant du bas — la photo
+   "remonte" et envahit toute la carte. */
+.film-title .card-mask {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(100% - 120px);
+  background: #fff;
+  z-index: 1;
+  transition: height 0.45s ease;
+}
+.film-title.has-link:hover .card-mask {
+  height: 0;
 }
 
 /* Effet "balayage lumineux" au survol des cartes avec lien : un fin
-   reflet diagonal qui traverse la vignette une fois. */
+   reflet diagonal qui traverse la carte une fois. Reste au-dessus de
+   l'image et du rideau. */
 .film-title.has-link::before {
   content: "";
   position: absolute;
@@ -174,7 +204,7 @@ body, .film-title, .category-title, #filmSearch {
   transform: rotate(20deg) translateX(-150%);
   pointer-events: none;
   opacity: 0;
-  z-index: 2;   /* au-dessus de l'image, sous le texte n'a pas d'importance ici car le texte est sous la vignette */
+  z-index: 3;   /* au-dessus de l'image (0), du rideau (1) et du texte (2) */
 }
 
 .film-title.has-link:hover::before {
@@ -187,23 +217,34 @@ body, .film-title, .category-title, #filmSearch {
   100% { transform: rotate(20deg) translateX(150%); }
 }
 
+/* Pousse le texte sous la vignette du haut, puisque l'image est
+   en position absolue (elle ne pousse plus le texte naturellement). */
+.film-title {
+  padding-top: calc(120px + 6px);
+}
+
 .film-title .film-year {
+  position: relative;
+  z-index: 2;   /* toujours au-dessus de l'image ET du rideau */
   font-weight: bold;
   font-size: 12px;
-  margin-top: 8px;
   margin-bottom: 4px;
   color: #000;
   letter-spacing: 1px;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 /* Titre du film : en italique par défaut (= pas de fiche disponible),
    devient normal et prend le bleu du site dès que la carte a un lien
    (voir juste après, ".has-link"). */
 .film-title .film-name {
+  position: relative;
+  z-index: 2;
   font-size: 12px;
   margin: 0;
   padding: 0 6px;
   color: #000;
   font-style: italic;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
   /* Filet de sécurité : jamais plus de 2 lignes, coupe avec "…" au
      lieu de laisser une 2e ligne à moitié coupée si le titre est
      vraiment très long */
@@ -216,6 +257,14 @@ body, .film-title, .category-title, #filmSearch {
 .film-title.has-link .film-name {
   color: #1a4a8a;
   font-style: normal;
+}
+
+/* Une fois la photo pleine carte révélée au survol, le texte passe en
+   blanc avec une ombre portée pour rester lisible par-dessus l'image. */
+.film-title.has-link:hover .film-year,
+.film-title.has-link:hover .film-name {
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.85);
 }
 
 .category-title img {
@@ -715,6 +764,7 @@ function buildFilmItem(film) {
 
   card.innerHTML = `
     <img src="${film.img}" alt="${film.name.replace(/<br>/g,' ')}">
+    <div class="card-mask"></div>
     <span class="film-year">${film.year || film.date?.substring(0,4) || '????'}</span>
     <span class="film-name">${film.name}</span>
     ${kwHTML}
