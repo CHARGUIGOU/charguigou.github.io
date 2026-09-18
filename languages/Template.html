@@ -101,7 +101,7 @@ body, .film-title, .category-title, #filmSearch {
   padding-left: 0;
   margin-top: 10px;
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 12px;
   margin-bottom: 10px;
 }
@@ -124,7 +124,7 @@ body, .film-title, .category-title, #filmSearch {
   background: #fff;
   border-radius: 8px;
   padding: 6px;   /* padding de base sur toute la carte (image incluse), comme à l'origine */
-  min-height: 170px;   /* réduit de 200 à 170 : carte plus rectangulaire, moins de zoom nécessaire sur la photo pour couvrir toute la carte */
+  aspect-ratio: 379 / 220;   /* même ratio que tes images (379×220) : la carte suit ce ratio automatiquement, à n'importe quelle largeur */
   justify-content: flex-start;
   position: relative;
   overflow: hidden;
@@ -185,12 +185,13 @@ body, .film-title, .category-title, #filmSearch {
 }
 
 /* Le CACHE BLANC : au repos, il recouvre tout sauf les 120px du haut
-   (la vignette classique). Au survol d'une carte AVEC lien, on ne
-   réduit plus une simple hauteur (ça faisait "rideau qui descend"),
-   mais un CERCLE ancré tout en haut du cache (juste à la jonction avec
-   la vignette) qui se referme sur lui-même : la photo semble alors
-   "déborder" et se répandre depuis cette ligne plutôt que descendre
-   en bloc uniforme — plus proche d'une tache qui s'étend. */
+   (la vignette classique). Au survol d'une carte AVEC lien, on utilise
+   un POLYGONE à 12 pointes irrégulières (pas un simple cercle) : chaque
+   point grandit à sa propre vitesse/direction, ce qui donne un contour
+   inégal façon tache d'encre qui se répand, plutôt qu'une forme
+   parfaitement ronde ou un rideau uniforme. Les deux polygones ont le
+   même nombre de points (12) pour que le navigateur puisse animer
+   chaque point individuellement entre les deux formes. */
 .film-title .card-mask {
   position: absolute;
   left: 0;
@@ -199,11 +200,19 @@ body, .film-title, .category-title, #filmSearch {
   height: calc(100% - 120px);
   background: #fff;
   z-index: 1;
-  clip-path: circle(150% at 50% 0%);
-  transition: clip-path 0.5s ease;
+  clip-path: polygon(
+    45% 0%, 55% 0%, 60% 4%, 56% 9%,
+    51% 6%, 49% 9%, 41% 6%, 39% 3%,
+    43% 0%, 50% 2%, 44% 3%, 47% 0%
+  );
+  transition: clip-path 0.6s ease;
 }
 .film-title.has-link:hover .card-mask {
-  clip-path: circle(0% at 50% 0%);
+  clip-path: polygon(
+    15% 0%, 85% 0%, 100% 12%, 90% 35%,
+    100% 55%, 85% 80%, 100% 100%, 55% 90%,
+    35% 100%, 8% 88%, 0% 65%, 6% 28%
+  );
 }
 
 /* Pousse le texte sous la vignette du haut, puisque l'image est
@@ -408,7 +417,7 @@ body, .film-title, .category-title, #filmSearch {
 
 
 @media (max-width: 1300px) {
-  .film-list { grid-template-columns: repeat(4, 1fr); }
+  .film-list { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 900px) {
   .film-list { grid-template-columns: repeat(2, 1fr); }
