@@ -170,20 +170,53 @@ body, .film-title, .category-title, #filmSearch {
   cursor: pointer;
 }
 
+/* La photo devient une couche de FOND qui couvre TOUJOURS toute la
+   carte (même quand on ne la voit pas en entier — elle est juste
+   cachée par le cache blanc ci-dessous). z-index:0 = tout en bas. */
 .film-title img {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  max-height: 120px;
+  height: 100%;
   object-fit: cover;
-  border-radius: 6px;
-  margin-bottom: 6px;
+  object-position: center top;
+  z-index: 0;
+}
+
+/* Le CACHE BLANC : au repos, il recouvre tout sauf les 120px du haut
+   (la vignette classique). Au survol d'une carte AVEC lien, sa hauteur
+   se réduit à 0 en partant du bas — la photo "remonte" et envahit
+   toute la carte, comme une tache qui se répand. */
+.film-title .card-mask {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(100% - 120px);
+  background: #fff;
+  z-index: 1;
+  transition: height 0.45s ease;
+}
+.film-title.has-link:hover .card-mask {
+  height: 0;
+}
+
+/* Pousse le texte sous la vignette du haut, puisque l'image est
+   maintenant en position absolue (elle ne pousse plus le texte
+   naturellement comme avant). */
+.film-title {
+  padding-top: calc(120px + 6px);
 }
 
 .film-title .film-year {
+  position: relative;
+  z-index: 2;   /* toujours au-dessus de l'image ET du cache */
   font-weight: bold;
   font-size: 12px;
   margin-bottom: 4px;
   color: #000;
   letter-spacing: 1px;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 /* Titre du film : plus grand qu'avant (13.5px au lieu de 12px), un peu
    de padding gauche/droite pour ne plus toucher les bords de la carte.
@@ -191,15 +224,26 @@ body, .film-title, .category-title, #filmSearch {
    et prend le bleu du site dès que la carte a un lien (voir juste
    après, ".has-link"). */
 .film-title .film-name {
+  position: relative;
+  z-index: 2;
   font-size: 12px;
   margin: 0;
   padding: 0 6px;
   color: #000;
   font-style: italic;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 .film-title.has-link .film-name {
   color: #1a4a8a;
   font-style: normal;
+}
+
+/* Une fois la photo pleine carte révélée au survol, le texte passe en
+   blanc avec une ombre portée pour rester lisible par-dessus l'image. */
+.film-title.has-link:hover .film-year,
+.film-title.has-link:hover .film-name {
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.85);
 }
 
 .category-title img {
@@ -699,6 +743,7 @@ function buildFilmItem(film) {
 
   card.innerHTML = `
     <img src="${film.img}" alt="${film.name.replace(/<br>/g,' ')}">
+    <div class="card-mask"></div>
     <span class="film-year">${film.year || film.date?.substring(0,4) || '????'}</span>
     <span class="film-name">${film.name}</span>
     ${kwHTML}
