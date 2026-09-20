@@ -153,6 +153,19 @@ body, .film-title, .category-title, #filmSearch {
   object-position: center top;
   z-index: 0;
   display: block;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+/* Repère visuel rapide : une carte SANS fiche a sa photo légèrement
+   désaturée/assombrie (même principe que les cartes "No Dub" plus bas
+   dans la page). Comme ça, d'un coup d'œil sur la grille, les photos
+   en couleurs pleines = cliquables, les photos plus ternes = pas de
+   fiche disponible. On exclut les cartes ".no-dub" ici : elles ont
+   déjà leur propre traitement (plus prononcé), pas la peine de cumuler
+   les deux. */
+.film-title:not(.has-link):not(.no-dub) img {
+  filter: grayscale(65%) brightness(0.9);
+  opacity: 0.85;
 }
 
 /* La BARRE DE TITRE : contient le millésime + le titre, posés en bas
