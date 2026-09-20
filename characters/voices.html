@@ -811,6 +811,15 @@ function setupGrowHover(li) {
 //  peut être supprimée sans rien casser d'autre.
 // ============================================================
 
+// Mémorise, PAR CARTE poussée, le minuteur en attente qui doit retirer sa
+// transition inline une fois le retour terminé (voir plus bas). Un
+// WeakMap plutôt qu'une simple variable : plusieurs cartes différentes
+// peuvent être "en train de revenir" en même temps, chacune avec son
+// propre minuteur — et s'il en reste une pointant vers un élément qui
+// a disparu (recherche relancée), le WeakMap la laisse partir au
+// garbage collector toute seule.
+const neighborResetTimeouts = new WeakMap();
+
 function setupNeighborPush(li) {
   let pushedSiblings = [];
 
@@ -828,6 +837,15 @@ function setupNeighborPush(li) {
 
     pushedSiblings = rowSiblings.filter(el => el !== li);
     pushedSiblings.forEach(sib => {
+      // Si cette carte était déjà en train de revenir à sa place (minuteur
+      // en attente suite à un survol précédent), on annule ce retour : elle
+      // va être repoussée tout de suite, pas la peine de couper sa
+      // transition entre-temps.
+      const pending = neighborResetTimeouts.get(sib);
+      if (pending) {
+        clearTimeout(pending);
+        neighborResetTimeouts.delete(sib);
+      }
       const sibIdx = rowSiblings.indexOf(sib);
       sib.style.transition = 'transform 0.3s ease, width 0.3s ease, height 0.3s ease';
       sib.style.transform = sibIdx < idx ? `translateX(-${shift}px)` : `translateX(${shift}px)`;
@@ -836,8 +854,18 @@ function setupNeighborPush(li) {
 
   li.addEventListener('mouseleave', () => {
     pushedSiblings.forEach(sib => {
+      // On retire seulement le "transform" ici : comme la transition est
+      // toujours active, ça anime le retour en douceur au lieu d'un saut
+      // instantané. La transition elle-même n'est coupée qu'APRÈS ce
+      // retour (300ms = même durée que "transform" ci-dessus), sinon elle
+      // disparaîtrait pour toujours sur cette carte (plus aucune animation
+      // width/height ensuite).
       sib.style.transform = '';
-      sib.style.transition = '';   // sinon cette carte perd sa transition width/height pour toujours
+      const timeoutId = setTimeout(() => {
+        sib.style.transition = '';
+        neighborResetTimeouts.delete(sib);
+      }, 300);
+      neighborResetTimeouts.set(sib, timeoutId);
     });
     pushedSiblings = [];
   });
