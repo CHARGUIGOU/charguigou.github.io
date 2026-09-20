@@ -155,25 +155,35 @@ body, .film-title, .category-title, #filmSearch {
   display: block;
 }
 
-/* La BARRE DE TITRE : un petit bandeau blanc posé par défaut sur le
-   bas de la photo (contient le millésime + le titre). Au survol d'une
-   carte avec lien, elle glisse vers le bas et disparaît sous la
-   carte — "comme un rideau qui descend" — pour laisser voir la photo
-   en entier. Un "transform: translateY()" anime beaucoup plus
-   simplement et proprement qu'une hauteur qui change : pas de reflow,
-   pas de recalcul de mise en page pendant l'animation. */
+/* La BARRE DE TITRE : contient le millésime + le titre, posés en bas
+   de la photo. Elle-même ne bouge JAMAIS — c'est uniquement son FOND
+   blanc (.caption-bg, juste en dessous) qui glisse vers le bas comme
+   un rideau. Le texte, lui, reste toujours à la même place, et passe
+   simplement en blanc au survol pour rester lisible par-dessus la
+   photo (voir plus bas, ".has-link:hover .film-year/.film-name"). */
 .film-title .card-caption {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 2;
-  background: #fff;
   padding: 6px 6px 8px;
   text-align: center;
+}
+
+/* Le FOND blanc de la barre : un calque séparé, juste derrière le
+   texte (z-index inférieur à celui du texte, supérieur à celui de la
+   photo). C'est lui qui glisse et disparaît sous la carte au survol —
+   "comme un rideau qui descend" — un simple "transform: translateY()"
+   anime ça sans reflow ni recalcul de mise en page. */
+.film-title .caption-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #fff;
   transition: transform 0.45s ease;
 }
-.film-title.has-link:hover .card-caption {
+.film-title.has-link:hover .caption-bg {
   transform: translateY(100%);
 }
 
@@ -211,12 +221,15 @@ body, .film-title, .category-title, #filmSearch {
 }
 
 .film-title .film-year {
+  position: relative;
+  z-index: 1;   /* au-dessus du fond blanc (-1) de la barre */
   display: block;
   font-weight: bold;
   font-size: 12px;
   margin-bottom: 4px;
   color: #000;
   letter-spacing: 1px;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 /* Titre du film : en italique par défaut (= pas de fiche disponible),
    devient normal et prend le bleu du site dès que la carte a un lien
@@ -224,15 +237,27 @@ body, .film-title, .category-title, #filmSearch {
    barre n'est plus contrainte à une hauteur fixe, elle grandit toute
    seule si le titre est long — rien n'est jamais coupé. */
 .film-title .film-name {
+  position: relative;
+  z-index: 1;
   display: block;
   font-size: 12px;
   margin: 0;
   color: #000;
   font-style: italic;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 .film-title.has-link .film-name {
   color: #1a4a8a;
   font-style: normal;
+}
+
+/* Une fois le fond blanc parti au survol, le texte se retrouve
+   directement sur la photo : il passe en blanc avec une ombre portée
+   pour rester lisible. */
+.film-title.has-link:hover .film-year,
+.film-title.has-link:hover .film-name {
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.85);
 }
 
 .category-title img {
@@ -733,6 +758,7 @@ function buildFilmItem(film) {
   card.innerHTML = `
     <img src="${film.img}" alt="${film.name.replace(/<br>/g,' ')}">
     <div class="card-caption">
+      <div class="caption-bg"></div>
       <span class="film-year">${film.year || film.date?.substring(0,4) || '????'}</span>
       <span class="film-name">${film.name}</span>
     </div>
