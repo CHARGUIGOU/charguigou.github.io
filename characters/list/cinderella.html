@@ -1,0 +1,1271 @@
+---
+layout: null
+---
+<!-- GOOGLE FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --page-margin: 10%;
+  --accent: #1a4a8a;
+  --name-font: 'IM Fell English', serif;
+  --toc-title-size: 13px;      /* taille du titre "Appearances" */
+  --toc-item-size: 12px;       /* taille des lignes ET des chiffres du sommaire */
+  --banner-height: 300px;      /* hauteur des bandeaux images par film */
+  --banner-position: center 25%; /* cadrage de l'image dans le bandeau (comme background-position) */
+  --banner-title-size: 50px;   /* taille du titre incrusté sur le bandeau */
+  --banner-pad-side: 80px;     /* retrait du titre depuis le bord gauche/droit du bandeau */
+  --banner-title-bottom: 30px; /* remonte le titre depuis le bas du bandeau */
+  --banner-margin-bottom: 30px; /* espace entre le bandeau et le contenu qui suit */
+  --portrayed-by-indent: 200px; /* décalage vers la droite de "Portrayed by", en plus de la marge de page */
+  --lang-col-width: 340px;      /* largeur de la colonne "langue" dans les tableaux de voix */
+  --fallback-glow-duration: 12s; /* durée d'un aller (puis retour) de la lumière du fond de secours */
+  --year-color: #7ea6d8;       /* couleur des années/dates (bleu pastel) */
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #333;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   TITRE DE PAGE + RETOUR
+   ============================================================ */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 20px 0 0 20px;
+}
+.back-btn:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   RANGEE DU HAUT : titre + recherche (gauche) / sommaire (droite)
+   ============================================================ */
+.top-section {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 20px 10px;
+  box-sizing: border-box;
+}
+
+.top-left {
+  flex: 1;
+  min-width: 280px;
+}
+
+/* Le "Snow White" affiché en haut à gauche de la page */
+.page-title {
+  font-family: var(--name-font);
+  font-size: 44px;      /* ← taille du titre de la page */
+  font-weight: 400;
+  color: #222;
+  margin: 0 0 18px;
+  text-align: left;
+}
+
+/* La barre de recherche elle-même (champ de saisie) */
+#langSearch {
+  width: 100%;
+  max-width: 380px;     /* largeur maximale de la barre */
+  display: block;
+  padding: 10px 16px;
+  font-size: 14px;       /* taille du texte tapé/placeholder */
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+#langSearch:focus {
+  outline: none;
+  border-color: #7da1c9;   /* couleur de la bordure quand on clique dedans */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Le petit texte "X appearances found" sous la barre de recherche */
+#langResultInfo {
+  font-size: 12px;
+  color: #888;
+  margin-top: 8px;
+}
+
+/* ============================================================
+   SOMMAIRE façon Wikipédia : boîte avec liste numérotée
+   ============================================================ */
+
+/* La BOÎTE grise entière (fond, bordure, largeur) */
+.toc {
+  flex: 0 0 340px;       /* largeur fixe de l'encadré */
+  padding: 16px 24px;
+  background: #f8f9fa;   /* couleur de fond */
+  border: 1px solid #dcdcdc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Le mot "Appearances" tout en haut de l'encadré */
+.toc-title {
+  font-size: var(--toc-title-size);  /* variable définie tout en haut du fichier */
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #dcdcdc;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.toc li {
+  font-size: var(--toc-item-size); /* définit aussi la taille des chiffres 1. 2. 3. ... */
+  margin-bottom: 6px;
+}
+
+.toc a {
+  font-size: inherit;
+  color: #1a0dab;
+  text-decoration: none;
+}
+.toc a:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   SECTION PAR FILM
+   ============================================================ */
+.film-section {
+  padding: 0 0 40px;
+  scroll-margin-top: 90px; /* pour que le clic du sommaire ne cache pas le titre sous la barre sticky */
+}
+
+.film-section.no-match {
+  display: none;
+}
+
+/* Bandeau image d'un film, avec le titre incrusté par-dessus.
+   Prend toute la largeur de la fenêtre (sort des marges de page --page-margin),
+   contrairement au reste du contenu de la section qui reste inset normalement. */
+.film-header {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  margin: 24px 0 var(--banner-margin-bottom);   /* espace entre le bandeau et ce qui suit (voix, "Portrayed by"...) */
+  overflow: hidden;
+}
+
+/* Fallback : si l'image du bandeau ne charge pas (lien cassé, faute de
+   frappe, pas encore uploadée...), un dégradé bleu foncé la remplace au
+   lieu de laisser un vide/une icône d'image cassée. Déclenché par le
+   "onerror" sur chaque <img> (voir plus bas), pas besoin d'y toucher. */
+.film-header.banner-fallback {
+  min-height: var(--banner-height);
+  background-image: radial-gradient(circle, #2a5da0, #0d2c54 70%);
+  background-size: 200% 200%;   /* dégradé 2x plus grand que la boîte : on peut déplacer la partie visible */
+  background-position: 0% 50%;
+  animation: fallbackGlow var(--fallback-glow-duration) ease-in-out infinite alternate;
+}
+
+/* Va-et-vient (alternate) de la lumière douce : jamais de retour brutal,
+   le mouvement est continu d'un côté à l'autre. */
+@keyframes fallbackGlow {
+  from { background-position: 0% 50%; }
+  to   { background-position: 100% 50%; }
+}
+
+/* L'IMAGE du bandeau elle-même (hauteur et cadrage via variables --root) */
+.film-banner {
+  width: 100%;
+  height: var(--banner-height);          /* hauteur du bandeau, en haut du fichier */
+  object-fit: cover;
+  object-position: var(--banner-position); /* cadrage de l'image, en haut du fichier */
+  display: block;
+}
+
+/* Le VOILE SOMBRE (dégradé) posé sur le bas du bandeau, qui rend le
+   texte lisible peu importe l'image (ou la lumière animée) en dessous.
+   Il est appliqué via ::before (pas directement sur .film-header-overlay)
+   pour que "mix-blend-mode" ne touche QUE le voile, et pas le texte
+   du titre juste au-dessus (sinon le texte blanc se fondrait lui aussi
+   dans le fond et deviendrait illisible). */
+.film-header-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 14px var(--banner-pad-side) var(--banner-title-bottom);   /* retrait haut / gauche-droite / bas */
+}
+.film-header-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+    rgba(0,0,0,0.75) 0%,
+    rgba(0,0,0,0.55) 30%,
+    rgba(0,0,0,0.3) 55%,
+    rgba(0,0,0,0.1) 80%,
+    rgba(0,0,0,0) 100%
+  );
+  mix-blend-mode: multiply;   /* le voile SE MÉLANGE au fond au lieu de le recouvrir platement */
+  pointer-events: none;
+}
+
+/* Le TITRE DU FILM incrusté sur le bandeau (ex: "Snow White and the
+   Seven Dwarfs"). Uniquement quand il est DANS le bandeau (via l'overlay
+   ci-dessus) : voir plus bas ".film-title" pour la version normale
+   (actuellement inutilisée puisque tous les titres sont sur des bandeaux). */
+.film-header-overlay .film-title {
+  position: relative;   /* nécessaire pour que z-index le place au-dessus du voile ::before */
+  z-index: 1;
+  font-size: var(--banner-title-size);    /* taille du titre, en haut du fichier */
+  color: #fff;
+  margin: 0;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+}
+
+/* L'ANNÉE entre parenthèses à côté du titre incrusté (ex: "(1937)") */
+.film-header-overlay .film-year {
+  color: inherit;    /* prend la même couleur (blanc) que le titre juste au-dessus */
+  font-weight: 600;
+}
+
+/* Version "de secours" du titre de film SI jamais il n'était pas incrusté
+   sur un bandeau (pas utilisée actuellement, gardée par sécurité). */
+.film-title {
+  font-family: var(--name-font);
+  font-size: 28px;
+  font-weight: 400;
+  color: #222;
+  margin: 0 0 4px;
+}
+
+/* Version "de secours" de l'année (idem, pas utilisée actuellement) */
+.film-year {
+  color: var(--year-color);
+  font-weight: 600;
+}
+
+.portrayed-by {
+  color: #666;
+  font-size: 14px;
+  margin: 16px var(--page-margin) 6px calc(var(--page-margin) + var(--portrayed-by-indent));
+}
+.portrayed-by em {
+  font-style: italic;
+}
+
+/* Tableau des doublages */
+.voice-table {
+  table-layout: fixed;   /* force la colonne "langue" à toujours faire la même largeur, même si un texte est très long dans un autre tableau (ex: Radio Plays & LPs) */
+  width: calc(100% - 2 * var(--page-margin));
+  margin: 16px var(--page-margin) 0;
+  border-collapse: collapse;
+}
+.voice-table tr {
+  border-bottom: none;
+}
+.voice-table tr.row-hidden {
+  display: none;
+}
+
+/* TAILLE DE BASE de tout le tableau : la langue ET la voix en héritent
+   toutes les deux (sauf si une règle plus bas la change spécifiquement). */
+.voice-table td {
+  padding: 3px 10px;    /* espace entre les lignes (1er chiffre = vertical) */
+  font-size: 13.5px;    /* ← change ici pour agrandir/réduire TOUT le tableau */
+  vertical-align: top;
+}
+
+/* Colonne de la LANGUE (ex: "Albanian 2002"). Pas de font-size propre ici :
+   elle hérite du 13.5px ci-dessus. Ajoute "font-size: XXpx;" dans ce bloc
+   si tu veux que les langues soient plus grandes/petites que les voix. */
+.lang-cell {
+  font-weight: 700;             /* langue en gras */
+  color: #222;                  /* couleur du texte de la langue */
+  width: var(--lang-col-width); /* largeur de la colonne (= où "commence" la voix) */
+  text-align: right;            /* aligne le texte à droite dans sa colonne */
+  padding-right: 14px !important;
+  white-space: nowrap;          /* remets "normal" si jamais un texte dépasse encore malgré la largeur augmentée */
+}
+
+/* Le " :" ajouté automatiquement après chaque langue (tu n'as pas à le taper) */
+.lang-cell::after {
+  content: " :";
+}
+
+/* Style d'un <small>mot</small> À L'INTÉRIEUR d'une langue (ex: "EGYPTIAN"
+   dans "EGYPTIAN Arabic"). Reste en gras automatiquement (hérité de
+   .lang-cell juste au-dessus) : pas besoin de le repréciser ici. */
+.lang-cell small {
+  font-size: 0.85em;    /* ← TAILLE du qualificatif (ex: "EGYPTIAN") : 85% de la taille de la langue */
+}
+
+/* Style d'un <small>mot</small> À L'INTÉRIEUR de la voix (ex: "(speaking)",
+   "(singing)"). Pas de "color" ici : ils prennent donc automatiquement
+   la même couleur que le nom juste à côté. */
+.voice-cell small {
+  font-size: 0.82em;    /* ← TAILLE de "(speaking)" / "(singing)" */
+}
+
+/* Colonne de la VOIX (le nom de l'acteur/actrice). Pas de font-size propre
+   non plus : hérite du 13.5px de .voice-table td tout en haut de ce bloc. */
+.voice-cell a {
+  color: #1a0dab;
+  text-decoration: none;
+}
+.voice-cell a:hover {
+  text-decoration: underline;
+}
+
+/* Le texte "Radio Plays & LPs" au-dessus du tableau correspondant */
+.subgroup-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 26px var(--page-margin) 4px;
+}
+
+/* La BOÎTE crème "Trivia" (fond, coins arrondis) */
+.trivia {
+  margin: 26px var(--page-margin) 0;
+  background: #f5f7fa;      /* couleur de fond de la boîte (gris-bleu neutre) */
+  border-radius: 8px;
+  padding: 16px 20px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);   /* ← ombre légère : augmente l'opacité (0.08) pour plus marqué */
+}
+/* Cachées dès qu'une recherche est active (classe ajoutée sur <body>
+   par le script), pour ne laisser que les résultats de la recherche */
+body.searching .trivia,
+body.searching .subgroup-title,
+body.searching .continuity {
+  display: none;
+}
+/* Le mot "TRIVIA" en majuscules, tout en haut de la boîte */
+.trivia h3 {
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 10px;
+}
+.trivia ul {
+  margin: 0;
+  padding-left: 18px;
+}
+/* Le texte de chaque ligne de trivia elle-même */
+.trivia li {
+  font-size: 13px;      /* ← taille du texte des trivia */
+  line-height: 1.6;
+  margin-bottom: 8px;
+  color: #444;
+}
+.trivia a {
+  color: #1a0dab;
+  text-decoration: none;
+}
+.trivia a:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   CONTINUITY : pour les infos "qui a déjà doublé le perso avant"
+   (regroupées par film d'origine), différent d'un vrai trivia.
+   C'est un accordéon FERMÉ par défaut : cliquer sur "Continuity"
+   ouvre/ferme le contenu (voir le script en bas de page).
+   ============================================================ */
+.continuity {
+  margin: 16px var(--page-margin) 0;
+  border-left: 3px solid var(--accent);
+  padding: 4px 0 4px 16px;
+}
+/* Le titre "Continuity" devient un bouton cliquable, toujours en gras */
+.continuity-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 700;      /* ← "CONTINUITY" toujours en gras */
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-family: 'Open Sans', sans-serif;
+}
+/* La petite flèche qui tourne à l'ouverture */
+.continuity-icon {
+  font-size: 11px;
+  transition: transform 0.25s ease;
+}
+.continuity.open .continuity-icon {
+  transform: rotate(180deg);
+}
+/* Le contenu repliable (fermé par défaut) */
+.continuity-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+.continuity-content-inner {
+  padding-top: 10px;
+}
+.continuity p {
+  position: relative;         /* nécessaire pour positionner le rond ci-dessous */
+  padding-left: 16px;         /* fait de la place pour le rond */
+  font-size: 13px;
+  line-height: 1.6;
+  color: #444;
+  margin: 0 0 10px;
+}
+/* Le petit rond devant chaque paragraphe (une seule fois, jamais après un <br>) */
+.continuity p::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.60em;                /* ajuste l'alignement vertical avec la 1ère ligne */
+  width: 5px;                 /* taille du rond */
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);  /* couleur du rond */
+}
+
+.last-update {
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+  padding: 30px 0 60px;
+}
+
+/* ============================================================
+   BOUTON "RETOUR EN HAUT" (apparaît après un peu de scroll)
+   ============================================================ */
+#backToTop {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--accent);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 50;
+}
+#backToTop.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+#backToTop svg {
+  width: 30px;
+  height: 30px;
+}
+
+@media (max-width: 700px) {
+  .lang-cell { width: 150px; white-space: normal; }
+}
+</style>
+
+<!-- ============================================================
+     RETOUR
+     ============================================================ -->
+<a class="back-btn" href="/characters/voices.html">← All characters</a>
+
+<!-- ============================================================
+     TITRE + RECHERCHE (gauche) / SOMMAIRE (droite)
+     Le sommaire de droite se remplit TOUT SEUL à partir des sections
+     film plus bas (voir le script en bas de page) : tu n'as jamais
+     besoin d'y toucher, même en ajoutant un nouveau film.
+     ============================================================ -->
+<div class="top-section">
+  <div class="top-left">
+    <h1 class="page-title">Snow White</h1>
+    <input type="text" id="langSearch" placeholder="Search a language or a voice actor...">
+    <div id="langResultInfo"></div>
+  </div>
+
+  <nav class="toc" id="toc">
+    <div class="toc-title">Appearances</div>
+    <ol id="tocList"></ol>
+  </nav>
+</div>
+
+<!-- ============================================================
+     FILM 1 : Cinderella (1950)
+     MODIFIE ICI : les données sont dans le tableau JS "voices_1937"
+     tout en bas de la page (section CHARACTER DATA). Chaque ligne
+     = { lang: "...", voice: "..." }. Le champ "voice" accepte du HTML
+     libre (<small>, <b>, <i>, scripts natifs, etc.)
+     ============================================================ -->
+<section class="film-section" id="film-1950">
+  <div class="film-header">
+    <img class="film-banner" src="https://res.cloudinary.com/dofvjifeo/image/upload/v1788693079/SnowWhite1937Header.png" alt="Snow White and the Seven Dwarfs">
+    <div class="film-header-overlay">
+      <h2 class="film-title">Cinderella <span class="film-year">(1950)</span></h2>
+    </div>
+  </div>
+
+  <div class="voice-table-mount" id="voices-1950"></div>
+
+  <div class="trivia">
+    <h3>Trivia</h3>
+    <ul>
+      <li>To find the original <b>Latin American Spanish</b> voice of Cinderella, the main TV station of Mexico City held a <b>competition</b>. Eventually <i>Evangelina Elizondo</i> was declared the winner.</li>
+      <li>The <b>Icelandic</b> dub has two different singers for Cinderella. <i>Vigdís Pálsdóttir</i> was originally chosen to be both the speaking and singing voice of Cinderella, but Disney USA eventually found her voice was too young-sounding in the singing parts, compared to the original dub. <i>Þórunn Lárusdóttir</i> was then chosen to be the singing voice, but Disney USA wasn't still happy with the result.<br>The only compromise they found was to keep Vigdís Pálsdóttir in the first song, and Þórunn Lárusdóttir for the rest of the songs.</li>
+      <li>In the <b>Vietnamese</b> dub, <i>Nguyễn Duyên Quỳnh</i> dubbed both the animated film and the live-action remake the same year.</li>
+      <li>The Albanian dubs aren't official.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     FILM 2 : Cinderella II: Dreams Come True (2002)
+     ============================================================ -->
+<section class="film-section" id="film-2002">
+  <div class="film-header">
+    <img class="film-banner" src="https://res.cloudinary.com/dofvjifeo/image/upload/v1788720658/SnowWhite2014SofiaHeader.png" alt="Sofia the First: The Enchanted Feast">
+    <div class="film-header-overlay">
+      <h2 class="film-title">Cinderella II: Dreams Come True <span class="film-year">(2002)</span></h2>
+    </div>
+  </div>
+
+  <div class="voice-table-mount" id="voices-2002"></div>
+
+  <div class="trivia">
+    <h3>Trivia</h3>
+    <ul>
+      <li>In <b>Türkiye</b>, this second movie was dubbed after the third film <i>(A Twist in Time)</i>. Tülay, who had reprised the speaking parts in the third movie, was chosen again for Cinderella's role, including singing the soloist songs of the movie; but was replaced last minute, without her knowing.<br><small><b>Source:</b> Tülay Uyar</small></li>
+      <li>The Albanian dub was licensed.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     FILM 3 : Cinderella III: A Twist in Time (2007)
+     ============================================================ -->
+<section class="film-section" id="film-2007">
+  <div class="film-header">
+    <img class="film-banner" src="https://res.cloudinary.com/dofvjifeo/image/upload/v1788720659/SnowWhite2018Header.png" alt="Ralph Breaks the Internet">
+    <div class="film-header-overlay">
+      <h2 class="film-title">Cinderella III: A Twist in Time <span class="film-year">(2007)</span></h2>
+    </div>
+  </div>
+
+  <div class="voice-table-mount" id="voices-2007"></div>
+
+    <div class="trivia">
+    <h3>Trivia</h3>
+    <ul>
+      <li>The Albanian dubs aren't official.</li>
+    </ul>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     FILM 4 : Sofia the First: Once Upon a Princess (2012)
+     ============================================================ -->
+<section class="film-section" id="sofia-2012">
+  <div class="film-header">
+    <img class="film-banner" src="https://res.cloudinary.com/dofvjifeo/image/upload/v1788720661/SnowWhite2023LegoHeader.png" alt="LEGO Disney Princess: The Castle Quest">
+    <div class="film-header-overlay">
+      <h2 class="film-title">Sofia the First: Once Upon a Princess <span class="film-year">(2022)</span></h2>
+    </div>
+  </div>
+
+  <div class="voice-table-mount" id="voices-sofia-2012"></div>
+
+  <div class="continuity">
+    <button class="continuity-toggle" type="button">
+      Continuity <span class="continuity-icon">▼</span>
+    </button>
+    <div class="continuity-content">
+      <div class="continuity-content-inner">
+        <p>From <i>Cinderella</i> (1950) :<br>Arabic <small>(2014 TV dub)</small>, Czech <small>(2005 re-dub)</small>, Dutch <small>(1991 re-dub)</small>, Finnish <small>(1992 re-dub)</small>, Greek <small>(1999 dub - speaking voice)</small>, Indonesian <small>(2013 dub)</small>, Japanese <small>(1992 re-dub)</small>, Kazakh <small>(2015 dub)</small>, Polish <small>(2012 re-dub)</small>, Portuguese <small>(2005 dub)</small>, Romanian <small>(2009 dub)</small>, Latin American Spanish dub <small>(1997 re-dub)</small>, Castilian Spanish <small>(1997 dub - speaking voice)</small></p>
+        <p>From the <i>sequels</i> (2002/2008) :<br>English, German, Italian, Norwegian, Swedish, Thai</p>
+        <p><i>New voices :</i><br>Danish, French, Korean <small>(Elena)</small>, Greek <small>(singing voice)</small>, Hebrew, Hindi, Hungarian <small>(Tiana & Anna)</small>, Korean, Brazilian Portuguese, Russian, Castilian Spanish <small>(singing voice)</small></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="trivia">
+    <h3>Trivia</h3>
+    <ul>
+      <li><b>Croatia</b>, <b>Serbia</b> and <b>Slovenia</b> dubbed the series, but not this pilot episode.</li>
+      <li><b>Thailand</b> only dubbed the songs of the pilot episode <i>"Once Upon A Princess"</i> with Cinderella. The rest of the songs were left in English.</li>
+      <li>In the <b>Italian</b> dub, after dubbing the character in the sequels, <i>Monica Ward</i> eventually reprised the singing parts as well.</li>
+      <li>On the opposite, in the <b>Polish</b> dub, <i>Weronika Bochat</i> reprised the speaking parts of the character after only being the singing voice in the 2012 re-dub.</li>
+      <li>The Albanian dub was licensed.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     FILM 5 : Cinderella (live-action) (2015)
+     ============================================================ -->
+<section class="film-section" id="film-2015">
+  <div class="film-header">
+    <img class="film-banner" src="https://res.cloudinary.com/dofvjifeo/image/upload/v1789222514/SnowWhite2023Header.png" alt="Once Upon a Studio">
+    <div class="film-header-overlay">
+      <h2 class="film-title">Cinderella (live-action) <span class="film-year">(2015)</span></h2>
+    </div>
+  </div>
+  <p class="portrayed-by"><em>Portrayed by</em> Lily James</p>
+
+  <div class="voice-table-mount" id="voices-film-2015"></div>
+
+  <div class="trivia">
+    <h3>Trivia</h3>
+    <ul>
+      <li>In the <b>Vietnamese</b> dub, <i>Nguyễn Duyên Quỳnh</i> dubbed both the animated film and the live-action remake the same year.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     FILM 6 : Ralph Breaks the Internet (2018)
+     ============================================================ -->
+<section class="film-section" id="film-2018">
+  <div class="film-header">
+    <img class="film-banner" src="https://res.cloudinary.com/dofvjifeo/image/upload/v1788720664/SnowWhite2025Header.png" alt="Snow White (Live-action)">
+    <div class="film-header-overlay">
+      <h2 class="film-title">Ralph Breaks the Internet <span class="film-year">(2018)</span></h2>
+    </div>
+  </div>
+
+  <div class="voice-table-mount" id="voices-film-2018"></div>
+
+  <div class="continuity">
+    <button class="continuity-toggle" type="button">
+      Continuity <span class="continuity-icon">▼</span>
+    </button>
+    <div class="continuity-content">
+      <div class="continuity-content-inner">
+        <p>From the original movie (1950) :<br>Bulgarian <small>(2005 dub)</small>, Croatian <small>(2005 dub)</small>, Dutch <small>(1991 re-dub)</small>, Japanese <small>(1992 re-dub)</small>, Korean <small>(1998 dub)</small>, Polish <small>(2012 re-dub)</small>, Portuguese <small>(2005 dub)</small> ?, Romanian <small>(2010 dub)</small>, Serbian <small>(2012 dub)</small>, LA Spanish <small>(1997 re-dub)</small>, Castilian Spanish <small>(1997 dub)</small>, Turkish <small>(2003 dub)</small></p>
+        <p>From the sequels (2002/2007/2012) :<br>Danish, English, French, German, Icelandic, Italian, Swedish, Ukrainian</p>
+        <p>From the Live-action remake (2015) :<br>Czech, Finnish, Flemish, Greek, Hungarian, Norwegian, Slovak, Thai</p>
+        <p><i>New voices</i> :<br>Albanian, Arabic, Cantonese, Catalan, Estonian <small>(Moana)</small>, Quebec French, Hebrew, Latvian, Lithuanian, Mandarin Chinese, Brazilian Portuguese, Russian, Slovene <small>(Gothel)</small></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="trivia">
+    <h3>Trivia</h3>
+    <ul>
+      <li>In the <b>Turkish</b>, <i>Tülay Uyar</i> was originally the singing voice of Cinderella, but had already reprised the speaking parts in the sequels.</li>
+      <li>In the <b>Vietnamese</b>, <i>Nguyễn Duyên Quỳnh</i> also reprised her role as Cinderella in the new Vietnamese dubs (2019) of Cinderella, animated and live-action movies.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     FILM 7 : Once Upon a Studio (2023)
+     ============================================================ -->
+<section class="film-section" id="film-2023">
+  <div class="film-header">
+    <img class="film-banner" src="https://res.cloudinary.com/dofvjifeo/image/upload/v1788720666/SnowWhite2025LegoHeader.png" alt="LEGO Disney Princess: Villains Unite">
+    <div class="film-header-overlay">
+      <h2 class="film-title">Once Upon a Studio <span class="film-year">(2023)</span></h2>
+    </div>
+  </div>
+
+  <div class="voice-table-mount" id="voices-film-2023"></div>
+
+  <div class="continuity">
+    <button class="continuity-toggle" type="button">
+      Continuity <span class="continuity-icon">▼</span>
+    </button>
+    <div class="continuity-content">
+      <div class="continuity-content-inner">
+        <p>From the original movie (1950) :<br>Polish <small>(2012 re-dub)</small>, Slovak <small>(2012 re-dub)</small></p>
+        <p>From the sequels (2002/2007/2012/2018) :<br>English, Hebrew, Brazilian Portuguese</p>
+        <p>From the Live-action remake (2015) :<br>French</p>
+        <p><i>New voices</i> :<br>-</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="trivia">
+    <h3>Trivia</h3>
+    <ul>
+      <li>While she didn't return in <i>Ralph Breaks the Internet</i> in 2018, Fernanda Baronne, the <b>Brazilian Portuguese</b> voice of Cinderella in the sequels, returned in this short.</li>
+      <li><i>Irina Zorić (Ирина Зорић)</i>, who was the singing voice of Cinderella in the <b>Serbian</b> dub of the animated movie, reprised the speaking parts of the character in this short.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     FILM 8 : LEGO Disney Princess: Villains Unite (2025)
+     ============================================================ -->
+<section class="film-section" id="lego-2025">
+  <div class="film-header">
+    <img class="film-banner" src="https://res.cloudinary.com/dofvjifeo/image/upload/v1788720667/SnowWhite2026LegoHeader.png" alt="LEGO Disney Princess: Magical Mayhem">
+    <div class="film-header-overlay">
+      <h2 class="film-title">LEGO Disney Princess: Villains Unite <span class="film-year">(2025)</span></h2>
+    </div>
+  </div>
+
+  <div class="voice-table-mount" id="voices-lego-2025"></div>
+
+  <div class="continuity">
+    <button class="continuity-toggle" type="button">
+      Continuity <span class="continuity-icon">▼</span>
+    </button>
+    <div class="continuity-content">
+      <div class="continuity-content-inner">
+        <p>From the original movie (1950) :<br>Arabic <small>(1998 dub)</small>, Indonesian <small>(2013 dub)</small>, Japanese <small>(1992 re-dub)</small>, Malay <small>(2012? dub)</small>, Polish <small>(2012 re-dub)</small>, Portuguese <small>(2005 dub></small>, Castilian Spanish <small>(1997 dub)</small></p>
+        <p>From the sequels (2002/2007/2012/2018) :<br>Cantonese, English, French, German, Italian, Brazilian Portuguese, Swedish, Turkish</p>
+        <p>From the Live-action remake (2015) :<br>Finnish, Greek, Norwegian, Romanian, Slovak</p>
+        <p><i>New voices</i> :<br>Czech, Danish, Dutch, Hungarian, Korean <small>(<i>Live-action</i> Jasmine & <i>Ralph's</i> Snow White)</small>, Taiwaense Mandarin, LA Spanish</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="trivia">
+    <h3>Trivia</h3>
+    <ul>
+      <li>Unless the credits made a mistake, <i>Barbora Červinková</i> also dubbed Snow White in this short in <b>Czech</b>; her previous voice in the 2015 live-action and <i>"Ralph Breaks the Internet"</i> in 2018 being Barbora <i>ŠEDIVÁ</i>.</li>
+      <li>While she was replaced in the <b>French</b> dub of <i>"Once Upon a Studio"</i> by the live-action voice, <i>Laura Blanc</i>, the sequel voice of Cinderella, returned for the character in this short.</li>
+      <li>In the <b>Malay</b> dub, <i>ZeTgi Izzati</i> also dubbed Aurora.</li>
+      <li>In the <b>Turkish</b> dub, while <i>Tülay Uyar</i> had returned for the role in <i>"Ralph Breaks the Internet"</i> in 2018 after being replaced in 2012 in the sequel <i>"Dreams Come True"</i>, by <i>Aysun Topar</i>, the latter still returned here for the character..</li>
+    </ul>
+  </div>
+</section>
+
+<div class="last-update">Last update - 21-Sept-2026</div>
+
+<!-- ============================================================
+     BOUTON RETOUR EN HAUT
+     MODIFIE ICI : la couleur du contour vient de --accent en haut du fichier
+     ============================================================ -->
+<button id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 3c-1 0-1.8.8-1.8 1.8v6.4L8.6 9.6a1.6 1.6 0 0 0-2.3 2.2l4.2 4.4c.8.8 2.1.8 2.9 0l4.2-4.4a1.6 1.6 0 0 0-2.3-2.2l-1.6 1.6V4.8C13.8 3.8 13 3 12 3z" fill="#1a4a8a" transform="rotate(180 12 12)"/>
+  </svg>
+</button>
+
+<script>
+// ============================================================
+//  DONNEES DES VOIX PAR FILM
+//  MODIFIE ICI : chaque entrée = { lang: "...", voice: "..." }.
+//  Le champ "voice" accepte du HTML libre (<small>, <b>, <i>, scripts natifs, etc.)
+// ============================================================
+
+const voices_1950 = [
+  { lang: "Albanian (2005)", voice: 'Anila Muçaj <small>(speaking) &amp;</small> Odeta Katundi <small>(singing)</small>' },
+  { lang: "Albanian (2015)", voice: 'Anisa Dervishi <small>(speaking) &amp;</small> Maria Cristina Brancucci <small>(singing - Italian 1967 version)</small>' },
+  { lang: '<small>EGYPTIAN</small> Arabic (1998)', voice: 'Rula Zaky / رولا زكي <small>(speaking &amp; singing)</small>' },
+  { lang: "<small>MODERN STANDARD</small> Arabic TV (2014)", voice: 'Sarah Al-Gawhary / سارة الجوهري <small>(speaking &amp; singing)</small>' },
+  { lang: "<small>MODERN STANDARD</small> Arabic (2022)", voice: 'Dalia Farid / داليا فريد <small>(speaking &amp; singing)</small>' },
+  { lang: "Bengali TV (????)", voice: '?' },
+  { lang: "Bulgarian (2005)", voice: 'Petya Abadzhieva / Петя Абаджиева <small>(speaking) &amp;</small> Neli Andreeva / Нели Андреева <small>(singing)</small>' },
+  { lang: "Cantonese (1996?)", voice: '?' },
+  { lang: "Croatian (2005)", voice: 'Jasna Palić-Picukarić <small>(speaking) &amp;</small> Mima Karaula <small>(singing)</small>' },
+  { lang: "Czech (1970)", voice: 'Klára Jerneková <small>(speaking) &amp;</small> Marie Sikulová <small>(singing)</small>' },
+  { lang: "Czech (2005)", voice: 'Tereza Chudobová <small>(speaking) &amp;</small Štepánka Heřmánková <small>(singing)</small>' },
+  { lang: "Danish (1950)", voice: 'Lise Ringheim <small>(speaking &amp; singing)</small>' },
+  { lang: "Dutch (1950)", voice: 'Loekie Landweer <small>(speaking &amp; singing)</small>' },
+  { lang: "Dutch (1991)", voice: 'Joke de Kruijf <small>(speaking &amp; singing)</small>' },
+  { lang: "English (1950)", voice: 'Ilene Woods <small>(speaking &amp; singing)</small>' },
+  { lang: "Finnish (1967)", voice: 'Ritva Lehtelä <small>(speaking &amp; singing)</small>' },
+  { lang: "Finnish (1992)", voice: 'Anna Kuoppamäki <small>(speaking &amp; singing)</small>' },
+  { lang: "French (1950)", voice: 'Paule Marsay <small>(speaking) &amp;</small> Paulette Rollin <small>(singing)</small>' },
+  { lang: "French (1991)", voice: 'Dominique Poulain <small>(speaking &amp; singing)</small>' },
+  { lang: "German (1950)", voice: 'Eva-Ingeborg Scholz <small>(speaking &amp; singing)</small>' },
+  { lang: "Greek (1999)", voice: 'Áriel Konstantinídi / Άριελ Κωνσταντινίδη <small>(speaking) &amp;</small> Ánna Róssi / Άννα Ρόσση <small>(singing)</small>' },
+  { lang: "Hebrew (1991)", voice: 'Tal Amir / טל אמיר <small>(speaking &amp; singing)</small>' },
+  { lang: "Hindi (2005)", voice: "?" },
+  { lang: "Hungarian (1958)", voice: 'Pap Éva <small>(speaking &amp; singing) +</small> Tiboldy Mária <small>(singing <i>"So This is Love"</i>)</small>' },
+  { lang: "Icelandic (1998)", voice: 'Vigdís Hrefna Pálsdóttir <small>(speaking + singing <i>"A Dream Is a Wish (Part 1)"</i> + <i>"So This Is Love (Reprise)"</i>) &amp;</small> Þórunn Lárusdóttir <small>(singing)</small>' },
+  { lang: "Indonesian (2013)", voice: 'Tisa Julianti <small>(speaking &amp; singing)</small>' },
+  { lang: "Italian (1950)", voice: 'Giuliana Maroni <small>(speaking) &amp;</small> Deddi Savagnone <small>(singing)</small>' },
+  { lang: "Italian (1972)", voice: 'Fiorella Betti <small>(speaking) &amp;</small> Maria Cristina Brancucci <small>(singing)</small>' },
+  { lang: "Japanese (1961)", voice: 'Tomizawa Shima / 富沢志満 <small>(speaking) &amp;</small> Hamada Naoko / 浜田尚子 <small>(singing)</small>' },
+  { lang: "Japanese (1992)", voice: 'Suzuki Yoriko / 鈴木より子 <small>(speaking &amp; singing)</small>' },
+  { lang: "Kazakh (2015)", voice: 'Ainūr Bermūhambetova / Айнұр Бермұхамбетова <small>(speaking &amp; singing)</small>' },
+  { lang: "Korean (1998)", voice: 'Seo Hye-jeong / 서혜정 <small>(speaking) &amp;</small> Lee Mi-ra / 이미라 <small>(singing)</small>' },
+  { lang: "Malay (2012?)", voice: 'ZeTgi Izzati <small>(speaking) &amp;</small> ? <small>(singing)</small>' },
+  { lang: "<small>TAIWANESE</small> Mandarin (199?)", voice: 'Wáng Huá-Yí / 王華怡 <small>(speaking) &amp;</small> "Ariel Sung" Sòng Wén / 宋文 <small>(singing)</small>' },
+  { lang: "Mandarin <small>CHINESE</small> (2010)", voice: 'Bái Xuě / 白雪 ? <small>(speaking) &amp;</small> ? <small>(singing)</small>' },
+  { lang: "Norwegian (1992)", voice: 'Edle Stray Pedersen <small>(speaking &amp; singing)</small>' },
+  { lang: "Polish (1961)", voice: 'Maria Ciesielska <small>(speaking) &amp;</small> Irena Santor <small>(singing)</small>' },
+  { lang: "Polish (2012)", voice: 'Angelika Kurowska <small>(speaking) &amp;</small> Weronika Bochat <small>(singing)</small>' },
+  { lang: "<small>BRAZILIAN</small> Portuguese (1951)", voice: 'Simone de Moraes <small>(speaking &amp; singing)</small>' },
+  { lang: "Portuguese (2005)", voice: 'Sandra de Castro <small>(speaking &amp; singing)</small>' },
+  { lang: "Romanian (2010)", voice: 'Carmen Palcu <small>(speaking) &amp;</small> Mediana Vlad <small>(singing)</small>' },
+  { lang: "Russian (2005)", voice: "Tat'yana Rodionova / Татьяна Родионова <small>(speaking) &amp;</small> Yelena Galitskaya / Елена Галицкая <small>(singing)</small>" },
+  { lang: "Serbian (2012)", voice: 'Jelena Petrović / Јелена Петровић <small>(speaking) &amp;</small> Irina Zorić / Ирина Зорић <small>(singing)</small>' },
+  { lang: "Slovak (1970)", voice: 'Darina Chmurová <small>(speaking) &amp;</small> Božena Čupková-Polónyiová <small>(singing)</small>' },
+  { lang: "Slovak (2012)", voice: 'Monika Hilmerová <small>(speaking &amp; singing)</small>' },
+  { lang: "<small>LATIN AMERICAN</small> Spanish (1950)", voice: 'Evangelina Elizondo <small>(speaking &amp; singing)</small>' },
+  { lang: "<small>LATIN AMERICAN</small> Spanish (1997)", voice: 'Natalia Sosa <small>(speaking &amp; singing)</small>' },
+  { lang: "<small>CASTILIAN</small> Spanish (1997)", voice: 'Yolanda Mateos <small>(speaking) &amp;</small> Cani González <small>(singing)</small>' },
+  { lang: "Swedish (1938)", voice: 'Tatiana Angelini <small>(speaking &amp; singing)</small>' },
+  { lang: "Swedish (1967)", voice: 'Alice Babs <small>(speaking &amp; singing)</small>' },
+  { lang: "Tamil TV (????)", voice: "?" },
+  { lang: "Thai (????)", voice: '?' },
+  { lang: "Turkish (2003)", voice: 'Banu Kuday <small>(singing) &amp;</small> Tülay Uyar <small>(singing)</small>' },
+  { lang: "Ukrainian (2012)", voice: 'Viktoriia Ivasyshyna / Вікторія Івасишина <small>(speaking &amp; singing)</small>' },
+  { lang: "Vietnamese (2019)", voice: 'Nguyễn Duyên Quỳnh <small>(speaking &amp; singing)</small>' }
+];
+
+const voices_2014 = [
+  { lang: "Albanian", voice: "?" },
+  { lang: "<small>MODERN STANDARD</small> Arabic", voice: "Noha Qais / نهى قيس" },
+  { lang: "Bulgarian", voice: "?" },
+  { lang: "Cantonese", voice: "?" },
+  { lang: "Croatian", voice: "Monika Barberović" },
+  { lang: "Czech", voice: "?" },
+  { lang: "Danish", voice: "?" },
+  { lang: "Dutch", voice: "?" },
+  { lang: "English", voice: "Katherine Von Till" },
+  { lang: "Finnish", voice: "Riikka Väyrynen-Timonen" },
+  { lang: "French", voice: "Laetitia Liénart ?" },
+  { lang: "German", voice: "Manja Doering" },
+  { lang: "Greek", voice: "Stefanía Hoúyia / Στεφανία Χούγια" },
+  { lang: "Hebrew", voice: "Talya Barkay / טליה ברקאי ?" },
+  { lang: "Hindi", voice: "?" },
+  { lang: "Hungarian", voice: "?" },
+  { lang: "Indonesian", voice: "Apriliana Suci Ariesta" },
+  { lang: "Japanese", voice: 'Kobato Kurumi / 小鳩くるみ' },
+  { lang: "Korean", voice: 'Jeong Hyeon-gyeong / 정현경' },
+  { lang: "Malay", voice: "?" },
+  { lang: "Mandarin", voice: "?" },
+  { lang: "Norwegian", voice: "?" },
+  { lang: "Polish", voice: "Klaudia Kuchtyk" },
+  { lang: "<small>BRAZILIAN</small> Portuguese", voice: "Clarice Espíndola" },
+  { lang: "Portuguese", voice: "Sandra de Castro" },
+  { lang: "Romanian", voice: "Mediana Vlad" },
+  { lang: "Russian", voice: "Kseniya Brzhezovskaya / Ксения Бржезовская ?" },
+  { lang: "Serbian (2017)", voice: "Marija Veljković / Марија Вељковић" },
+  { lang: "Slovak (2017?)", voice: "?" },
+  { lang: "Slovene", voice: "Špela Šavc" },
+  { lang: "<small>LATIN AMERICAN</small> Spanish", voice: "Maggie Vera" },
+  { lang: "<small>CASTILIAN</small> Spanish", voice: "Mar Bordallo" },
+  { lang: "Swedish", voice: "?" },
+  { lang: "Tagalog", voice: "?" },
+  { lang: "Tamil", voice: "?" },
+  { lang: "Telugu", voice: "?" },
+  { lang: "Thai", voice: "?" },
+  { lang: "Turkish", voice: "Nurhan Yılma" },
+  { lang: "Ukrainian", voice: "?" }
+];
+
+const voices_2018 = [
+  { lang: "Albanian (2019)", voice: "Laureta Kuka" },
+  { lang: "<small>EGYPTIAN</small> Arabic", voice: "Noha Qais / نهى قيس <small>(speaking &amp; vocalizations?)</small>" },
+  { lang: "<small>MODERN STANDARD</small> Arabic (2022)", voice: "Noha Qais / نهى قيس <small>(speaking &amp; vocalizations?)</small>" },
+  { lang: "Bulgarian", voice: "?" },
+  { lang: "Cantonese", voice: "?" },
+  { lang: "Catalan", voice: "Laura Fernández <small>(speaking &amp; ?)</small>" },
+  { lang: "Croatian", voice: "Hana Hegedušić <small>(speaking &amp; vocalizations?)</small>" },
+  { lang: "Czech", voice: "Berenika Kohoutová <small>(speaking &amp; ?)</small>" },
+  { lang: "Danish", voice: "Julie Lund <small>(speaking &amp; ?)</small>" },
+  { lang: "Dutch", voice: "Maria Hengst <small>(speaking &amp; ?)</small>" },
+  { lang: "English", voice: "Pamela Ribon <small>(speaking &amp; vocalizations)</small>" },
+  { lang: "Estonian", voice: "Merit Männiste <small>(speaking &amp; ?)</small>" },
+  { lang: "Finnish", voice: "Saara Lehtonen <small>(speaking &amp; ?)</small>" },
+  { lang: "Flemish", voice: "Lauren De Ruyck <small>(speaking &amp; ?)</small>" },
+  { lang: "French", voice: "Valérie Siclay <small>(speaking &amp; ?)</small>" },
+  { lang: "<small>QUEBEC</small> French", voice: "Elise Cormier <small>(speaking &amp; vocalizations?)</small>" },
+  { lang: "German", voice: "Magdalena Höfner <small>(speaking &amp; ?)</small>" },
+  { lang: "Greek", voice: "Iríni Tsíga / Ειρήνη Τσίγκα <small>(speaking &amp; ?)</small>" },
+  { lang: "Hebrew", voice: "Naama Shitrit / נעמה שטרית <small>(speaking &amp; ?)</small>" },
+  { lang: "Hindi", voice: "?" },
+  { lang: "Hungarian", voice: "Mahó Andrea <small>(speaking &amp; ?)</small>" },
+  { lang: "Icelandic", voice: "Alda Dís Arnardóttir <small>(speaking &amp; ?)</small>" },
+  { lang: "Indonesian (2020)", voice: "Apriliana Suci Ariesta <small>(speaking &amp; ?)</small>" },
+  { lang: "Italian", voice: "Ilaria Latini <small>(speaking &amp; ?)</small>" },
+  { lang: "Japanese", voice: "?" },
+  { lang: "Kazakh", voice: "?" },
+  { lang: "Korean", voice: "Sa Mun-yeong / 사문영 <small>(speaking &amp; vocalizations)</small>" },
+  { lang: "Latvian", voice: "?" },
+  { lang: "Lithuanian", voice: "?" },
+  { lang: "Malay (2021)", voice: "?" },
+  { lang: "<small>TAIWANESE</small> Mandarin", voice: "?" },
+  { lang: "Mandarin Chinese", voice: "Wú Xiǎo-Lěi / 吴晓蕾 <small>(speaking &amp; ?)</small>" },
+  { lang: "Norwegian", voice: "Unn Vibeke Hol <small>(speaking) &amp;</small> ? <small>(vocalizations)</small>" },
+  { lang: "Polish", voice: "Edyta Krzemień <small>(speaking &amp; vocalizations)</small>" },
+  { lang: "<small>BRAZILIAN</small> Portuguese", voice: "Andressa Andreatto <small>(speaking &amp; ?)</small>" },
+  { lang: "Portuguese", voice: "Carla Mendes ? <small>(speaking &amp; ?)</small>" },
+  { lang: "Romanian", voice: "Mediana Vlad <small>(speaking &amp; vocalizations)</small>" },
+  { lang: "Russian", voice: "Yuliya Churakova / Юлия Чуракова <small>(speaking &amp; ?)</small>" },
+  { lang: "Serbian", voice: "Bojana Vunturišević / Бојана Вунтуришевић <small>(speaking &amp; ?)</small>" },
+  { lang: "Slovak", voice: "Miroslava Drínová <small>(speaking &amp; ?)</small>" },
+  { lang: "Slovene", voice: "Saša Lešnjek <small>(speaking &amp; ?)</small>" },
+  { lang: "<small>LATIN AMERICAN</small> Spanish", voice: "Maggie Vera <small>(speaking &amp; ?)</small>" },
+  { lang: "<small>CASTILIAN</small> Spanish", voice: "Mar Bordallo <small>(speaking &amp; ?)</small>" },
+  { lang: "Swedish", voice: "Mikaela Tidermark <small>(speaking &amp; vocalizations)</small>" },
+  { lang: "Thai", voice: "Netnapha Hanrotchanawut / เนตรนภา หาญโรจนวุฒิ <small>(speaking &amp; ?)</small>" },
+  { lang: "Turkish", voice: "Aliye Mutlu <small>(speaking &amp; vocalizations)</small>" },
+  { lang: "Ukrainian", voice: "Anzhelika Savchenko / Анжеліка Савченко ? <small>(speaking &amp; vocalizations?)</small>" },
+  { lang: "Vietnamese", voice: "Nguyễn Thị Mai Anh <small>(speaking &amp; ?)</small>" }
+];
+
+const voices_2023a = [
+  { lang: "<small>EGYPTIAN</small> Arabic", voice: "Noha Qais / نهى قيس" },
+  { lang: "<small>MODERN STANDARD</small> Arabic", voice: "Noha Qais / نهى قيس" },
+  { lang: "Czech", voice: "Barbora Červinková" },
+  { lang: "Danish", voice: "Karoline Hamm" },
+  { lang: "Dutch", voice: "Maria Hengst" },
+  { lang: "English", voice: "Katherine Von Till" },
+  { lang: "Finnish", voice: "Saara Lehtonen" },
+  { lang: "French", voice: "Valérie Siclay" },
+  { lang: "German", voice: "Manja Doering" },
+  { lang: "Greek", voice: "Iríni Tsíga / Ειρήνη Τσίγκα" },
+  { lang: "Hungarian", voice: "Oroszlán Szonja" },
+  { lang: "Italian", voice: "Agnese Marteddu" },
+  { lang: "Japanese", voice: "Kobato Kurumi / 小鳩くるみ" },
+  { lang: "Korean", voice: "Lee Jae-hyeon / 이재현" },
+  { lang: "Norwegian", voice: "Sidney Lange" },
+  { lang: "Polish", voice: "Zuzanna Caban" },
+  { lang: "<small>BRAZILIAN</small> Portuguese", voice: "Andressa Andreatto" },
+  { lang: "Portuguese", voice: "Sandra de Castro" },
+  { lang: "Romanian", voice: "Mediana Vlad" },
+  { lang: "Slovak", voice: "Natália Kóšová" },
+  { lang: "<small>LATIN AMERICAN</small> Spanish", voice: "Maggie Vera" },
+  { lang: "<small>CASTILIAN</small> Spanish", voice: "Mar Bordallo" },
+  { lang: "Swedish", voice: "Norea Sjöquist" },
+  { lang: "Turkish", voice: "Nermin Koçak" }
+];
+
+const voices_2023b = [
+  { lang: "<small>EGYPTIAN</small> Arabic", voice: "?" },
+  { lang: "<small>MODERN STANDARD</small> Arabic", voice: "?" },
+  { lang: "Bulgarian", voice: "?" },
+  { lang: "Czech", voice: "Nikola Ďuricová" },
+  { lang: "Danish", voice: "?" },
+  { lang: "Dutch", voice: "Maria Hengst" },
+  { lang: "English", voice: "Natalie Babbitt Taylor" },
+  { lang: "Finnish", voice: "?" },
+  { lang: "French", voice: "Rachel Pignot" },
+  { lang: "German", voice: "Katrin Taylor" },
+  { lang: "Greek", voice: "?" },
+  { lang: "Hebrew", voice: 'Alona Alexander / אלונה אלכסנדר' },
+  { lang: "Hindi", voice: "?" },
+  { lang: "Hungarian", voice: "?" },
+  { lang: "Italian", voice: "?" },
+  { lang: "Japanese", voice: "?" },
+  { lang: "Mandarin Chinese", voice: "?" },
+  { lang: "Norwegian", voice: "?" },
+  { lang: "Polish", voice: "Edyta Krzemień" },
+  { lang: "<small>BRAZILIAN</small> Portuguese", voice: "?" },
+  { lang: "Portuguese", voice: "?" },
+  { lang: "Romanian", voice: "Mediana Vlad" },
+  { lang: "Serbian", voice: 'Irina Arsenijević / Ирина Арсенијевић' },
+  { lang: "Slovak", voice: "Natália Kóšová" },
+  { lang: "<small>LATIN AMERICAN</small> Spanish", voice: "?" },
+  { lang: "<small>CASTILIAN</small> Spanish", voice: "?" },
+  { lang: "Swedish", voice: "?" },
+  { lang: "Tamil", voice: "?" },
+  { lang: "Telugu", voice: "?" },
+  { lang: "Turkish", voice: "Selen Severcan" },
+  { lang: "Ukrainian", voice: "?" }
+];
+
+const voices_2025a = [
+  { lang: "<small>EGYPTIAN</small> Arabic", voice: "Rana Adel / رنا عادل <small>(speaking &amp; singing)</small>" },
+  { lang: "<small>MODERN STANDARD</small> Arabic", voice: "Rana Adel / رنا عادل <small>(speaking &amp; singing)</small>" },
+  { lang: "Bulgarian", voice: "Dimitrina Germanova / Димитрина Германова <small>(speaking &amp; singing)</small>" },
+  { lang: "Croatian", voice: "Nika Turković <small>(speaking &amp; singing)</small>" },
+  { lang: "Czech", voice: "Klára Nováková <small>(speaking) &amp;</small> Nikola Ďuricová <small>(singing)</small>" },
+  { lang: "Danish", voice: "Monica Isa Andersen <small>(speaking &amp; singing)</small>" },
+  { lang: "Dutch", voice: "Nienke Latten <small>(speaking &amp; singing)</small>" },
+  { lang: "Finnish", voice: "Lumi Aunio <small>(speaking &amp; singing)</small>" },
+  { lang: "Flemish", voice: "Emma Malfliet <small>(speaking &amp; singing)</small>" },
+  { lang: "French", voice: "Emmylou Homs <small>(speaking &amp; singing)</small>" },
+  { lang: "<small>QUEBEC</small> French", voice: "Romane Denis <small>(speaking &amp; singing)</small>" },
+  { lang: "Georgian", voice: "Tek'la Javakhadze / თეკლა ჯავახაძე <small>(speaking) &amp;</small> Sophio Kakulia / სოფიო კაკულია <small>(singing)</small>" },
+  { lang: "German", voice: "Sophia Riedl <small>(speaking &amp; singing)</small>" },
+  { lang: "Greek", voice: "Litó Abatzí / Λητώ Αμπατζή <small>(speaking &amp; singing)</small>" },
+  { lang: "Hebrew", voice: "Elay Almani / אילי עלמני <small>(speaking &amp; singing)</small>" },
+  { lang: "Hindi", voice: "Divya Sharda <small>(speaking) &amp;</small> Jaeda Hodywalla <small>(singing)</small>" },
+  { lang: "Hungarian", voice: "Engel-Iván Lili <small>(speaking &amp; singing)</small>" },
+  { lang: "Italian", voice: "Arianna Vignoli <small>(speaking) &amp;</small> Eleonora Segaluscio <small>(singing)</small>" },
+  { lang: "Japanese", voice: "Kiryu Sakura / 吉柳咲良 <small>(speaking &amp; singing)</small>" },
+  { lang: "Kazakh", voice: "Jarqynai Hanaiym / Жарқынай Ханайым <small>(? &amp; singing)</small>" },
+  { lang: "Korean", voice: "Kim Su-yeon / 김수연 <small>(speaking &amp; singing)</small>" },
+  { lang: "<small>TAIWANESE</small> Mandarin", voice: "? <small>(speaking) &amp;</small> Zēng Sī-Yú / 曾思瑜 <small>(singing)</small>" },
+  { lang: "Mandarin Chinese", voice: "Zhū Jìng / 朱婧 <small>(speaking) &amp;</small> Chén Yù-Tíng / 陈玉婷 <small>(singing)</small>" },
+  { lang: "Norwegian", voice: "Ida Sæther Kjørlaug <small>(speaking &amp; singing)</small>" },
+  { lang: "Polish", voice: "Katarzyna Sawczuk <small>(speaking &amp; singing)</small>" },
+  { lang: "<small>BRAZILIAN</small> Portuguese", voice: "Maria Clara Rosis <small>(speaking &amp; singing)</small>" },
+  { lang: "Portuguese", voice: "Inês Pires Tavares <small>(speaking) &amp;</small> Inês Rosa <small>(singing)</small>" },
+  { lang: "Romanian", voice: "Adina Răducan <small>(speaking &amp; singing)</small>" },
+  { lang: "Russian", voice: "Karina Kudekova / Карина Кудекова <small>(speaking) &amp;</small> Jarqynai Hanaiym / Жарқынай Ханайым <small>(singing)</small>" },
+  { lang: "Serbian", voice: "Katarina Bogićević / Катарина Богићевић <small>(speaking &amp; singing)</small>" },
+  { lang: "Slovak", voice: "Natália Kóšová <small>(speaking &amp; singing)</small>" },
+  { lang: "Slovene", voice: "Saša Lešnjek <small>(speaking &amp; singing)</small>" },
+  { lang: "<small>LATIN AMERICAN</small> Spanish", voice: "Mariana Dávila <small>(speaking &amp; singing)</small>" },
+  { lang: "<small>CASTILIAN</small> Spanish", voice: "Laura Pastor <small>(speaking) &amp;</small> Anabel García <small>(singing)</small>" },
+  { lang: "Swedish", voice: "Amelie Eiding <small>(speaking &amp; singing)</small>" },
+  { lang: "Thai", voice: '"Bow" Melada Susi / "โบว์" เมลดา สุศรี <small>(speaking &amp; singing)</small>' },
+  { lang: "Turkish", voice: "Selen Severcan <small>(speaking &amp; singing)</small>" },
+  { lang: "Ukrainian", voice: "Khrystyna Starykova / Христина Старикова <small>(? &amp; singing)</small>" },
+  { lang: "Vietnamese", voice: "Đỗ Lê Hồng Nhung <small>(speaking &amp; singing)</small>" }
+];
+
+const voices_2025b = [
+  { lang: "<small>EGYPTIAN</small> Arabic", voice: "Noha Qais / نهى قيس" },
+  { lang: "<small>MODERN STANDARD</small> Arabic", voice: "Noha Qais / نهى قيس" },
+  { lang: "Cantonese", voice: '"Agnes Lam" Lam Si-Cung / 林司聰' },
+  { lang: "Czech", voice: "Barbora Červinková" },
+  { lang: "Danish", voice: "Karoline Hamm" },
+  { lang: "Dutch", voice: "Maria Hengst" },
+  { lang: "English", voice: "Katherine Von Till" },
+  { lang: "Finnish", voice: "Saara Lehtonen" },
+  { lang: "French", voice: "Valérie Siclay" },
+  { lang: "German", voice: "Manja Doering" },
+  { lang: "Greek", voice: "Iríni Tsíga / Ειρήνη Τσίγκα" },
+  { lang: "Hebrew", voice: "?" },
+  { lang: "Hungarian", voice: "Oroszlán Szonja" },
+  { lang: "Indonesian", voice: "Apriliana Suci Ariesta" },
+  { lang: "Italian", voice: "Agnese Marteddu" },
+  { lang: "Japanese", voice: "Kobato Kurumi / 小鳩くるみ" },
+  { lang: "Korean", voice: "Lee Jae-hyeon / 이재현" },
+  { lang: "Malay", voice: "Yatie Maslini" },
+  { lang: "<small>TAIWANESE</small> Mandarin", voice: "Mù Xuān-Míng / 穆宣名" },
+  { lang: "Norwegian", voice: "Sidney Lange" },
+  { lang: "Polish", voice: "Zuzanna Caban" },
+  { lang: "<small>BRAZILIAN</small> Portuguese", voice: "Andressa Andreatto" },
+  { lang: "Portuguese", voice: "Carla Mendes" },
+  { lang: "Romanian", voice: "Mediana Vlad" },
+  { lang: "Slovak", voice: "Natália Kóšová" },
+  { lang: "<small>LATIN AMERICAN</small> Spanish", voice: "Maggie Vera" },
+  { lang: "<small>CASTILIAN</small> Spanish", voice: "Mar Bordallo" },
+  { lang: "Swedish", voice: "Norea Sjöquist" },
+  { lang: "Thai", voice: "?" },
+  { lang: "Turkish", voice: "Nermin Koçak" }
+];
+
+const voices_2026 = [
+  { lang: "Cantonese", voice: '"Agnes Lam" Lam Si-Cung / 林司聰' },
+  { lang: "Croatian", voice: "Nika Turković" },
+  { lang: "Czech", voice: "Barbora Červinková" },
+  { lang: "Danish", voice: "Karoline Hamm" },
+  { lang: "Dutch", voice: "Maria Hengst" },
+  { lang: "English", voice: "Katherine Von Till" },
+  { lang: "Finnish", voice: "Saara Lehtonen" },
+  { lang: "French", voice: "Valérie Siclay" },
+  { lang: "German", voice: "Manja Doering" },
+  { lang: "Greek", voice: "Litó Abatzí / Λητώ Αμπατζή" },
+  { lang: "Hungarian", voice: "Oroszlán Szonja" },
+  { lang: "Indonesian", voice: "Apriliana Suci Ariesta" },
+  { lang: "Italian", voice: "Agnese Marteddu" },
+  { lang: "Japanese", voice: "Kobato Kurumi / 小鳩くるみ" },
+  { lang: "Korean", voice: "Lee Jae-hyeon / 이재현" },
+  { lang: "Malay", voice: "Yatie Maslini" },
+  { lang: "<small>TAIWANESE</small> Mandarin", voice: "Mù Xuān-Míng / 穆宣名" },
+  { lang: "Norwegian", voice: "Silje Hagrim Dahl" },
+  { lang: "Polish", voice: "Zuzanna Caban" },
+  { lang: "<small>BRAZILIAN</small> Portuguese", voice: "Andressa Andreatto" },
+  { lang: "Portuguese", voice: "Carla Mendes" },
+  { lang: "Romanian", voice: "Mediana Vlad" },
+  { lang: "Slovak", voice: "Natália Kóšová" },
+  { lang: "<small>LATIN AMERICAN</small> Spanish", voice: "Maggie Vera" },
+  { lang: "<small>CASTILIAN</small> Spanish", voice: "Mar Bordallo" },
+  { lang: "Swedish", voice: "Amelie Eiding" },
+  { lang: "Thai", voice: "?" }
+];
+
+// ============================================================
+//  RENDU DES TABLEAUX DE VOIX
+//  Fonction générique : construit le <table> à partir d'un tableau
+//  { lang, voice } et l'insère dans le point de montage (id fourni).
+// ============================================================
+
+function renderVoiceTable(mountId, data) {
+  const mount = document.getElementById(mountId);
+  if (!mount) return;
+
+  const table = document.createElement('table');
+  table.className = 'voice-table';
+  const tbody = document.createElement('tbody');
+
+  data.forEach(entry => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td class="lang-cell">${entry.lang}</td><td class="voice-cell">${entry.voice}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  table.appendChild(tbody);
+  mount.appendChild(table);
+}
+
+renderVoiceTable('voices-1937', voices_1937);
+renderVoiceTable('radio-1937', radio_1937);
+renderVoiceTable('voices-2014', voices_2014);
+renderVoiceTable('voices-2018', voices_2018);
+renderVoiceTable('voices-lego-2023', voices_2023a);
+renderVoiceTable('voices-film-2023', voices_2023b);
+renderVoiceTable('voices-film-2025', voices_2025a);
+renderVoiceTable('voices-lego-2025', voices_2025b);
+renderVoiceTable('voices-2026', voices_2026);
+
+// ============================================================
+//  CALCUL AUTOMATIQUE DE data-lang
+//  Pour chaque ligne du tableau qui n'a pas déjà un data-lang manuel,
+//  on le déduit automatiquement du texte affiché : la langue ET les
+//  noms des voix (acteurs). Tu n'as donc PLUS BESOIN d'écrire
+//  data-lang="..." toi-même :
+//    <tr><td class="lang-cell">Albanian 2002</td><td class="voice-cell">Julka Gramo...</td></tr>
+//  suffit, et chercher "Julka" ou "Albanian" fonctionnera pareil.
+//  Tu peux quand même en mettre un manuellement si tu veux un mot-clé
+//  de recherche différent du texte affiché, il sera alors utilisé à
+//  la place (et n'inclura pas automatiquement les noms des voix).
+// ============================================================
+
+document.querySelectorAll('.voice-table tr').forEach(row => {
+  if (!row.dataset.lang) {
+    row.dataset.lang = row.textContent.toLowerCase();
+  }
+});
+
+// ============================================================
+//  RECHERCHE PAR LANGUE
+//  Filtre chaque ligne (<tr data-lang="...">) sur toutes les sections.
+//  Une section entière se cache si plus aucune de ses lignes ne matche.
+// ============================================================
+
+const langSearch = document.getElementById('langSearch');
+const langResultInfo = document.getElementById('langResultInfo');
+
+function applyLangSearch() {
+  const query = langSearch.value.toLowerCase().trim();
+  let totalMatches = 0;
+
+  // Active dès qu'une recherche est en cours : sert à cacher les trivia
+  // (voir la règle CSS "body.searching .trivia" un peu plus haut)
+  document.body.classList.toggle('searching', query !== '');
+
+  document.querySelectorAll('.film-section').forEach(section => {
+    let sectionHasMatch = false;
+
+    section.querySelectorAll('tr[data-lang]').forEach(row => {
+      const matches = query === '' || row.dataset.lang.includes(query);
+      row.classList.toggle('row-hidden', !matches);
+      if (matches) {
+        sectionHasMatch = true;
+        if (query !== '') totalMatches++;
+      }
+    });
+
+    section.classList.toggle('no-match', query !== '' && !sectionHasMatch);
+  });
+
+  langResultInfo.textContent = query
+    ? `${totalMatches} appearance${totalMatches !== 1 ? 's' : ''} found for "${query}"`
+    : '';
+}
+
+langSearch.addEventListener('keyup', applyLangSearch);
+
+// ============================================================
+//  SOMMAIRE : construit automatiquement à partir des sections film
+//  Pour chaque .film-section trouvée sur la page, on lit son id et
+//  le texte de son titre (.film-title), et on crée le lien correspondant.
+//  Tu n'as jamais besoin de modifier "Appearances" toi-même : ajoute
+//  juste une nouvelle <section class="film-section" id="..."> plus
+//  bas avec son titre, et elle apparaîtra ici automatiquement.
+//  (Le surlignage automatique du film en cours de lecture au scroll
+//  a été retiré à la demande de l'utilisateur.)
+// ============================================================
+
+const tocList = document.getElementById('tocList');
+
+document.querySelectorAll('.film-section').forEach(section => {
+  const titleEl = section.querySelector('.film-title');
+  if (!titleEl) return;
+
+  const li = document.createElement('li');
+  const a = document.createElement('a');
+  a.href = '#' + section.id;
+  a.textContent = titleEl.textContent.trim();
+  li.appendChild(a);
+  tocList.appendChild(li);
+});
+
+// ============================================================
+//  BOUTON RETOUR EN HAUT
+//  Apparaît après 400px de scroll, ramène en douceur en haut de page.
+// ============================================================
+
+const backToTop = document.getElementById('backToTop');
+
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ============================================================
+//  FALLBACK DES BANDEAUX SANS IMAGE
+//  Si une image de bandeau ne charge pas (lien cassé, faute de frappe,
+//  pas encore uploadée...), on la cache et on affiche le dégradé bleu
+//  à la place. Fonctionne automatiquement pour tous les bandeaux,
+//  actuels ET futurs : rien à faire de ton côté.
+// ============================================================
+
+document.querySelectorAll('.film-banner').forEach(img => {
+  img.addEventListener('error', () => {
+    img.style.display = 'none';
+    img.closest('.film-header').classList.add('banner-fallback');
+  });
+});
+
+// ============================================================
+//  ACCORDEON "CONTINUITY"
+//  Fermé par défaut. Chaque bloc s'ouvre/se ferme indépendamment
+//  des autres (ce n'est pas un accordéon "un seul ouvert à la fois").
+// ============================================================
+
+document.querySelectorAll('.continuity').forEach(box => {
+  const toggle = box.querySelector('.continuity-toggle');
+  const content = box.querySelector('.continuity-content');
+
+  toggle.addEventListener('click', () => {
+    const isOpen = box.classList.contains('open');
+
+    if (isOpen) {
+      box.classList.remove('open');
+      content.style.maxHeight = null;
+    } else {
+      box.classList.add('open');
+      content.style.maxHeight = content.scrollHeight + 'px';
+    }
+  });
+});
+</script>
