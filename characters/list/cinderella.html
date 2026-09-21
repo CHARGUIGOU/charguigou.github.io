@@ -793,7 +793,7 @@ const voices_1950 = [
   { lang: "Cantonese (1996?)", voice: '?' },
   { lang: "Croatian (2005)", voice: 'Jasna Palić-Picukarić <small>(speaking) &amp;</small> Mima Karaula <small>(singing)</small>' },
   { lang: "Czech (1970)", voice: 'Klára Jerneková <small>(speaking) &amp;</small> Marie Sikulová <small>(singing)</small>' },
-  { lang: "Czech (2005)", voice: 'Tereza Chudobová <small>(speaking) &amp;</small Štepánka Heřmánková <small>(singing)</small>' },
+  { lang: "Czech (2005)", voice: 'Tereza Chudobová <small>(speaking) &amp;</small> Štepánka Heřmánková <small>(singing)</small>' },
   { lang: "Danish (1950)", voice: 'Lise Ringheim <small>(speaking &amp; singing)</small>' },
   { lang: "Dutch (1950)", voice: 'Loekie Landweer <small>(speaking &amp; singing)</small>' },
   { lang: "Dutch (1991)", voice: 'Joke de Kruijf <small>(speaking &amp; singing)</small>' },
@@ -1116,15 +1116,27 @@ function renderVoiceTable(mountId, data) {
   mount.appendChild(table);
 }
 
-renderVoiceTable('voices-1937', voices_1937);
-renderVoiceTable('radio-1937', radio_1937);
-renderVoiceTable('voices-2014', voices_2014);
-renderVoiceTable('voices-2018', voices_2018);
-renderVoiceTable('voices-lego-2023', voices_2023a);
-renderVoiceTable('voices-film-2023', voices_2023b);
-renderVoiceTable('voices-film-2025', voices_2025a);
-renderVoiceTable('voices-lego-2025', voices_2025b);
-renderVoiceTable('voices-2026', voices_2026);
+renderVoiceTable('voices-1950', voices_1950);
+renderVoiceTable('voices-2002', voices_2002);
+renderVoiceTable('voices-2007', voices_2007);
+
+// MODIFIE ICI : ces 3 sections de la page n'ont pas encore de tableau de
+// voix — aucune donnée n'a été écrite pour elles pour l'instant (voir
+// section CHARACTER DATA plus haut). Dès que tu ajoutes leur "const
+// voices_xxx = [...]", ajoute la ligne renderVoiceTable correspondante
+// ici, sur le modèle des 3 lignes juste au-dessus :
+//   renderVoiceTable('voices-sofia-2012', voices_sofia_2012);
+//   renderVoiceTable('voices-film-2015', voices_film_2015);
+//   renderVoiceTable('voices-film-2018', voices_film_2018);
+
+// ATTENTION : les tableaux "voices_2023a", "voices_2023b", "voices_2025a",
+// "voices_2025b" et "voices_2026" plus haut dans le fichier sont encore
+// les données de Snow White (copiées avec le reste du template) — ce ne
+// sont PAS les voix de Cendrillon. Je ne les ai donc PAS reliés aux
+// sections "voices-film-2023" et "voices-lego-2025" pour éviter d'afficher
+// les mauvaises voix. Remplace leur contenu par les vraies données de
+// Cendrillon (et supprime les tableaux en trop, il n'y a que 2 sections
+// ici, pas 5), puis relie-les avec le même modèle que les 3 lignes du haut.
 
 // ============================================================
 //  CALCUL AUTOMATIQUE DE data-lang
