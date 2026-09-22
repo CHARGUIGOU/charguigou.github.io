@@ -1322,4 +1322,16 @@ document.querySelectorAll('.continuity').forEach(box => {
     }
   });
 });
+
+// Si la fenêtre est redimensionnée (ex: on la rétrécit) pendant qu'un
+// bloc Continuity est ouvert, le texte peut retourner à la ligne
+// différemment et devenir plus haut que la limite fixée au moment du
+// clic (qui, elle, ne bouge pas toute seule) : le bas du texte se
+// retrouvait alors coupé. On recalcule donc cette limite à chaque
+// redimensionnement, pour tous les blocs actuellement ouverts.
+window.addEventListener('resize', () => {
+  document.querySelectorAll('.continuity.open .continuity-content').forEach(content => {
+    content.style.maxHeight = content.scrollHeight + 'px';
+  });
+});
 </script>
