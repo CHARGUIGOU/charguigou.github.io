@@ -542,6 +542,16 @@ body, .search-input {
 //                   pour la recherche "By film" (autre orthographe, chiffre
 //                   romain vs normal, titre alternatif...)
 //        upcoming : true si le doublage/la page n'est pas encore sortie (affiche un badge rouge)
+//        img      : (optionnel) URL d'une image DE CE FILM PRÉCIS (ex: un
+//                   screenshot du personnage dans cette apparition). Tant
+//                   que ce champ n'est pas rempli, la carte utilise l'image
+//                   principale du personnage (le "img" tout en haut) pour
+//                   CETTE apparition-là aussi. Ce champ ne change QUE
+//                   l'image affichée quand on cherche "By film" et qu'on
+//                   tombe sur ce film précis (voir renderGrouped un peu
+//                   plus bas) — dans toutes les autres vues (par saga, par
+//                   personnage), c'est toujours l'image principale qui
+//                   s'affiche, peu importe ce champ.
 //
 //  ORDRE D'AFFICHAGE PAR DÉFAUT : les personnages sont maintenant
 //  regroupés par film (voir plus bas). À l'intérieur d'un même film,
@@ -4028,14 +4038,18 @@ const sagaKeysInOrder = Object.keys(sagaMap).sort((a, b) => sagaMap[a].anchorYea
 //  individuellement (voir renderGrouped un peu plus bas).
 // ============================================================
 
-const filmMap = {}; // { "Titre du film": { year, entries: [character, ...], searchText } }
+const filmMap = {}; // { "Titre du film": { year, entries: [{character, appearance}, ...], searchText } }
 
 characters.forEach(character => {
   character.appearances.forEach(a => {
     if (!filmMap[a.film]) {
       filmMap[a.film] = { year: a.year, entries: [], keywords: new Set() };
     }
-    filmMap[a.film].entries.push(character);
+    // On garde aussi "a" (l'apparition elle-même, pas seulement le
+    // personnage) : c'est elle qui porte l'éventuelle image spécifique à
+    // CE film (voir "img" dans la doc des "appearances" plus haut), donc
+    // buildCharacterCard en a besoin au moment de construire la carte.
+    filmMap[a.film].entries.push({ character, appearance: a });
     // Les mots-clés d'apparition (ex: "cinderella 2") viennent s'ajouter
     // au texte de recherche de CE film, peu importe quel personnage les a définis.
     (a.keywords || []).forEach(k => filmMap[a.film].keywords.add(k));
@@ -4061,18 +4075,25 @@ const filmTitlesInOrder = Object.keys(filmMap).sort((a, b) => {
 
 const container = document.getElementById('charactersContainer');
 
-function buildCharacterCard(character) {
+// "imgOverride" : optionnel — l'image DE CE FILM PRÉCIS à utiliser à la
+// place de l'image principale du personnage (voir "img" dans la doc des
+// "appearances" plus haut). N'est passé que par renderGrouped (vue "By
+// film") ; les autres vues appellent buildCharacterCard sans ce
+// paramètre et gardent donc toujours l'image principale.
+function buildCharacterCard(character, imgOverride) {
   const li = document.createElement('li');
   li.className = 'character-card';
 
   const hasLink = !!character.link;
   if (!hasLink) li.classList.add('no-link');
 
+  const imgSrc = imgOverride || character.img;
+
   li.innerHTML = `
     <div class="flip-inner">
       <div class="card-face card-front">
         <div class="photo-frame">
-          <img class="photo-main" src="${character.img}" alt="${character.name}">
+          <img class="photo-main" src="${imgSrc}" alt="${character.name}">
           <svg class="fallback-silhouette" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
           </svg>
@@ -4196,7 +4217,7 @@ function renderGrouped(titles) {
 
     const ul = document.createElement('ul');
     ul.className = 'character-grid';
-    group.entries.forEach(character => ul.appendChild(buildCharacterCard(character)));
+    group.entries.forEach(({ character, appearance }) => ul.appendChild(buildCharacterCard(character, appearance.img)));
     section.appendChild(ul);
 
     container.appendChild(section);
