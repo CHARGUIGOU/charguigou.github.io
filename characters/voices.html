@@ -102,19 +102,44 @@ body, .search-input {
 
 /* ============================================================
    TITRE DE GROUPE PAR FILM (affiché par défaut / en mode "By film")
-   MODIFIE ICI : taille, couleur, espacement au-dessus de chaque film
+   MODIFIE ICI : taille, couleur, espacement, symboles et filets
    ============================================================ */
-.film-group {
-  margin-bottom: 50px;
+:root {
+  --saga-spacing: 90px;         /* espace SOUS chaque liste de personnages, avant la saga suivante */
+  --title-line-width: 120px;    /* longueur max de chaque filet de chaque côté du titre */
+  --title-line-color: #2a5da0;  /* couleur "pleine" des filets (même bleu que la lueur du titre) */
+  --title-star-color-dim: #4a7bb5;     /* bleu du ✦ à son point le plus faible du scintillement */
+  --title-star-color-bright: #a9cdf0;  /* bleu (plus pâle/lumineux) du ✦ à son point le plus vif */
+  --title-star-glow: rgba(126, 166, 216, 0.9);  /* couleur de la lueur autour des ✦ */
+  --title-star-size: 13px;
 }
+
+/* Espace entre deux sagas : mis SOUS chaque liste plutôt qu'AU-DESSUS de
+   chaque titre, pour ne pas avoir à retirer cet espace spécifiquement
+   sur la toute première saga de la page (elle en hériterait sinon). */
+.film-group {
+  margin-bottom: var(--saga-spacing);
+}
+.film-group:last-child {
+  margin-bottom: 0;   /* pas besoin d'espace après la toute dernière saga */
+}
+
+/* Rangée complète : filet — ✦ — TITRE — ✦ — filet, tous centrés ensemble */
+.film-group-title-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 0 0 20px;
+  padding: 0 var(--page-margin);
+}
+
 .film-group-title {
-  text-align: center;
   font-size: 18px;
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
-  margin: 0 0 20px;
-  padding: 0 var(--page-margin);
+  margin: 0;
   /* Effet lumineux : dégradé radial bleu (mêmes couleurs que le bandeau
      de secours des pages de voix), qui pulse doucement en intensité et
      dérive légèrement, comme une petite luciole à l'intérieur du texte. */
@@ -140,6 +165,46 @@ body, .search-input {
   50%  { background-position: 70% 65%; }
   75%  { background-position: 35% 70%; }
   100% { background-position: 30% 40%; }
+}
+
+/* Filets de chaque côté du titre : dégradé symétrique (effet miroir) —
+   blanc sur le bord extérieur, qui devient la couleur pleine en se
+   rapprochant du titre des deux côtés. */
+.title-line {
+  flex: 1 1 auto;
+  max-width: var(--title-line-width);
+  height: 1px;
+}
+.title-line-left {
+  background: linear-gradient(to right, #fff 0%, var(--title-line-color) 100%);
+}
+.title-line-right {
+  background: linear-gradient(to right, var(--title-line-color) 0%, #fff 100%);
+}
+
+/* Les ✦ : lueur vacillante façon lampe/bougie au loin — pas un pulse
+   régulier et prévisible comme le glow du titre, mais des paliers
+   irréguliers (voir starFlicker) qui font aussi varier la couleur entre
+   deux bleus (plus pâle/plus soutenu), et les deux ✦ sont décalés dans
+   le temps (animation-delay négatif sur le second) pour ne jamais
+   scintiller exactement à l'unisson. */
+.title-star {
+  font-size: var(--title-star-size);
+  animation: starFlicker 4.5s ease-in-out infinite;
+}
+.title-star-right {
+  animation-delay: -2.2s;
+}
+
+@keyframes starFlicker {
+  0%, 100% { opacity: 0.75; color: var(--title-star-color-dim);    text-shadow: 0 0 4px var(--title-star-glow); }
+  8%       { opacity: 0.55; color: var(--title-star-color-dim);    text-shadow: 0 0 2px var(--title-star-glow); }
+  20%      { opacity: 1;    color: var(--title-star-color-bright); text-shadow: 0 0 10px var(--title-star-glow); }
+  35%      { opacity: 0.65; color: var(--title-star-color-dim);    text-shadow: 0 0 3px var(--title-star-glow); }
+  50%      { opacity: 0.9;  color: var(--title-star-color-bright); text-shadow: 0 0 8px var(--title-star-glow); }
+  63%      { opacity: 0.6;  color: var(--title-star-color-dim);    text-shadow: 0 0 3px var(--title-star-glow); }
+  78%      { opacity: 1;    color: var(--title-star-color-bright); text-shadow: 0 0 12px var(--title-star-glow); }
+  90%      { opacity: 0.7;  color: var(--title-star-color-dim);    text-shadow: 0 0 5px var(--title-star-glow); }
 }
 
 /* ============================================================
@@ -4062,6 +4127,35 @@ function setupPhotoFallback(li) {
   });
 }
 
+// Construit la rangée "filet — ✦ — TITRE — ✦ — filet" au-dessus d'une
+// saga/d'un film, utilisée par renderBySaga ET renderGrouped ci-dessous
+// (au lieu d'un simple <h2>, comme avant).
+function buildGroupTitle(text) {
+  const wrap = document.createElement('div');
+  wrap.className = 'film-group-title-wrap';
+
+  const lineLeft = document.createElement('span');
+  lineLeft.className = 'title-line title-line-left';
+
+  const starLeft = document.createElement('span');
+  starLeft.className = 'title-star';
+  starLeft.textContent = '✦';
+  starLeft.setAttribute('aria-hidden', 'true');
+
+  const heading = document.createElement('h2');
+  heading.className = 'film-group-title';
+  heading.textContent = text;
+
+  const starRight = starLeft.cloneNode(true);
+  starRight.classList.add('title-star-right');   // décale son scintillement (voir le CSS)
+
+  const lineRight = document.createElement('span');
+  lineRight.className = 'title-line title-line-right';
+
+  wrap.append(lineLeft, starLeft, heading, starRight, lineRight);
+  return wrap;
+}
+
 // Affichage GROUPÉ PAR SAGA (VUE PAR DÉFAUT) : chaque personnage une seule fois
 function renderBySaga() {
   container.innerHTML = '';
@@ -4072,10 +4166,7 @@ function renderBySaga() {
     const section = document.createElement('div');
     section.className = 'film-group';
 
-    const heading = document.createElement('h2');
-    heading.className = 'film-group-title';
-    heading.textContent = key;
-    section.appendChild(heading);
+    section.appendChild(buildGroupTitle(key));
 
     const ul = document.createElement('ul');
     ul.className = 'character-grid';
@@ -4101,10 +4192,7 @@ function renderGrouped(titles) {
     const section = document.createElement('div');
     section.className = 'film-group';
 
-    const heading = document.createElement('h2');
-    heading.className = 'film-group-title';
-    heading.textContent = `${title}${group.year ? ' (' + group.year + ')' : ''}`;
-    section.appendChild(heading);
+    section.appendChild(buildGroupTitle(`${title}${group.year ? ' (' + group.year + ')' : ''}`));
 
     const ul = document.createElement('ul');
     ul.className = 'character-grid';
