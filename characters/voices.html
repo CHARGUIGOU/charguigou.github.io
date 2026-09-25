@@ -552,18 +552,25 @@ body, .search-input {
 //                   plus bas) — dans toutes les autres vues (par saga, par
 //                   personnage), c'est toujours l'image principale qui
 //                   s'affiche, peu importe ce champ.
-//        lead     : true si ce personnage est un personnage PRINCIPAL de
-//                   CE film précis (ex: Sofia pour "Sofia the First",
-//                   même si elle apparaît après les 3 fées chronologiquement
-//                   à cause de leur apparition dans Sleeping Beauty en 1959).
-//                   Fait remonter ce personnage en tête du groupe quand on
-//                   cherche "By film" et qu'on tombe sur ce film précis —
-//                   rien ne t'empêche de mettre "lead: true" sur plusieurs
-//                   personnages du même film (ex: un film choral) : ils
-//                   passeront tous avant les autres, dans l'ordre où tu les
-//                   as écrits entre eux. N'affecte QUE cette vue "By film" ;
-//                   la vue par saga garde son tri habituel (par première
-//                   apparition du personnage).
+//        lead     : (optionnel) fait remonter ce personnage en tête du
+//                   groupe quand on cherche "By film" et qu'on tombe sur CE
+//                   film précis (ex: Sofia pour "Sofia the First", même si
+//                   elle apparaît après les 3 fées chronologiquement à
+//                   cause de leur apparition dans Sleeping Beauty en 1959).
+//                   Deux façons de l'utiliser :
+//                     - lead: true       → juste "personnage principal",
+//                       sans te soucier de l'ordre exact entre plusieurs
+//                       leads du même film (ils gardent alors l'ordre où
+//                       tu les as écrits dans ce fichier).
+//                     - lead: 1, lead: 2, lead: 3...  → un NOMBRE pour
+//                       choisir précisément l'ordre entre plusieurs leads
+//                       d'un même film (1 = premier, 2 = juste après, etc.),
+//                       ex: Sofia (lead: 1), Rapunzel (lead: 2) puis les
+//                       3 fées (lead: 3) dans "Sofia the First: Royal Magic".
+//                   Dans tous les cas, les personnages SANS "lead" du tout
+//                   passent après tous les leads, dans leur ordre habituel.
+//                   N'affecte QUE cette vue "By film" ; la vue par saga
+//                   garde son tri habituel (par première apparition).
 //
 //  ORDRE D'AFFICHAGE PAR DÉFAUT : les personnages sont maintenant
 //  regroupés par film (voir plus bas). À l'intérieur d'un même film,
@@ -3154,7 +3161,7 @@ const characters = [
       { film: "LEGO Disney Princess: The Castle Quest", year: "2023" },
       { film: "Once Upon a Studio", year: "2023" },
       { film: "LEGO Disney Princess: Villains Unite", year: "2025" },
-      { film: "Sofia the First: Royal Magic", year: "2026-", upcoming:true },
+      { film: "Sofia the First: Royal Magic", year: "2026-", upcoming:true, lead: 2 },
       { film: "LEGO Disney Princess: Magical Mayhem", year: "2026" }
     ]
   },
@@ -3314,7 +3321,7 @@ const characters = [
     franchise: "Sofia the First",
     appearances: [
       { film: "Sofia the First", year: "2012-2018", lead: true },
-      { film: "Sofia the First: Royal Magic", year: "2026-", upcoming:true, lead: true, img: PIC + "Sofia2026.png" }
+      { film: "Sofia the First: Royal Magic", year: "2026-", upcoming:true, lead: 1, img: PIC + "Sofia2026.png" }
     ]
   },
 
@@ -4227,14 +4234,23 @@ function renderGrouped(titles) {
 
     section.appendChild(buildGroupTitle(`${title}${group.year ? ' (' + group.year + ')' : ''}`));
 
-    // Les apparitions marquées "lead: true" (voir la doc de "appearances"
-    // plus haut) passent en tête, sans changer l'ordre entre elles ni
-    // entre les autres (tri stable) : juste "leads d'abord, le reste après".
+    // Les apparitions avec un "lead" (voir la doc de "appearances" plus
+    // haut) passent en tête, triées par leur numéro quand il y en a un
+    // ("lead: 1" avant "lead: 2"...) ; "lead: true" vaut comme un rang
+    // "milieu de peloton" (LEAD_DEFAULT_RANK) si tu ne précises pas de
+    // numéro. Les apparitions SANS "lead" gardent leur ordre habituel,
+    // après tous les leads (tri stable : à rang égal, l'ordre d'écriture
+    // dans ce fichier est conservé).
+    const LEAD_DEFAULT_RANK = 0;
+    function leadRank(appearance) {
+      if (typeof appearance.lead === 'number') return appearance.lead;
+      return appearance.lead ? LEAD_DEFAULT_RANK : Infinity;
+    }
     const orderedEntries = group.entries
       .map((entry, i) => ({ entry, i }))
       .sort((a, b) => {
-        const leadDiff = (b.entry.appearance.lead ? 1 : 0) - (a.entry.appearance.lead ? 1 : 0);
-        return leadDiff !== 0 ? leadDiff : a.i - b.i;
+        const rankDiff = leadRank(a.entry.appearance) - leadRank(b.entry.appearance);
+        return rankDiff !== 0 ? rankDiff : a.i - b.i;
       })
       .map(({ entry }) => entry);
 
