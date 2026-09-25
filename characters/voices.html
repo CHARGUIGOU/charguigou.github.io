@@ -552,6 +552,18 @@ body, .search-input {
 //                   plus bas) — dans toutes les autres vues (par saga, par
 //                   personnage), c'est toujours l'image principale qui
 //                   s'affiche, peu importe ce champ.
+//        lead     : true si ce personnage est un personnage PRINCIPAL de
+//                   CE film précis (ex: Sofia pour "Sofia the First",
+//                   même si elle apparaît après les 3 fées chronologiquement
+//                   à cause de leur apparition dans Sleeping Beauty en 1959).
+//                   Fait remonter ce personnage en tête du groupe quand on
+//                   cherche "By film" et qu'on tombe sur ce film précis —
+//                   rien ne t'empêche de mettre "lead: true" sur plusieurs
+//                   personnages du même film (ex: un film choral) : ils
+//                   passeront tous avant les autres, dans l'ordre où tu les
+//                   as écrits entre eux. N'affecte QUE cette vue "By film" ;
+//                   la vue par saga garde son tri habituel (par première
+//                   apparition du personnage).
 //
 //  ORDRE D'AFFICHAGE PAR DÉFAUT : les personnages sont maintenant
 //  regroupés par film (voir plus bas). À l'intérieur d'un même film,
@@ -3301,8 +3313,8 @@ const characters = [
     img: PIC + "Sofia2012.png",
     franchise: "Sofia the First",
     appearances: [
-      { film: "Sofia the First", year: "2012-2018" },
-      { film: "Sofia the First: Royal Magic", year: "2026-", upcoming:true, img: PIC + "Sofia2026.png" }
+      { film: "Sofia the First", year: "2012-2018", lead: true },
+      { film: "Sofia the First: Royal Magic", year: "2026-", upcoming:true, lead: true, img: PIC + "Sofia2026.png" }
     ]
   },
 
@@ -4215,9 +4227,20 @@ function renderGrouped(titles) {
 
     section.appendChild(buildGroupTitle(`${title}${group.year ? ' (' + group.year + ')' : ''}`));
 
+    // Les apparitions marquées "lead: true" (voir la doc de "appearances"
+    // plus haut) passent en tête, sans changer l'ordre entre elles ni
+    // entre les autres (tri stable) : juste "leads d'abord, le reste après".
+    const orderedEntries = group.entries
+      .map((entry, i) => ({ entry, i }))
+      .sort((a, b) => {
+        const leadDiff = (b.entry.appearance.lead ? 1 : 0) - (a.entry.appearance.lead ? 1 : 0);
+        return leadDiff !== 0 ? leadDiff : a.i - b.i;
+      })
+      .map(({ entry }) => entry);
+
     const ul = document.createElement('ul');
     ul.className = 'character-grid';
-    group.entries.forEach(({ character, appearance }) => ul.appendChild(buildCharacterCard(character, appearance.img)));
+    orderedEntries.forEach(({ character, appearance }) => ul.appendChild(buildCharacterCard(character, appearance.img)));
     section.appendChild(ul);
 
     container.appendChild(section);
