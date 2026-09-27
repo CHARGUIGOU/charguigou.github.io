@@ -492,6 +492,43 @@ body, .search-input {
   border-radius: 4px;
   margin-left: 6px;
 }
+
+/* ============================================================
+   BOUTON "RETOUR EN HAUT" (apparaît après un peu de scroll)
+   MODIFIE ICI : la couleur du contour vient de --back-to-top-color
+   ============================================================ */
+:root {
+  --back-to-top-color: #2a5da0;   /* même bleu que les titres de saga */
+}
+#backToTop {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--back-to-top-color);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 50;
+}
+#backToTop.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+#backToTop svg {
+  width: 30px;
+  height: 30px;
+}
 </style>
 
 <div class="page-title">CHARACTER VOICES</div>
@@ -516,6 +553,16 @@ body, .search-input {
      qu'une seule grille plate, sans titre.
      ============================================================ -->
 <div id="charactersContainer"></div>
+
+<!-- ============================================================
+     BOUTON RETOUR EN HAUT
+     MODIFIE ICI : la couleur du contour vient de --back-to-top-color en haut du fichier
+     ============================================================ -->
+<button id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 3c-1 0-1.8.8-1.8 1.8v6.4L8.6 9.6a1.6 1.6 0 0 0-2.3 2.2l4.2 4.4c.8.8 2.1.8 2.9 0l4.2-4.4a1.6 1.6 0 0 0-2.3-2.2l-1.6 1.6V4.8C13.8 3.8 13 3 12 3z" fill="#2a5da0" transform="rotate(180 12 12)"/>
+  </svg>
+</button>
 
 <script>
 // ============================================================
@@ -4821,4 +4868,19 @@ filmSearchInput.addEventListener('input', () => {
 
 // Rendu initial au chargement de la page
 renderBySaga();
+
+// ============================================================
+//  BOUTON RETOUR EN HAUT
+//  Apparaît après 400px de scroll, ramène en douceur en haut de page.
+// ============================================================
+
+const backToTop = document.getElementById('backToTop');
+
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
 </script>
