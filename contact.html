@@ -1,0 +1,251 @@
+---
+layout: null
+---
+{% include header.html %}
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --page-margin: 10%;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   TITRE DE PAGE — le même bloc réutilisé tel quel que sur les
+   autres pages (Character Voices, etc.), pour rester cohérent.
+   MODIFIE ICI les 6 variables : c'est tout ce que tu as à changer.
+   ============================================================ */
+:root {
+  --page-title-font: 'IM Fell English', serif;  /* police d'écriture */
+  --page-title-size: 30px;                       /* taille du texte */
+  --page-title-weight: 500;                      /* graisse : 100 (très fin) à 900 (très gras) */
+  --page-title-spacing: 2px;                     /* espacement entre les lettres */
+  --page-title-align: center;                    /* alignement : left / center / right */
+  --page-title-color: #222;                      /* couleur du texte */
+}
+
+.page-title {
+  font-family: var(--page-title-font);
+  font-size: var(--page-title-size);
+  font-weight: var(--page-title-weight);
+  letter-spacing: var(--page-title-spacing);
+  text-align: var(--page-title-align);
+  color: var(--page-title-color);
+  padding-top: 60px;   /* espace au-dessus, laissé à part : propre à chaque page si besoin */
+}
+
+.page-subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #888;
+  margin: 10px 0 0;
+}
+
+/* ============================================================
+   FORMULAIRE DE CONTACT
+   MODIFIE ICI : largeur, espacement, couleurs des champs
+   ============================================================ */
+:root {
+  --accent: #2a5da0;             /* même bleu que le reste du site */
+  --form-max-width: 520px;       /* largeur maximale du formulaire */
+  --field-radius: 10px;          /* arrondi des champs (même que les barres de recherche) */
+}
+
+.contact-form {
+  max-width: var(--form-max-width);
+  margin: 40px auto 80px;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.form-field {
+  margin-bottom: 18px;
+}
+
+.form-field label {
+  display: block;
+  font-size: 11px;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-family: 'Open Sans', sans-serif;
+  border-radius: var(--field-radius);
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  resize: vertical;
+}
+.form-field input:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: #7da1c9;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.form-field textarea {
+  min-height: 140px;
+}
+
+/* Champ "piège à robots" : invisible pour un humain, mais un bot qui
+   remplit tous les champs automatiquement le remplira aussi — ce qui
+   permet de rejeter silencieusement le message (voir le script). */
+.form-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.submit-btn {
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--field-radius);
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+.submit-btn:hover {
+  opacity: 0.9;
+}
+.submit-btn:active {
+  transform: scale(0.98);
+}
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* Message affiché après l'envoi (succès ou erreur), juste sous le bouton */
+.form-status {
+  margin-top: 14px;
+  font-size: 13px;
+  text-align: center;
+  display: none;   /* affiché en JS uniquement quand il y a quelque chose à dire */
+}
+.form-status.success {
+  display: block;
+  color: #2a7a4a;
+}
+.form-status.error {
+  display: block;
+  color: #c0392b;
+}
+</style>
+
+<div class="page-title">CONTACT</div>
+<div class="page-subtitle">Une info à corriger, une source à partager, une question ? Écris-moi ici.</div>
+
+<form id="contactForm" class="contact-form">
+  <div class="form-field">
+    <label for="fieldName">Your name</label>
+    <input type="text" id="fieldName" name="from_name" required>
+  </div>
+
+  <div class="form-field">
+    <label for="fieldEmail">Your email</label>
+    <input type="email" id="fieldEmail" name="reply_to" required>
+  </div>
+
+  <div class="form-field">
+    <label for="fieldSubject">Subject</label>
+    <input type="text" id="fieldSubject" name="subject" required>
+  </div>
+
+  <div class="form-field">
+    <label for="fieldMessage">Message</label>
+    <textarea id="fieldMessage" name="message" required></textarea>
+  </div>
+
+  <!-- Piège à robots : ce champ doit rester VIDE. Un vrai visiteur ne le
+       voit jamais (voir .form-honeypot ci-dessus) et ne le remplit donc
+       jamais ; un robot qui remplit tous les champs le remplira, ce qui
+       permet au script de rejeter le message sans même l'envoyer. -->
+  <div class="form-field form-honeypot" aria-hidden="true">
+    <label for="fieldWebsite">Website</label>
+    <input type="text" id="fieldWebsite" name="website" tabindex="-1" autocomplete="off">
+  </div>
+
+  <button type="submit" class="submit-btn" id="submitBtn">Send message</button>
+  <div class="form-status" id="formStatus"></div>
+</form>
+
+<!-- ============================================================
+     EMAILJS
+     Le SDK qui envoie réellement l'email (voir le script plus bas).
+     ============================================================ -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+// ============================================================
+//  MODIFIE ICI : les 3 identifiants venant de ton compte EmailJS
+//  (Public Key, Service ID, Template ID). Voir le guide de mise en
+//  place fourni à côté de ce fichier pour savoir où les trouver.
+// ============================================================
+const EMAILJS_PUBLIC_KEY = "PjxMnXm22TCdYQhmQ";
+const EMAILJS_SERVICE_ID  = "service_wnpalvi";
+const EMAILJS_TEMPLATE_ID = "template_46ya0c1";
+
+emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+const form = document.getElementById('contactForm');
+const submitBtn = document.getElementById('submitBtn');
+const status = document.getElementById('formStatus');
+
+form.addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  // Piège à robots : si ce champ caché a été rempli, on fait semblant
+  // que tout s'est bien passé (pour ne pas donner d'indice à un bot
+  // sur le fait qu'il a été détecté), mais on n'envoie rien du tout.
+  if (form.website.value !== '') {
+    showStatus('success', "Message sent — thank you!");
+    form.reset();
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sending...';
+
+  emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form)
+    .then(() => {
+      showStatus('success', "Message sent — thank you! I'll get back to you soon.");
+      form.reset();
+    })
+    .catch((err) => {
+      console.error('EmailJS error:', err);
+      showStatus('error', "Something went wrong — please try again, or reach out another way.");
+    })
+    .finally(() => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send message';
+    });
+});
+
+function showStatus(kind, text) {
+  status.className = 'form-status ' + kind;
+  status.textContent = text;
+}
+</script>
