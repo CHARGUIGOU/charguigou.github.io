@@ -65,6 +65,38 @@ body {
   box-sizing: border-box;
 }
 
+/* Conteneur autour du titre + formulaire, assez large pour laisser de
+   la place à Mickey sur le côté (le formulaire, lui, reste centré à
+   sa largeur habituelle grâce à --form-max-width ci-dessus). */
+.contact-wrap {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Mickey, positionné pour que sa main levée arrive juste sous le
+   champ "Your name" (calé sur l'image réelle, 534×599 — il y a un
+   peu de vide au-dessus de la main dans l'image elle-même, pris en
+   compte dans le "top" ci-dessous). Ajuste de quelques pixels une
+   fois la page publiée si besoin. */
+.mickey-deco {
+  position: absolute;
+  left: 0;
+  top: 200px;
+  width: 190px;
+  height: auto;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Pas assez de place à côté du formulaire sur petit/moyen écran :
+   on cache Mickey plutôt que de le faire chevaucher les champs. */
+@media (max-width: 900px) {
+  .mickey-deco {
+    display: none;
+  }
+}
+
 .form-field {
   margin-bottom: 18px;
 }
@@ -160,8 +192,9 @@ body {
 .submit-btn {
   position: relative;
   display: block;
-  width: 100%;
-  padding: 12px 20px;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 12px 32px;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.5px;
@@ -185,34 +218,52 @@ body {
   cursor: default;
 }
 
-/* Même effet "balayage lumineux" que sur les cartes de film :
-   un reflet diagonal qui traverse le bouton une fois au survol. */
+/* Reflet lumineux qui glisse une fois sur le bouton au survol —
+   même esprit que le balayage des cartes de film, mais adapté aux
+   proportions fines et larges d'un bouton (sinon le reflet ne
+   traverse qu'en triangle dans un coin). */
 .submit-btn::before {
   content: "";
   position: absolute;
-  top: -50%;
-  left: -150%;
-  width: 300%;
-  height: 200%;
+  top: 0;
+  left: -75%;
+  width: 40%;
+  height: 100%;
   background: linear-gradient(
-    60deg,
+    120deg,
     rgba(255,255,255,0) 0%,
-    rgba(255,255,255,0.35) 45%,
-    rgba(255,255,255,0.5) 50%,
-    rgba(255,255,255,0.35) 55%,
+    rgba(255,255,255,0.55) 50%,
     rgba(255,255,255,0) 100%
   );
-  transform: rotate(20deg) translateX(-150%);
+  transform: skewX(-20deg);
   pointer-events: none;
-  opacity: 0;
 }
 .submit-btn:hover::before {
-  opacity: 1;
-  animation: projectorSweepOnce 1.2s ease forwards;
+  animation: buttonShineOnce 0.9s ease forwards;
 }
-@keyframes projectorSweepOnce {
-  0%   { transform: rotate(20deg) translateX(-150%); }
-  100% { transform: rotate(20deg) translateX(150%); }
+@keyframes buttonShineOnce {
+  0%   { left: -75%; }
+  100% { left: 130%; }
+}
+
+/* Les lettres du bouton font un petit tour sur elles-mêmes et
+   passent en italique au survol (décalage progressif lettre par
+   lettre, réglé en JS via transition-delay). */
+.submit-btn .btn-text {
+  position: relative;
+  z-index: 1; /* reste au-dessus du reflet lumineux */
+}
+.submit-btn .letter {
+  display: inline-block;
+  transition: transform 0.35s ease, font-style 0s;
+}
+.submit-btn:hover .letter {
+  transform: rotateY(360deg);
+  font-style: italic;
+}
+.submit-btn:disabled .letter {
+  transform: none;
+  font-style: normal;
 }
 
 /* Message affiché après l'envoi (succès ou erreur), juste sous le bouton */
@@ -232,8 +283,13 @@ body {
 }
 </style>
 
+<div class="contact-wrap">
+
 <div class="page-title">CONTACT</div>
 <div class="page-subtitle">Something to correct, a source to share, a question? Reach out here.</div>
+
+<!-- MICKEY DÉCO — hébergé sur Cloudinary -->
+<img src="https://res.cloudinary.com/dofvjifeo/image/upload/MickeyContact.svg" alt="" class="mickey-deco">
 
 <form id="contactForm" class="contact-form">
   <div class="form-row">
@@ -267,9 +323,11 @@ body {
     <input type="text" id="fieldWebsite" name="website" tabindex="-1" autocomplete="off">
   </div>
 
-  <button type="submit" class="submit-btn" id="submitBtn">Send message</button>
+  <button type="submit" class="submit-btn" id="submitBtn"><span class="btn-text" id="btnText">Send message</span></button>
   <div class="form-status" id="formStatus"></div>
 </form>
+
+</div><!-- /.contact-wrap -->
 
 <!-- ============================================================
      EMAILJS
@@ -291,7 +349,24 @@ emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
 const form = document.getElementById('contactForm');
 const submitBtn = document.getElementById('submitBtn');
+const btnText = document.getElementById('btnText');
 const status = document.getElementById('formStatus');
+
+// Découpe un texte en lettres, chacune dans son propre <span>, avec un
+// petit décalage progressif (transition-delay) pour l'effet de survol
+// "les lettres font un tour sur elles-mêmes" défini en CSS (.letter).
+function wrapLetters(el, text) {
+  el.innerHTML = '';
+  Array.from(text).forEach(function (ch, i) {
+    const span = document.createElement('span');
+    span.className = 'letter';
+    span.textContent = ch === ' ' ? ' ' : ch;
+    span.style.transitionDelay = (i * 0.02) + 's';
+    el.appendChild(span);
+  });
+}
+
+wrapLetters(btnText, 'Send message');
 
 form.addEventListener('submit', function (e) {
   e.preventDefault();
@@ -306,7 +381,7 @@ form.addEventListener('submit', function (e) {
   }
 
   submitBtn.disabled = true;
-  submitBtn.textContent = 'Sending...';
+  btnText.textContent = 'Sending...';
 
   emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form)
     .then(() => {
@@ -319,7 +394,7 @@ form.addEventListener('submit', function (e) {
     })
     .finally(() => {
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Send message';
+      wrapLetters(btnText, 'Send message');
     });
 });
 
