@@ -41,6 +41,17 @@ body {
   padding-top: 60px;   /* espace au-dessus, laissé à part : propre à chaque page si besoin */
 }
 
+/* Première lettre du titre en bleu du site (même bleu que le reste,
+   #2a5da0), légèrement plus grande que le reste du titre — réutilisé
+   tel quel sur les autres pages (Character Voices, etc.) pour rester
+   cohérent. */
+.page-title .title-accent {
+  color: #2a5da0;
+}
+.page-title .title-rest {
+  font-size: 0.85em; /* légèrement plus petit que la première lettre */
+}
+
 .page-subtitle {
   text-align: center;
   font-size: 14px;
@@ -289,7 +300,7 @@ body {
 
 <div class="contact-wrap">
 
-<div class="page-title">CONTACT</div>
+<div class="page-title"><span class="title-accent">C</span><span class="title-rest">ONTACT</span></div>
 <div class="page-subtitle">Something to correct, a source to share, a question? Reach out here.</div>
 
 <!-- MICKEY DÉCO — hébergé sur Cloudinary -->
