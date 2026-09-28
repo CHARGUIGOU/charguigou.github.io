@@ -130,18 +130,21 @@ body {
   font-size: 15px;
   font-weight: 700;
   letter-spacing: 4px;
-  text-transform: uppercase;
   color: #222;
   padding-bottom: 8px;
   border-bottom: 1px solid #e2e2e2;
-  margin-bottom: 16px;
-  width: 55%; /* ligne de séparation plus courte que la liste des updates en dessous */
-  min-width: 180px; /* pour que "September" ait toujours la place, même sur petit écran */
+  margin: 0 auto 16px;   /* centré au milieu de la page malgré la largeur réduite */
+  text-align: center;
+  width: 55%;             /* ligne + titre plus étroits que la liste des updates en dessous */
+  min-width: 160px;       /* pour que "September" ait toujours la place, même sur petit écran */
 }
 
+/* La liste des updates déborde légèrement des marges habituelles de
+   la page (au-delà du padding de .updates-wrap), pour avoir plus de
+   place que le titre du mois — utile pour les entrées plus longues. */
 .update-list {
   list-style: none;
-  margin: 0;
+  margin: 0 -20px;
   padding: 0;
 }
 .update-list li {
@@ -157,6 +160,7 @@ body {
    characters_index.html pour l'original de ces animations. */
 .update-date {
   display: block;
+  font-size: 12px; /* légèrement plus petit que le texte de l'update */
   font-weight: 700;
   margin-bottom: 2px;
   background: radial-gradient(circle, #2a5da0 0%, #0d2c54 70%);
