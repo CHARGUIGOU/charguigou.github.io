@@ -59,7 +59,7 @@ body {
    ============================================================ */
 :root {
   --updates-max-width: 640px;
-  --updates-accent: #d9534f;   /* couleur des années et des dates — même rouge que le badge "upcoming" des fiches perso */
+  --updates-accent: #d9534f;   /* couleur de l'année en haut de page uniquement */
 }
 
 .updates-wrap {
@@ -79,7 +79,9 @@ body {
 }
 
 /* ============================================================
-   ANNONCE (optionnelle)
+   ANNONCE (optionnelle) — reste toujours en haut de page, avant
+   les blocs par mois : c'est un message "épinglé", pas une entrée
+   datée parmi les autres.
    MODIFIE ICI : laisse ce bloc vide/commenté si tu n'as rien à
    annoncer pour l'instant — voir plus bas dans le HTML.
    ============================================================ */
@@ -142,12 +144,39 @@ body {
   line-height: 1.6;
   color: #333;
 }
+
+/* Date de chaque entrée : même effet lumineux bleu (dégradé radial
+   qui pulse et dérive doucement) que les titres de saga et le
+   bandeau de secours des pages de personnages — voir
+   characters_index.html pour l'original de ces animations. */
 .update-date {
   display: block;
   font-weight: 700;
-  color: var(--updates-accent);
   margin-bottom: 2px;
+  background: radial-gradient(circle, #2a5da0 0%, #0d2c54 70%);
+  background-size: 250% 250%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;   /* nécessaire sur Safari en plus de color:transparent */
+  color: transparent;
+  animation: updateDateGlow 4s ease-in-out infinite, updateDateDrift 6s ease-in-out infinite;
 }
+
+/* Intensité de la lueur : ajuste 0.85 / 1.3 pour plus ou moins marqué */
+@keyframes updateDateGlow {
+  0%, 100% { filter: brightness(0.85); }
+  50% { filter: brightness(1.3); }
+}
+
+/* Déplacement du point de lumière à l'intérieur du texte */
+@keyframes updateDateDrift {
+  0%   { background-position: 30% 40%; }
+  25%  { background-position: 65% 30%; }
+  50%  { background-position: 70% 65%; }
+  75%  { background-position: 35% 70%; }
+  100% { background-position: 30% 40%; }
+}
+
 .update-list a {
   color: #2a5da0;
   font-weight: 600;
@@ -166,16 +195,16 @@ body {
 <div class="updates-wrap">
 
   <!-- ============================================================
-       ANNONCE (optionnelle)
+       ANNONCE (optionnelle) — reste TOUJOURS tout en haut, avant les
+       blocs par mois, quel que soit le nombre de mois en dessous.
        MODIFIE ICI : supprime ou vide ce bloc si tu n'as rien à dire
        en ce moment, ou remplace le texte par ton propre message.
        ============================================================ -->
   <div class="updates-announcement">
     <div class="updates-announcement-title">Announcement</div>
     <p>
-      This is where a general announcement can go — for example, news
-      about the site itself, a break in updates, or anything else
-      worth pinning above the monthly list below.
+      Welcome to the new site hosted on GitHub instead.
+      Find the new updates below!
     </p>
     <div class="updates-announcement-sign">Charguigou</div>
   </div>
