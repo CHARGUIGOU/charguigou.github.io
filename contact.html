@@ -168,6 +168,26 @@ body {
   }
 }
 
+/* Champ pièce jointe : légèrement différent d'un input texte classique
+   (pas de fond, juste une bordure pointillée) pour bien le distinguer
+   comme optionnel. */
+.form-field input[type="file"] {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-family: 'Open Sans', sans-serif;
+  border-radius: var(--field-radius);
+  border: 1px dashed #ccc;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+}
+.form-hint {
+  margin: 6px 0 0;
+  font-size: 11px;
+  color: #999;
+}
+
 .form-field input,
 .form-field textarea {
   width: 100%;
@@ -327,6 +347,16 @@ body {
   <div class="form-field form-field-message">
     <label for="fieldMessage">Message <span class="required-star">*</span></label>
     <textarea id="fieldMessage" name="message" required></textarea>
+  </div>
+
+  <!-- Pièce jointe (optionnelle) : emailjs.sendForm() l'attache
+       automatiquement à l'email, aucun JS supplémentaire nécessaire.
+       MODIFIE ICI la taille max si besoin (voir aussi le message
+       d'erreur affiché juste en dessous). -->
+  <div class="form-field">
+    <label for="fieldAttachment">Attachment (optional)</label>
+    <input type="file" id="fieldAttachment" name="attachment" accept="image/*,.pdf,.doc,.docx,.txt">
+    <p class="form-hint">Max ~5 MB — larger files may fail to send.</p>
   </div>
 
   <!-- Piège à robots : ce champ doit rester VIDE. Un vrai visiteur ne le
