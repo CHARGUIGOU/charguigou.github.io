@@ -41,6 +41,16 @@ body, .search-input {
   padding-top: 60px;   /* espace au-dessus, laissé à part : propre à chaque page si besoin */
 }
 
+/* Première lettre du titre en bleu du site (même bleu que le reste,
+   #2a5da0), légèrement plus grande que le reste du titre — réutilisé
+   tel quel sur les autres pages (Contact, etc.) pour rester cohérent. */
+.page-title .title-accent {
+  color: #2a5da0;
+}
+.page-title .title-rest {
+  font-size: 0.85em; /* légèrement plus petit que la première lettre */
+}
+
 /* ============================================================
    DEUX BARRES DE RECHERCHE CÔTE À CÔTE
    ============================================================ */
@@ -531,7 +541,7 @@ body, .search-input {
 }
 </style>
 
-<div class="page-title">CHARACTER VOICES</div>
+<div class="page-title"><span class="title-accent">C</span><span class="title-rest">HARACTER VOICES</span></div>
 
 <div class="search-row">
   <div class="search-box">
