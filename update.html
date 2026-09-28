@@ -1,0 +1,208 @@
+---
+layout: null
+---
+{% include header.html %}
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --page-margin: 10%;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   TITRE DE PAGE — le même bloc réutilisé tel quel que sur les
+   autres pages (Contact, Character Voices, etc.), pour rester
+   cohérent. MODIFIE ICI les 6 variables : c'est tout ce que tu as
+   à changer.
+   ============================================================ */
+:root {
+  --page-title-font: 'IM Fell English', serif;  /* police d'écriture */
+  --page-title-size: 30px;                       /* taille du texte */
+  --page-title-weight: 500;                      /* graisse : 100 (très fin) à 900 (très gras) */
+  --page-title-spacing: 2px;                     /* espacement entre les lettres */
+  --page-title-align: center;                    /* alignement : left / center / right */
+  --page-title-color: #222;                      /* couleur du texte */
+}
+
+.page-title {
+  font-family: var(--page-title-font);
+  font-size: var(--page-title-size);
+  font-weight: var(--page-title-weight);
+  letter-spacing: var(--page-title-spacing);
+  text-align: var(--page-title-align);
+  color: var(--page-title-color);
+  padding-top: 60px;   /* espace au-dessus, laissé à part : propre à chaque page si besoin */
+}
+
+/* Première lettre du titre en bleu du site (même bleu que le reste,
+   #2a5da0), légèrement plus grande que le reste du titre — réutilisé
+   tel quel sur les autres pages (Contact, Character Voices, etc.)
+   pour rester cohérent. */
+.page-title .title-accent {
+  color: #2a5da0;
+}
+.page-title .title-rest {
+  font-size: 0.85em; /* légèrement plus petit que la première lettre */
+}
+
+/* ============================================================
+   PAGE UPDATES
+   MODIFIE ICI : largeur du contenu, couleurs, espacements
+   ============================================================ */
+:root {
+  --updates-max-width: 640px;
+  --updates-accent: #d9534f;   /* couleur des années et des dates — même rouge que le badge "upcoming" des fiches perso */
+}
+
+.updates-wrap {
+  max-width: var(--updates-max-width);
+  margin: 0 auto 80px;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* Année affichée juste sous le titre, en rouge, façon "sous-titre" */
+.updates-year {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--updates-accent);
+  margin: 6px 0 40px;
+}
+
+/* ============================================================
+   ANNONCE (optionnelle)
+   MODIFIE ICI : laisse ce bloc vide/commenté si tu n'as rien à
+   annoncer pour l'instant — voir plus bas dans le HTML.
+   ============================================================ */
+.updates-announcement {
+  background: #f7f7f7;
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin-bottom: 50px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #444;
+}
+.updates-announcement-title {
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 13px;
+  color: #222;
+  margin-bottom: 12px;
+}
+.updates-announcement a {
+  color: #2a5da0;
+}
+.updates-announcement-sign {
+  text-align: center;
+  margin-top: 14px;
+  font-style: italic;
+  color: #2a5da0;
+  font-weight: 700;
+}
+
+/* ============================================================
+   UN BLOC PAR MOIS
+   MODIFIE ICI : ajoute un .update-month par mois qui a des entrées,
+   dans l'ordre du plus récent au plus ancien.
+   ============================================================ */
+.update-month {
+  margin-bottom: 40px;
+}
+.update-month-title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #222;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e2e2e2;
+  margin-bottom: 16px;
+}
+
+.update-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.update-list li {
+  margin-bottom: 14px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+}
+.update-date {
+  display: block;
+  font-weight: 700;
+  color: var(--updates-accent);
+  margin-bottom: 2px;
+}
+.update-list a {
+  color: #2a5da0;
+  font-weight: 600;
+  text-decoration: none;
+}
+.update-list a:hover {
+  text-decoration: underline;
+}
+</style>
+
+<div class="page-title"><span class="title-accent">U</span><span class="title-rest">PDATES</span></div>
+
+<!-- MODIFIE ICI : l'année affichée en rouge sous le titre -->
+<div class="updates-year">2026</div>
+
+<div class="updates-wrap">
+
+  <!-- ============================================================
+       ANNONCE (optionnelle)
+       MODIFIE ICI : supprime ou vide ce bloc si tu n'as rien à dire
+       en ce moment, ou remplace le texte par ton propre message.
+       ============================================================ -->
+  <div class="updates-announcement">
+    <div class="updates-announcement-title">Announcement</div>
+    <p>
+      This is where a general announcement can go — for example, news
+      about the site itself, a break in updates, or anything else
+      worth pinning above the monthly list below.
+    </p>
+    <div class="updates-announcement-sign">Charguigou</div>
+  </div>
+
+  <!-- ============================================================
+       BLOCS PAR MOIS — un .update-month par mois, du plus récent au
+       plus ancien. Chaque <li> commence par une date (.update-date),
+       suivie du texte de la mise à jour ; utilise des <a> normaux
+       pour lier les personnages ou pages concernées.
+       ============================================================ -->
+
+  <div class="update-month">
+    <div class="update-month-title">September</div>
+    <ul class="update-list">
+      <li>
+        <span class="update-date">2026.09.28</span>
+        Example update — replace this with your own entry, e.g. "Addition
+        of the voices of <a href="/characters/list/example.html">Example Character</a>
+        from <em>Example Movie</em> (2026) on their page."
+      </li>
+      <li>
+        <span class="update-date">2026.09.10</span>
+        Another example entry — copy one of these &lt;li&gt; blocks per
+        update, and delete this placeholder text once you have real
+        entries to list.
+      </li>
+    </ul>
+  </div>
+
+</div>
