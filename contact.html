@@ -59,6 +59,8 @@ body {
 }
 
 .contact-form {
+  position: relative;
+  z-index: 1; /* passe au-dessus de Mickey (voir .mickey-deco plus bas) */
   max-width: var(--form-max-width);
   margin: 40px auto 80px;
   padding: 0 20px;
@@ -81,7 +83,7 @@ body {
    fois la page publiée si besoin. */
 .mickey-deco {
   position: absolute;
-  left: 0;
+  left: -30px;
   top: 190px;
   width: 280px;
   height: auto;
@@ -166,6 +168,9 @@ body {
   box-sizing: border-box;
   transition: all 0.3s ease;
   resize: vertical;
+  /* Légèrement transparent : on lit bien ce qu'on écrit, mais on
+     devine Mickey derrière quand la box passe devant lui. */
+  background: rgba(255, 255, 255, 0.75);
 }
 .form-field input:focus,
 .form-field textarea:focus {
