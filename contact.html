@@ -69,6 +69,23 @@ body {
   margin-bottom: 18px;
 }
 
+/* Deux champs sur la même ligne (nom + email) */
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+.form-row .form-field {
+  flex: 1;
+  min-width: 0; /* évite que les champs débordent sur mobile */
+}
+
+@media (max-width: 560px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
 .form-field label {
   display: block;
   font-size: 11px;
@@ -76,6 +93,34 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 6px;
+}
+
+/* Petit astérisque rouge pour les champs obligatoires */
+.required-star {
+  color: #c0392b;
+  font-size: 12px;
+  margin-left: 2px;
+}
+
+/* Le champ Message déborde un peu de la largeur des autres champs,
+   pour se distinguer visuellement — voir --message-extra ci-dessous. */
+:root {
+  --message-extra: 45px; /* débordement de chaque côté */
+}
+.form-field-message {
+  margin-left: calc(var(--message-extra) * -1);
+  margin-right: calc(var(--message-extra) * -1);
+}
+.form-field-message textarea {
+  min-height: 160px;
+}
+
+@media (max-width: 700px) {
+  /* Sur petit écran, pas la place de déborder : on revient à la largeur normale */
+  .form-field-message {
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 
 .form-field input,
@@ -113,6 +158,7 @@ body {
 }
 
 .submit-btn {
+  position: relative;
   display: block;
   width: 100%;
   padding: 12px 20px;
@@ -125,6 +171,7 @@ body {
   border: none;
   border-radius: var(--field-radius);
   cursor: pointer;
+  overflow: hidden; /* garde le reflet lumineux dans les bords arrondis */
   transition: opacity 0.2s ease, transform 0.15s ease;
 }
 .submit-btn:hover {
@@ -136,6 +183,36 @@ body {
 .submit-btn:disabled {
   opacity: 0.6;
   cursor: default;
+}
+
+/* Même effet "balayage lumineux" que sur les cartes de film :
+   un reflet diagonal qui traverse le bouton une fois au survol. */
+.submit-btn::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -150%;
+  width: 300%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.35) 45%,
+    rgba(255,255,255,0.5) 50%,
+    rgba(255,255,255,0.35) 55%,
+    rgba(255,255,255,0) 100%
+  );
+  transform: rotate(20deg) translateX(-150%);
+  pointer-events: none;
+  opacity: 0;
+}
+.submit-btn:hover::before {
+  opacity: 1;
+  animation: projectorSweepOnce 1.2s ease forwards;
+}
+@keyframes projectorSweepOnce {
+  0%   { transform: rotate(20deg) translateX(-150%); }
+  100% { transform: rotate(20deg) translateX(150%); }
 }
 
 /* Message affiché après l'envoi (succès ou erreur), juste sous le bouton */
@@ -156,26 +233,28 @@ body {
 </style>
 
 <div class="page-title">CONTACT</div>
-<div class="page-subtitle">Une info à corriger, une source à partager, une question ? Écris-moi ici.</div>
+<div class="page-subtitle">Something to correct, a source to share, a question? Reach out here.</div>
 
 <form id="contactForm" class="contact-form">
-  <div class="form-field">
-    <label for="fieldName">Your name</label>
-    <input type="text" id="fieldName" name="from_name" required>
+  <div class="form-row">
+    <div class="form-field">
+      <label for="fieldName">Your name <span class="required-star">*</span></label>
+      <input type="text" id="fieldName" name="from_name" required>
+    </div>
+
+    <div class="form-field">
+      <label for="fieldEmail">Your email <span class="required-star">*</span></label>
+      <input type="email" id="fieldEmail" name="reply_to" required>
+    </div>
   </div>
 
   <div class="form-field">
-    <label for="fieldEmail">Your email</label>
-    <input type="email" id="fieldEmail" name="reply_to" required>
-  </div>
-
-  <div class="form-field">
-    <label for="fieldSubject">Subject</label>
+    <label for="fieldSubject">Subject <span class="required-star">*</span></label>
     <input type="text" id="fieldSubject" name="subject" required>
   </div>
 
-  <div class="form-field">
-    <label for="fieldMessage">Message</label>
+  <div class="form-field form-field-message">
+    <label for="fieldMessage">Message <span class="required-star">*</span></label>
     <textarea id="fieldMessage" name="message" required></textarea>
   </div>
 
