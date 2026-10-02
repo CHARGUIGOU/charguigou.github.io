@@ -85,6 +85,60 @@
 .site-nav a:hover {
   border-bottom-color: #ffffff;
 }
+
+/* ============================================================
+   SOUS-MENU DÉROULANT (ex : "Movie Cast" → "By Movie" / "By Language")
+   MODIFIE ICI : couleurs/espacements du petit menu qui apparaît
+   au survol (ou au tap sur mobile) d'un lien ayant une .site-nav-dropdown.
+   ============================================================ */
+.site-nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.site-nav-item > a::after {
+  content: "\25BE"; /* petite flèche vers le bas */
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 11px;
+  vertical-align: middle;
+}
+.site-nav-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: rgba(15,15,15,0.92);
+  border-radius: 8px;
+  padding: 8px 0;
+  min-width: 170px;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 5;
+}
+.site-nav-item:hover .site-nav-dropdown,
+.site-nav-item:focus-within .site-nav-dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.site-nav-dropdown a {
+  text-transform: none;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 8px 22px;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+.site-nav-dropdown a:hover {
+  border-bottom-color: #ffffff;
+}
 @media (max-width: 700px) {
   .site-title { font-size: 34px; letter-spacing: 4px; }
   .site-nav { gap: 18px; }
@@ -109,7 +163,14 @@
   <nav class="site-nav">
     <a href="/index.html">Home</a>
     <a href="/characters/voices.html">Character Voices</a>
-    <a href="/cast/index.html">Movie Cast</a>
+    <!-- MODIFIE ICI : sous-menu "Movie Cast" → "By Movie" / "By Language" -->
+    <div class="site-nav-item has-dropdown">
+      <a href="/cast/index.html">Movie Cast</a>
+      <div class="site-nav-dropdown">
+        <a href="/cast/index.html">By Movie</a>
+        <a href="/cast/languages/index.html">By Language</a>
+      </div>
+    </div>
     <a href="/voice-artists.html">Voice Artists</a>
     <a href="/contact.html">Contact</a>
     <a href="/update.html">Update</a>
