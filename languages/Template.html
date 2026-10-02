@@ -129,7 +129,7 @@ body, .film-title, .category-title, #filmSearch {
   border-radius: 8px;
   overflow: hidden;
   background: #fff;
-  transition: box-shadow 0.25s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   text-decoration: none;
   color: inherit;
@@ -140,8 +140,10 @@ body, .film-title, .category-title, #filmSearch {
    carte (un "transform: scale()" ici la ferait déborder de sa case
    dans la grille et chevaucher la carte voisine, comme observé). */
 .film-title.has-link:hover {
+  transform: scale(1.04);
   box-shadow: 0 10px 15px rgba(0,0,0,0.25);
   cursor: pointer;
+  z-index: 5;
 }
 
 .film-title img {
@@ -164,8 +166,8 @@ body, .film-title, .category-title, #filmSearch {
    déjà leur propre traitement (plus prononcé), pas la peine de cumuler
    les deux. */
 .film-title:not(.has-link):not(.no-dub) img {
-  filter: grayscale(65%) brightness(0.9);
-  opacity: 0.85;
+  filter: grayscale(30%) brightness(0.97);
+  opacity: 0.95;
 }
 
 /* La BARRE DE TITRE : contient le millésime + le titre, posés en bas
@@ -180,7 +182,12 @@ body, .film-title, .category-title, #filmSearch {
   right: 0;
   bottom: 0;
   z-index: 2;
-  padding: 6px 6px 8px;
+  height: 54px;             /* hauteur fixe : même taille de barre, titre sur 1 ou 2 lignes */
+  box-sizing: border-box;
+  padding: 4px 6px 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
 }
 
@@ -194,6 +201,7 @@ body, .film-title, .category-title, #filmSearch {
   inset: 0;
   z-index: -1;
   background: #fff;
+  box-shadow: 0 -1px 5px rgba(0,0,0,0.08);
   transition: transform 0.45s ease;
 }
 .film-title.has-link:hover .caption-bg {
@@ -237,10 +245,10 @@ body, .film-title, .category-title, #filmSearch {
   position: relative;
   z-index: 1;   /* au-dessus du fond blanc (-1) de la barre */
   display: block;
-  font-weight: bold;
-  font-size: 12px;
-  margin-bottom: 4px;
-  color: #000;
+  font-weight: 600;
+  font-size: 10px;
+  margin-bottom: 2px;
+  color: #666;
   letter-spacing: 1px;
   transition: color 0.3s ease, text-shadow 0.3s ease;
 }
@@ -253,7 +261,7 @@ body, .film-title, .category-title, #filmSearch {
   position: relative;
   z-index: 1;
   display: block;
-  font-size: 12px;
+  font-size: 11px;
   margin: 0;
   color: #000;
   font-style: italic;
