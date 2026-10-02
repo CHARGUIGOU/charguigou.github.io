@@ -107,8 +107,9 @@
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%) translateY(4px);
-  background: rgba(15,15,15,0.92);
+  overflow: hidden;
+  transform: translateX(-50%) translateY(-8px);
+  background: #2a5da0;
   border-radius: 8px;
   padding: 8px 0;
   min-width: 170px;
@@ -117,7 +118,7 @@
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
   z-index: 5;
 }
 .site-nav-item:hover .site-nav-dropdown,
@@ -133,11 +134,12 @@
   font-weight: 600;
   letter-spacing: 0.5px;
   padding: 8px 22px;
-  border-bottom: 2px solid transparent;
+  border-bottom: none;
   white-space: nowrap;
+  transition: background 0.2s ease;
 }
 .site-nav-dropdown a:hover {
-  border-bottom-color: #ffffff;
+  background: rgba(255,255,255,0.18);
 }
 @media (max-width: 700px) {
   .site-title { font-size: 34px; letter-spacing: 4px; }
@@ -165,10 +167,10 @@
     <a href="/characters/voices.html">Character Voices</a>
     <!-- MODIFIE ICI : sous-menu "Movie Cast" → "By Movie" / "By Language" -->
     <div class="site-nav-item has-dropdown">
-      <a href="/cast/index.html">Movie Cast</a>
+      <a href="/movie_cast_movie.html">Movie Cast</a>
       <div class="site-nav-dropdown">
-        <a href="/cast/index.html">By Movie</a>
-        <a href="/cast/languages/index.html">By Language</a>
+        <a href="/movie_cast_movie.html">By Movie</a>
+        <a href="/movie_cast_language.html">By Language</a>
       </div>
     </div>
     <a href="/voice-artists.html">Voice Artists</a>
