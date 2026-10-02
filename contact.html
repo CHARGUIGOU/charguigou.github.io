@@ -324,7 +324,7 @@ body {
 <div class="page-required-note"><span class="required-star">*</span> Required fields</div>
 
 <!-- MICKEY DÉCO — hébergé sur Cloudinary -->
-<img src="https://res.cloudinary.com/dofvjifeo/image/upload/MickeyContact.svg" alt="" class="mickey-deco">
+<img src="https://res.cloudinary.com/dofvjifeo/image/upload/MickeyContact.svg" alt="" class="mickey-deco" id="mickeyDeco">
 
 <form id="contactForm" class="contact-form">
   <div class="form-row">
@@ -439,5 +439,44 @@ form.addEventListener('submit', function (e) {
 function showStatus(kind, text) {
   status.className = 'form-status ' + kind;
   status.textContent = text;
+}
+
+// ============================================================
+// POSITION DE MICKEY — calculée dynamiquement plutôt qu'avec un
+// "top" fixe en CSS. Un "top" fixe suppose toujours la même hauteur
+// de titre + sous-titre au-dessus, mais cette hauteur peut varier
+// légèrement selon l'ordinateur/navigateur du visiteur (rendu des
+// polices, moment où la police web finit de charger, etc.), ce qui
+// décale la main par rapport au champ "Your name". Ici, on se base
+// sur la position RÉELLE du champ à l'écran, donc ça s'ajuste tout
+// seul quel que soit l'ordinateur.
+// MODIFIE ICI --mickey-hand-offset-ratio si jamais tu changes l'image
+// (c'est la proportion de vide au-dessus de la main dans l'image
+// elle-même : hauteur_du_vide / hauteur_de_l'image).
+// ============================================================
+const mickey = document.getElementById('mickeyDeco');
+const nameField = document.getElementById('fieldName');
+const wrapEl = document.querySelector('.contact-wrap');
+const MICKEY_HAND_OFFSET_RATIO = 0.108;
+
+function positionMickey() {
+  if (!mickey || !nameField || !wrapEl) return;
+  if (getComputedStyle(mickey).display === 'none') return; // caché sur petit écran, rien à faire
+
+  const fieldRect = nameField.getBoundingClientRect();
+  const wrapRect = wrapEl.getBoundingClientRect();
+  const imageHeight = mickey.offsetWidth * (599 / 534); // ratio réel de l'image Mickey (534x599)
+  const handOffset = imageHeight * MICKEY_HAND_OFFSET_RATIO;
+
+  const top = (fieldRect.bottom - wrapRect.top) - handOffset;
+  mickey.style.top = top + 'px';
+}
+
+window.addEventListener('load', positionMickey);
+window.addEventListener('resize', positionMickey);
+// Les polices web peuvent finir de charger après le premier rendu et
+// décaler légèrement le texte : on repositionne une fois chargées.
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(positionMickey);
 }
 </script>
