@@ -1,0 +1,824 @@
+---
+layout: null
+---
+{% include header.html %}
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Open Sans', sans-serif !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   TITRE DE PAGE — même bloc réutilisé tel quel que sur les autres
+   pages (Contact, Character Voices, Updates, By Movie).
+   ============================================================ */
+:root {
+  --page-title-font: 'IM Fell English', serif;
+  --page-title-size: 30px;
+  --page-title-weight: 500;
+  --page-title-spacing: 2px;
+  --page-title-align: center;
+  --page-title-color: #222;
+}
+
+.page-title {
+  font-family: var(--page-title-font);
+  font-size: var(--page-title-size);
+  font-weight: var(--page-title-weight);
+  letter-spacing: var(--page-title-spacing);
+  text-align: var(--page-title-align);
+  color: var(--page-title-color);
+  padding-top: 60px;
+}
+.page-title .title-accent {
+  color: #2a5da0;
+}
+.page-title .title-rest {
+  font-size: 0.85em;
+}
+
+/* Sous-titre sous "Movie Cast" indiquant la sous-page active
+   ("BY MOVIE" / "BY LANGUAGE") — petit, gras, lettres espacées. */
+.page-subtitle-label {
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #222;
+  margin-top: 6px;
+}
+
+/* ============================================================
+   GRILLE DES LANGUES
+   MODIFIE ICI : couleur d'accent, fond, taille des cartes.
+   ============================================================ */
+:root {
+  --lang-accent: #2a5da0; /* bleu du site, au lieu du bleu pastel d'origine */
+}
+
+.lang-index {
+  background: #fff;
+  padding-bottom: 40px;
+}
+
+/* Search */
+#languageSearch {
+  width: 320px;
+  max-width: 90%;
+  padding: 10px 14px;
+  font-size: 13px;
+  border-radius: 12px;
+  border: 1px solid #dcdcdc;
+  margin: 40px auto 60px auto;
+  display: block;
+  background: #fff;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.06);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  text-align: center;
+}
+
+#languageSearch:focus {
+  outline: none;
+  border-color: var(--lang-accent);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15), 0 4px 8px rgba(0,0,0,0.08);
+}
+
+/* Flex wrapper */
+.language-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 20px 60px 20px;
+  list-style: none;
+}
+
+/* Card */
+.language-card {
+  width: 140px;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.language-card:hover {
+  transform: translateY(-6px);
+}
+
+/* Le lien remplit toute la carte : zone cliquable claire, navigable
+   au clavier, ouvrable dans un nouvel onglet (clic molette / Cmd+clic) —
+   l'ancienne version naviguait en JS sur un <li>, ce qui ne permettait
+   aucune de ces interactions standard. */
+.language-card a {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Image */
+.language-card img {
+  width: 100%;
+  max-width: 120px;
+  height: auto;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.language-card:hover img {
+  transform: scale(1.03);
+  filter: brightness(1.15) contrast(1.1);
+}
+
+/* Language name */
+.language-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  letter-spacing: 0.3px;
+  transition: color 0.3s ease;
+}
+
+.language-card:hover .language-name {
+  color: var(--lang-accent);
+}
+
+/* Particles container */
+.language-card .particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Base particle */
+.language-card .particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, #ffffff, #fff9c0);
+  opacity: 0;
+  animation: fadeIn 0.3s ease forwards, floatUp 4s linear forwards;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 0.85; }
+}
+
+@keyframes floatUp {
+  0%   { transform: translateY(0px) scale(0.5); opacity: 0.85; filter: brightness(1); }
+  25%  { transform: translateY(-6px) scale(0.8); opacity: 1; filter: brightness(1.15) hue-rotate(10deg); }
+  50%  { transform: translateY(-14px) scale(1); opacity: 0.9; filter: brightness(0.95) hue-rotate(0deg); }
+  75%  { transform: translateY(-20px) scale(0.7); opacity: 0.8; filter: brightness(1.05) hue-rotate(5deg); }
+  100% { transform: translateY(-28px) scale(0.5); opacity: 0; filter: brightness(1); }
+}
+
+@media (max-width: 500px) {
+  .language-card { width: 120px; }
+}
+</style>
+
+<div class="page-title"><span class="title-accent">M</span><span class="title-rest">OVIE CAST</span></div>
+<div class="page-subtitle-label">BY LANGUAGE</div>
+
+<div class="lang-index">
+  <input type="text" id="languageSearch" placeholder="Search a language...">
+
+  <div class="language-list-wrapper">
+    <ul class="language-list">
+
+      <li class="language-card" data-keywords="">
+        <a href="caucasian.html#abaza">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/none-cinema.png">
+          <div class="language-name">Abaza</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="georgia">
+        <a href="abkhaz.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/abkhaz-cinema_orig.png">
+          <div class="language-name">Abkhaz</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="shqip">
+        <a href="albanian.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/albania-cinema_orig.png">
+          <div class="language-name">Albanian</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="">
+        <a href="arabic---egyptian.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/egypt-cinema_orig.png">
+          <div class="language-name"><span style="font-size: 12px; letter-spacing: 0.3px;">Egyptian</span><br>Arabic</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="msa">
+        <a href="arabic---modern-standard.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/egypt-cinema_orig.png">
+          <div class="language-name"><span style="font-size: 12px; letter-spacing: 0.3px;">Modern Standard</span><br>Arabic</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="native">
+        <a href="arapaho--zulu--navajo--tahitian--hawaiian--saacutemi--samoan.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/usa-cinema.png">
+          <div class="language-name">Arapaho</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="">
+        <a href="armenian.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/armenia-cinema_orig.png">
+          <div class="language-name">Armenian</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="indian">
+        <a href="indian.html#bengali">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/india-cinema.png">
+          <div class="language-name">Bengali</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="">
+        <a href="bulgarian.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/bulgaria-cinema.png">
+          <div class="language-name">Bulgarian</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="chinese, hong kong">
+        <a href="cantonese.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/hong-kong-cinema.png">
+          <div class="language-name">Cantonese</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="barcelona, spain">
+        <a href="catalan.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/spain-cinema.png">
+          <div class="language-name">Catalan</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="">
+        <a href="caucasian.html#crimean">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/none-cinema.png">
+          <div class="language-name">Crimean Tatar</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="hrvatski">
+        <a href="croatian.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/croatia-cinema.png">
+          <div class="language-name">Croatian</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="cestina">
+        <a href="czech.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/czech-republic-cinema.png">
+          <div class="language-name">Czech</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="denmark, dansk">
+        <a href="danish.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/denmark-cinema.png">
+          <div class="language-name">Danish</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="netherlands, nederlands">
+        <a href="dutch.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/netherlands-cinema.png">
+          <div class="language-name">Dutch</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="usa, united states, united states of america">
+        <a href="english.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/usa-cinema.png">
+          <div class="language-name">English</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="eesti">
+        <a href="estonian.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/estonia-cinema.png">
+          <div class="language-name">Estonian</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="filipino, the philippines">
+        <a href="tagalog.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/philippines-cinema.png">
+          <div class="language-name">Filipino</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="finland, suomi, suomea">
+        <a href="finnish.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/finland-cinema.png">
+          <div class="language-name">Finnish</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="belgium, vlaams">
+        <a href="flemish.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/belgium-cinema.png">
+          <div class="language-name">Flemish</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="france, français, francais">
+        <a href="french.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/france-cinema.png">
+          <div class="language-name">French</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="français québécois, canada, montreal">
+        <a href="french---quebec.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/canada-cinema_orig.png">
+          <div class="language-name"><span style="font-size: 12px; letter-spacing: 0.3px;">Quebec</span><br>French</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="kartuli">
+        <a href="georgian.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/georgia-cinema.png">
+          <div class="language-name">Georgian</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="germany, deutsch">
+        <a href="german.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/germany-cinema.png">
+          <div class="language-name">German</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="greece, ellinika">
+        <a href="greek.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/greece-cinema.png">
+          <div class="language-name">Greek</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="olelo hawai'i, polynesian">
+        <a href="arapaho--zulu--navajo--tahitian--hawaiian--saacutemi--samoan.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/hawaii-cinema.png">
+          <div class="language-name">Hawaiian</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="palestine">
+        <a href="hebrew.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/israel-cinema_orig.png">
+          <div class="language-name">Hebrew</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="india">
+        <a href="hindi.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/india-cinema.png">
+          <div class="language-name">Hindi</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="hungary, magyar">
+        <a href="hungarian.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/hungary-cinema.png">
+          <div class="language-name">Hungarian</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="islenska">
+        <a href="icelandic.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/iceland-cinema.png">
+          <div class="language-name">Icelandic</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="bahasa indonesia">
+        <a href="indonesian.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/indonesia-cinema.png">
+          <div class="language-name">Indonesian</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="italy, italiano">
+        <a href="italian.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/italy-cinema.png">
+          <div class="language-name">Italian</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="nippon">
+        <a href="japanese.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/japan-cinema.png">
+          <div class="language-name">Japanese</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="">
+        <a href="caucasian.html#kabardian">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/none-cinema.png">
+          <div class="language-name">Kabardian</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="indian">
+        <a href="indian.html#kannada">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/india-cinema.png">
+          <div class="language-name">Kannada</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="">
+        <a href="caucasian.html#karachay">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/none-cinema.png">
+          <div class="language-name">Karachay-Balkar</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="kazakhstan, qazaq">
+        <a href="kazakh.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/kazakhstan-cinema.png">
+          <div class="language-name">Kazakh</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="south korea, hangukin">
+        <a href="korean.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/south-korea-cinema.png">
+          <div class="language-name">Korean</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="latviesu">
+        <a href="latvian.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/latvia-cinema.png">
+          <div class="language-name">Latvian</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="lietuviu">
+        <a href="lithuanian.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/lithuania-cinema.png">
+          <div class="language-name">Lithuanian</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="bahasa melayu">
+        <a href="malay.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/malaysia-cinema.png">
+          <div class="language-name">Malay</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="indian">
+        <a href="indian.html#malayalam">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/india-cinema.png">
+          <div class="language-name">Malayalam</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="chinese, traditional">
+        <a href="mandarin-taiwanese.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/taiwan-cinema.png">
+          <div class="language-name"><span style="font-size: 12px; letter-spacing: 0.3px;">Taiwanese</span><br>Mandarin</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="chinese, simplified, china">
+        <a href="mandarin-chinese.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/china-cinema.png">
+          <div class="language-name">Mandarin<br><span style="font-size: 12px; letter-spacing: 0.3px;">Chinese</span></div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="new zealand, reo maori">
+        <a href="m257ori.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/new-zealand-cinema.png">
+          <div class="language-name">Māori</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="indian">
+        <a href="indian.html#marathi">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/india-cinema.png">
+          <div class="language-name">Marathi</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="native">
+        <a href="arapaho--zulu--navajo--tahitian--hawaiian--saacutemi--samoan.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/usa-cinema.png">
+          <div class="language-name">Navajo</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="">
+        <a href="caucasian.html#nogai">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/none-cinema.png">
+          <div class="language-name">Nogai</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="norsk, norway, norge">
+        <a href="norwegian.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/norway-cinema.png">
+          <div class="language-name">Norwegian</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="polski, poland">
+        <a href="polish.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/poland-cinema.png">
+          <div class="language-name">Polish</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="português, carioca">
+        <a href="portuguese---brazilian.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/brazil-cinema.png">
+          <div class="language-name"><span style="font-size: 12px; letter-spacing: 0.3px;">Brazilian</span><br>Portuguese</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="português, portugal">
+        <a href="portuguese.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/portugal-cinema.png">
+          <div class="language-name">Portuguese</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="romana">
+        <a href="romanian.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/romania-cinema.png">
+          <div class="language-name">Romanian</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="russkiy">
+        <a href="russian.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/russia-cinema.png">
+          <div class="language-name">Russian</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="norway, finland, sweden">
+        <a href="arapaho--zulu--navajo--tahitian--hawaiian--saacutemi--samoan.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/none-cinema.png">
+          <div class="language-name">Northern Sámi</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="polynesian">
+        <a href="arapaho--zulu--navajo--tahitian--hawaiian--saacutemi--samoan.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/samoa-cinema.png">
+          <div class="language-name">Samoan</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="srpski">
+        <a href="serbian.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/serbia-cinema.png">
+          <div class="language-name">Serbian</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="slovensky">
+        <a href="slovak.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/slovakia-cinema.png">
+          <div class="language-name">Slovak</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="slovenian, slovenscina">
+        <a href="slovene.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/slovenia-cinema.png">
+          <div class="language-name">Slovene</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="mexico, argentina, latino, espanol">
+        <a href="spanish---latin-american.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/mexico-cinema.png">
+          <div class="language-name"><span style="font-size: 12px; letter-spacing: 0.3px;">Latin American</span><br>Spanish</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="spain, espana, espanol">
+        <a href="spanish---castilian.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/spain-cinema.png">
+          <div class="language-name"><span style="font-size: 12px; letter-spacing: 0.3px;">Castilian</span><br>Spanish</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="svenska, sverige, sweden">
+        <a href="swedish.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/sweden-cinema.png">
+          <div class="language-name">Swedish</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="polynesian">
+        <a href="arapaho--zulu--navajo--tahitian--hawaiian--saacutemi--samoan.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/french-polynesia-cinema.png">
+          <div class="language-name">Tahitian</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="indian">
+        <a href="tamil.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/india-cinema.png">
+          <div class="language-name">Tamil</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="indian">
+        <a href="telugu.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/india-cinema.png">
+          <div class="language-name">Telugu</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="phasa thai">
+        <a href="thai.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/thailand-cinema.png">
+          <div class="language-name">Thai</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="türkiye, türkçe, turkce, turkey">
+        <a href="turkish.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/turkey-cinema.png">
+          <div class="language-name">Turkish</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="ukraine, ukrayinska">
+        <a href="ukrainian.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/ukraine-cinema.png">
+          <div class="language-name">Ukrainian</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="tieng viet">
+        <a href="vietnamese.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/vietnam-cinema.png">
+          <div class="language-name">Vietnamese</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+      <li class="language-card" data-keywords="south africa">
+        <a href="arapaho--zulu--navajo--tahitian--hawaiian--saacutemi--samoan.html">
+          <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/south-africa-cinema.png">
+          <div class="language-name">Zulu</div>
+        </a>
+        <div class="particles"></div>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+<script>
+// Cache des cartes une seule fois, plutôt que de refaire un
+// querySelectorAll à chaque frappe ou à chaque survol.
+const languageCards = Array.from(document.querySelectorAll('.language-card'));
+
+// SEARCH — "input" plutôt que "keyup" : réagit aussi au collage
+// (Ctrl+V) et aux suggestions mobiles, pas seulement aux touches.
+document.getElementById('languageSearch').addEventListener('input', function () {
+  const search = this.value.trim().toLowerCase();
+  languageCards.forEach(card => {
+    const text = card.textContent.toLowerCase();
+    const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
+    card.style.display = (text.includes(search) || keywords.includes(search)) ? '' : 'none';
+  });
+});
+
+// PARTICLES ON HOVER — taille et vitesse différentes, mouvement vers le haut.
+// (La navigation au clic est maintenant gérée nativement par les <a>,
+// donc plus besoin d'écouteur de clic séparé ici.)
+languageCards.forEach(card => {
+  const container = card.querySelector('.particles');
+
+  card.addEventListener('mouseenter', () => {
+    container.innerHTML = '';
+    const count = Math.floor(Math.random() * 8) + 12;
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      p.classList.add('particle');
+
+      const size = 3 + Math.random() * 2;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+
+      p.style.left = Math.random() * 90 + '%';
+      p.style.top = Math.random() * 90 + '%';
+
+      const duration = 3 + Math.random() * 2;
+      const delay = Math.random() * 0.5;
+      p.style.animation = `fadeIn 0.25s ease ${delay}s forwards, floatUp ${duration}s linear ${delay}s forwards`;
+
+      container.appendChild(p);
+    }
+  });
+
+  card.addEventListener('mouseleave', () => {
+    container.innerHTML = '';
+  });
+});
+</script>
