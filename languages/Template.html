@@ -233,8 +233,14 @@ body, .film-title, .category-title, #filmSearch {
   content: "";
   position: absolute;
   top: -50%;
-  left: -150%;
-  width: 300%;
+  /* Bande plus étroite (140% au lieu de 300%) qui part de beaucoup
+     moins loin hors-cadre (-40% au lieu de -150%) : avant, le reflet
+     passait près d'un tiers de l'animation totalement hors de la
+     carte avant d'y entrer (~0,5s de "rien ne se passe" sur 1,5s),
+     ce qu'aucune courbe de vitesse (ease/linear) ne pouvait corriger —
+     seule la distance à parcourir avant d'apparaître comptait. */
+  left: -40%;
+  width: 140%;
   height: 200%;
   background: linear-gradient(
     60deg,
@@ -244,7 +250,7 @@ body, .film-title, .category-title, #filmSearch {
     rgba(255,255,255,0.18) 55%,
     rgba(255,255,255,0) 100%
   );
-  transform: rotate(20deg) translateX(-150%);
+  transform: rotate(20deg) translateX(-40%);
   pointer-events: none;
   opacity: 0;
   z-index: 1;   /* au-dessus de l'image, sous la barre de titre */
@@ -252,12 +258,12 @@ body, .film-title, .category-title, #filmSearch {
 
 .film-title.has-link:hover::before {
   opacity: 1;
-  animation: projectorSweepOnce 1.5s ease-out forwards;
+  animation: projectorSweepOnce 0.9s ease-out forwards;
 }
 
 @keyframes projectorSweepOnce {
-  0%   { transform: rotate(20deg) translateX(-150%); }
-  100% { transform: rotate(20deg) translateX(150%); }
+  0%   { transform: rotate(20deg) translateX(-40%); }
+  100% { transform: rotate(20deg) translateX(140%); }
 }
 
 .film-title .film-year {
