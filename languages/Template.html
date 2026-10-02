@@ -157,18 +157,24 @@ body, .film-title, .category-title, #filmSearch {
   position: absolute;
   top: 3px;
   left: 3px;
-  right: 3px;
-  bottom: 0;
+  /* <img> est un élément "remplacé" : contrairement à une <div>, lui
+     laisser width/height en auto avec juste des offsets ne l'étire pas
+     pour combler l'espace — il garde sa taille naturelle (d'où un
+     zoom sur le coin haut-gauche). Il faut donc calculer la largeur/
+     hauteur explicitement à partir des offsets. */
+  width: calc(100% - 6px);
+  height: calc(100% - 3px);
   object-fit: cover;
   object-position: center top;
   z-index: 0;
   display: block;
-  transition: filter 0.3s ease, opacity 0.3s ease, top 0.3s ease, left 0.3s ease, right 0.3s ease;
+  transition: filter 0.3s ease, opacity 0.3s ease, top 0.3s ease, left 0.3s ease, width 0.3s ease, height 0.3s ease;
 }
 .film-title.has-link:hover img {
   top: 0;
   left: 0;
-  right: 0;
+  width: 100%;
+  height: 100%;
 }
 
 /* Repère visuel rapide : une carte SANS fiche a sa photo légèrement
@@ -195,7 +201,7 @@ body, .film-title, .category-title, #filmSearch {
   right: 0;
   bottom: 0;
   z-index: 2;
-  height: 54px;             /* hauteur fixe : même taille de barre, titre sur 1 ou 2 lignes */
+  height: 56px;             /* hauteur fixe : même taille de barre, titre sur 1 ou 2 lignes */
   box-sizing: border-box;
   padding: 4px 6px 5px;
   display: flex;
@@ -259,7 +265,7 @@ body, .film-title, .category-title, #filmSearch {
   z-index: 1;   /* au-dessus du fond blanc (-1) de la barre */
   display: block;
   font-weight: 800;
-  font-size: 10px;
+  font-size: 11px;
   margin-bottom: 2px;
   color: #666;
   letter-spacing: 1px;
@@ -280,7 +286,7 @@ body, .film-title, .category-title, #filmSearch {
   position: relative;
   z-index: 1;
   display: block;
-  font-size: 11px;
+  font-size: 12px;
   margin: 0;
   color: #000;
   font-style: italic;
