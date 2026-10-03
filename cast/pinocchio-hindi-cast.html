@@ -1,0 +1,480 @@
+---
+layout: null
+---
+{% include header.html %}
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&family=Open+Sans:ital@1&family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Open Sans', 'Noto Sans', sans-serif !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   RÉGLAGES GÉNÉRAUX DE LA PAGE
+   MODIFIE ICI : largeur du contenu, couleurs, espacements.
+   'Noto Sans' est ajouté en secours pour les écritures non-latines
+   (hindi, arabe, etc.) que Open Sans ne couvre pas toujours bien ;
+   change-le si la langue de la page a besoin d'une autre police.
+   ============================================================ */
+:root {
+  --cast-max-width: 900px;
+  --cast-accent: #2a5da0;       /* bleu du site : titre, liens, dates acteurs */
+  --cast-box-bg: #f7f7f7;       /* fond des encadrés gris (Cast / Songs / Technical Staff) */
+  --cast-related-color: #9a3b3b; /* couleur du lien "page liée" en bas à droite */
+}
+
+.cast-wrap {
+  max-width: var(--cast-max-width);
+  margin: 0 auto 100px;
+  padding: 60px 20px 0;
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   TITRE DU FILM (titre natif + année, puis titre anglais dessous)
+   MODIFIE ICI à chaque nouvelle page : les deux lignes de titre.
+   ============================================================ */
+.cast-title-native {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--cast-accent);
+}
+.cast-title-native .native-text {
+  text-decoration: underline;
+}
+.cast-title-native .native-year {
+  text-decoration: none;
+  margin-left: 6px;
+}
+.cast-title-english {
+  text-align: center;
+  font-size: 17px;
+  font-style: italic;
+  color: #333;
+  margin-top: 6px;
+  margin-bottom: 30px;
+}
+.cast-hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 0 0 40px;
+}
+
+/* ============================================================
+   RANGÉE DES COMÉDIENS DE DOUBLAGE (photo + nom + dates)
+   MODIFIE ICI : ajoute/enlève un .voice-card par comédien. La ligne
+   s'adapte toute seule (wrap) s'il y en a beaucoup.
+   ============================================================ */
+.voice-cast {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 60px;
+}
+.voice-card {
+  width: 300px;
+  text-align: center;
+}
+.voice-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+.voice-card .actor-name {
+  margin-top: 14px;
+  font-size: 19px;
+  color: #333;
+}
+.voice-card .actor-name a {
+  color: inherit;
+  text-decoration: none;
+}
+.voice-card .actor-dates {
+  margin-top: 2px;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--cast-accent);
+}
+
+/* ============================================================
+   ENCADRÉS GRIS (Cast / Songs / Technical Staff)
+   Les 3 sections partagent le même style de boîte — seul le contenu
+   à l'intérieur change.
+   ============================================================ */
+.info-box {
+  background: var(--cast-box-bg);
+  border-radius: 10px;
+  padding: 24px 28px 28px;
+  margin-bottom: 40px;
+}
+.info-box-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 16px;
+}
+
+/* --- Tableau "Cast" --- */
+.cast-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.cast-table th {
+  text-align: left;
+  font-size: 13px;
+  font-weight: 700;
+  color: #222;
+  padding: 6px 10px 10px;
+}
+.cast-table th.col-voices {
+  text-align: center;
+  text-decoration: underline;
+}
+.cast-table td {
+  font-size: 14px;
+  color: #333;
+  padding: 10px;
+  border-top: 1px solid #e3e3e3;
+  text-align: center;
+}
+.cast-table td.col-hindi {
+  text-align: center;
+}
+.cast-table a {
+  color: var(--cast-accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+.cast-table a:hover {
+  text-decoration: underline;
+}
+
+/* --- Liste "Songs" --- */
+.song-list {
+  list-style: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+.song-item {
+  margin-bottom: 18px;
+}
+.song-item .song-title-native a {
+  color: var(--cast-accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.song-item .song-title-native a:hover {
+  text-decoration: underline;
+}
+.song-item .song-title-english {
+  font-style: italic;
+  color: #333;
+}
+.song-item .performed-by {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  font-style: italic;
+  color: #333;
+}
+.song-item .performed-by a {
+  color: var(--cast-accent);
+  font-style: normal;
+  text-decoration: none;
+  font-weight: 600;
+}
+.song-item .performed-by a:hover {
+  text-decoration: underline;
+}
+
+/* --- "Technical Staff" --- */
+.staff-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  max-width: 420px;
+}
+.staff-table td {
+  padding: 4px 10px;
+  font-size: 14px;
+}
+.staff-table td.staff-name {
+  text-align: right;
+  color: #333;
+  width: 50%;
+}
+.staff-table td.staff-role {
+  text-align: left;
+  font-weight: 700;
+  color: #222;
+}
+.studio-line {
+  text-align: center;
+  font-style: italic;
+  color: #333;
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+/* ============================================================
+   LIGNES "SOURCES" + "CONTACTEZ-MOI", alignées à droite, discrètes
+   ============================================================ */
+.cast-note {
+  text-align: right;
+  font-size: 13px;
+  font-style: italic;
+  color: #333;
+  margin: 4px 0;
+}
+.cast-note a {
+  color: var(--cast-accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.cast-note a:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   TRIVIA (liste à puces simple, sous la 2e ligne horizontale)
+   ============================================================ */
+.cast-trivia {
+  margin: 40px 0 0;
+  padding-left: 20px;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.6;
+}
+.cast-trivia li {
+  margin-bottom: 8px;
+}
+
+/* ============================================================
+   AFFICHE / COLLAGE EN BAS DE PAGE
+   ============================================================ */
+.cast-poster {
+  display: block;
+  max-width: 320px;
+  width: 100%;
+  margin: 50px auto 0;
+}
+
+/* ============================================================
+   LIEN VERS UNE PAGE LIÉE (ex: une autre version du même film),
+   en bas à droite, dans une couleur distincte du bleu du site.
+   ============================================================ */
+.cast-related {
+  text-align: right;
+  margin-top: 40px;
+}
+.cast-related a {
+  font-style: italic;
+  font-size: 14px;
+  color: var(--cast-related-color);
+  text-decoration: none;
+}
+.cast-related a:hover {
+  text-decoration: underline;
+}
+</style>
+
+<div class="cast-wrap">
+
+  <!-- ============================================================
+       TITRE — MODIFIE ICI à chaque nouvelle page
+       ============================================================ -->
+  <div class="cast-title-native">
+    <span class="native-text">पिनोक्कियो</span><span class="native-year">(2011)</span>
+  </div>
+  <div class="cast-title-english">Pinocchio</div>
+  <hr class="cast-hr">
+
+  <!-- ============================================================
+       COMÉDIENS DE DOUBLAGE — un .voice-card par comédien.
+       MODIFIE ICI : copie/colle un bloc .voice-card pour en ajouter.
+       Mets "(Unknown dates)" si tu n'as pas l'info, sinon le format
+       "(1960? - April 2021?)" comme sur l'ancien site.
+       ============================================================ -->
+  <div class="voice-cast">
+    <div class="voice-card" id="actor-pradeep-shukla">
+      <img src="https://via.placeholder.com/300x220" alt="Pradeep Shukla">
+      <div class="actor-name">Pradeep Shukla</div>
+      <div class="actor-dates">(Unknown dates)</div>
+    </div>
+    <div class="voice-card" id="actor-hema-nikam">
+      <img src="https://via.placeholder.com/300x220" alt="Hema Nikam">
+      <div class="actor-name">Hema Nikam</div>
+      <div class="actor-dates">(Unknown dates)</div>
+    </div>
+    <div class="voice-card" id="actor-sandeep-karnik">
+      <img src="https://via.placeholder.com/300x220" alt="Sandeep Karnik">
+      <div class="actor-name">Sandeep Karnik</div>
+      <div class="actor-dates">(196? - April 2021?)</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ENCADRÉ "CAST" — un <tr> par personnage.
+       MODIFIE ICI : "?" quand tu n'as pas l'info (nom natif, ou
+       acteur). Pour lier un nom d'acteur à sa photo au-dessus,
+       pointe vers l'id du .voice-card correspondant (#actor-...).
+       ============================================================ -->
+  <div class="info-box">
+    <div class="info-box-title">Cast :</div>
+    <table class="cast-table">
+      <thead>
+        <tr>
+          <th>Hindi name</th>
+          <th>Original name</th>
+          <th class="col-voices">Voices</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-hindi">पिनोक्कियो</td>
+          <td>Pinocchio</td>
+          <td>Arth Vidyarth (speaking &amp; singing)</td>
+        </tr>
+        <tr>
+          <td class="col-hindi">?</td>
+          <td>Jiminy Cricket</td>
+          <td><a href="#actor-pradeep-shukla">Pradeep Shukla</a> / प्रदीप शुक्ला (speaking) &amp; ? (singing)</td>
+        </tr>
+        <tr>
+          <td class="col-hindi">?</td>
+          <td>Geppetto</td>
+          <td>?</td>
+        </tr>
+        <tr>
+          <td class="col-hindi">?</td>
+          <td>Blue Fairy</td>
+          <td><a href="#actor-hema-nikam">Hema Nikam</a></td>
+        </tr>
+        <tr>
+          <td class="col-hindi">?</td>
+          <td>Honest John</td>
+          <td><a href="#actor-sandeep-karnik">Sandeep Karnik</a> / संदीप कर्णिक (speaking) &amp; ? (singing)</td>
+        </tr>
+        <tr>
+          <td class="col-hindi">?</td>
+          <td>Stromboli</td>
+          <td>Prabhakar</td>
+        </tr>
+        <tr>
+          <td class="col-hindi">?</td>
+          <td>Coachman</td>
+          <td>?</td>
+        </tr>
+        <tr>
+          <td class="col-hindi">?</td>
+          <td>Lampwick</td>
+          <td>Kaustubh Bhogi</td>
+        </tr>
+        <tr>
+          <td class="col-hindi">?</td>
+          <td>Alexander</td>
+          <td>?</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============================================================
+       ENCADRÉ "SONGS" — un .song-item par chanson.
+       MODIFIE ICI : titre natif (lien si tu as une vidéo/source),
+       titre anglais entre parenthèses, puis la ligne "performed by"
+       avec un acteur (lien vers sa photo) par personnage, séparés
+       par " ; ", et "& Choir" à la fin si besoin.
+       ============================================================ -->
+  <div class="info-box">
+    <div class="info-box-title">Songs</div>
+    <ul class="song-list">
+      <li class="song-item">
+        <span class="song-title-native"><a href="#">« सच्चे मन से माँगो जो »</a></span>
+        <span class="song-title-english">(« When You Wish Upon a Star (Opening credits) »)</span>
+        <span class="performed-by">performed by : ? (<i>Jiminy Cricket</i>) &amp; Choir</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« ? »</span>
+        <span class="song-title-english">(« Little Wooden Head »)</span>
+        <span class="performed-by">performed by : ? (<i>Geppetto</i>)</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native"><a href="#">« बजाओ सीटी »</a></span>
+        <span class="song-title-english">(« Give A Little Whistle »)</span>
+        <span class="performed-by">performed by : ? (<i>Jiminy Cricket</i>) ; Arth Vidyarth (<i>Pinocchio</i>)</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« ? »</span>
+        <span class="song-title-english">(« Hi-Diddle-Dee-Dee (An Actor's Life for Me) »)</span>
+        <span class="performed-by">performed by : ? (<i>Honest John</i>) ; Arth Vidyarth (<i>Pinocchio</i>)</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« ? »</span>
+        <span class="song-title-english">(« I've Got No Strings »)</span>
+        <span class="performed-by">performed by : Arth Vidyarth (<i>Pinocchio</i>) ; ? (<i>Dutch Marionette</i>) ; ? (<i>French Marionette</i>) ; ? (<i>Russian Marionette</i>) &amp; Choir</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native"><a href="#">« सच्चे मन से माँगो जो (Finale) »</a></span>
+        <span class="song-title-english">(« When You Wish Upon a Star (Finale) »)</span>
+        <span class="performed-by">performed by : ? (<i>Jiminy Cricket</i>) &amp; Choir</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ============================================================
+       ENCADRÉ "TECHNICAL STAFF" — une ligne par poste.
+       MODIFIE ICI : "?" si tu ne connais pas le nom. Le studio tout
+       en bas reste en italique, centré, tout en MAJUSCULES.
+       ============================================================ -->
+  <div class="info-box">
+    <div class="info-box-title">Technical Staff</div>
+    <table class="staff-table">
+      <tr><td class="staff-name">Ashwin Saxena</td><td class="staff-role">Dubbing director</td></tr>
+      <tr><td class="staff-name">?</td><td class="staff-role">Musical director</td></tr>
+      <tr><td class="staff-name">Baba Khan</td><td class="staff-role">Translator</td></tr>
+      <tr><td class="staff-name">?</td><td class="staff-role">Lyricist</td></tr>
+      <tr><td class="staff-name">Paddy ?</td><td class="staff-role">Creative Supervisor</td></tr>
+      <tr><td class="staff-name">?</td><td class="staff-role">Dubbing studio</td></tr>
+    </table>
+    <div class="studio-line">DISNEY CHARACTER VOICES INTERNATIONAL, INC.</div>
+  </div>
+
+  <!-- ============================================================
+       SOURCES + CONTACT — garde ces 2 lignes telles quelles, modifie
+       juste le texte après "Sources :".
+       ============================================================ -->
+  <div class="cast-note">Sources : Dubbing director / Lyrics (Song's titles)</div>
+  <div class="cast-note">If someone has more information about this dub, please <a href="/contact.html">contact me</a></div>
+
+  <hr class="cast-hr" style="margin-top:30px;">
+
+  <!-- ============================================================
+       TRIVIA — une <li> par anecdote (supprime le bloc entier s'il
+       n'y en a aucune pour cette page).
+       ============================================================ -->
+  <ul class="cast-trivia">
+    <li>Sandeep Karnik (संदीप कर्णिक), the speaking voice of <b>Honest John</b>, also tried out for the singing, but the result was rejected.</li>
+  </ul>
+
+  <!-- ============================================================
+       AFFICHE — l'image de l'affiche/collage du doublage
+       ============================================================ -->
+  <img class="cast-poster" src="https://via.placeholder.com/320x450" alt="Pinocchio poster">
+
+  <!-- ============================================================
+       LIEN VERS UNE PAGE LIÉE (optionnel) — supprime le bloc s'il
+       n'y a pas de page liée pour ce film.
+       ============================================================ -->
+  <div class="cast-related">
+    <a href="#">Pinocchio (Live-action) (2022) ➤</a>
+  </div>
+
+</div>
