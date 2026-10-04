@@ -1,5 +1,13 @@
 ---
 layout: null
+# ============================================================
+# INTERRUPTEURS — MODIFIE ICI à chaque nouvelle page.
+# true  = l'encadré (et sa source en bas de page) s'affiche
+# false = il disparaît complètement, et les numéros [1][2]... se
+#         recalculent tout seuls
+# ============================================================
+show_additional_voices: true
+show_choir: true
 ---
 {% include header.html %}
 <!-- GOOGLE FONT -->
@@ -45,7 +53,7 @@ body {
   color: var(--cast-accent);
 }
 .cast-title-native .native-text {
-  text-decoration: underline;
+  text-decoration: none;
 }
 .cast-title-native .native-year {
   text-decoration: none;
@@ -74,18 +82,19 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 40px;
+  gap: 30px;
   margin-bottom: 60px;
 }
 .voice-card {
-  width: 300px;
+  width: 180px;
   text-align: center;
 }
 .voice-card img {
   width: 100%;
-  height: 220px;
+  height: 180px;
   object-fit: cover;
   display: block;
+  border-radius: 6px;
 }
 .voice-card .actor-name {
   margin-top: 14px;
@@ -99,8 +108,8 @@ body {
 .voice-card .actor-dates {
   margin-top: 2px;
   font-size: 13px;
-  font-style: italic;
-  color: var(--cast-accent);
+  font-style: normal;
+  color: #666;
 }
 
 /* ============================================================
@@ -113,12 +122,28 @@ body {
   border-radius: 10px;
   padding: 24px 28px 28px;
   margin-bottom: 40px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  scroll-margin-top: 20px; /* marge quand on arrive via une ancre (flèche ↑ des sources) */
 }
 .info-box-title {
   font-size: 17px;
   font-weight: 700;
   color: #222;
   margin-bottom: 16px;
+}
+/* Petit numéro cliquable à côté d'un titre de boîte, qui renvoie
+   vers l'entrée correspondante dans la liste des sources en bas de
+   page (ex: "Cast [1]" → ancre #src-cast). */
+.footnote-ref {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cast-accent);
+  text-decoration: none;
+  vertical-align: super;
+  margin-left: 3px;
+}
+.footnote-ref:hover {
+  text-decoration: underline;
 }
 
 /* --- Tableau "Cast" --- */
@@ -161,27 +186,34 @@ body {
   list-style: disc;
   padding-left: 20px;
   margin: 0;
+  font-size: 14px;   /* taille unique pour tout le texte des chansons */
+  line-height: 1.5;
+  color: #333;
 }
 .song-item {
   margin-bottom: 18px;
 }
+.song-item .song-title-native {
+  font-weight: 700;
+  color: #333;
+}
 .song-item .song-title-native a {
   color: var(--cast-accent);
-  font-weight: 600;
   text-decoration: none;
 }
 .song-item .song-title-native a:hover {
   text-decoration: underline;
 }
 .song-item .song-title-english {
-  font-style: italic;
+  font-style: normal;
   color: #333;
 }
+/* Italique uniquement là où tu mets des balises <i> : "performed by :"
+   et les noms de personnages entre parenthèses. */
 .song-item .performed-by {
   display: block;
   margin-top: 4px;
-  font-size: 13px;
-  font-style: italic;
+  font-style: normal;
   color: #333;
 }
 .song-item .performed-by a {
@@ -223,6 +255,27 @@ body {
   font-size: 14px;
 }
 
+/* --- "Additional voices" / "Choir" (listes à 2 colonnes) --- */
+.voices-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 40px;
+  row-gap: 8px;
+  font-size: 14px;
+  color: #333;
+}
+.voices-grid div {
+  text-align: center;
+}
+.voices-grid a {
+  color: var(--cast-accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+.voices-grid a:hover {
+  text-decoration: underline;
+}
+
 /* ============================================================
    LIGNES "SOURCES" + "CONTACTEZ-MOI", alignées à droite, discrètes
    ============================================================ */
@@ -241,6 +294,40 @@ body {
 .cast-note a:hover {
   text-decoration: underline;
 }
+.sources-list + .cast-note {
+  margin-top: 16px;
+}
+
+/* ============================================================
+   LISTE DES SOURCES, EN BAS DE PAGE
+   Une entrée par encadré (Cast / Songs / Technical Staff /
+   Additional voices / Choir) ; son numéro renvoie vers le petit
+   [1][2]... posé à côté du titre de la boîte correspondante.
+   MODIFIE ICI : le texte de chaque source, et supprime les lignes
+   "Additional voices" / "Choir" si ces encadrés n'existent pas sur
+   cette page.
+   ============================================================ */
+.sources-list {
+  margin: 10px 0 0;
+  padding-left: 22px;
+  font-size: 13px;
+  font-style: italic;
+  color: #333;
+  line-height: 1.7;
+}
+.sources-list li {
+  margin-bottom: 2px;
+}
+.sources-list .back-ref {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--cast-accent);
+  text-decoration: none;
+  margin-left: 4px;
+}
+.sources-list .back-ref:hover {
+  text-decoration: underline;
+}
 
 /* ============================================================
    TRIVIA (liste à puces simple, sous la 2e ligne horizontale)
@@ -257,13 +344,50 @@ body {
 }
 
 /* ============================================================
-   AFFICHE / COLLAGE EN BAS DE PAGE
+   GALERIE D'IMAGES EN BAS DE PAGE (affiche, captures, collage...)
+   Chaque vignette s'agrandit en plein écran au clic.
+   MODIFIE ICI : ajoute/enlève des <img> dans .cast-gallery, le reste
+   (grille + lightbox) s'adapte tout seul.
    ============================================================ */
-.cast-poster {
-  display: block;
-  max-width: 320px;
-  width: 100%;
-  margin: 50px auto 0;
+.gallery-title {
+  text-align: center;
+  font-size: 17px;
+  font-weight: 700;
+  color: #222;
+  margin: 50px 0 0;
+}
+.cast-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin: 20px 0 0;
+}
+.cast-gallery img {
+  height: 220px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.cast-gallery img:hover {
+  transform: scale(1.04);
+}
+.lightbox-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  cursor: zoom-out;
+}
+.lightbox-overlay img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 4px;
 }
 
 /* ============================================================
@@ -301,6 +425,9 @@ body {
        MODIFIE ICI : copie/colle un bloc .voice-card pour en ajouter.
        Mets "(Unknown dates)" si tu n'as pas l'info, sinon le format
        "(1960? - April 2021?)" comme sur l'ancien site.
+       (les "id" ne servent à rien pour l'instant, laisse-les tels
+       quels — plus tard les noms des comédiens pourront devenir des
+       liens vers leur propre fiche plutôt que vers cette photo)
        ============================================================ -->
   <div class="voice-cast">
     <div class="voice-card" id="actor-pradeep-shukla">
@@ -323,11 +450,12 @@ body {
   <!-- ============================================================
        ENCADRÉ "CAST" — un <tr> par personnage.
        MODIFIE ICI : "?" quand tu n'as pas l'info (nom natif, ou
-       acteur). Pour lier un nom d'acteur à sa photo au-dessus,
-       pointe vers l'id du .voice-card correspondant (#actor-...).
+       acteur). Les noms de comédiens restent en texte simple pour
+       l'instant (pas de lien) : plus tard, tu pourras les transformer
+       en <a href="/artists/nom.html">...</a> vers leur propre fiche.
        ============================================================ -->
-  <div class="info-box">
-    <div class="info-box-title">Cast :</div>
+  <div class="info-box" id="cast">
+    <div class="info-box-title">Cast <a href="#src-cast" class="footnote-ref"></a> :</div>
     <table class="cast-table">
       <thead>
         <tr>
@@ -345,7 +473,7 @@ body {
         <tr>
           <td class="col-hindi">?</td>
           <td>Jiminy Cricket</td>
-          <td><a href="#actor-pradeep-shukla">Pradeep Shukla</a> / प्रदीप शुक्ला (speaking) &amp; ? (singing)</td>
+          <td>Pradeep Shukla / प्रदीप शुक्ला (speaking) &amp; ? (singing)</td>
         </tr>
         <tr>
           <td class="col-hindi">?</td>
@@ -355,12 +483,12 @@ body {
         <tr>
           <td class="col-hindi">?</td>
           <td>Blue Fairy</td>
-          <td><a href="#actor-hema-nikam">Hema Nikam</a></td>
+          <td>Hema Nikam</td>
         </tr>
         <tr>
           <td class="col-hindi">?</td>
           <td>Honest John</td>
-          <td><a href="#actor-sandeep-karnik">Sandeep Karnik</a> / संदीप कर्णिक (speaking) &amp; ? (singing)</td>
+          <td>Sandeep Karnik / संदीप कर्णिक (speaking) &amp; ? (singing)</td>
         </tr>
         <tr>
           <td class="col-hindi">?</td>
@@ -387,44 +515,80 @@ body {
   </div>
 
   <!-- ============================================================
-       ENCADRÉ "SONGS" — un .song-item par chanson.
-       MODIFIE ICI : titre natif (lien si tu as une vidéo/source),
-       titre anglais entre parenthèses, puis la ligne "performed by"
-       avec un acteur (lien vers sa photo) par personnage, séparés
-       par " ; ", et "& Choir" à la fin si besoin.
+       ENCADRÉS OPTIONNELS "ADDITIONAL VOICES" / "CHOIR"
+       Ils s'affichent ou non selon les interrupteurs tout en haut du
+       fichier (show_additional_voices / show_choir). Pas besoin de
+       supprimer le code : passe juste l'interrupteur à false.
+       MODIFIE ICI : un <div> par personne, "Nom / Nom natif". La
+       grille à 2 colonnes s'adapte toute seule.
        ============================================================ -->
-  <div class="info-box">
-    <div class="info-box-title">Songs</div>
+  {% if page.show_additional_voices %}
+  <div class="info-box" id="additional-voices">
+    <div class="info-box-title">Additional voices <a href="#src-voices" class="footnote-ref"></a></div>
+    <div class="voices-grid">
+      <div>Name 1 / Native name 1</div>
+      <div>Name 2 / Native name 2</div>
+      <div>Name 3 / Native name 3</div>
+      <div>Name 4 / Native name 4</div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if page.show_choir %}
+  <div class="info-box" id="choir">
+    <div class="info-box-title">Choir <a href="#src-choir" class="footnote-ref"></a></div>
+    <div class="voices-grid">
+      <div>Name 1 / Native name 1</div>
+      <div>Name 2 / Native name 2</div>
+      <div>Name 3 / Native name 3</div>
+      <div>Name 4 / Native name 4</div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- ============================================================
+       ENCADRÉ "SONGS" — un .song-item par chanson.
+       MODIFIE ICI : titre natif en texte simple (il reste en gras
+       même avec un "? »" quand tu ne le connais pas) ; si tu as un
+       vrai lien (vidéo/source), entoure-le d'un <a href="..."> pour
+       qu'il devienne bleu avec soulignement au survol. Titre anglais
+       entre parenthèses, puis la ligne "performed by" avec un acteur
+       par personnage, séparés par " ; ", et "& Choir" à la fin si
+       besoin. Italique : uniquement "performed by :" et le nom du
+       personnage, via <i>...</i> (tout le reste est en texte normal).
+       ============================================================ -->
+  <div class="info-box" id="songs">
+    <div class="info-box-title">Songs <a href="#src-songs" class="footnote-ref"></a></div>
     <ul class="song-list">
       <li class="song-item">
-        <span class="song-title-native"><a href="#">« सच्चे मन से माँगो जो »</a></span>
+        <span class="song-title-native">« सच्चे मन से माँगो जो »</span>
         <span class="song-title-english">(« When You Wish Upon a Star (Opening credits) »)</span>
-        <span class="performed-by">performed by : ? (<i>Jiminy Cricket</i>) &amp; Choir</span>
+        <span class="performed-by"><i>performed by :</i> ? (<i>Jiminy Cricket</i>) &amp; Choir</span>
       </li>
       <li class="song-item">
         <span class="song-title-native">« ? »</span>
         <span class="song-title-english">(« Little Wooden Head »)</span>
-        <span class="performed-by">performed by : ? (<i>Geppetto</i>)</span>
+        <span class="performed-by"><i>performed by :</i> ? (<i>Geppetto</i>)</span>
       </li>
       <li class="song-item">
-        <span class="song-title-native"><a href="#">« बजाओ सीटी »</a></span>
+        <span class="song-title-native">« बजाओ सीटी »</span>
         <span class="song-title-english">(« Give A Little Whistle »)</span>
-        <span class="performed-by">performed by : ? (<i>Jiminy Cricket</i>) ; Arth Vidyarth (<i>Pinocchio</i>)</span>
+        <span class="performed-by"><i>performed by :</i> ? (<i>Jiminy Cricket</i>) ; Arth Vidyarth (<i>Pinocchio</i>)</span>
       </li>
       <li class="song-item">
         <span class="song-title-native">« ? »</span>
         <span class="song-title-english">(« Hi-Diddle-Dee-Dee (An Actor's Life for Me) »)</span>
-        <span class="performed-by">performed by : ? (<i>Honest John</i>) ; Arth Vidyarth (<i>Pinocchio</i>)</span>
+        <span class="performed-by"><i>performed by :</i> ? (<i>Honest John</i>) ; Arth Vidyarth (<i>Pinocchio</i>)</span>
       </li>
       <li class="song-item">
         <span class="song-title-native">« ? »</span>
         <span class="song-title-english">(« I've Got No Strings »)</span>
-        <span class="performed-by">performed by : Arth Vidyarth (<i>Pinocchio</i>) ; ? (<i>Dutch Marionette</i>) ; ? (<i>French Marionette</i>) ; ? (<i>Russian Marionette</i>) &amp; Choir</span>
+        <span class="performed-by"><i>performed by :</i> Arth Vidyarth (<i>Pinocchio</i>) ; ? (<i>Dutch Marionette</i>) ; ? (<i>French Marionette</i>) ; ? (<i>Russian Marionette</i>) &amp; Choir</span>
       </li>
       <li class="song-item">
-        <span class="song-title-native"><a href="#">« सच्चे मन से माँगो जो (Finale) »</a></span>
+        <span class="song-title-native">« सच्चे मन से माँगो जो (Finale) »</span>
         <span class="song-title-english">(« When You Wish Upon a Star (Finale) »)</span>
-        <span class="performed-by">performed by : ? (<i>Jiminy Cricket</i>) &amp; Choir</span>
+        <span class="performed-by"><i>performed by :</i> ? (<i>Jiminy Cricket</i>) &amp; Choir</span>
       </li>
     </ul>
   </div>
@@ -434,8 +598,8 @@ body {
        MODIFIE ICI : "?" si tu ne connais pas le nom. Le studio tout
        en bas reste en italique, centré, tout en MAJUSCULES.
        ============================================================ -->
-  <div class="info-box">
-    <div class="info-box-title">Technical Staff</div>
+  <div class="info-box" id="staff">
+    <div class="info-box-title">Technical Staff <a href="#src-staff" class="footnote-ref"></a></div>
     <table class="staff-table">
       <tr><td class="staff-name">Ashwin Saxena</td><td class="staff-role">Dubbing director</td></tr>
       <tr><td class="staff-name">?</td><td class="staff-role">Musical director</td></tr>
@@ -446,13 +610,6 @@ body {
     </table>
     <div class="studio-line">DISNEY CHARACTER VOICES INTERNATIONAL, INC.</div>
   </div>
-
-  <!-- ============================================================
-       SOURCES + CONTACT — garde ces 2 lignes telles quelles, modifie
-       juste le texte après "Sources :".
-       ============================================================ -->
-  <div class="cast-note">Sources : Dubbing director / Lyrics (Song's titles)</div>
-  <div class="cast-note">If someone has more information about this dub, please <a href="/contact.html">contact me</a></div>
 
   <hr class="cast-hr" style="margin-top:30px;">
 
@@ -465,9 +622,17 @@ body {
   </ul>
 
   <!-- ============================================================
-       AFFICHE — l'image de l'affiche/collage du doublage
+       GALERIE — affiche, captures d'écran, collage... MODIFIE ICI :
+       un <img> par photo. Clique dessus en prévisualisation pour
+       vérifier que le lightbox fonctionne. Change "Gallery" en
+       "Media" si tu préfères.
        ============================================================ -->
-  <img class="cast-poster" src="https://via.placeholder.com/320x450" alt="Pinocchio poster">
+  <div class="gallery-title">Gallery</div>
+  <div class="cast-gallery">
+    <img src="https://via.placeholder.com/320x450" alt="Pinocchio poster" onclick="openLightbox(this)">
+    <img src="https://via.placeholder.com/450x320" alt="Pinocchio screenshot 1" onclick="openLightbox(this)">
+    <img src="https://via.placeholder.com/450x320" alt="Pinocchio screenshot 2" onclick="openLightbox(this)">
+  </div>
 
   <!-- ============================================================
        LIEN VERS UNE PAGE LIÉE (optionnel) — supprime le bloc s'il
@@ -477,4 +642,55 @@ body {
     <a href="#">Pinocchio (Live-action) (2022) ➤</a>
   </div>
 
+  <!-- ============================================================
+       SOURCES + CONTACT — tout en bas de la page.
+       MODIFIE ICI : une <li> par source, dans l'ordre d'affichage des
+       encadrés. Les numéros [n] à côté des titres d'encadrés se
+       calculent tout seuls d'après la position de la <li> ciblée.
+       - La flèche ↑ de chaque <li> remonte vers l'encadré (href="#cast",
+         "#songs", "#staff", "#additional-voices", "#choir").
+       - Plusieurs sources pour un même encadré ? Ajoute simplement
+         d'autres <li> (id différent, ex: id="src-cast-2") avec la même
+         flèche ↑ vers "#cast", et un 2e <a class="footnote-ref"
+         href="#src-cast-2"></a> à côté du titre de l'encadré.
+       - Les <li> d'Additional voices / Choir sont entourées des mêmes
+         interrupteurs que les encadrés (elles disparaissent avec eux).
+       ============================================================ -->
+  <ol class="sources-list">
+    <li id="src-cast">Cast : Dubbing director <a href="#cast" class="back-ref" title="Back to Cast">↑</a></li>
+    {% if page.show_additional_voices %}
+    <li id="src-voices">Additional voices : ? <a href="#additional-voices" class="back-ref" title="Back to Additional voices">↑</a></li>
+    {% endif %}
+    {% if page.show_choir %}
+    <li id="src-choir">Choir : ? <a href="#choir" class="back-ref" title="Back to Choir">↑</a></li>
+    {% endif %}
+    <li id="src-songs">Songs : Lyrics (song titles) <a href="#songs" class="back-ref" title="Back to Songs">↑</a></li>
+    <li id="src-staff">Technical Staff : Dubbing director <a href="#staff" class="back-ref" title="Back to Technical Staff">↑</a></li>
+  </ol>
+  <div class="cast-note">If someone has more information about this dub, please <a href="/contact.html">contact me</a></div>
+
 </div>
+
+<!-- Lightbox plein écran pour la galerie -->
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<script>
+function openLightbox(imgEl) {
+  document.getElementById('lightboxImg').src = imgEl.src;
+  document.getElementById('lightboxOverlay').style.display = 'flex';
+}
+function closeLightbox() {
+  document.getElementById('lightboxOverlay').style.display = 'none';
+}
+
+/* Numérote automatiquement les [n] à côté des titres d'encadrés,
+   d'après la position de la source ciblée dans la liste du bas. */
+document.querySelectorAll('.footnote-ref').forEach(function (ref) {
+  var target = document.querySelector(ref.getAttribute('href'));
+  if (!target) return;
+  var position = Array.prototype.indexOf.call(target.parentElement.children, target) + 1;
+  ref.textContent = '[' + position + ']';
+});
+</script>
