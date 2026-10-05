@@ -13,7 +13,7 @@ show_additional_voices_v1: true
 show_choir_v1: true
 show_songs_v1: true
 show_additional_voices_v2: true
-show_choir_v2: true
+show_choir_v2: false
 show_songs_v2: true
 ---
 {% include header.html %}
@@ -1155,6 +1155,9 @@ body {
        Un bloc .version-sources par version (data-version identique à
        l'onglet) : seul celui de l'onglet affiché est visible. Une seule
        version ? Garde un seul bloc, avec class="version-sources active".
+       La ligne "If someone has more information..." (.cast-note) est
+       DANS chaque bloc : elle suit donc l'onglet affiché. Supprime-la
+       dans le bloc des versions pour lesquelles tu ne la veux pas.
        MODIFIE ICI : une <li> par source (numérotées automatiquement).
        La petite flèche ↑ est OPTIONNELLE : ajoute-la seulement si tu
        veux qu'une source fasse remonter vers une boîte précise, avec
@@ -1172,9 +1175,9 @@ body {
     <ol class="sources-list">
       <li>Source for this version <a href="#cast-v2" class="back-ref" title="Back to Cast">↑</a></li>
     </ol>
+    <div class="cast-note">If someone has more information about this dub, please <a href="/contact.html" target="_blank" rel="noopener">contact me</a></div>
   </div>
 
-  <div class="cast-note">If someone has more information about this dub, please <a href="/contact.html" target="_blank" rel="noopener">contact me</a></div>
 
 </div>
 
