@@ -101,6 +101,9 @@ show_choir: true
   --gallery-thumb-size: 160px;    /* côté des miniatures carrées */
   --gallery-photo-radius: 6px;
   --gallery-space-above: 50px;    /* espace au-dessus du titre "Gallery" */
+  --gallery-veil: rgba(0,0,0,0.55);            /* voile noir sur la miniature au survol (quand elle a une légende) */
+  --gallery-caption-size: 13px;                /* taille de la légende sur la miniature */
+  --lightbox-caption-size: 15px;               /* taille de la légende sous l'image ouverte */
   --gallery-arrow-bg: rgba(255,255,255,0.95);  /* flèches de défilement des miniatures */
   --gallery-arrow-color: var(--cast-accent);
   --gallery-arrow-size: 38px;
@@ -236,7 +239,7 @@ body {
   border-collapse: collapse;
 }
 .cast-table th {
-  text-align: left;
+  text-align: center;
   font-size: var(--table-head-size);
   font-weight: 700;
   color: var(--cast-heading-color);
@@ -383,18 +386,46 @@ body {
 .gallery-track::-webkit-scrollbar {
   display: none;
 }
-.gallery-track img {
+/* Chaque miniature est entourée automatiquement d'un .gallery-item (par le script du bas) */
+.gallery-item {
+  position: relative;
   flex: 0 0 auto;
   width: var(--gallery-thumb-size);
   height: var(--gallery-thumb-size);
-  object-fit: cover;
   border-radius: var(--gallery-photo-radius);
+  overflow: hidden;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   cursor: pointer;
   transition: transform 0.2s ease;
 }
-.gallery-track img:hover {
+.gallery-item:hover {
   transform: scale(1.04);
+}
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* Légende : voile noir transparent + texte, visible au survol (seulement si data-caption est rempli) */
+.gallery-caption {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  box-sizing: border-box;
+  background: var(--gallery-veil);
+  color: #fff;
+  font-size: var(--gallery-caption-size);
+  line-height: 1.35;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.gallery-item:hover .gallery-caption {
+  opacity: 1;
 }
 /* Flèches de défilement des miniatures (cachées tant qu'il n'y a rien à faire défiler) */
 .gallery-arrow {
@@ -431,9 +462,26 @@ body {
 .lightbox-overlay.open {
   display: flex;
 }
+.lightbox-figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.lightbox-caption {
+  margin-top: 12px;
+  max-width: 80vw;
+  color: #fff;
+  font-size: var(--lightbox-caption-size);
+  line-height: 1.4;
+  text-align: center;
+}
+.lightbox-caption:empty {
+  display: none;
+}
 .lightbox-overlay img {
   max-width: 90vw;
-  max-height: 85vh;
+  max-height: 78vh;
   border-radius: 4px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.5);
 }
@@ -747,19 +795,21 @@ body {
        au centre) ; s'il y en a trop pour la largeur de la page, des
        flèches apparaissent pour les faire défiler. Au clic, la
        galerie s'ouvre en plein écran (flèches, clavier, Échap).
-       Les carrés gris numérotés sont des espaces réservés : remplace
-       chaque src par l'URL de la vraie image. OPTIONNEL : si la
-       miniature est une version réduite, ajoute data-full="URL de la
-       grande image" sur l'<img> pour l'afficher en grand à l'ouverture.
+       - data-caption="..." (optionnel) : légende affichée au survol
+         de la miniature (voile noir) et sous l'image ouverte. Sans
+         data-caption, pas de voile ni de légende pour cette image.
+       - Les carrés gris numérotés sont des espaces réservés : remplace
+         chaque src par l'URL de la vraie image (la même image sert à
+         la miniature et à l'affichage en grand).
        Change "Gallery" en "Media" si tu préfères.
        ============================================================ -->
   <div class="gallery-title">Gallery</div>
   <div class="gallery-carousel" id="galleryCarousel">
     <button class="gallery-arrow prev" type="button" aria-label="Previous images">&#8249;</button>
     <div class="gallery-track" id="galleryTrack">
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='450'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>1</text></svg>" alt="Pinocchio image 1">
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>2</text></svg>" alt="Pinocchio image 2">
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>3</text></svg>" alt="Pinocchio image 3">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='450'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>1</text></svg>" alt="Pinocchio image 1" data-caption="Official poster">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>2</text></svg>" alt="Pinocchio image 2" data-caption="Recording session">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>3</text></svg>" alt="Pinocchio image 3" data-caption="Behind the scenes">
       <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>4</text></svg>" alt="Pinocchio image 4">
       <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='450'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>5</text></svg>" alt="Pinocchio image 5">
       <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>6</text></svg>" alt="Pinocchio image 6">
@@ -798,7 +848,10 @@ body {
 <div class="lightbox-overlay" id="lightbox" aria-hidden="true">
   <button class="lightbox-btn close" type="button" aria-label="Close">&#10005;</button>
   <button class="lightbox-btn prev" type="button" aria-label="Previous image">&#8249;</button>
-  <img id="lightboxImg" src="" alt="">
+  <figure class="lightbox-figure">
+    <img id="lightboxImg" src="" alt="">
+    <figcaption class="lightbox-caption" id="lightboxCaption"></figcaption>
+  </figure>
   <button class="lightbox-btn next" type="button" aria-label="Next image">&#8250;</button>
   <div class="lightbox-counter" id="lightboxCounter"></div>
 </div>
@@ -810,6 +863,22 @@ body {
   var prevBtn  = document.querySelector('.gallery-arrow.prev');
   var nextBtn  = document.querySelector('.gallery-arrow.next');
   var images   = Array.prototype.slice.call(track.querySelectorAll('img'));
+
+  /* ----- Entoure chaque miniature d'un .gallery-item (+ voile de légende si data-caption) ----- */
+  var items = images.map(function (img) {
+    var item = document.createElement('div');
+    item.className = 'gallery-item';
+    img.parentNode.insertBefore(item, img);
+    item.appendChild(img);
+    var text = img.getAttribute('data-caption');
+    if (text) {
+      var cap = document.createElement('div');
+      cap.className = 'gallery-caption';
+      cap.textContent = text;
+      item.appendChild(cap);
+    }
+    return item;
+  });
 
   /* ----- Flèches de défilement des miniatures ----- */
   function updateArrows() {
@@ -832,13 +901,15 @@ body {
   var box     = document.getElementById('lightbox');
   var bigImg  = document.getElementById('lightboxImg');
   var counter = document.getElementById('lightboxCounter');
+  var lbCaption = document.getElementById('lightboxCaption');
   var current = 0;
 
   function show(index) {
     current = (index + images.length) % images.length;   // boucle : après la dernière, retour à la première
     var img = images[current];
-    bigImg.src = img.getAttribute('data-full') || img.src;
+    bigImg.src = img.src;
     bigImg.alt = img.alt;
+    lbCaption.textContent = img.getAttribute('data-caption') || '';
     counter.textContent = (current + 1) + ' / ' + images.length;
   }
   function open(index) {
@@ -856,16 +927,16 @@ body {
     document.body.style.overflow = '';
   }
 
-  images.forEach(function (img, i) {
-    img.addEventListener('click', function () { open(i); });
+  items.forEach(function (item, i) {
+    item.addEventListener('click', function () { open(i); });
   });
   box.querySelector('.prev').addEventListener('click', function (e) { e.stopPropagation(); show(current - 1); });
   box.querySelector('.next').addEventListener('click', function (e) { e.stopPropagation(); show(current + 1); });
   box.querySelector('.close').addEventListener('click', close);
 
-  // Clic en dehors de l'image (sur le fond sombre) = fermer
+  // Clic en dehors de l'image (fond sombre, légende...) = fermer
   box.addEventListener('click', function (e) {
-    if (e.target === box) close();
+    if (e.target !== bigImg) close();
   });
 
   // Clavier : ← → pour naviguer, Échap pour fermer
