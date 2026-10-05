@@ -8,6 +8,7 @@ layout: null
 # ============================================================
 show_additional_voices: true
 show_choir: true
+show_songs: true
 ---
 {% include header.html %}
 <!-- GOOGLE FONT -->
@@ -822,7 +823,7 @@ body {
   <!-- ============================================================
        ENCADRÉS OPTIONNELS "ADDITIONAL VOICES" / "CHOIR"
        Ils s'affichent ou non selon les interrupteurs tout en haut du
-       fichier (show_additional_voices / show_choir).
+       fichier (show_additional_voices / show_choir / show_songs).
        MODIFIE ICI : un <div> par personne, "Nom / Nom natif". Ils se
        rangent ligne par ligne (Nom 1 à gauche, Nom 2 à droite, Nom 3
        à gauche...), colonne de gauche alignée à droite, colonne de
@@ -855,6 +856,7 @@ body {
 
   <!-- ============================================================
        ENCADRÉ "SONGS" — un .song-item par chanson.
+       Film sans chansons ? Mets show_songs: false tout en haut du fichier.
        MODIFIE ICI : titre natif en texte simple (il reste en gras
        même avec un "? »" quand tu ne le connais pas) ; si tu as un
        vrai lien (vidéo/source), entoure-le d'un <a href="..."> pour
@@ -864,6 +866,7 @@ body {
        besoin. Italique : uniquement "performed by :" et le nom du
        personnage, via <i>...</i> (tout le reste est en texte normal).
        ============================================================ -->
+  {% if page.show_songs %}
   <div class="info-box" id="songs">
     <div class="info-box-title">Songs</div>
     <ul class="song-list">
@@ -899,6 +902,7 @@ body {
       </li>
     </ul>
   </div>
+  {% endif %}
 
   <!-- ============================================================
        ENCADRÉ "TECHNICAL STAFF" — une ligne par poste.
