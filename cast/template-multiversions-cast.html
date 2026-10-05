@@ -6,9 +6,15 @@ layout: null
 # false = il disparaît complètement de la page
 # (pas besoin de supprimer le code HTML plus bas)
 # ============================================================
-show_additional_voices: true
-show_choir: true
-show_songs: true
+# Un interrupteur par version : _v1 = 1er onglet, _v2 = 2e onglet
+# (pour une 3e version, ajoute show_..._v3 ici et dans son panneau).
+# "Cast" et "Technical Staff" sont toujours affichés.
+show_additional_voices_v1: true
+show_choir_v1: true
+show_songs_v1: true
+show_additional_voices_v2: true
+show_choir_v2: true
+show_songs_v2: true
 ---
 {% include header.html %}
 <!-- GOOGLE FONT -->
@@ -744,11 +750,11 @@ body {
        Le 1er onglet (et son panneau) a class="... active".
        Un SEUL doublage ? Supprime tout ce bloc .version-tabs : la page
        s'affiche normalement (garde quand même le panneau, avec "active").
-       Lien direct vers un onglet : ma-page.html#version-1962
+       Lien direct vers un onglet : ma-page.html#version-v2
        ============================================================ -->
   <div class="version-tabs">
-    <button class="version-tab active" type="button" data-version="2011">Version 2011</button>
-    <button class="version-tab" type="button" data-version="2020">Version 2020</button>
+    <button class="version-tab active" type="button" data-version="v1">Version 2011</button>
+    <button class="version-tab" type="button" data-version="v2">Version 2020</button>
   </div>
 
   <!-- ============================================================
@@ -756,11 +762,11 @@ body {
        tous les encadrés de CETTE version (jusqu'à la fin de "Technical
        Staff"). Pour une autre version : copie tout le panneau
        (de <div class="version-panel"> à son </div> fermant) et change
-       data-version + le contenu. Attention : les id des ancres
-       (cast, songs, staff...) doivent être UNIQUES sur la page :
-       dans le 2e panneau, écris par ex. id="cast-2020".
+       data-version + le contenu. Les id des ancres se terminent par
+       -v1 (1re version), -v2, -v3... : cast-v1, songs-v1, staff-v1...
+       Ils sont toujours les mêmes d'une page à l'autre, rien à renommer.
        ============================================================ -->
-  <div class="version-panel active" data-version="2011">
+  <div class="version-panel active" data-version="v1">
 
   <!-- ============================================================
        COMÉDIENS DE DOUBLAGE — un .voice-card par comédien.
@@ -794,8 +800,8 @@ body {
        acteur). Les noms de comédiens restent en texte simple pour
        l'instant (pas de lien) : plus tard, tu pourras les transformer
        en <a href="/artists/nom.html">...</a> vers leur propre fiche.
-       L'id="cast" est un point d'ancrage invisible : une source en bas
-       de page peut y faire remonter avec <a href="#cast">.
+       L'id="cast-v1" est un point d'ancrage invisible : une source en bas
+       de page peut y faire remonter avec <a href="#cast-v1">.
 
        CAS PARTICULIERS — on fusionne des cellules avec rowspan="N"
        (la cellule s'étire sur N lignes). Les 3 exemples à copier :
@@ -829,7 +835,7 @@ body {
        Règle simple : le nombre de <td> par ligne = 3 moins les cellules
        déjà "prises" par un rowspan des lignes du dessus.
        ============================================================ -->
-  <div class="info-box" id="cast">
+  <div class="info-box" id="cast-v1">
     <div class="info-box-title">Cast</div>
     <table class="cast-table">
       <thead>
@@ -913,14 +919,14 @@ body {
   <!-- ============================================================
        ENCADRÉS OPTIONNELS "ADDITIONAL VOICES" / "CHOIR"
        Ils s'affichent ou non selon les interrupteurs tout en haut du
-       fichier (show_additional_voices / show_choir / show_songs).
+       fichier (show_additional_voices_v1 / show_choir_v1 / show_songs_v1, et _v2 pour la 2e version).
        MODIFIE ICI : un <div> par personne, "Nom / Nom natif". Ils se
        rangent ligne par ligne (Nom 1 à gauche, Nom 2 à droite, Nom 3
        à gauche...), colonne de gauche alignée à droite, colonne de
        droite alignée à gauche.
        ============================================================ -->
-  {% if page.show_additional_voices %}
-  <div class="info-box" id="additional-voices">
+  {% if page.show_additional_voices_v1 %}
+  <div class="info-box" id="additional-voices-v1">
     <div class="info-box-title">Additional voices</div>
     <div class="voices-grid">
       <div>Name 1 / Native name 1</div>
@@ -931,8 +937,8 @@ body {
   </div>
   {% endif %}
 
-  {% if page.show_choir %}
-  <div class="info-box" id="choir">
+  {% if page.show_choir_v1 %}
+  <div class="info-box" id="choir-v1">
     <div class="info-box-title">Choir</div>
     <div class="voices-grid">
       <div>Name 1 / Native name 1</div>
@@ -946,7 +952,7 @@ body {
 
   <!-- ============================================================
        ENCADRÉ "SONGS" — un .song-item par chanson.
-       Film sans chansons ? Mets show_songs: false tout en haut du fichier.
+       Film sans chansons ? Mets show_songs_v1: false tout en haut du fichier.
        MODIFIE ICI : titre natif en texte simple (il reste en gras
        même avec un "? »" quand tu ne le connais pas) ; si tu as un
        vrai lien (vidéo/source), entoure-le d'un <a href="..."> pour
@@ -956,8 +962,8 @@ body {
        besoin. Italique : uniquement "performed by :" et le nom du
        personnage, via <i>...</i> (tout le reste est en texte normal).
        ============================================================ -->
-  {% if page.show_songs %}
-  <div class="info-box" id="songs">
+  {% if page.show_songs_v1 %}
+  <div class="info-box" id="songs-v1">
     <div class="info-box-title">Songs</div>
     <ul class="song-list">
       <li class="song-item">
@@ -999,7 +1005,7 @@ body {
        MODIFIE ICI : "?" si tu ne connais pas le nom. Le studio tout
        en bas reste en italique, centré, tout en MAJUSCULES.
        ============================================================ -->
-  <div class="info-box" id="staff">
+  <div class="info-box" id="staff-v1">
     <div class="info-box-title">Technical Staff</div>
     <table class="staff-table">
       <tr><td class="staff-name">Ashwin Saxena</td><td class="staff-role">Dubbing director</td></tr>
@@ -1012,10 +1018,15 @@ body {
     <div class="studio-line">DISNEY CHARACTER VOICES INTERNATIONAL, INC.</div>
   </div>
 
-  </div><!-- /version-panel 2011 -->
+  </div><!-- /version-panel v1 -->
 
-  <!-- PANNEAU DE LA VERSION 2 (exemple minimal : copie-colle et complète) -->
-  <div class="version-panel" data-version="2020">
+  <!-- ============================================================
+       PANNEAU DE LA VERSION 2 — mêmes 5 encadrés que la version 1, avec
+       des valeurs d'exemple (copie-colle, puis complète). Les id se
+       terminent par -v2 (et -v3 pour une 3e version) : ce sont toujours
+       les mêmes d'une page à l'autre, rien à renommer.
+       ============================================================ -->
+  <div class="version-panel" data-version="v2">
     <div class="voice-cast">
       <div class="voice-card">
         <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="Actor name">
@@ -1023,18 +1034,61 @@ body {
         <div class="actor-dates">(Unknown dates)</div>
       </div>
     </div>
-    <div class="info-box" id="cast-2020">
+
+    <div class="info-box" id="cast-v2">
       <div class="info-box-title">Cast</div>
       <table class="cast-table">
         <thead>
-          <tr><th>Language name</th><th>Original name</th><th>Voices</th></tr>
+          <tr><th>Language name</th><th>Original name</th><th class="col-voices">Voices</th></tr>
         </thead>
         <tbody>
           <tr><td>?</td><td>Pinocchio</td><td>Actor name</td></tr>
         </tbody>
       </table>
     </div>
-  </div><!-- /version-panel 2020 -->
+
+    {% if page.show_additional_voices_v2 %}
+    <div class="info-box" id="additional-voices-v2">
+      <div class="info-box-title">Additional voices</div>
+      <div class="voices-grid">
+        <div>Name 1 / Native name 1</div>
+        <div>Name 2 / Native name 2</div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if page.show_choir_v2 %}
+    <div class="info-box" id="choir-v2">
+      <div class="info-box-title">Choir</div>
+      <div class="voices-grid">
+        <div>Name 1 / Native name 1</div>
+        <div>Name 2 / Native name 2</div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if page.show_songs_v2 %}
+    <div class="info-box" id="songs-v2">
+      <div class="info-box-title">Songs</div>
+      <ul class="song-list">
+        <li class="song-item">
+          <span class="song-title-native">« ? »</span>
+          <span class="song-title-english">(« When You Wish Upon a Star »)</span>
+          <span class="performed-by"><i>performed by</i> : ? (<i>Jiminy Cricket</i>) &amp; Choir</span>
+        </li>
+      </ul>
+    </div>
+    {% endif %}
+
+    <div class="info-box" id="staff-v2">
+      <div class="info-box-title">Technical Staff</div>
+      <table class="staff-table">
+        <tr><td class="staff-name">?</td><td class="staff-role">Dubbing director</td></tr>
+        <tr><td class="staff-name">?</td><td class="staff-role">Translator</td></tr>
+      </table>
+      <div class="studio-line">DISNEY CHARACTER VOICES INTERNATIONAL, INC.</div>
+    </div>
+  </div><!-- /version-panel v2 -->
 
   <hr class="cast-hr" style="margin-top:30px;">
 
@@ -1104,19 +1158,19 @@ body {
        MODIFIE ICI : une <li> par source (numérotées automatiquement).
        La petite flèche ↑ est OPTIONNELLE : ajoute-la seulement si tu
        veux qu'une source fasse remonter vers une boîte précise, avec
-       href="#cast", "#additional-voices", "#choir", "#songs" ou
-       "#staff". Sans flèche, la source reste simple.
+       href="#cast-v1", "#additional-voices-v1", "#choir-v1", "#songs-v1"
+       ou "#staff-v1" (ou -v2 pour la 2e version). Sans flèche, la source reste simple.
        ============================================================ -->
-  <div class="version-sources active" data-version="2011">
+  <div class="version-sources active" data-version="v1">
     <ol class="sources-list">
       <li>Dubbing director</li>
-      <li>Lyrics (song titles) <a href="#songs" class="back-ref" title="Back to Songs">↑</a></li>
+      <li>Lyrics (song titles) <a href="#songs-v1" class="back-ref" title="Back to Songs">↑</a></li>
       <li>Another source without arrow</li>
     </ol>
   </div>
-  <div class="version-sources" data-version="2020">
+  <div class="version-sources" data-version="v2">
     <ol class="sources-list">
-      <li>Source for this version <a href="#cast-2020" class="back-ref" title="Back to Cast">↑</a></li>
+      <li>Source for this version <a href="#cast-v2" class="back-ref" title="Back to Cast">↑</a></li>
     </ol>
   </div>
 
@@ -1151,7 +1205,7 @@ body {
   tabs.forEach(function (t) {
     t.addEventListener('click', function () { showVersion(t.dataset.version, true); });
   });
-  /* Ouvre le bon onglet si l'adresse contient #version-xxx ou l'id d'un encadré (ex : #cast-2020) */
+  /* Ouvre le bon onglet si l'adresse contient #version-xxx ou l'id d'un encadré (ex : #cast-v2) */
   function openFromHash() {
     var h = location.hash;
     if (h.indexOf('#version-') === 0) { showVersion(h.slice(9), false); return; }
