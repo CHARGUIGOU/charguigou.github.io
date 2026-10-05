@@ -101,7 +101,7 @@ show_choir: true
   --gallery-thumb-size: 160px;    /* côté des miniatures carrées */
   --gallery-photo-radius: 6px;
   --gallery-space-above: 50px;    /* espace au-dessus du titre "Gallery" */
-  --gallery-veil: rgba(0,0,0,0.55);            /* voile noir sur la miniature au survol (quand elle a une légende) */
+  --gallery-veil: rgba(42,93,160,0.6);        /* voile sur la miniature au survol (bleu du site, 42,93,160 ; change le dernier chiffre pour l'opacité) */
   --gallery-caption-size: 13px;                /* taille de la légende sur la miniature */
   --lightbox-caption-size: 15px;               /* taille de la légende sous l'image ouverte */
   --gallery-arrow-bg: rgba(255,255,255,0.95);  /* flèches de défilement des miniatures */
@@ -402,6 +402,7 @@ body {
   transform: scale(1.04);
 }
 .gallery-item img {
+  border-radius: inherit;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -411,6 +412,7 @@ body {
 .gallery-caption {
   position: absolute;
   inset: 0;
+  border-radius: inherit;   /* suit les coins arrondis de la miniature */
   display: flex;
   align-items: center;
   justify-content: center;
