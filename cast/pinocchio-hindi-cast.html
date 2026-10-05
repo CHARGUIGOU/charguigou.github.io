@@ -2,148 +2,228 @@
 layout: null
 # ============================================================
 # INTERRUPTEURS — MODIFIE ICI à chaque nouvelle page.
-# true  = l'encadré (et sa source en bas de page) s'affiche
-# false = il disparaît complètement, et les numéros [1][2]... se
-#         recalculent tout seuls
+# true  = l'encadré s'affiche
+# false = il disparaît complètement de la page
+# (pas besoin de supprimer le code HTML plus bas)
 # ============================================================
 show_additional_voices: true
 show_choir: true
 ---
 {% include header.html %}
 <!-- GOOGLE FONT -->
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&family=Open+Sans:ital@1&family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
+/* ============================================================
+   TOUS LES RÉGLAGES DE LA PAGE SONT ICI (couleurs, tailles, espaces)
+   Change une valeur dans ce bloc et ça s'applique partout où elle
+   est utilisée, sans toucher au reste du CSS.
+   ============================================================ */
+:root {
+
+  /* ---------- GÉNÉRAL ---------- */
+  --cast-font: 'Open Sans', 'Noto Sans', sans-serif; /* 'Noto Sans' = secours pour hindi, arabe, etc. */
+  --cast-max-width: 900px;        /* largeur max du contenu */
+  --cast-side-padding: 12px;      /* marge gauche/droite de la page */
+  --cast-accent: #2a5da0;         /* bleu du site (titre, liens) */
+  --cast-text-color: #333;        /* couleur du texte courant */
+  --cast-text-size: 14px;         /* taille du texte courant (tableaux, chansons, trivia...) */
+  --cast-heading-color: #222;     /* couleur des titres de boîtes et en-têtes de tableaux */
+
+  /* ---------- TITRE DU FILM (titre localisé + année) ---------- */
+  --title-native-size: 28px;
+  --title-native-color: var(--cast-accent);
+  --title-native-weight: 700;
+  --title-year-gap: 6px;          /* espace entre le titre et l'année */
+
+  /* ---------- TITRE ANGLAIS (sous le titre localisé) ---------- */
+  --title-english-size: 17px;
+  --title-english-color: var(--cast-text-color);
+  --title-english-style: italic;  /* italic ou normal */
+  --title-english-space-above: 6px;
+  --title-english-space-below: 30px;
+
+  /* ---------- TRAITS HORIZONTAUX ---------- */
+  --hr-width: 70%;                /* largeur du trait (par rapport à la page) */
+  --hr-color: #ddd;
+  --hr-thickness: 1px;
+  --hr-space-above: 0px;          /* espace au-dessus du trait */
+  --hr-space-below: 40px;         /* espace en dessous du trait */
+
+  /* ---------- PHOTOS DES COMÉDIENS ---------- */
+  --voice-gap: 20px;              /* espace entre les photos */
+  --voice-card-min: 200px;        /* largeur mini d'une carte avant de passer à la ligne */
+  --voice-card-max: 300px;        /* largeur maxi d'une carte (mets 100% pour tout remplir) */
+  --voice-photo-ratio: 1 / 1;     /* forme de la photo : 1 / 1 carré, 4 / 3, 3 / 4 portrait... */
+  --voice-photo-radius: 6px;
+  --voice-space-below: 50px;      /* espace entre les photos et la 1re boîte */
+  --actor-name-size: 19px;
+  --actor-name-color: var(--cast-text-color);
+  --actor-dates-size: 13px;
+  --actor-dates-color: #666;
+
+  /* ---------- BOÎTES GRISES (Cast, Songs, Technical Staff...) ---------- */
+  --box-rgb: 0, 0, 0;             /* couleur du fond en R, G, B (0,0,0 = noir) */
+  --box-opacity: 0.025;           /* OPACITÉ du fond : 0 = invisible, 0.05 = gris léger, 0.1 = plus marqué */
+  --box-radius: 10px;
+  --box-pad-y: 22px;              /* espace intérieur haut/bas */
+  --box-pad-x: 20px;              /* espace intérieur gauche/droite */
+  --box-space-below: 40px;        /* espace entre deux boîtes */
+  --box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+  /* ---------- TITRES DES BOÎTES (Cast, Songs... + Gallery) ---------- */
+  --box-title-size: 17px;
+  --box-title-color: var(--cast-heading-color);
+  --box-title-weight: 700;
+  --box-title-space-below: 16px;
+
+  /* ---------- TABLEAUX (Cast, Technical Staff) ---------- */
+  --table-head-size: 13px;
+  --table-row-border: #e3e3e3;    /* trait entre les lignes du tableau Cast */
+
+  /* ---------- LISTES À 2 COLONNES (Additional voices / Choir) ---------- */
+  --voices-column-gap: 40px;      /* espace central entre colonne gauche et droite */
+  --voices-row-gap: 8px;
+
+  /* ---------- CHANSONS ---------- */
+  --song-space-between: 18px;     /* espace entre deux chansons */
+  --song-line-height: 1.5;
+
+  /* ---------- LIENS (quand tu en ajoutes) ---------- */
+  --link-color: var(--cast-accent);
+
+  /* ---------- TRIVIA ---------- */
+  --trivia-space-above: 40px;
+  --trivia-line-height: 1.6;
+
+  /* ---------- GALERIE ---------- */
+  --gallery-gap: 16px;
+  --gallery-photo-height: 220px;
+  --gallery-photo-radius: 6px;
+  --gallery-space-above: 50px;    /* espace au-dessus du titre "Gallery" */
+
+  /* ---------- LIEN VERS UNE PAGE SIMILAIRE (bas de page, à droite) ---------- */
+  --related-size: 14px;
+  --related-color: #9a3b3b;
+  --related-style: italic;
+  --related-space-above: 40px;
+
+  /* ---------- SOURCES + CONTACT (bas de page) ---------- */
+  --sources-size: 13px;
+  --sources-color: var(--cast-text-color);
+  --sources-style: italic;
+  --sources-line-height: 1.7;
+  --sources-space-above: 40px;
+}
+
 body {
-  font-family: 'Open Sans', 'Noto Sans', sans-serif !important;
+  font-family: var(--cast-font) !important;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* ============================================================
-   RÉGLAGES GÉNÉRAUX DE LA PAGE
-   MODIFIE ICI : largeur du contenu, couleurs, espacements.
-   'Noto Sans' est ajouté en secours pour les écritures non-latines
-   (hindi, arabe, etc.) que Open Sans ne couvre pas toujours bien ;
-   change-le si la langue de la page a besoin d'une autre police.
-   ============================================================ */
-:root {
-  --cast-max-width: 900px;
-  --cast-accent: #2a5da0;       /* bleu du site : titre, liens, dates acteurs */
-  --cast-box-bg: #f7f7f7;       /* fond des encadrés gris (Cast / Songs / Technical Staff) */
-  --cast-related-color: #9a3b3b; /* couleur du lien "page liée" en bas à droite */
-}
-
 .cast-wrap {
   max-width: var(--cast-max-width);
   margin: 0 auto 100px;
-  padding: 60px 20px 0;
+  padding: 60px var(--cast-side-padding) 0;
   box-sizing: border-box;
+  color: var(--cast-text-color);
 }
 
 /* ============================================================
-   TITRE DU FILM (titre natif + année, puis titre anglais dessous)
-   MODIFIE ICI à chaque nouvelle page : les deux lignes de titre.
+   TITRE DU FILM
    ============================================================ */
 .cast-title-native {
   text-align: center;
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--cast-accent);
-}
-.cast-title-native .native-text {
-  text-decoration: none;
+  font-size: var(--title-native-size);
+  font-weight: var(--title-native-weight);
+  color: var(--title-native-color);
 }
 .cast-title-native .native-year {
-  text-decoration: none;
-  margin-left: 6px;
+  margin-left: var(--title-year-gap);
 }
 .cast-title-english {
   text-align: center;
-  font-size: 17px;
-  font-style: italic;
-  color: #333;
-  margin-top: 6px;
-  margin-bottom: 30px;
+  font-size: var(--title-english-size);
+  font-style: var(--title-english-style);
+  color: var(--title-english-color);
+  margin-top: var(--title-english-space-above);
+  margin-bottom: var(--title-english-space-below);
 }
+
+/* Trait horizontal (utilisé 2 fois : sous le titre, et avant la trivia) */
 .cast-hr {
   border: none;
-  border-top: 1px solid #ddd;
-  margin: 0 0 40px;
+  border-top: var(--hr-thickness) solid var(--hr-color);
+  width: var(--hr-width);
+  margin: var(--hr-space-above) auto var(--hr-space-below);
 }
 
 /* ============================================================
-   RANGÉE DES COMÉDIENS DE DOUBLAGE (photo + nom + dates)
-   MODIFIE ICI : ajoute/enlève un .voice-card par comédien. La ligne
-   s'adapte toute seule (wrap) s'il y en a beaucoup.
+   PHOTOS DES COMÉDIENS — elles se partagent toute la largeur
+   disponible (jusqu'à --voice-card-max chacune) et passent à la
+   ligne toutes seules s'il y en a beaucoup.
    ============================================================ */
 .voice-cast {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 30px;
-  margin-bottom: 60px;
+  gap: var(--voice-gap);
+  margin-bottom: var(--voice-space-below);
 }
 .voice-card {
-  width: 180px;
+  flex: 1 1 var(--voice-card-min);
+  max-width: var(--voice-card-max);
   text-align: center;
 }
 .voice-card img {
   width: 100%;
-  height: 180px;
+  aspect-ratio: var(--voice-photo-ratio);
   object-fit: cover;
   display: block;
-  border-radius: 6px;
+  border-radius: var(--voice-photo-radius);
 }
 .voice-card .actor-name {
   margin-top: 14px;
-  font-size: 19px;
-  color: #333;
-}
-.voice-card .actor-name a {
-  color: inherit;
-  text-decoration: none;
+  font-size: var(--actor-name-size);
+  color: var(--actor-name-color);
 }
 .voice-card .actor-dates {
   margin-top: 2px;
-  font-size: 13px;
+  font-size: var(--actor-dates-size);
   font-style: normal;
-  color: #666;
+  color: var(--actor-dates-color);
 }
 
 /* ============================================================
-   ENCADRÉS GRIS (Cast / Songs / Technical Staff)
-   Les 3 sections partagent le même style de boîte — seul le contenu
-   à l'intérieur change.
+   BOÎTES GRISES (Cast / Additional voices / Choir / Songs /
+   Technical Staff) — même style pour toutes.
    ============================================================ */
 .info-box {
-  background: var(--cast-box-bg);
-  border-radius: 10px;
-  padding: 24px 28px 28px;
-  margin-bottom: 40px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  scroll-margin-top: 20px; /* marge quand on arrive via une ancre (flèche ↑ des sources) */
+  background: rgba(var(--box-rgb), var(--box-opacity));
+  border-radius: var(--box-radius);
+  padding: var(--box-pad-y) var(--box-pad-x);
+  margin-bottom: var(--box-space-below);
+  box-shadow: var(--box-shadow);
+  scroll-margin-top: 20px; /* marge d'arrivée quand on remonte via une flèche ↑ des sources */
+}
+
+/* Titre des boîtes ET titre "Gallery" : même style, même alignement
+   (le titre Gallery reprend le même retrait que le texte des boîtes). */
+.info-box-title,
+.gallery-title {
+  font-size: var(--box-title-size);
+  font-weight: var(--box-title-weight);
+  color: var(--box-title-color);
+  text-align: left;
 }
 .info-box-title {
-  font-size: 17px;
-  font-weight: 700;
-  color: #222;
-  margin-bottom: 16px;
+  margin-bottom: var(--box-title-space-below);
 }
-/* Petit numéro cliquable à côté d'un titre de boîte, qui renvoie
-   vers l'entrée correspondante dans la liste des sources en bas de
-   page (ex: "Cast [1]" → ancre #src-cast). */
-.footnote-ref {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--cast-accent);
-  text-decoration: none;
-  vertical-align: super;
-  margin-left: 3px;
-}
-.footnote-ref:hover {
-  text-decoration: underline;
+.gallery-title {
+  padding-left: var(--box-pad-x);
+  margin: var(--gallery-space-above) 0 var(--box-title-space-below);
 }
 
 /* --- Tableau "Cast" --- */
@@ -153,9 +233,9 @@ body {
 }
 .cast-table th {
   text-align: left;
-  font-size: 13px;
+  font-size: var(--table-head-size);
   font-weight: 700;
-  color: #222;
+  color: var(--cast-heading-color);
   padding: 6px 10px 10px;
 }
 .cast-table th.col-voices {
@@ -163,21 +243,42 @@ body {
   text-decoration: underline;
 }
 .cast-table td {
-  font-size: 14px;
-  color: #333;
+  font-size: var(--cast-text-size);
+  color: var(--cast-text-color);
   padding: 10px;
-  border-top: 1px solid #e3e3e3;
-  text-align: center;
-}
-.cast-table td.col-hindi {
+  border-top: 1px solid var(--table-row-border);
   text-align: center;
 }
 .cast-table a {
-  color: var(--cast-accent);
+  color: var(--link-color);
   text-decoration: none;
   font-weight: 600;
 }
 .cast-table a:hover {
+  text-decoration: underline;
+}
+
+/* --- Listes "Additional voices" / "Choir" ---
+   2 colonnes : la colonne de gauche est alignée à droite, celle de
+   droite à gauche (elles se rejoignent au centre). L'ordre d'ajout
+   se lit ligne par ligne : Nom 1, Nom 2 / Nom 3, Nom 4 / Nom 5...
+   Un nombre impair laisse la dernière ligne à gauche. */
+.voices-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--voices-column-gap);
+  row-gap: var(--voices-row-gap);
+  font-size: var(--cast-text-size);
+  color: var(--cast-text-color);
+}
+.voices-grid > div:nth-child(odd)  { text-align: right; }
+.voices-grid > div:nth-child(even) { text-align: left; }
+.voices-grid a {
+  color: var(--link-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+.voices-grid a:hover {
   text-decoration: underline;
 }
 
@@ -186,27 +287,24 @@ body {
   list-style: disc;
   padding-left: 20px;
   margin: 0;
-  font-size: 14px;   /* taille unique pour tout le texte des chansons */
-  line-height: 1.5;
-  color: #333;
+  font-size: var(--cast-text-size);   /* taille unique pour tout le texte des chansons */
+  line-height: var(--song-line-height);
+  color: var(--cast-text-color);
 }
 .song-item {
-  margin-bottom: 18px;
+  margin-bottom: var(--song-space-between);
 }
 .song-item .song-title-native {
   font-weight: 700;
-  color: #333;
 }
-.song-item .song-title-native a {
-  color: var(--cast-accent);
+.song-item .song-title-native a,
+.song-item .performed-by a {
+  color: var(--link-color);
   text-decoration: none;
 }
-.song-item .song-title-native a:hover {
+.song-item .song-title-native a:hover,
+.song-item .performed-by a:hover {
   text-decoration: underline;
-}
-.song-item .song-title-english {
-  font-style: normal;
-  color: #333;
 }
 /* Italique uniquement là où tu mets des balises <i> : "performed by :"
    et les noms de personnages entre parenthèses. */
@@ -214,16 +312,6 @@ body {
   display: block;
   margin-top: 4px;
   font-style: normal;
-  color: #333;
-}
-.song-item .performed-by a {
-  color: var(--cast-accent);
-  font-style: normal;
-  text-decoration: none;
-  font-weight: 600;
-}
-.song-item .performed-by a:hover {
-  text-decoration: underline;
 }
 
 /* --- "Technical Staff" --- */
@@ -235,137 +323,53 @@ body {
 }
 .staff-table td {
   padding: 4px 10px;
-  font-size: 14px;
+  font-size: var(--cast-text-size);
 }
 .staff-table td.staff-name {
   text-align: right;
-  color: #333;
+  color: var(--cast-text-color);
   width: 50%;
 }
 .staff-table td.staff-role {
   text-align: left;
   font-weight: 700;
-  color: #222;
+  color: var(--cast-heading-color);
 }
 .studio-line {
   text-align: center;
   font-style: italic;
-  color: #333;
+  color: var(--cast-text-color);
   margin-top: 16px;
-  font-size: 14px;
-}
-
-/* --- "Additional voices" / "Choir" (listes à 2 colonnes) --- */
-.voices-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 40px;
-  row-gap: 8px;
-  font-size: 14px;
-  color: #333;
-}
-.voices-grid div {
-  text-align: center;
-}
-.voices-grid a {
-  color: var(--cast-accent);
-  text-decoration: none;
-  font-weight: 600;
-}
-.voices-grid a:hover {
-  text-decoration: underline;
+  font-size: var(--cast-text-size);
 }
 
 /* ============================================================
-   LIGNES "SOURCES" + "CONTACTEZ-MOI", alignées à droite, discrètes
-   ============================================================ */
-.cast-note {
-  text-align: right;
-  font-size: 13px;
-  font-style: italic;
-  color: #333;
-  margin: 4px 0;
-}
-.cast-note a {
-  color: var(--cast-accent);
-  font-weight: 600;
-  text-decoration: none;
-}
-.cast-note a:hover {
-  text-decoration: underline;
-}
-.sources-list + .cast-note {
-  margin-top: 16px;
-}
-
-/* ============================================================
-   LISTE DES SOURCES, EN BAS DE PAGE
-   Une entrée par encadré (Cast / Songs / Technical Staff /
-   Additional voices / Choir) ; son numéro renvoie vers le petit
-   [1][2]... posé à côté du titre de la boîte correspondante.
-   MODIFIE ICI : le texte de chaque source, et supprime les lignes
-   "Additional voices" / "Choir" si ces encadrés n'existent pas sur
-   cette page.
-   ============================================================ */
-.sources-list {
-  margin: 10px 0 0;
-  padding-left: 22px;
-  font-size: 13px;
-  font-style: italic;
-  color: #333;
-  line-height: 1.7;
-}
-.sources-list li {
-  margin-bottom: 2px;
-}
-.sources-list .back-ref {
-  font-style: normal;
-  font-weight: 700;
-  color: var(--cast-accent);
-  text-decoration: none;
-  margin-left: 4px;
-}
-.sources-list .back-ref:hover {
-  text-decoration: underline;
-}
-
-/* ============================================================
-   TRIVIA (liste à puces simple, sous la 2e ligne horizontale)
+   TRIVIA
    ============================================================ */
 .cast-trivia {
-  margin: 40px 0 0;
+  margin: var(--trivia-space-above) 0 0;
   padding-left: 20px;
-  font-size: 14px;
-  color: #333;
-  line-height: 1.6;
+  font-size: var(--cast-text-size);
+  color: var(--cast-text-color);
+  line-height: var(--trivia-line-height);
 }
 .cast-trivia li {
   margin-bottom: 8px;
 }
 
 /* ============================================================
-   GALERIE D'IMAGES EN BAS DE PAGE (affiche, captures, collage...)
+   GALERIE D'IMAGES (affiche, captures, collage...)
    Chaque vignette s'agrandit en plein écran au clic.
-   MODIFIE ICI : ajoute/enlève des <img> dans .cast-gallery, le reste
-   (grille + lightbox) s'adapte tout seul.
    ============================================================ */
-.gallery-title {
-  text-align: center;
-  font-size: 17px;
-  font-weight: 700;
-  color: #222;
-  margin: 50px 0 0;
-}
 .cast-gallery {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 16px;
-  margin: 20px 0 0;
+  gap: var(--gallery-gap);
 }
 .cast-gallery img {
-  height: 220px;
-  border-radius: 6px;
+  height: var(--gallery-photo-height);
+  border-radius: var(--gallery-photo-radius);
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   cursor: pointer;
   transition: transform 0.2s ease;
@@ -391,20 +395,60 @@ body {
 }
 
 /* ============================================================
-   LIEN VERS UNE PAGE LIÉE (ex: une autre version du même film),
-   en bas à droite, dans une couleur distincte du bleu du site.
+   LIEN VERS UNE PAGE SIMILAIRE (bas de page, à droite)
    ============================================================ */
 .cast-related {
   text-align: right;
-  margin-top: 40px;
+  margin-top: var(--related-space-above);
 }
 .cast-related a {
-  font-style: italic;
-  font-size: 14px;
-  color: var(--cast-related-color);
+  font-style: var(--related-style);
+  font-size: var(--related-size);
+  color: var(--related-color);
   text-decoration: none;
 }
 .cast-related a:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   SOURCES + CONTACT (tout en bas)
+   ============================================================ */
+.sources-list {
+  margin: var(--sources-space-above) 0 0;
+  padding-left: 22px;
+  font-size: var(--sources-size);
+  font-style: var(--sources-style);
+  color: var(--sources-color);
+  line-height: var(--sources-line-height);
+}
+.sources-list li {
+  margin-bottom: 2px;
+}
+/* Petite flèche ↑ optionnelle : remonte vers une boîte de la page */
+.sources-list .back-ref {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--link-color);
+  text-decoration: none;
+  margin-left: 4px;
+}
+.sources-list .back-ref:hover {
+  text-decoration: underline;
+}
+.cast-note {
+  text-align: right;
+  font-size: var(--sources-size);
+  font-style: var(--sources-style);
+  color: var(--sources-color);
+  margin: 16px 0 0;
+}
+.cast-note a {
+  color: var(--link-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+.cast-note a:hover {
   text-decoration: underline;
 }
 </style>
@@ -424,24 +468,23 @@ body {
        COMÉDIENS DE DOUBLAGE — un .voice-card par comédien.
        MODIFIE ICI : copie/colle un bloc .voice-card pour en ajouter.
        Mets "(Unknown dates)" si tu n'as pas l'info, sinon le format
-       "(1960? - April 2021?)" comme sur l'ancien site.
-       (les "id" ne servent à rien pour l'instant, laisse-les tels
-       quels — plus tard les noms des comédiens pourront devenir des
-       liens vers leur propre fiche plutôt que vers cette photo)
+       "(1960? - April 2021?)".
+       Les images grises ci-dessous sont des espaces réservés : remplace
+       chaque src="..." par l'URL de la vraie photo (Cloudinary).
        ============================================================ -->
   <div class="voice-cast">
-    <div class="voice-card" id="actor-pradeep-shukla">
-      <img src="https://via.placeholder.com/300x220" alt="Pradeep Shukla">
+    <div class="voice-card">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="Pradeep Shukla">
       <div class="actor-name">Pradeep Shukla</div>
       <div class="actor-dates">(Unknown dates)</div>
     </div>
-    <div class="voice-card" id="actor-hema-nikam">
-      <img src="https://via.placeholder.com/300x220" alt="Hema Nikam">
+    <div class="voice-card">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="Hema Nikam">
       <div class="actor-name">Hema Nikam</div>
       <div class="actor-dates">(Unknown dates)</div>
     </div>
-    <div class="voice-card" id="actor-sandeep-karnik">
-      <img src="https://via.placeholder.com/300x220" alt="Sandeep Karnik">
+    <div class="voice-card">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="Sandeep Karnik">
       <div class="actor-name">Sandeep Karnik</div>
       <div class="actor-dates">(196? - April 2021?)</div>
     </div>
@@ -453,9 +496,11 @@ body {
        acteur). Les noms de comédiens restent en texte simple pour
        l'instant (pas de lien) : plus tard, tu pourras les transformer
        en <a href="/artists/nom.html">...</a> vers leur propre fiche.
+       L'id="cast" est un point d'ancrage invisible : une source en bas
+       de page peut y faire remonter avec <a href="#cast">.
        ============================================================ -->
   <div class="info-box" id="cast">
-    <div class="info-box-title">Cast <a href="#src-cast" class="footnote-ref"></a> :</div>
+    <div class="info-box-title">Cast :</div>
     <table class="cast-table">
       <thead>
         <tr>
@@ -466,47 +511,47 @@ body {
       </thead>
       <tbody>
         <tr>
-          <td class="col-hindi">पिनोक्कियो</td>
+          <td>पिनोक्कियो</td>
           <td>Pinocchio</td>
           <td>Arth Vidyarth (speaking &amp; singing)</td>
         </tr>
         <tr>
-          <td class="col-hindi">?</td>
+          <td>?</td>
           <td>Jiminy Cricket</td>
           <td>Pradeep Shukla / प्रदीप शुक्ला (speaking) &amp; ? (singing)</td>
         </tr>
         <tr>
-          <td class="col-hindi">?</td>
+          <td>?</td>
           <td>Geppetto</td>
           <td>?</td>
         </tr>
         <tr>
-          <td class="col-hindi">?</td>
+          <td>?</td>
           <td>Blue Fairy</td>
           <td>Hema Nikam</td>
         </tr>
         <tr>
-          <td class="col-hindi">?</td>
+          <td>?</td>
           <td>Honest John</td>
           <td>Sandeep Karnik / संदीप कर्णिक (speaking) &amp; ? (singing)</td>
         </tr>
         <tr>
-          <td class="col-hindi">?</td>
+          <td>?</td>
           <td>Stromboli</td>
           <td>Prabhakar</td>
         </tr>
         <tr>
-          <td class="col-hindi">?</td>
+          <td>?</td>
           <td>Coachman</td>
           <td>?</td>
         </tr>
         <tr>
-          <td class="col-hindi">?</td>
+          <td>?</td>
           <td>Lampwick</td>
           <td>Kaustubh Bhogi</td>
         </tr>
         <tr>
-          <td class="col-hindi">?</td>
+          <td>?</td>
           <td>Alexander</td>
           <td>?</td>
         </tr>
@@ -517,14 +562,15 @@ body {
   <!-- ============================================================
        ENCADRÉS OPTIONNELS "ADDITIONAL VOICES" / "CHOIR"
        Ils s'affichent ou non selon les interrupteurs tout en haut du
-       fichier (show_additional_voices / show_choir). Pas besoin de
-       supprimer le code : passe juste l'interrupteur à false.
-       MODIFIE ICI : un <div> par personne, "Nom / Nom natif". La
-       grille à 2 colonnes s'adapte toute seule.
+       fichier (show_additional_voices / show_choir).
+       MODIFIE ICI : un <div> par personne, "Nom / Nom natif". Ils se
+       rangent ligne par ligne (Nom 1 à gauche, Nom 2 à droite, Nom 3
+       à gauche...), colonne de gauche alignée à droite, colonne de
+       droite alignée à gauche.
        ============================================================ -->
   {% if page.show_additional_voices %}
   <div class="info-box" id="additional-voices">
-    <div class="info-box-title">Additional voices <a href="#src-voices" class="footnote-ref"></a></div>
+    <div class="info-box-title">Additional voices</div>
     <div class="voices-grid">
       <div>Name 1 / Native name 1</div>
       <div>Name 2 / Native name 2</div>
@@ -536,12 +582,13 @@ body {
 
   {% if page.show_choir %}
   <div class="info-box" id="choir">
-    <div class="info-box-title">Choir <a href="#src-choir" class="footnote-ref"></a></div>
+    <div class="info-box-title">Choir</div>
     <div class="voices-grid">
       <div>Name 1 / Native name 1</div>
       <div>Name 2 / Native name 2</div>
       <div>Name 3 / Native name 3</div>
       <div>Name 4 / Native name 4</div>
+      <div>?</div>
     </div>
   </div>
   {% endif %}
@@ -558,7 +605,7 @@ body {
        personnage, via <i>...</i> (tout le reste est en texte normal).
        ============================================================ -->
   <div class="info-box" id="songs">
-    <div class="info-box-title">Songs <a href="#src-songs" class="footnote-ref"></a></div>
+    <div class="info-box-title">Songs</div>
     <ul class="song-list">
       <li class="song-item">
         <span class="song-title-native">« सच्चे मन से माँगो जो »</span>
@@ -599,7 +646,7 @@ body {
        en bas reste en italique, centré, tout en MAJUSCULES.
        ============================================================ -->
   <div class="info-box" id="staff">
-    <div class="info-box-title">Technical Staff <a href="#src-staff" class="footnote-ref"></a></div>
+    <div class="info-box-title">Technical Staff</div>
     <table class="staff-table">
       <tr><td class="staff-name">Ashwin Saxena</td><td class="staff-role">Dubbing director</td></tr>
       <tr><td class="staff-name">?</td><td class="staff-role">Musical director</td></tr>
@@ -623,20 +670,20 @@ body {
 
   <!-- ============================================================
        GALERIE — affiche, captures d'écran, collage... MODIFIE ICI :
-       un <img> par photo. Clique dessus en prévisualisation pour
-       vérifier que le lightbox fonctionne. Change "Gallery" en
-       "Media" si tu préfères.
+       un <img> par photo (les carrés gris sont des espaces réservés :
+       remplace chaque src par l'URL de la vraie image). Change
+       "Gallery" en "Media" si tu préfères.
        ============================================================ -->
   <div class="gallery-title">Gallery</div>
   <div class="cast-gallery">
-    <img src="https://via.placeholder.com/320x450" alt="Pinocchio poster" onclick="openLightbox(this)">
-    <img src="https://via.placeholder.com/450x320" alt="Pinocchio screenshot 1" onclick="openLightbox(this)">
-    <img src="https://via.placeholder.com/450x320" alt="Pinocchio screenshot 2" onclick="openLightbox(this)">
+    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='450'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="Pinocchio poster" onclick="openLightbox(this)">
+    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="Pinocchio screenshot 1" onclick="openLightbox(this)">
+    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="Pinocchio screenshot 2" onclick="openLightbox(this)">
   </div>
 
   <!-- ============================================================
-       LIEN VERS UNE PAGE LIÉE (optionnel) — supprime le bloc s'il
-       n'y a pas de page liée pour ce film.
+       LIEN VERS UNE PAGE SIMILAIRE (optionnel) — supprime le bloc
+       s'il n'y en a pas pour ce film.
        ============================================================ -->
   <div class="cast-related">
     <a href="#">Pinocchio (Live-action) (2022) ➤</a>
@@ -644,28 +691,16 @@ body {
 
   <!-- ============================================================
        SOURCES + CONTACT — tout en bas de la page.
-       MODIFIE ICI : une <li> par source, dans l'ordre d'affichage des
-       encadrés. Les numéros [n] à côté des titres d'encadrés se
-       calculent tout seuls d'après la position de la <li> ciblée.
-       - La flèche ↑ de chaque <li> remonte vers l'encadré (href="#cast",
-         "#songs", "#staff", "#additional-voices", "#choir").
-       - Plusieurs sources pour un même encadré ? Ajoute simplement
-         d'autres <li> (id différent, ex: id="src-cast-2") avec la même
-         flèche ↑ vers "#cast", et un 2e <a class="footnote-ref"
-         href="#src-cast-2"></a> à côté du titre de l'encadré.
-       - Les <li> d'Additional voices / Choir sont entourées des mêmes
-         interrupteurs que les encadrés (elles disparaissent avec eux).
+       MODIFIE ICI : une <li> par source (numérotées automatiquement).
+       La petite flèche ↑ est OPTIONNELLE : ajoute-la seulement si tu
+       veux qu'une source fasse remonter vers une boîte précise, avec
+       href="#cast", "#additional-voices", "#choir", "#songs" ou
+       "#staff". Sans flèche, la source reste simple.
        ============================================================ -->
   <ol class="sources-list">
-    <li id="src-cast">Cast : Dubbing director <a href="#cast" class="back-ref" title="Back to Cast">↑</a></li>
-    {% if page.show_additional_voices %}
-    <li id="src-voices">Additional voices : ? <a href="#additional-voices" class="back-ref" title="Back to Additional voices">↑</a></li>
-    {% endif %}
-    {% if page.show_choir %}
-    <li id="src-choir">Choir : ? <a href="#choir" class="back-ref" title="Back to Choir">↑</a></li>
-    {% endif %}
-    <li id="src-songs">Songs : Lyrics (song titles) <a href="#songs" class="back-ref" title="Back to Songs">↑</a></li>
-    <li id="src-staff">Technical Staff : Dubbing director <a href="#staff" class="back-ref" title="Back to Technical Staff">↑</a></li>
+    <li>Dubbing director <a href="#cast" class="back-ref" title="Back to Cast">↑</a></li>
+    <li>Lyrics (song titles) <a href="#songs" class="back-ref" title="Back to Songs">↑</a></li>
+    <li>Another source without arrow</li>
   </ol>
   <div class="cast-note">If someone has more information about this dub, please <a href="/contact.html">contact me</a></div>
 
@@ -684,13 +719,4 @@ function openLightbox(imgEl) {
 function closeLightbox() {
   document.getElementById('lightboxOverlay').style.display = 'none';
 }
-
-/* Numérote automatiquement les [n] à côté des titres d'encadrés,
-   d'après la position de la source ciblée dans la liste du bas. */
-document.querySelectorAll('.footnote-ref').forEach(function (ref) {
-  var target = document.querySelector(ref.getAttribute('href'));
-  if (!target) return;
-  var position = Array.prototype.indexOf.call(target.parentElement.children, target) + 1;
-  ref.textContent = '[' + position + ']';
-});
 </script>
