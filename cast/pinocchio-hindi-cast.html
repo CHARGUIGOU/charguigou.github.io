@@ -656,6 +656,38 @@ body {
        en <a href="/artists/nom.html">...</a> vers leur propre fiche.
        L'id="cast" est un point d'ancrage invisible : une source en bas
        de page peut y faire remonter avec <a href="#cast">.
+
+       CAS PARTICULIERS — on fusionne des cellules avec rowspan="N"
+       (la cellule s'étire sur N lignes). Les 3 exemples à copier :
+
+       1) UNE VOIX POUR PLUSIEURS PERSONNAGES (même acteur sur 2 lignes) :
+          la cellule "Voices" est écrite une seule fois, dans la 1re ligne,
+          avec rowspan="2". La 2e ligne n'a donc que 2 <td> (pas de 3e).
+          <tr>
+            <td>Oafish</td><td>Oafish Guard</td>
+            <td rowspan="2">Johan Hedenberg</td>
+          </tr>
+          <tr>
+            <td>Fången</td><td>The Old Heretic</td>
+          </tr>
+
+       2) UN PERSONNAGE (OU GROUPE) AVEC PLUSIEURS VOIX :
+          cette fois ce sont les 2 premières cellules (noms) qui sont
+          fusionnées, avec rowspan="3" (= nombre de voix). Chaque voix a sa
+          propre ligne ; seule la 1re ligne contient aussi les noms.
+          <tr>
+            <td rowspan="3">Vakter och Zigenare</td>
+            <td rowspan="3">Guards &amp; Gypsies</td>
+            <td>Anders Öjebo</td>
+          </tr>
+          <tr><td>Roger Storm</td></tr>
+          <tr><td>Monica Forsberg</td></tr>
+
+       3) LES DEUX À LA FOIS : combine les deux (une cellule peut avoir
+          un rowspan, et la ligne d'à côté un autre).
+
+       Règle simple : le nombre de <td> par ligne = 3 moins les cellules
+       déjà "prises" par un rowspan des lignes du dessus.
        ============================================================ -->
   <div class="info-box" id="cast">
     <div class="info-box-title">Cast</div>
@@ -713,6 +745,27 @@ body {
           <td>Alexander</td>
           <td>?</td>
         </tr>
+        <!-- EXEMPLE 1 : une même voix pour 2 personnages (rowspan="2" sur la cellule voix) -->
+        <tr>
+          <td>?</td>
+          <td>Oafish Guard</td>
+          <td rowspan="2">Johan Hedenberg</td>
+        </tr>
+        <tr>
+          <td>?</td>
+          <td>The Old Heretic</td>
+        </tr>
+        <!-- EXEMPLE 2 : un groupe avec plusieurs voix (rowspan="5" sur les 2 cellules de noms,
+             puis une ligne par voix supplémentaire contenant UNIQUEMENT la cellule voix) -->
+        <tr>
+          <td rowspan="5">?</td>
+          <td rowspan="5">Guards &amp; Gypsies</td>
+          <td>Anders Öjebo</td>
+        </tr>
+        <tr><td>Roger Storm</td></tr>
+        <tr><td>Monica Forsberg</td></tr>
+        <tr><td>Daniel Bergfalk</td></tr>
+        <tr><td>Thomas Banestål</td></tr>
       </tbody>
     </table>
   </div>
