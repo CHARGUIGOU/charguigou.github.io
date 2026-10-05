@@ -66,11 +66,7 @@ show_choir: true
   --voice-space-below: 50px;      /* espace entre les photos et la 1re boîte */
   /* effet au survol des photos */
   --voice-hover-shadow: 0 4px 10px rgba(0,0,0,0.10);  /* ombre au survol */
-  --voice-shine-opacity: 0.28;    /* intensité du reflet brillant (0 = pas de reflet) */
-  --voice-shine-duration: 0.9s;   /* vitesse du reflet */
-  --voice-shine-width: 70%;       /* largeur du reflet (plus large = plus diffus) */
-  --voice-shine-blur: 10px;       /* flou du reflet (plus = plus doux) */
-  --voice-hover-duration: 0.25s;  /* vitesse de l'ombre / du soulèvement */
+  --voice-hover-duration: 0.25s;  /* vitesse de l'ombre */
   --actor-name-gap: 20px;         /* espace entre la photo et le nom */
   --actor-name-size: 19px;
   --actor-name-color: var(--cast-text-color);
@@ -220,46 +216,14 @@ body {
   aspect-ratio: var(--voice-photo-ratio);
   object-fit: cover;
   display: block;
-}
-/* Cadre autour de la photo (ajouté automatiquement par le script en bas de page) :
-   porte les coins arrondis, l'ombre et le reflet brillant au survol. */
-.voice-photo {
-  position: relative;
-  overflow: hidden;
   border-radius: var(--voice-photo-radius);
   transition: box-shadow var(--voice-hover-duration) ease;
 }
-.voice-photo::after {
-  content: "";
-  position: absolute;
-  top: -30%;
-  left: -90%;
-  width: var(--voice-shine-width);
-  height: 160%;
-  background: radial-gradient(ellipse at center,
-    rgba(255,255,255,var(--voice-shine-opacity)) 0%,
-    rgba(255,255,255,calc(var(--voice-shine-opacity) * 0.5)) 35%,
-    rgba(255,255,255,0) 70%);
-  filter: blur(var(--voice-shine-blur));
-  transform: rotate(15deg);
-  opacity: 0;
-  pointer-events: none;
-}
-.voice-card:hover .voice-photo {
+.voice-card img:hover {
   box-shadow: var(--voice-hover-shadow);
 }
-.voice-card:hover .voice-photo::after {
-  animation: voice-shine var(--voice-shine-duration) ease-in-out;
-}
-@keyframes voice-shine {
-  0%   { left: -90%; opacity: 0; }
-  25%  { opacity: 1; }
-  75%  { opacity: 1; }
-  100% { left: 120%; opacity: 0; }
-}
-}
 .voice-card .actor-name {
-  margin-top: 14px;
+  margin-top: var(--actor-name-gap);
   font-size: var(--actor-name-size);
   color: var(--actor-name-color);
   letter-spacing: var(--actor-name-letter-spacing);
@@ -1030,13 +994,6 @@ body {
 </div>
 
 <script>
-/* Entoure chaque photo de comédien d'un cadre .voice-photo (pour l'ombre et le reflet) */
-document.querySelectorAll('.voice-card > img').forEach(function (img) {
-  var frame = document.createElement('div');
-  frame.className = 'voice-photo';
-  img.parentNode.insertBefore(frame, img);
-  frame.appendChild(img);
-});
 (function () {
   var track    = document.getElementById('galleryTrack');
   var arrows   = document.querySelectorAll('.gallery-arrow');
