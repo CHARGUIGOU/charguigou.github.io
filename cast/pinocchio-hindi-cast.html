@@ -54,7 +54,7 @@ show_choir: true
   --voice-gap: 20px;              /* espace entre les photos */
   --voice-card-min: 200px;        /* largeur mini d'une carte avant de passer à la ligne */
   --voice-card-max: 300px;        /* largeur maxi d'une carte (mets 100% pour tout remplir) */
-  --voice-photo-ratio: 1 / 1;     /* forme de la photo : 1 / 1 carré, 4 / 3, 3 / 4 portrait... */
+  --voice-photo-ratio: 3 / 2;     /* forme de la photo (ici celle de ton image test) : 1 / 1 carré, 4 / 3, 3 / 4 portrait... */
   --voice-photo-radius: 6px;
   --voice-space-below: 50px;      /* espace entre les photos et la 1re boîte */
   --actor-name-size: 19px;
@@ -97,10 +97,14 @@ show_choir: true
   --trivia-line-height: 1.6;
 
   /* ---------- GALERIE ---------- */
-  --gallery-gap: 16px;
-  --gallery-photo-height: 220px;
+  --gallery-gap: 12px;            /* espace entre les miniatures */
+  --gallery-thumb-size: 160px;    /* côté des miniatures carrées */
   --gallery-photo-radius: 6px;
   --gallery-space-above: 50px;    /* espace au-dessus du titre "Gallery" */
+  --gallery-arrow-bg: rgba(255,255,255,0.95);  /* flèches de défilement des miniatures */
+  --gallery-arrow-color: var(--cast-accent);
+  --gallery-arrow-size: 38px;
+  --lightbox-bg: rgba(0,0,0,0.88);             /* fond de la galerie plein écran */
 
   /* ---------- LIEN VERS UNE PAGE SIMILAIRE (bas de page, à droite) ---------- */
   --related-size: 14px;
@@ -358,40 +362,109 @@ body {
 }
 
 /* ============================================================
-   GALERIE D'IMAGES (affiche, captures, collage...)
-   Chaque vignette s'agrandit en plein écran au clic.
+   GALERIE (diaporama) — miniatures carrées qui défilent avec des
+   flèches quand il y en a plus que la place disponible ; un clic
+   ouvre la galerie plein écran (flèches clavier/écran, Échap ou
+   clic à l'extérieur pour fermer).
    ============================================================ */
-.cast-gallery {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--gallery-gap);
+.gallery-carousel {
+  position: relative;
 }
-.cast-gallery img {
-  height: var(--gallery-photo-height);
+.gallery-track {
+  display: flex;
+  gap: var(--gallery-gap);
+  width: max-content;      /* centré quand tout rentre... */
+  max-width: 100%;         /* ...et défilable quand ça déborde */
+  margin: 0 auto;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;   /* pas de barre de défilement visible */
+}
+.gallery-track::-webkit-scrollbar {
+  display: none;
+}
+.gallery-track img {
+  flex: 0 0 auto;
+  width: var(--gallery-thumb-size);
+  height: var(--gallery-thumb-size);
+  object-fit: cover;
   border-radius: var(--gallery-photo-radius);
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   cursor: pointer;
   transition: transform 0.2s ease;
 }
-.cast-gallery img:hover {
+.gallery-track img:hover {
   transform: scale(1.04);
 }
+/* Flèches de défilement des miniatures (cachées tant qu'il n'y a rien à faire défiler) */
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--gallery-arrow-size);
+  height: var(--gallery-arrow-size);
+  border: none;
+  border-radius: 50%;
+  background: var(--gallery-arrow-bg);
+  color: var(--gallery-arrow-color);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  display: none;
+  z-index: 2;
+}
+.gallery-arrow.visible { display: block; }
+.gallery-arrow.prev { left: 6px; }
+.gallery-arrow.next { right: 6px; }
+
+/* Galerie plein écran */
 .lightbox-overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.85);
+  background: var(--lightbox-bg);
   z-index: 100;
   align-items: center;
   justify-content: center;
-  padding: 30px;
-  cursor: zoom-out;
+}
+.lightbox-overlay.open {
+  display: flex;
 }
 .lightbox-overlay img {
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 90vw;
+  max-height: 85vh;
   border-radius: 4px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+.lightbox-btn {
+  position: absolute;
+  border: none;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  font-size: 26px;
+  line-height: 1;
+  transition: background 0.2s ease;
+}
+.lightbox-btn:hover {
+  background: rgba(255,255,255,0.3);
+}
+.lightbox-btn.prev  { left: 20px;  top: 50%; transform: translateY(-50%); }
+.lightbox-btn.next  { right: 20px; top: 50%; transform: translateY(-50%); }
+.lightbox-btn.close { right: 20px; top: 20px; font-size: 22px; }
+.lightbox-counter {
+  position: absolute;
+  bottom: 18px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  opacity: 0.8;
 }
 
 /* ============================================================
@@ -669,16 +742,31 @@ body {
   </ul>
 
   <!-- ============================================================
-       GALERIE — affiche, captures d'écran, collage... MODIFIE ICI :
-       un <img> par photo (les carrés gris sont des espaces réservés :
-       remplace chaque src par l'URL de la vraie image). Change
-       "Gallery" en "Media" si tu préfères.
+       GALERIE (diaporama) — MODIFIE ICI : un <img> par image, dans
+       l'ordre voulu. Les miniatures s'affichent en carré (recadrées
+       au centre) ; s'il y en a trop pour la largeur de la page, des
+       flèches apparaissent pour les faire défiler. Au clic, la
+       galerie s'ouvre en plein écran (flèches, clavier, Échap).
+       Les carrés gris numérotés sont des espaces réservés : remplace
+       chaque src par l'URL de la vraie image. OPTIONNEL : si la
+       miniature est une version réduite, ajoute data-full="URL de la
+       grande image" sur l'<img> pour l'afficher en grand à l'ouverture.
+       Change "Gallery" en "Media" si tu préfères.
        ============================================================ -->
   <div class="gallery-title">Gallery</div>
-  <div class="cast-gallery">
-    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='450'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="Pinocchio poster" onclick="openLightbox(this)">
-    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="Pinocchio screenshot 1" onclick="openLightbox(this)">
-    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="Pinocchio screenshot 2" onclick="openLightbox(this)">
+  <div class="gallery-carousel" id="galleryCarousel">
+    <button class="gallery-arrow prev" type="button" aria-label="Previous images">&#8249;</button>
+    <div class="gallery-track" id="galleryTrack">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='450'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>1</text></svg>" alt="Pinocchio image 1">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>2</text></svg>" alt="Pinocchio image 2">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>3</text></svg>" alt="Pinocchio image 3">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>4</text></svg>" alt="Pinocchio image 4">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='450'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>5</text></svg>" alt="Pinocchio image 5">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>6</text></svg>" alt="Pinocchio image 6">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>7</text></svg>" alt="Pinocchio image 7">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>8</text></svg>" alt="Pinocchio image 8">
+    </div>
+    <button class="gallery-arrow next" type="button" aria-label="Next images">&#8250;</button>
   </div>
 
   <!-- ============================================================
@@ -702,21 +790,90 @@ body {
     <li>Lyrics (song titles) <a href="#songs" class="back-ref" title="Back to Songs">↑</a></li>
     <li>Another source without arrow</li>
   </ol>
-  <div class="cast-note">If someone has more information about this dub, please <a href="/contact.html">contact me</a></div>
+  <div class="cast-note">If someone has more information about this dub, please <a href="/contact.html" target="_blank" rel="noopener">contact me</a></div>
 
 </div>
 
-<!-- Lightbox plein écran pour la galerie -->
-<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+<!-- Galerie plein écran -->
+<div class="lightbox-overlay" id="lightbox" aria-hidden="true">
+  <button class="lightbox-btn close" type="button" aria-label="Close">&#10005;</button>
+  <button class="lightbox-btn prev" type="button" aria-label="Previous image">&#8249;</button>
   <img id="lightboxImg" src="" alt="">
+  <button class="lightbox-btn next" type="button" aria-label="Next image">&#8250;</button>
+  <div class="lightbox-counter" id="lightboxCounter"></div>
 </div>
 
 <script>
-function openLightbox(imgEl) {
-  document.getElementById('lightboxImg').src = imgEl.src;
-  document.getElementById('lightboxOverlay').style.display = 'flex';
-}
-function closeLightbox() {
-  document.getElementById('lightboxOverlay').style.display = 'none';
-}
+(function () {
+  var track    = document.getElementById('galleryTrack');
+  var arrows   = document.querySelectorAll('.gallery-arrow');
+  var prevBtn  = document.querySelector('.gallery-arrow.prev');
+  var nextBtn  = document.querySelector('.gallery-arrow.next');
+  var images   = Array.prototype.slice.call(track.querySelectorAll('img'));
+
+  /* ----- Flèches de défilement des miniatures ----- */
+  function updateArrows() {
+    var maxScroll = track.scrollWidth - track.clientWidth;
+    prevBtn.classList.toggle('visible', track.scrollLeft > 4);
+    nextBtn.classList.toggle('visible', track.scrollLeft < maxScroll - 4);
+  }
+  prevBtn.addEventListener('click', function () {
+    track.scrollBy({ left: -track.clientWidth * 0.8 });
+  });
+  nextBtn.addEventListener('click', function () {
+    track.scrollBy({ left: track.clientWidth * 0.8 });
+  });
+  track.addEventListener('scroll', updateArrows);
+  window.addEventListener('resize', updateArrows);
+  window.addEventListener('load', updateArrows);
+  updateArrows();
+
+  /* ----- Galerie plein écran ----- */
+  var box     = document.getElementById('lightbox');
+  var bigImg  = document.getElementById('lightboxImg');
+  var counter = document.getElementById('lightboxCounter');
+  var current = 0;
+
+  function show(index) {
+    current = (index + images.length) % images.length;   // boucle : après la dernière, retour à la première
+    var img = images[current];
+    bigImg.src = img.getAttribute('data-full') || img.src;
+    bigImg.alt = img.alt;
+    counter.textContent = (current + 1) + ' / ' + images.length;
+  }
+  function open(index) {
+    show(index);
+    box.classList.add('open');
+    box.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    var single = images.length < 2;
+    box.querySelector('.prev').style.display = single ? 'none' : '';
+    box.querySelector('.next').style.display = single ? 'none' : '';
+  }
+  function close() {
+    box.classList.remove('open');
+    box.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  images.forEach(function (img, i) {
+    img.addEventListener('click', function () { open(i); });
+  });
+  box.querySelector('.prev').addEventListener('click', function (e) { e.stopPropagation(); show(current - 1); });
+  box.querySelector('.next').addEventListener('click', function (e) { e.stopPropagation(); show(current + 1); });
+  box.querySelector('.close').addEventListener('click', close);
+
+  // Clic en dehors de l'image (sur le fond sombre) = fermer
+  box.addEventListener('click', function (e) {
+    if (e.target === box) close();
+  });
+
+  // Clavier : ← → pour naviguer, Échap pour fermer
+  document.addEventListener('keydown', function (e) {
+    if (!box.classList.contains('open')) return;
+    if (e.key === 'Escape')     close();
+    if (e.key === 'ArrowLeft')  show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+})();
 </script>
