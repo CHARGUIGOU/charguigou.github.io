@@ -95,6 +95,8 @@ show_choir: true
   --table-head-size: 13px;
   --table-head-letter-spacing: 0px;
   --table-row-border: #e3e3e3;    /* trait entre les lignes du tableau Cast */
+  --table-cell-pad-x: 10px;       /* espace intérieur gauche/droite de chaque cellule : l'écart entre deux colonnes = 2 x cette valeur */
+  --cast-names-wrap: nowrap;      /* colonnes 1 et 2 : nowrap = aussi larges que leur plus long nom (la colonne Voices prend le reste) ; normal = elles peuvent passer à la ligne */
 
   /* ---------- LISTES À 2 COLONNES (Additional voices / Choir) ---------- */
   --voices-column-gap: 40px;      /* espace central entre colonne gauche et droite */
@@ -278,7 +280,7 @@ body {
   font-weight: 700;
   color: var(--cast-heading-color);
   letter-spacing: var(--table-head-letter-spacing);
-  padding: 6px 10px 10px;
+  padding: 6px var(--table-cell-pad-x) 10px;
 }
 .cast-table th.col-voices {
   text-align: center;
@@ -287,9 +289,21 @@ body {
 .cast-table td {
   font-size: var(--cast-text-size);
   color: var(--cast-text-color);
-  padding: 10px;
+  padding: 10px var(--table-cell-pad-x);
   border-top: 1px solid var(--table-row-border);
   text-align: center;
+}
+/* Colonnes 1 et 2 (noms du personnage) : aussi larges que leur plus long contenu,
+   la colonne "Voices" prend tout le reste. (Les cellules seules sur leur ligne,
+   ex : voix supplémentaires d'un rowspan, sont ignorées.) */
+.cast-table th:nth-child(-n+2),
+.cast-table td:nth-child(-n+2):not(:only-child) {
+  width: 1%;
+  white-space: var(--cast-names-wrap);
+}
+@media (max-width: 600px) {
+  .cast-table th:nth-child(-n+2),
+  .cast-table td:nth-child(-n+2):not(:only-child) { white-space: normal; }  /* sur mobile : retour à la ligne autorisé */
 }
 .cast-table a {
   color: var(--link-color);
