@@ -29,12 +29,18 @@ show_choir: true
   --cast-text-color: #333;        /* couleur du texte courant */
   --cast-text-size: 14px;         /* taille du texte courant (tableaux, chansons, trivia...) */
   --cast-heading-color: #222;     /* couleur des titres de boîtes et en-têtes de tableaux */
+  --cast-text-letter-spacing: 0px; /* espace entre les lettres du texte courant (tableaux, chansons, trivia...) */
 
   /* ---------- TITRE DU FILM (titre localisé + année) ---------- */
   --title-native-size: 28px;
   --title-native-color: var(--cast-accent);
   --title-native-weight: 700;
-  --title-year-gap: 6px;          /* espace entre le titre et l'année */
+  --title-year-gap: 7px;          /* espace entre le titre et l'année */
+  --title-year-size: 22px;        /* taille de l'année (indépendante du titre : utile quand le titre est en hindi, arabe, etc. dont les lettres paraissent plus petites) */
+  --title-year-weight: 700;
+  --title-year-color: var(--title-native-color);
+  --title-native-letter-spacing: 0px;   /* espace entre les lettres du titre localisé (à laisser à 0 pour hindi, arabe... : l'écriture est reliée) */
+  --title-year-letter-spacing: 0px;
 
   /* ---------- TITRE ANGLAIS (sous le titre localisé) ---------- */
   --title-english-size: 17px;
@@ -42,6 +48,7 @@ show_choir: true
   --title-english-style: italic;  /* italic ou normal */
   --title-english-space-above: 6px;
   --title-english-space-below: 30px;
+  --title-english-letter-spacing: 0px;
 
   /* ---------- TRAITS HORIZONTAUX ---------- */
   --hr-width: 70%;                /* largeur du trait (par rapport à la page) */
@@ -61,6 +68,8 @@ show_choir: true
   --actor-name-color: var(--cast-text-color);
   --actor-dates-size: 13px;
   --actor-dates-color: #666;
+  --actor-name-letter-spacing: 0px;     /* espace entre les lettres des noms sous les photos */
+  --actor-dates-letter-spacing: 0px;
 
   /* ---------- BOÎTES GRISES (Cast, Songs, Technical Staff...) ---------- */
   --box-rgb: 0, 0, 0;             /* couleur du fond en R, G, B (0,0,0 = noir) */
@@ -76,9 +85,11 @@ show_choir: true
   --box-title-color: var(--cast-heading-color);
   --box-title-weight: 700;
   --box-title-space-below: 16px;
+  --box-title-letter-spacing: 0px;      /* aussi appliqué au titre "Gallery" */
 
   /* ---------- TABLEAUX (Cast, Technical Staff) ---------- */
   --table-head-size: 13px;
+  --table-head-letter-spacing: 0px;
   --table-row-border: #e3e3e3;    /* trait entre les lignes du tableau Cast */
 
   /* ---------- LISTES À 2 COLONNES (Additional voices / Choir) ---------- */
@@ -116,6 +127,7 @@ show_choir: true
   --related-style: italic;
   --related-space-above: 40px;
   --related-line-space: 6px;      /* espace entre deux liens empilés */
+  --related-letter-spacing: 0px;
   --related-arrow-gap: 6px;       /* espace entre la flèche et le texte */
 
   /* ---------- SOURCES + CONTACT (bas de page) ---------- */
@@ -123,6 +135,7 @@ show_choir: true
   --sources-color: var(--cast-text-color);
   --sources-style: italic;
   --sources-line-height: 1.7;
+  --sources-letter-spacing: 0px;
   --sources-space-above: 40px;
 }
 
@@ -139,6 +152,7 @@ body {
   padding: 60px var(--cast-side-padding) 0;
   box-sizing: border-box;
   color: var(--cast-text-color);
+  letter-spacing: var(--cast-text-letter-spacing);   /* hérité par tout le texte, sauf éléments qui ont leur propre réglage */
 }
 
 /* ============================================================
@@ -149,15 +163,21 @@ body {
   font-size: var(--title-native-size);
   font-weight: var(--title-native-weight);
   color: var(--title-native-color);
+  letter-spacing: var(--title-native-letter-spacing);
 }
 .cast-title-native .native-year {
   margin-left: var(--title-year-gap);
+  font-size: var(--title-year-size);
+  font-weight: var(--title-year-weight);
+  color: var(--title-year-color);
+  letter-spacing: var(--title-year-letter-spacing);
 }
 .cast-title-english {
   text-align: center;
   font-size: var(--title-english-size);
   font-style: var(--title-english-style);
   color: var(--title-english-color);
+  letter-spacing: var(--title-english-letter-spacing);
   margin-top: var(--title-english-space-above);
   margin-bottom: var(--title-english-space-below);
 }
@@ -198,12 +218,14 @@ body {
   margin-top: 14px;
   font-size: var(--actor-name-size);
   color: var(--actor-name-color);
+  letter-spacing: var(--actor-name-letter-spacing);
 }
 .voice-card .actor-dates {
   margin-top: 2px;
   font-size: var(--actor-dates-size);
   font-style: normal;
   color: var(--actor-dates-color);
+  letter-spacing: var(--actor-dates-letter-spacing);
 }
 
 /* ============================================================
@@ -226,6 +248,7 @@ body {
   font-size: var(--box-title-size);
   font-weight: var(--box-title-weight);
   color: var(--box-title-color);
+  letter-spacing: var(--box-title-letter-spacing);
   text-align: left;
 }
 .info-box-title {
@@ -246,6 +269,7 @@ body {
   font-size: var(--table-head-size);
   font-weight: 700;
   color: var(--cast-heading-color);
+  letter-spacing: var(--table-head-letter-spacing);
   padding: 6px 10px 10px;
 }
 .cast-table th.col-voices {
@@ -551,6 +575,7 @@ body {
   margin-bottom: var(--related-line-space);
   font-style: var(--related-style);
   font-size: var(--related-size);
+  letter-spacing: var(--related-letter-spacing);
   color: var(--related-color);
   text-decoration: none;
 }
@@ -578,6 +603,7 @@ body {
   font-size: var(--sources-size);
   font-style: var(--sources-style);
   color: var(--sources-color);
+  letter-spacing: var(--sources-letter-spacing);
   line-height: var(--sources-line-height);
 }
 .sources-list li {
@@ -599,6 +625,7 @@ body {
   font-size: var(--sources-size);
   font-style: var(--sources-style);
   color: var(--sources-color);
+  letter-spacing: var(--sources-letter-spacing);
   margin: 16px 0 0;
 }
 .cast-note a {
