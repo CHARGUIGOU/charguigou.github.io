@@ -101,7 +101,7 @@ show_choir: true
   --gallery-thumb-size: 160px;    /* côté des miniatures carrées */
   --gallery-photo-radius: 6px;
   --gallery-space-above: 50px;    /* espace au-dessus du titre "Gallery" */
-  --gallery-veil: rgba(42,93,160,0.6);        /* voile sur la miniature au survol (bleu du site, 42,93,160 ; change le dernier chiffre pour l'opacité) */
+  --gallery-veil: rgba(42,93,160,0.6);         /* voile sur la miniature au survol (bleu du site, 42,93,160 ; change le dernier chiffre pour l'opacité) */
   --gallery-caption-size: 13px;                /* taille de la légende sur la miniature */
   --lightbox-caption-size: 15px;               /* taille de la légende sous l'image ouverte */
   --gallery-arrow-bg: rgba(255,255,255,0.95);  /* flèches de défilement des miniatures */
@@ -416,7 +416,7 @@ body {
   object-fit: cover;
   display: block;
 }
-/* Légende : voile noir transparent + texte, visible au survol (seulement si data-caption est rempli) */
+/* Légende : voile bleu transparent + texte, visible au survol (seulement si data-caption est rempli) */
 .gallery-caption {
   position: absolute;
   inset: 0;
@@ -833,7 +833,7 @@ body {
        flèches apparaissent pour les faire défiler. Au clic, la
        galerie s'ouvre en plein écran (flèches, clavier, Échap).
        - data-caption="..." (optionnel) : légende affichée au survol
-         de la miniature (voile noir) et sous l'image ouverte. Sans
+         de la miniature (voile bleu) et sous l'image ouverte. Sans
          data-caption, pas de voile ni de légende pour cette image.
        - Les carrés gris numérotés sont des espaces réservés : remplace
          chaque src par l'URL de la vraie image (la même image sert à
