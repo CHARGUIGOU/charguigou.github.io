@@ -534,6 +534,9 @@ body.searching .continuity {
 
   <div class="voice-table-mount" id="voices-1959"></div>
 
+  <div class="subgroup-title">Storybooks &amp; LPs</div>
+   <div class="voice-table-mount" id="lp-1959"></div>
+
   <div class="trivia">
     <h3>Trivia</h3>
     <ul>
@@ -797,6 +800,12 @@ const voices_1959 = [
   { lang: "Turkish (2008)", voice: 'Tülay Uyar <small>(speaking &amp; singing)</small>' },
   { lang: "Ukrainian (2010)", voice: 'Daryna Murashchenko / Дарина Муращенко <small>(speaking &amp; singing)</small>' },
   { lang: "Vietnamese (2019)", voice: '?' }
+];
+
+const lp_1959 = [
+  { lang: "Finnish (1969)", voice: 'Ritva Lehtelä <small>(singing)</small>' },
+  { lang: "Finnish (1987)", voice: 'Johanna Nurmimaa <small>(singing)</small>' },
+  { lang: "Serbian (1971)", voice: 'Aleksandra Ivanović / Александра Ивановић <small>(singing "Once Upon a Dream")</small> <i>&amp;</i> Milunka Milać / Милунка Милаћ <small>(singing "I Wonder")</small>' }
 ];
 
 const voices_2007 = [
@@ -1082,6 +1091,7 @@ function renderVoiceTable(mountId, data) {
 // ============================================================
 const voicesData = {
   'voices-1959': voices_1950,
+  'lp-1959'; lp_1959,
   'voices-2007': voices_2007,
   'voices-2013': voices_2013,
   'voices-2014': voices_2014,
