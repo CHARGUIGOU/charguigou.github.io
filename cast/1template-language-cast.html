@@ -13,6 +13,25 @@ show_songs: true
 {% include header.html %}
 <!-- GOOGLE FONT -->
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+<!-- ============================================================
+     POLICE DU TITRE LOCALISÉ (optionnel) — seulement pour les pages dont
+     le titre est dans une écriture non latine. Étapes :
+     1) copie le <link> de la police voulue juste sous le <link> ci-dessous ;
+     2) dans :root plus bas, remplace --title-native-font par le nom indiqué ;
+     3) si la police n'a qu'un poids (Hindi), mets --title-native-weight: 400.
+     Sans rien changer, le titre garde la police du site.
+
+     Chinois TC   : <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">   → 'Noto Serif TC'
+     Chinois SC   : <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">   → 'Noto Serif SC'
+     Japonais     : <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&display=swap" rel="stylesheet"> → 'Shippori Mincho'
+     Coréen       : <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">   → 'Gowun Batang'
+     Hindi        : <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">      → 'Tiro Devanagari Hindi' (poids 400 seulement)
+     Arabe        : <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">         → 'Amiri'
+     Hébreu       : <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;700&display=swap" rel="stylesheet"> → 'Frank Ruhl Libre'
+     Thaï         : <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;700&display=swap" rel="stylesheet"> → 'Noto Serif Thai'
+     Cyrillique / grec : <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet"> → 'Playfair Display'
+     ============================================================ -->
 
 <style>
 /* ============================================================
@@ -33,6 +52,7 @@ show_songs: true
   --cast-text-letter-spacing: 0px; /* espace entre les lettres du texte courant (tableaux, chansons, trivia...) */
 
   /* ---------- TITRE DU FILM (titre localisé + année) ---------- */
+  --title-native-font: <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">;   /* police du titre localisé (voir la liste en haut du fichier pour les écritures non latines) */
   --title-native-size: 28px;
   --title-native-color: var(--cast-accent);
   --title-native-weight: 700;
@@ -186,6 +206,7 @@ body {
    ============================================================ */
 .cast-title-native {
   text-align: center;
+  font-family: var(--title-native-font);
   font-size: var(--title-native-size);
   font-weight: var(--title-native-weight);
   color: var(--title-native-color);
