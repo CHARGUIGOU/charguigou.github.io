@@ -71,6 +71,7 @@ show_songs: true
   --actor-name-gap: 14px;         /* espace entre la photo et le nom */
   --actor-name-size: 21px;
   --actor-name-color: var(--cast-text-color);
+  --actor-dates-gap: 5px;
   --actor-dates-size: 13px;
   --actor-dates-color: #666;
   --actor-name-letter-spacing: 1px;     /* espace entre les lettres des noms sous les photos */
@@ -235,7 +236,7 @@ body {
   letter-spacing: var(--actor-name-letter-spacing);
 }
 .voice-card .actor-dates {
-  margin-top: 2px;
+  margin-top: var(--actor-dates-gap);
   font-size: var(--actor-dates-size);
   font-style: normal;
   color: var(--actor-dates-color);
