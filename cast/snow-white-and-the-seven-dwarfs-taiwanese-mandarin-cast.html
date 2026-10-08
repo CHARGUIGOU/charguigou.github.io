@@ -625,6 +625,9 @@ body {
 .cast-related a:hover {
   text-decoration: underline;
 }
+.cast-related a:not([href]):hover {
+  text-decoration: none;
+}
 .related-arrow {
   display: inline-block;      /* évite que la flèche soit soulignée au survol */
   font-style: normal;
@@ -1014,7 +1017,7 @@ body {
        ============================================================ -->
   <div class="cast-related">
     <div class="related-next">
-      <a href="#">Snow White (Live-action) (2025)<span class="related-arrow">➤</span></a>
+      <a>Snow White (Live-action) (2025)<span class="related-arrow">➤</span></a>
     </div>
   </div>
 
