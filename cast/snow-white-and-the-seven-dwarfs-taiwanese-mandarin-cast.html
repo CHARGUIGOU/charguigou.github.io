@@ -79,12 +79,27 @@ show_songs: true
 
   /* ---------- BOÎTES GRISES (Cast, Songs, Technical Staff...) ---------- */
   --box-rgb: 0, 0, 0;             /* couleur du fond en R, G, B (0,0,0 = noir) */
-  --box-opacity: 0.025;           /* OPACITÉ du fond : 0 = invisible, 0.05 = gris léger, 0.1 = plus marqué */
+  --box-opacity: 0.016;           /* OPACITÉ du fond : 0 = invisible, 0.05 = gris léger, 0.1 = plus marqué */
   --box-radius: 10px;
   --box-pad-y: 22px;              /* espace intérieur haut/bas */
   --box-pad-x: 20px;              /* espace intérieur gauche/droite */
   --box-space-below: 40px;        /* espace entre deux boîtes */
   --box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  /* effet "verre poli" (mets --glass-gloss: 0 et --glass-edge: none pour le désactiver) */
+  --glass-gloss: 1;               /* intensité du reflet blanc en diagonale (0 = aucun, 1 = blanc pur dans le coin) */
+  --glass-gloss-size: 55%;        /* jusqu'où le reflet s'étend (haut-gauche vers bas-droite) */
+  --glass-tint-top: 1;            /* teinte du gris en haut à gauche (multiplie --box-opacity) */
+  --glass-tint-bottom: 1;         /* teinte du gris en bas à droite (multiplie --box-opacity) : 1 = même gris partout, plus grand = plus de contraste avec le reflet */
+  --glass-border: 1px solid rgba(0,0,0,0.07);   /* fin liseré extérieur */
+  /* Double trait sur les bords HAUT et DROIT (la lumière vient du haut-gauche), qui suit l'arrondi des coins :
+     un liseré clair, puis un filet gris plus fin juste en dessous. Il disparaît en fondu en descendant le long du bord droit.
+     Pour le désactiver : --glass-edge-light: transparent et --glass-edge-dark: transparent. */
+  --glass-edge-light: rgba(255,255,255,0.95);   /* liseré clair */
+  --glass-edge-dark: rgba(0,0,0,0.035);         /* filet gris sous le liseré */
+  --glass-edge-hold: 20px;        /* hauteur sur laquelle le trait reste net en haut du bord droit */
+  --glass-edge-fade: 110px;       /* hauteur à laquelle il a complètement disparu (plus petit = disparaît plus vite) */
+  --glass-edge-top-start: 40%;    /* le trait du haut est invisible jusqu'ici (en % de la largeur, depuis la gauche) */
+  --glass-edge-top-full: 95%;     /* ...puis apparaît progressivement et est net à partir d'ici (vers le coin haut-droit) */
 
   /* ---------- TITRES DES BOÎTES (Cast, Songs... + Gallery) ---------- */
   --box-title-size: 17px;
@@ -248,12 +263,52 @@ body {
    Technical Staff) — même style pour toutes.
    ============================================================ */
 .info-box {
-  background: rgba(var(--box-rgb), var(--box-opacity));
+  position: relative;
+  background: linear-gradient(135deg,
+    rgba(var(--box-rgb), calc(var(--box-opacity) * var(--glass-tint-top))) 0%,
+    rgba(var(--box-rgb), calc(var(--box-opacity) * var(--glass-tint-bottom))) 100%);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);   /* flou de ce qui est derrière (visible seulement si la page a un fond image) */
+  border: var(--glass-border);
   border-radius: var(--box-radius);
   padding: var(--box-pad-y) var(--box-pad-x);
   margin-bottom: var(--box-space-below);
   box-shadow: var(--box-shadow);
   scroll-margin-top: 20px; /* marge d'arrivée quand on remonte via une flèche ↑ des sources */
+}
+
+/* Reflet de verre : bande blanche douce en diagonale depuis le coin haut-gauche */
+.info-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(115deg, rgba(255,255,255,var(--glass-gloss)) 0%, rgba(255,255,255,0) var(--glass-gloss-size));
+  pointer-events: none;
+}
+/* Double trait haut + droite, en fondu vers le bas */
+.info-box::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border-style: solid;
+  border-color: var(--glass-edge-light);
+  border-width: 1px 1px 0 0;
+  box-shadow: inset -1px 1px 0 var(--glass-edge-dark);
+  /* deux fondus combinés : le trait du haut apparaît de gauche à droite, et le bord droit disparaît vers le bas */
+  -webkit-mask-image:
+    linear-gradient(to right, transparent var(--glass-edge-top-start), #000 var(--glass-edge-top-full)),
+    linear-gradient(to bottom, #000 0, #000 var(--glass-edge-hold), transparent var(--glass-edge-fade));
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent var(--glass-edge-top-start), #000 var(--glass-edge-top-full)),
+    linear-gradient(to bottom, #000 0, #000 var(--glass-edge-hold), transparent var(--glass-edge-fade));
+  mask-composite: intersect;
+  pointer-events: none;
+}
+.info-box > * {
+  position: relative;   /* garde le contenu au-dessus du reflet */
 }
 
 /* Titre des boîtes ET titre "Gallery" : même style, même alignement
