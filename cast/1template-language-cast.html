@@ -86,12 +86,14 @@ show_songs: true
   --box-space-below: 40px;        /* espace entre deux boîtes */
   --box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   /* effet "verre poli" (mets --glass-gloss: 0 et --glass-edge: none pour le désactiver) */
-  --glass-gloss: 0.6;             /* intensité du reflet blanc en diagonale (0 = aucun, 1 = très marqué) */
-  --glass-gloss-size: 45%;        /* jusqu'où le reflet s'étend (haut-gauche vers bas-droite) */
-  --glass-tint-top: 1.8;          /* teinte du gris en haut à gauche (multiplie --box-opacity) */
-  --glass-tint-bottom: 0.5;       /* teinte du gris en bas à droite (multiplie --box-opacity) */
-  --glass-border: 1px solid rgba(0,0,0,0.06);   /* fin liseré du bord */
-  --glass-edge: inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(0,0,0,0.05);  /* arête lumineuse en haut, ombre fine en bas */
+  --glass-gloss: 1;               /* intensité du reflet blanc en diagonale (0 = aucun, 1 = blanc pur dans le coin) */
+  --glass-gloss-size: 55%;        /* jusqu'où le reflet s'étend (haut-gauche vers bas-droite) */
+  --glass-tint-top: 1;            /* teinte du gris en haut à gauche (multiplie --box-opacity) */
+  --glass-tint-bottom: 1;         /* teinte du gris en bas à droite (multiplie --box-opacity) : 1 = même gris partout, plus grand = plus de contraste avec le reflet */
+  --glass-border: 1px solid rgba(0,0,0,0.07);   /* fin liseré extérieur */
+  /* Double trait qui suit l'arrondi : liseré blanc juste à l'intérieur du bord, puis un 2e filet gris plus fin à 2px,
+     + ombre fine en bas. Mets "none" pour garder seulement le liseré extérieur. */
+  --glass-edge: inset 0 0 0 1px rgba(255,255,255,0.95), inset 0 0 0 2px rgba(0,0,0,0.035), inset 0 -2px 0 rgba(0,0,0,0.04);
 
   /* ---------- TITRES DES BOÎTES (Cast, Songs... + Gallery) ---------- */
   --box-title-size: 17px;
