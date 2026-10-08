@@ -24,8 +24,8 @@ show_songs: true
 
   /* ---------- GÉNÉRAL ---------- */
   --cast-font: 'Open Sans', 'Noto Sans', sans-serif; /* 'Noto Sans' = secours pour hindi, arabe, etc. */
-  --cast-max-width: 900px;        /* largeur max du contenu */
-  --cast-side-padding: 12px;      /* marge gauche/droite de la page */
+  --cast-max-width: 960px;        /* largeur max du contenu (les marges sur grand écran = ce qui reste de chaque côté) */
+  --cast-side-padding: 10px;      /* marge gauche/droite de la page */
   --cast-accent: #2a5da0;         /* bleu du site (titre, liens) */
   --cast-text-color: #333;        /* couleur du texte courant */
   --cast-text-size: 13px;         /* taille du texte courant (tableaux, chansons, trivia...) */
@@ -98,6 +98,8 @@ show_songs: true
   --table-row-border: #e3e3e3;    /* trait entre les lignes du tableau Cast */
   --table-cell-pad-x: 10px;       /* espace intérieur gauche/droite de chaque cellule : l'écart entre deux colonnes = 2 x cette valeur */
   --cast-names-wrap: nowrap;      /* colonnes 1 et 2 : nowrap = aussi larges que leur plus long nom (la colonne Voices prend le reste) ; normal = elles peuvent passer à la ligne */
+
+  --staff-table-max-width: 100%;   /* largeur max du tableau Technical Staff (100% = toute la boîte, évite que les noms longs passent à la ligne ; mets 420px pour le resserrer au centre) */
 
   /* ---------- LISTES À 2 COLONNES (Additional voices / Choir) ---------- */
   --voices-column-gap: 40px;      /* espace central entre colonne gauche et droite */
@@ -376,7 +378,7 @@ body {
   width: 100%;
   border-collapse: collapse;
   margin: 0 auto;
-  max-width: 420px;
+  max-width: var(--staff-table-max-width);
 }
 .staff-table td {
   padding: 4px 10px;
