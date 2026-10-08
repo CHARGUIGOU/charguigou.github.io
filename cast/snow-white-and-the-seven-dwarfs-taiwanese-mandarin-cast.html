@@ -12,7 +12,94 @@ show_songs: true
 ---
 {% include header.html %}
 <!-- GOOGLE FONT -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
+<!-- Police actuelle du titre : Chinese - Traditional (Taiwan) -->
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC:wght@300;400;700&display=swap" rel="stylesheet">
+<!-- ============================================================
+     POLICE DU TITRE LOCALISÉ (optionnel) — seulement pour les pages dont
+     le titre est dans une écriture non latine. Étapes :
+     1) copie le <link> de la langue voulue (liste ci-dessous) juste sous le <link> « GOOGLE FONT » ci-dessus ;
+     2) dans :root plus bas, remplace --title-native-font par : 'Nom de la police', var(--cast-font)
+        (le nom seulement, jamais la balise <link>) ;
+     3) si le poids indiqué est « 400 seulement », mets --title-native-weight: 400
+        (sinon le navigateur fabrique un faux gras).
+     Sans rien changer, le titre garde la police du site.
+     Les langues sont classées par ordre alphabétique (l'arabe en premier).
+
+     Arabic (Standard, Egyptian)
+       <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+       → 'Amiri'   (poids : 400, 700 ; écriture de droite à gauche : ajoute dir="rtl" sur la div du titre)
+
+     Armenian
+       <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wdth,wght@62.5..100,100..900&display=swap" rel="stylesheet">
+       → 'Noto Sans Armenian'   (poids : 100 à 900)
+
+     Bengali
+       <link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+       → 'Tiro Bangla'   (poids : 400 seulement)
+
+     Chinese - Cantonese (Hong Kong)
+       <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&display=swap" rel="stylesheet">
+       → 'Noto Serif HK'   (poids : 200 à 900)
+
+     Chinese - Simplified
+       <link href="https://fonts.googleapis.com/css2?family=Long+Cang&display=swap" rel="stylesheet">
+       → 'Long Cang'   (poids : 400 seulement)
+
+     Chinese - Traditional (Taiwan)
+       <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC:wght@300;400;700&display=swap" rel="stylesheet">
+       → 'LXGW WenKai Mono TC'   (poids : 300, 400, 700)
+
+     Cyrillic (Bulgarian, Russian, Kazakh, Ukrainian, Serbian, Abkhaz, Karachay-Balkar, Kabardian, Crimean Tatar)
+       <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+       → 'Cormorant Garamond'   (poids : 300 à 700)
+
+     Georgian
+       <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Georgian:wght@100..900&display=swap" rel="stylesheet">
+       → 'Noto Serif Georgian'   (poids : 100 à 900)
+
+     Greek
+       <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+       → 'EB Garamond'   (poids : 400 à 800)
+
+     Hebrew
+       <link href="https://fonts.googleapis.com/css2?family=David+Libre:wght@400;500;700&display=swap" rel="stylesheet">
+       → 'David Libre'   (poids : 400, 500, 700 ; écriture de droite à gauche : ajoute dir="rtl" sur la div du titre)
+
+     Hindi, Marathi
+       <link href="https://fonts.googleapis.com/css2?family=Tillana:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+       → 'Tillana'   (poids : 400 à 800)
+
+     Japanese
+       <link href="https://fonts.googleapis.com/css2?family=Yuji+Mai&display=swap" rel="stylesheet">
+       → 'Yuji Mai'   (poids : 400 seulement)
+
+     Kannada
+       <link href="https://fonts.googleapis.com/css2?family=Tiro+Kannada&display=swap" rel="stylesheet">
+       → 'Tiro Kannada'   (poids : 400 seulement)
+
+     Korean
+       <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap" rel="stylesheet">
+       → 'Nanum Brush Script'   (poids : 400 seulement)
+
+     Malayalam
+       <link href="https://fonts.googleapis.com/css2?family=Chilanka&display=swap" rel="stylesheet">
+       → 'Chilanka'   (poids : 400 seulement)
+
+     Tamil
+       <link href="https://fonts.googleapis.com/css2?family=Meera+Inimai&display=swap" rel="stylesheet">
+       → 'Meera Inimai'   (poids : 400 seulement)
+
+     Telugu
+       <link href="https://fonts.googleapis.com/css2?family=Gurajada&display=swap" rel="stylesheet">
+       → 'Gurajada'   (poids : 400 seulement)
+
+     Thai
+       <link href="https://fonts.googleapis.com/css2?family=Sriracha&display=swap" rel="stylesheet">
+       → 'Sriracha'   (poids : 400 seulement)
+     ============================================================ -->
 
 <style>
 /* ============================================================
@@ -23,7 +110,7 @@ show_songs: true
 :root {
 
   /* ---------- GÉNÉRAL ---------- */
-  --cast-font: 'Open Sans', 'Noto Sans', sans-serif; /* 'Noto Sans' = secours pour hindi, arabe, etc. */
+  --cast-font: 'Open Sans', 'Noto Sans', sans-serif; /* 'Noto Sans' = secours pour le latin, cyrillique, grec, hindi... (les autres écritures ont leur propre police, voir plus bas) */
   --cast-max-width: 960px;        /* largeur max du contenu (les marges sur grand écran = ce qui reste de chaque côté) */
   --cast-side-padding: 10px;      /* marge gauche/droite de la page */
   --cast-accent: #2a5da0;         /* bleu du site (titre, liens) */
@@ -33,9 +120,11 @@ show_songs: true
   --cast-text-letter-spacing: 0px; /* espace entre les lettres du texte courant (tableaux, chansons, trivia...) */
 
   /* ---------- TITRE DU FILM (titre localisé + année) ---------- */
+  --title-native-font: 'LXGW WenKai Mono TC', var(--cast-font);   /* police du titre localisé */
   --title-native-size: 28px;
   --title-native-color: var(--cast-accent);
   --title-native-weight: 700;
+  --title-year-font: var(--cast-font);   /* police de l'année : reste celle du site même si le titre a une autre police (mets var(--title-native-font) pour la même que le titre) */
   --title-year-gap: 7px;          /* espace entre le titre et l'année */
   --title-year-size: 22px;        /* taille de l'année (indépendante du titre : utile quand le titre est en hindi, arabe, etc. dont les lettres paraissent plus petites) */
   --title-year-weight: 700;
@@ -71,7 +160,7 @@ show_songs: true
   --actor-name-gap: 14px;         /* espace entre la photo et le nom */
   --actor-name-size: 21px;
   --actor-name-color: var(--cast-text-color);
-  --actor-dates-gap: 5px;
+  --actor-dates-gap: 5px;         /* espace entre le nom de l'acteur et ses dates */
   --actor-dates-size: 13px;
   --actor-dates-color: #666;
   --actor-name-letter-spacing: 1px;     /* espace entre les lettres des noms sous les photos */
@@ -186,12 +275,14 @@ body {
    ============================================================ */
 .cast-title-native {
   text-align: center;
+  font-family: var(--title-native-font);
   font-size: var(--title-native-size);
   font-weight: var(--title-native-weight);
   color: var(--title-native-color);
   letter-spacing: var(--title-native-letter-spacing);
 }
 .cast-title-native .native-year {
+  font-family: var(--title-year-font);
   margin-left: var(--title-year-gap);
   font-size: var(--title-year-size);
   font-weight: var(--title-year-weight);
@@ -681,6 +772,7 @@ body {
 .cast-related a:hover {
   text-decoration: underline;
 }
+/* Lien sans href (page pas encore créée) : pas de soulignement au survol */
 .cast-related a:not([href]):hover {
   text-decoration: none;
 }
