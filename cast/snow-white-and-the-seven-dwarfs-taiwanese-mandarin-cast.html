@@ -1,0 +1,1122 @@
+---
+layout: null
+# ============================================================
+# INTERRUPTEURS — MODIFIE ICI à chaque nouvelle page.
+# true  = l'encadré s'affiche
+# false = il disparaît complètement de la page
+# (pas besoin de supprimer le code HTML plus bas)
+# ============================================================
+show_additional_voices: false
+show_choir: false
+show_songs: true
+---
+{% include header.html %}
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   TOUS LES RÉGLAGES DE LA PAGE SONT ICI (couleurs, tailles, espaces)
+   Change une valeur dans ce bloc et ça s'applique partout où elle
+   est utilisée, sans toucher au reste du CSS.
+   ============================================================ */
+:root {
+
+  /* ---------- GÉNÉRAL ---------- */
+  --cast-font: 'Open Sans', 'Noto Sans', sans-serif; /* 'Noto Sans' = secours pour hindi, arabe, etc. */
+  --cast-max-width: 900px;        /* largeur max du contenu */
+  --cast-side-padding: 12px;      /* marge gauche/droite de la page */
+  --cast-accent: #2a5da0;         /* bleu du site (titre, liens) */
+  --cast-text-color: #333;        /* couleur du texte courant */
+  --cast-text-size: 13px;         /* taille du texte courant (tableaux, chansons, trivia...) */
+  --cast-heading-color: #222;     /* couleur des titres de boîtes et en-têtes de tableaux */
+  --cast-text-letter-spacing: 0px; /* espace entre les lettres du texte courant (tableaux, chansons, trivia...) */
+
+  /* ---------- TITRE DU FILM (titre localisé + année) ---------- */
+  --title-native-size: 28px;
+  --title-native-color: var(--cast-accent);
+  --title-native-weight: 700;
+  --title-year-gap: 7px;          /* espace entre le titre et l'année */
+  --title-year-size: 22px;        /* taille de l'année (indépendante du titre : utile quand le titre est en hindi, arabe, etc. dont les lettres paraissent plus petites) */
+  --title-year-weight: 700;
+  --title-year-color: var(--title-native-color);
+  --title-native-letter-spacing: 0px;   /* espace entre les lettres du titre localisé (à laisser à 0 pour hindi, arabe... : l'écriture est reliée) */
+  --title-year-letter-spacing: 0px;
+
+  /* ---------- TITRE ANGLAIS (sous le titre localisé) ---------- */
+  --title-english-size: 17px;
+  --title-english-color: var(--cast-text-color);
+  --title-english-style: italic;  /* italic ou normal */
+  --title-english-space-above: 6px;
+  --title-english-space-below: 30px;
+  --title-english-letter-spacing: 1px;
+
+  /* ---------- TRAITS HORIZONTAUX ---------- */
+  --hr-width: 70%;                /* largeur du trait (par rapport à la page) */
+  --hr-color: #ddd;
+  --hr-thickness: 1px;
+  --hr-space-above: 0px;          /* espace au-dessus du trait */
+  --hr-space-below: 40px;         /* espace en dessous du trait */
+
+  /* ---------- PHOTOS DES COMÉDIENS ---------- */
+  --voice-gap: 20px;              /* espace entre les photos */
+  --voice-card-min: 200px;        /* largeur mini d'une carte avant de passer à la ligne */
+  --voice-card-max: 300px;        /* largeur maxi d'une carte (mets 100% pour tout remplir) */
+  --voice-photo-ratio: 3 / 2;     /* forme de la photo (ici celle de ton image test) : 1 / 1 carré, 4 / 3, 3 / 4 portrait... */
+  --voice-photo-radius: 6px;
+  --voice-space-below: 50px;      /* espace entre les photos et la 1re boîte */
+  /* effet au survol des photos */
+  --voice-hover-shadow: 0 4px 10px rgba(0,0,0,0.10);  /* ombre au survol */
+  --voice-hover-duration: 0.25s;  /* vitesse de l'ombre */
+  --actor-name-gap: 14px;         /* espace entre la photo et le nom */
+  --actor-name-size: 19px;
+  --actor-name-color: var(--cast-text-color);
+  --actor-dates-size: 13px;
+  --actor-dates-color: #666;
+  --actor-name-letter-spacing: 1px;     /* espace entre les lettres des noms sous les photos */
+  --actor-dates-letter-spacing: 0px;
+
+  /* ---------- BOÎTES GRISES (Cast, Songs, Technical Staff...) ---------- */
+  --box-rgb: 0, 0, 0;             /* couleur du fond en R, G, B (0,0,0 = noir) */
+  --box-opacity: 0.025;           /* OPACITÉ du fond : 0 = invisible, 0.05 = gris léger, 0.1 = plus marqué */
+  --box-radius: 10px;
+  --box-pad-y: 22px;              /* espace intérieur haut/bas */
+  --box-pad-x: 20px;              /* espace intérieur gauche/droite */
+  --box-space-below: 40px;        /* espace entre deux boîtes */
+  --box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+  /* ---------- TITRES DES BOÎTES (Cast, Songs... + Gallery) ---------- */
+  --box-title-size: 17px;
+  --box-title-color: var(--cast-heading-color);
+  --box-title-weight: 700;
+  --box-title-space-below: 16px;
+  --box-title-letter-spacing: 0px;      /* aussi appliqué au titre "Gallery" */
+
+  /* ---------- TABLEAUX (Cast, Technical Staff) ---------- */
+  --table-head-size: 13px;
+  --table-head-letter-spacing: 0px;
+  --table-row-border: #e3e3e3;    /* trait entre les lignes du tableau Cast */
+  --table-cell-pad-x: 10px;       /* espace intérieur gauche/droite de chaque cellule : l'écart entre deux colonnes = 2 x cette valeur */
+  --cast-names-wrap: nowrap;      /* colonnes 1 et 2 : nowrap = aussi larges que leur plus long nom (la colonne Voices prend le reste) ; normal = elles peuvent passer à la ligne */
+
+  /* ---------- LISTES À 2 COLONNES (Additional voices / Choir) ---------- */
+  --voices-column-gap: 40px;      /* espace central entre colonne gauche et droite */
+  --voices-row-gap: 8px;
+
+  /* ---------- CHANSONS ---------- */
+  --song-space-between: 18px;     /* espace entre deux chansons */
+  --song-line-height: 1.5;
+
+  /* ---------- LIENS (quand tu en ajoutes) ---------- */
+  --link-color: var(--cast-accent);
+
+  /* ---------- TRIVIA ---------- */
+  --trivia-space-above: 40px;
+  --trivia-line-height: 1.6;
+
+  /* ---------- GALERIE ---------- */
+  --gallery-gap: 12px;            /* espace entre les miniatures */
+  --gallery-thumb-size: 160px;    /* côté des miniatures carrées */
+  --gallery-photo-radius: 6px;
+  --gallery-space-above: 50px;    /* espace au-dessus du titre "Gallery" */
+  --gallery-veil: rgba(42,93,160,0.6);         /* voile sur la miniature au survol (bleu du site, 42,93,160 ; change le dernier chiffre pour l'opacité) */
+  --gallery-caption-size: 13px;                /* taille de la légende sur la miniature */
+  --lightbox-caption-size: 15px;               /* taille de la légende sous l'image ouverte */
+  --gallery-arrow-bg: rgba(255,255,255,0.95);  /* flèches de défilement des miniatures */
+  --gallery-arrow-color: var(--cast-accent);
+  --gallery-arrow-size: 38px;
+  --lightbox-bg: rgba(0,0,0,0.88);             /* fond de la galerie plein écran */
+
+  /* ---------- LIENS VERS LES PAGES SIMILAIRES (bas de page) ----------
+     À gauche : films précédents (flèche à gauche). À droite : films suivants (flèche à droite). */
+  --related-size: 14px;
+  --related-color: #9a3b3b;
+  --related-style: italic;
+  --related-space-above: 40px;
+  --related-line-space: 6px;      /* espace entre deux liens empilés */
+  --related-letter-spacing: 0px;
+  --related-arrow-gap: 6px;       /* espace entre la flèche et le texte */
+
+  /* ---------- SOURCES + CONTACT (bas de page) ---------- */
+  --sources-size: 13px;
+  --sources-color: var(--cast-text-color);
+  --sources-style: italic;
+  --sources-line-height: 1.7;
+  --sources-letter-spacing: 0px;
+  --sources-space-above: 40px;
+}
+
+body {
+  font-family: var(--cast-font) !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.cast-wrap {
+  max-width: var(--cast-max-width);
+  margin: 0 auto 100px;
+  padding: 60px var(--cast-side-padding) 0;
+  box-sizing: border-box;
+  color: var(--cast-text-color);
+  letter-spacing: var(--cast-text-letter-spacing);   /* hérité par tout le texte, sauf éléments qui ont leur propre réglage */
+}
+
+/* ============================================================
+   TITRE DU FILM
+   ============================================================ */
+.cast-title-native {
+  text-align: center;
+  font-size: var(--title-native-size);
+  font-weight: var(--title-native-weight);
+  color: var(--title-native-color);
+  letter-spacing: var(--title-native-letter-spacing);
+}
+.cast-title-native .native-year {
+  margin-left: var(--title-year-gap);
+  font-size: var(--title-year-size);
+  font-weight: var(--title-year-weight);
+  color: var(--title-year-color);
+  letter-spacing: var(--title-year-letter-spacing);
+}
+.cast-title-english {
+  text-align: center;
+  font-size: var(--title-english-size);
+  font-style: var(--title-english-style);
+  color: var(--title-english-color);
+  letter-spacing: var(--title-english-letter-spacing);
+  margin-top: var(--title-english-space-above);
+  margin-bottom: var(--title-english-space-below);
+}
+
+/* Trait horizontal (utilisé 2 fois : sous le titre, et avant la trivia) */
+.cast-hr {
+  border: none;
+  border-top: var(--hr-thickness) solid var(--hr-color);
+  width: var(--hr-width);
+  margin: var(--hr-space-above) auto var(--hr-space-below);
+}
+
+/* ============================================================
+   PHOTOS DES COMÉDIENS — elles se partagent toute la largeur
+   disponible (jusqu'à --voice-card-max chacune) et passent à la
+   ligne toutes seules s'il y en a beaucoup.
+   ============================================================ */
+.voice-cast {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--voice-gap);
+  margin-bottom: var(--voice-space-below);
+}
+.voice-card {
+  flex: 1 1 var(--voice-card-min);
+  max-width: var(--voice-card-max);
+  text-align: center;
+}
+.voice-card img {
+  width: 100%;
+  aspect-ratio: var(--voice-photo-ratio);
+  object-fit: cover;
+  display: block;
+  border-radius: var(--voice-photo-radius);
+  transition: box-shadow var(--voice-hover-duration) ease;
+}
+.voice-card img:hover {
+  box-shadow: var(--voice-hover-shadow);
+}
+.voice-card .actor-name {
+  margin-top: var(--actor-name-gap);
+  font-size: var(--actor-name-size);
+  color: var(--actor-name-color);
+  letter-spacing: var(--actor-name-letter-spacing);
+}
+.voice-card .actor-dates {
+  margin-top: 2px;
+  font-size: var(--actor-dates-size);
+  font-style: normal;
+  color: var(--actor-dates-color);
+  letter-spacing: var(--actor-dates-letter-spacing);
+}
+
+/* ============================================================
+   BOÎTES GRISES (Cast / Additional voices / Choir / Songs /
+   Technical Staff) — même style pour toutes.
+   ============================================================ */
+.info-box {
+  background: rgba(var(--box-rgb), var(--box-opacity));
+  border-radius: var(--box-radius);
+  padding: var(--box-pad-y) var(--box-pad-x);
+  margin-bottom: var(--box-space-below);
+  box-shadow: var(--box-shadow);
+  scroll-margin-top: 20px; /* marge d'arrivée quand on remonte via une flèche ↑ des sources */
+}
+
+/* Titre des boîtes ET titre "Gallery" : même style, même alignement
+   (le titre Gallery reprend le même retrait que le texte des boîtes). */
+.info-box-title,
+.gallery-title {
+  font-size: var(--box-title-size);
+  font-weight: var(--box-title-weight);
+  color: var(--box-title-color);
+  letter-spacing: var(--box-title-letter-spacing);
+  text-align: left;
+}
+.info-box-title {
+  margin-bottom: var(--box-title-space-below);
+}
+.gallery-title {
+  padding-left: var(--box-pad-x);
+  margin: var(--gallery-space-above) 0 var(--box-title-space-below);
+}
+
+/* --- Tableau "Cast" --- */
+.cast-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.cast-table th {
+  text-align: center;
+  font-size: var(--table-head-size);
+  font-weight: 700;
+  color: var(--cast-heading-color);
+  letter-spacing: var(--table-head-letter-spacing);
+  padding: 6px var(--table-cell-pad-x) 10px;
+}
+.cast-table th.col-voices {
+  text-align: center;
+  text-decoration: underline;
+}
+.cast-table td {
+  font-size: var(--cast-text-size);
+  color: var(--cast-text-color);
+  padding: 10px var(--table-cell-pad-x);
+  border-top: 1px solid var(--table-row-border);
+  text-align: center;
+}
+/* Colonnes 1 et 2 (noms du personnage) : aussi larges que leur plus long contenu,
+   la colonne "Voices" prend tout le reste. (Les cellules seules sur leur ligne,
+   ex : voix supplémentaires d'un rowspan, sont ignorées.) */
+.cast-table th:nth-child(-n+2),
+.cast-table td:nth-child(-n+2):not(:only-child) {
+  width: 1%;
+  white-space: var(--cast-names-wrap);
+}
+@media (max-width: 600px) {
+  .cast-table th:nth-child(-n+2),
+  .cast-table td:nth-child(-n+2):not(:only-child) { white-space: normal; }  /* sur mobile : retour à la ligne autorisé */
+}
+.cast-table a {
+  color: var(--link-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+.cast-table a:hover {
+  text-decoration: underline;
+}
+
+/* --- Listes "Additional voices" / "Choir" ---
+   2 colonnes : la colonne de gauche est alignée à droite, celle de
+   droite à gauche (elles se rejoignent au centre). L'ordre d'ajout
+   se lit ligne par ligne : Nom 1, Nom 2 / Nom 3, Nom 4 / Nom 5...
+   Un nombre impair laisse la dernière ligne à gauche. */
+.voices-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--voices-column-gap);
+  row-gap: var(--voices-row-gap);
+  font-size: var(--cast-text-size);
+  color: var(--cast-text-color);
+}
+.voices-grid > div:nth-child(odd)  { text-align: right; }
+.voices-grid > div:nth-child(even) { text-align: left; }
+.voices-grid a {
+  color: var(--link-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+.voices-grid a:hover {
+  text-decoration: underline;
+}
+
+/* --- Liste "Songs" --- */
+.song-list {
+  list-style: disc;
+  padding-left: 20px;
+  margin: 0;
+  font-size: var(--cast-text-size);   /* taille unique pour tout le texte des chansons */
+  line-height: var(--song-line-height);
+  color: var(--cast-text-color);
+}
+.song-item {
+  margin-bottom: var(--song-space-between);
+}
+.song-item .song-title-native {
+  font-weight: 700;
+}
+.song-item .song-title-native a,
+.song-item .performed-by a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+.song-item .song-title-native a:hover,
+.song-item .performed-by a:hover {
+  text-decoration: underline;
+}
+/* Italique uniquement là où tu mets des balises <i> : "performed by :"
+   et les noms de personnages entre parenthèses. */
+.song-item .performed-by {
+  display: block;
+  margin-top: 4px;
+  font-style: normal;
+}
+
+/* --- "Technical Staff" --- */
+.staff-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  max-width: 420px;
+}
+.staff-table td {
+  padding: 4px 10px;
+  font-size: var(--cast-text-size);
+}
+.staff-table td.staff-name {
+  text-align: right;
+  color: var(--cast-text-color);
+  width: 50%;
+}
+.staff-table td.staff-role {
+  text-align: left;
+  font-weight: 700;
+  color: var(--cast-heading-color);
+}
+.studio-line {
+  text-align: center;
+  font-style: italic;
+  color: var(--cast-text-color);
+  margin-top: 16px;
+  font-size: var(--cast-text-size);
+}
+
+/* ============================================================
+   TRIVIA
+   ============================================================ */
+.cast-trivia {
+  margin: var(--trivia-space-above) 0 0;
+  padding-left: 20px;
+  font-size: var(--cast-text-size);
+  color: var(--cast-text-color);
+  line-height: var(--trivia-line-height);
+}
+.cast-trivia li {
+  margin-bottom: 8px;
+}
+
+/* ============================================================
+   GALERIE (diaporama) — miniatures carrées qui défilent avec des
+   flèches quand il y en a plus que la place disponible ; un clic
+   ouvre la galerie plein écran (flèches clavier/écran, Échap ou
+   clic à l'extérieur pour fermer).
+   ============================================================ */
+.gallery-carousel {
+  position: relative;
+}
+.gallery-track {
+  display: flex;
+  gap: var(--gallery-gap);
+  width: max-content;      /* centré quand tout rentre... */
+  max-width: 100%;         /* ...et défilable quand ça déborde */
+  /* Marge intérieure : laisse la place à l'agrandissement au survol et à l'ombre,
+     sinon le défilement les coupe (coins qui paraissent carrés). Les marges
+     négatives compensent pour que la mise en page ne bouge pas. */
+  padding: 10px 8px;
+  box-sizing: content-box;
+  margin: -10px auto;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;   /* pas de barre de défilement visible */
+}
+.gallery-track::-webkit-scrollbar {
+  display: none;
+}
+/* Chaque miniature est entourée automatiquement d'un .gallery-item (par le script du bas) */
+.gallery-item {
+  position: relative;
+  flex: 0 0 auto;
+  width: var(--gallery-thumb-size);
+  height: var(--gallery-thumb-size);
+  border-radius: var(--gallery-photo-radius);
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.gallery-item:hover {
+  transform: scale(1.04);
+}
+.gallery-item img {
+  border-radius: inherit;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* Légende : voile bleu transparent + texte, visible au survol (seulement si data-caption est rempli) */
+.gallery-caption {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;   /* suit les coins arrondis de la miniature */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  box-sizing: border-box;
+  background: var(--gallery-veil);
+  color: #fff;
+  font-size: var(--gallery-caption-size);
+  line-height: 1.35;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.gallery-item:hover .gallery-caption {
+  opacity: 1;
+}
+/* Flèches de défilement des miniatures (cachées tant qu'il n'y a rien à faire défiler) */
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--gallery-arrow-size);
+  height: var(--gallery-arrow-size);
+  border: none;
+  border-radius: 50%;
+  background: var(--gallery-arrow-bg);
+  color: var(--gallery-arrow-color);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  display: none;
+  z-index: 2;
+}
+.gallery-arrow.visible { display: block; }
+.gallery-arrow.prev { left: 6px; }
+.gallery-arrow.next { right: 6px; }
+
+/* Galerie plein écran */
+.lightbox-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--lightbox-bg);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox-overlay.open {
+  display: flex;
+}
+.lightbox-figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.lightbox-caption {
+  margin-top: 12px;
+  max-width: 80vw;
+  color: #fff;
+  font-size: var(--lightbox-caption-size);
+  line-height: 1.4;
+  text-align: center;
+}
+.lightbox-caption:empty {
+  display: none;
+}
+.lightbox-overlay img {
+  max-width: 90vw;
+  max-height: 78vh;
+  border-radius: 4px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+.lightbox-btn {
+  position: absolute;
+  border: none;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  font-size: 26px;
+  line-height: 1;
+  transition: background 0.2s ease;
+}
+.lightbox-btn:hover {
+  background: rgba(255,255,255,0.3);
+}
+.lightbox-btn.prev  { left: 20px;  top: 50%; transform: translateY(-50%); }
+.lightbox-btn.next  { right: 20px; top: 50%; transform: translateY(-50%); }
+.lightbox-btn.close { right: 20px; top: 20px; font-size: 22px; }
+.lightbox-counter {
+  position: absolute;
+  bottom: 18px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* ============================================================
+   LIENS VERS LES PAGES SIMILAIRES (bas de page)
+   .related-prev = films qui viennent AVANT (à gauche, flèche ◄, texte
+   aligné à gauche). .related-next = films qui viennent APRÈS (à droite,
+   flèche ►, texte aligné à droite). Chacun peut contenir plusieurs
+   liens (un par ligne), ou être supprimé s'il n'y en a pas.
+   ============================================================ */
+.cast-related {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-top: var(--related-space-above);
+}
+.related-prev {
+  text-align: left;
+}
+.related-next {
+  text-align: right;
+  margin-left: auto;   /* reste à droite même s'il n'y a pas de bloc "prev" */
+}
+.cast-related a {
+  display: block;
+  margin-bottom: var(--related-line-space);
+  font-style: var(--related-style);
+  font-size: var(--related-size);
+  letter-spacing: var(--related-letter-spacing);
+  color: var(--related-color);
+  text-decoration: none;
+}
+.cast-related a:hover {
+  text-decoration: underline;
+}
+.related-arrow {
+  display: inline-block;      /* évite que la flèche soit soulignée au survol */
+  font-style: normal;
+}
+.related-prev .related-arrow {
+  transform: scaleX(-1);      /* même flèche, retournée vers la gauche */
+  margin-right: var(--related-arrow-gap);
+}
+.related-next .related-arrow {
+  margin-left: var(--related-arrow-gap);
+}
+
+/* ============================================================
+   SOURCES + CONTACT (tout en bas)
+   ============================================================ */
+.sources-list {
+  margin: var(--sources-space-above) 0 0;
+  padding-left: 22px;
+  font-size: var(--sources-size);
+  font-style: var(--sources-style);
+  color: var(--sources-color);
+  letter-spacing: var(--sources-letter-spacing);
+  line-height: var(--sources-line-height);
+}
+.sources-list li {
+  margin-bottom: 2px;
+}
+/* Petite flèche ↑ optionnelle : remonte vers une boîte de la page */
+.sources-list .back-ref {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--link-color);
+  text-decoration: none;
+  margin-left: 4px;
+}
+.sources-list .back-ref:hover {
+  text-decoration: underline;
+}
+.cast-note {
+  text-align: right;
+  font-size: var(--sources-size);
+  font-style: var(--sources-style);
+  color: var(--sources-color);
+  letter-spacing: var(--sources-letter-spacing);
+  margin: 16px 0 0;
+}
+.cast-note a {
+  color: var(--link-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+.cast-note a:hover {
+  text-decoration: underline;
+}
+</style>
+
+<div class="cast-wrap">
+
+  <!-- ============================================================
+       TITRE — MODIFIE ICI à chaque nouvelle page
+       ============================================================ -->
+  <div class="cast-title-native">
+    <span class="native-text">白雪公主</span><span class="native-year">(1994?)</span>
+  </div>
+  <div class="cast-title-english">Snow White and the Seven Dwarfs</div>
+  <hr class="cast-hr">
+
+  <!-- ============================================================
+       COMÉDIENS DE DOUBLAGE — un .voice-card par comédien.
+       MODIFIE ICI : copie/colle un bloc .voice-card pour en ajouter.
+       Mets "(Unknown dates)" si tu n'as pas l'info, sinon le format
+       "(1960? - April 2021?)".
+       Les images grises ci-dessous sont des espaces réservés : remplace
+       chaque src="..." par l'URL de la vraie photo (Cloudinary).
+       ============================================================ -->
+  <div class="voice-cast">
+    <div class="voice-card">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="Pradeep Shukla">
+      <div class="actor-name">Corisa Lee</div>
+      <div class="actor-dates">(Unknown dates)</div>
+    </div>
+    <div class="voice-card">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="Hema Nikam">
+      <div class="actor-name">Judy Chen</div>
+      <div class="actor-dates">(Unknown dates)</div>
+    </div>
+    <div class="voice-card">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="Sandeep Karnik">
+      <div class="actor-name">Karen Wang</div>
+      <div class="actor-dates">(15 November 1953 -  )</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ENCADRÉ "CAST" — un <tr> par personnage.
+       MODIFIE ICI : "?" quand tu n'as pas l'info (nom natif, ou
+       acteur). Les noms de comédiens restent en texte simple pour
+       l'instant (pas de lien) : plus tard, tu pourras les transformer
+       en <a href="/artists/nom.html">...</a> vers leur propre fiche.
+       L'id="cast" est un point d'ancrage invisible : une source en bas
+       de page peut y faire remonter avec <a href="#cast">.
+
+       CAS PARTICULIERS — on fusionne des cellules avec rowspan="N"
+       (la cellule s'étire sur N lignes). Les 3 exemples à copier :
+
+       1) UNE VOIX POUR PLUSIEURS PERSONNAGES (même acteur sur 2 lignes) :
+          la cellule "Voices" est écrite une seule fois, dans la 1re ligne,
+          avec rowspan="2". La 2e ligne n'a donc que 2 <td> (pas de 3e).
+          <tr>
+            <td>Oafish</td><td>Oafish Guard</td>
+            <td rowspan="2">Johan Hedenberg</td>
+          </tr>
+          <tr>
+            <td>Fången</td><td>The Old Heretic</td>
+          </tr>
+
+       2) UN PERSONNAGE (OU GROUPE) AVEC PLUSIEURS VOIX :
+          cette fois ce sont les 2 premières cellules (noms) qui sont
+          fusionnées, avec rowspan="3" (= nombre de voix). Chaque voix a sa
+          propre ligne ; seule la 1re ligne contient aussi les noms.
+          <tr>
+            <td rowspan="3">Vakter och Zigenare</td>
+            <td rowspan="3">Guards &amp; Gypsies</td>
+            <td>Anders Öjebo</td>
+          </tr>
+          <tr><td>Roger Storm</td></tr>
+          <tr><td>Monica Forsberg</td></tr>
+
+       3) LES DEUX À LA FOIS : combine les deux (une cellule peut avoir
+          un rowspan, et la ligne d'à côté un autre).
+
+       Règle simple : le nombre de <td> par ligne = 3 moins les cellules
+       déjà "prises" par un rowspan des lignes du dessus.
+       ============================================================ -->
+  <div class="info-box" id="cast">
+    <div class="info-box-title">Cast</div>
+    <table class="cast-table">
+      <thead>
+        <tr>
+          <th>TW Mandarin name</th>
+          <th>Original name</th>
+          <th class="col-voices">Voices</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>白雪</td> <td>Snow White</td>
+          <td>"Corisa Lee" Lǐ Zhí-Píng / 李直平 (speaking) &amp; "Judy Chen" Chén Xiù-Zhū / 陳秀珠 (singing)</td>
+        </tr>
+        <tr>
+          <td>皇后/巫婆</td> <td>Evil Queen/Hag</td>
+          <td>"Karen Wang" Wáng Jǐng-Píng / 王景平</td>
+        </tr>
+        <tr>
+          <td>白馬王子</td> <td>Prince</td>
+          <td>Jiāng Xiān-Chéng / 姜先誠 (speaking) &amp; Xiè Wén-Dé / 謝文德 (singing)</td>
+        </tr>
+        <tr>
+          <td>萬事通</td> <td>Doc</td>
+          <td>Sūn Dé-Chéng / 孫德成 (speaking &amp; singing)</td>
+        </tr>
+        <tr>
+          <td>愛生氣</td> <td>Grumpy</td>
+          <td>Yáng Shǎo-Wén / 楊少文 (speaking &amp; singing)</td>
+        </tr>
+        <tr>
+          <td>開心果</td> <td>Happy</td>
+          <td>Xú Jiàn-Chūn / 徐健春 (speaking &amp; singing)</td>
+        </tr>
+        <tr>
+          <td>害羞鬼</td> <td>Bashful</td>
+          <td>Shěn Guāng-Píng / 沈光平 (speaking &amp; singing)</td>
+        </tr>
+        <tr>
+          <td>噴嚏精</td> <td>Sneezy</td>
+          <td>Tóng Shào-Zōng / 佟紹宗 (speaking) &amp; Jiāng Xiān-Chéng / 姜先誠 ? (singing)</td>
+        </tr>
+        <tr>
+          <td>瞌睡蟲</td> <td>Sleepy</td>
+          <td>Jiāng Xiān-Chéng / 姜先誠 (speaking &amp; singing)</td>
+        </tr>
+        <tr>
+          <td>魔鏡</td> <td>Magic Mirror</td>
+          <td>Shěn Guāng-Píng / 沈光平</td>
+        </tr>
+        <tr>
+          <td>獵人</td> <td>Huntsman</td>
+          <td>"Hóng Míng" Zhāng Hóng-Míng / "洪明" 張鴻明</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============================================================
+       ENCADRÉS OPTIONNELS "ADDITIONAL VOICES" / "CHOIR"
+       Ils s'affichent ou non selon les interrupteurs tout en haut du
+       fichier (show_additional_voices / show_choir / show_songs).
+       MODIFIE ICI : un <div> par personne, "Nom / Nom natif". Ils se
+       rangent ligne par ligne (Nom 1 à gauche, Nom 2 à droite, Nom 3
+       à gauche...), colonne de gauche alignée à droite, colonne de
+       droite alignée à gauche.
+       ============================================================ -->
+  {% if page.show_additional_voices %}
+  <div class="info-box" id="additional-voices">
+    <div class="info-box-title">Additional voices</div>
+    <div class="voices-grid">
+      <div>Name 1 / Native name 1</div>
+      <div>Name 2 / Native name 2</div>
+      <div>Name 3 / Native name 3</div>
+      <div>Name 4 / Native name 4</div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if page.show_choir %}
+  <div class="info-box" id="choir">
+    <div class="info-box-title">Choir</div>
+    <div class="voices-grid">
+      <div>Name 1 / Native name 1</div>
+      <div>Name 2 / Native name 2</div>
+      <div>Name 3 / Native name 3</div>
+      <div>Name 4 / Native name 4</div>
+      <div>?</div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- ============================================================
+       ENCADRÉ "SONGS" — un .song-item par chanson.
+       Film sans chansons ? Mets show_songs: false tout en haut du fichier.
+       MODIFIE ICI : titre natif en texte simple (il reste en gras
+       même avec un "? »" quand tu ne le connais pas) ; si tu as un
+       vrai lien (vidéo/source), entoure-le d'un <a href="..."> pour
+       qu'il devienne bleu avec soulignement au survol. Titre anglais
+       entre parenthèses, puis la ligne "performed by" avec un acteur
+       par personnage, séparés par " ; ", et "& Choir" à la fin si
+       besoin. Italique : uniquement "performed by :" et le nom du
+       personnage, via <i>...</i> (tout le reste est en texte normal).
+       ============================================================ -->
+  {% if page.show_songs %}
+  <div class="info-box" id="songs">
+    <div class="info-box-title">Songs</div>
+    <ul class="song-list">
+
+      <li class="song-item">
+        <span class="song-title-native">« 許願井 »</span>
+        <span class="song-title-english">(« I'm Wishing »)</span>
+        <span class="performed-by"><i>performed by</i> : "Judy Chen" Chén Xiù-Zhū / 陳秀珠 (<i>Snow White</i>) ; Xiè Wén-Dé / 謝文德 (<i>Prince</i>)</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« 給你的歌 »</span>
+        <span class="song-title-english">(« One Song »)</span>
+        <span class="performed-by"><i>performed by</i> : Xiè Wén-Dé / 謝文德 (<i>Prince</i>)</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« 給你的歌 (重奏) »</span>
+        <span class="song-title-english">(« One Song (Reprise) »)</span>
+        <span class="performed-by"><i>performed by</i> : "Judy Chen" Chén Xiù-Zhū / 陳秀珠 (<i>Snow White</i>)</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« 開心唱首歌 »</span>
+        <span class="song-title-english">(« With a Smile and a Song »)</span>
+        <span class="performed-by"><i>performed by</i> : "Judy Chen" Chén Xiù-Zhū / 陳秀珠 (<i>Snow White</i>)</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« 吹口哨來作工 »</span>
+        <span class="song-title-english">(« Whistle While You Work »)</span>
+        <span class="performed-by"><i>performed by</i> : "Judy Chen" Chén Xiù-Zhū / 陳秀珠 (<i>Snow White</i>)</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« 挖挖挖/嗨呵 »</span>
+        <span class="song-title-english">(« Dig Dig Dig/Heigh-Ho »)</span>
+        <span class="performed-by"><i>performed by</i> : Xú Jiàn-Chūn / 徐健春 (<i>Happy</i>) ; Yáng Shǎo-Wén / 楊少文 (<i>Grumpy</i>) ; Shěn Guāng-Píng / 沈光平 (<i>Bashful</i>) ; Jiāng Xiān-Chéng / 姜先誠 ? (<i>Sneezy</i>) ; Sūn Dé-Chéng / 孫德成 (<i>Doc</i>) ; Jiāng Xiān-Chéng / 姜先誠 (<i>Sleepy</i>)</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« 嗨呵 (重奏) »</span>
+        <span class="song-title-english">(« Heigh-Ho (Reprise) »)</span>
+        <span class="performed-by"><i>performed by</i> : Sūn Dé-Chéng / 孫德成 ; Xú Jiàn-Chūn / 徐健春 ; Yáng Shǎo-Wén / 楊少文 ; Shěn Guāng-Píng / 沈光平 ; Jiāng Xiān-Chéng / 姜先誠 (<i>Dwarfs' Choir</i>)</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« 洗手歌 »</span>
+        <span class="song-title-english">(« The Dwarfs' Washing Song »)</span>
+        <span class="performed-by"><i>performed by</i> : Sūn Dé-Chéng / 孫德成 (<i>Doc</i>) ; Xú Jiàn-Chūn / 徐健春 (<i>Happy</i>) ; Yáng Shǎo-Wén / 楊少文 (<i>Grumpy</i>) ; Shěn Guāng-Píng / 沈光平 (<i>Bashful</i>) ; Jiāng Xiān-Chéng / 姜先誠 ? (<i>Sneezy</i>) ; Jiāng Xiān-Chéng / 姜先誠 (<i>Sleepy</i>)</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« 抓狂歌 »</span>
+        <span class="song-title-english">(« The Silly Song »)</span>
+        <span class="performed-by"><i>performed by</i> : Xú Jiàn-Chūn / 徐健春 (<i>Happy</i>) ; Shěn Guāng-Píng / 沈光平 (<i>Bashful</i>) ; "Judy Chen" Chén Xiù-Zhū / 陳秀珠 (<i>Snow White</i>) ; Yáng Shǎo-Wén / 楊少文 ; Sūn Dé-Chéng / 孫德成 ; Jiāng Xiān-Chéng / 姜先誠 (<i>Dwarfs' Choir</i>)</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« 愛情會來臨 »</span>
+        <span class="song-title-english">(« Someday My Prince Will Come »)</span>
+        <span class="performed-by"><i>performed by</i> : "Judy Chen" Chén Xiù-Zhū / 陳秀珠 (<i>Snow White</i>)</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« 愛情會來臨 (重奏) »</span>
+        <span class="song-title-english">(« Someday My Prince Will Come (Reprise) »)</span>
+        <span class="performed-by"><i>performed by</i> : "Judy Chen" Chén Xiù-Zhū / 陳秀珠 (<i>Snow White</i>)</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« 給你的歌 (終曲) »</span>
+        <span class="song-title-english">(« One Song (Reprise) »)</span>
+        <span class="performed-by"><i>performed by</i> : Xiè Wén-Dé / 謝文德 (<i>Prince</i>)</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« 愛情會來臨 (終曲) »</span>
+        <span class="song-title-english">(« Someday My Prince Will Come (Finale) »)</span>
+        <span class="performed-by"><i>performed by</i> : Choir</span>
+      </li>
+
+    </ul>
+  </div>
+  {% endif %}
+
+  <!-- ============================================================
+       ENCADRÉ "TECHNICAL STAFF" — une ligne par poste.
+       MODIFIE ICI : "?" si tu ne connais pas le nom. Le studio tout
+       en bas reste en italique, centré, tout en MAJUSCULES.
+       ============================================================ -->
+  <div class="info-box" id="staff">
+    <div class="info-box-title">Technical Staff</div>
+    <table class="staff-table">
+      <tr><td class="staff-name">"Karen Wang" Wáng Jǐng-Píng (王景平)</td><td class="staff-role">Dubbing director</td></tr>
+      <tr><td class="staff-name">"Bernard Lau" Lóu Ēn-Qí (樓恩奇)</td><td class="staff-role">Musical director</td></tr>
+      <tr><td class="staff-name">Hóng Zǐ-Jīng (洪紫晶)</td><td class="staff-role">Translation</td></tr>
+      <tr><td class="staff-name">"Bernard Lau" Lóu Ēn-Qí (樓恩奇)</td><td class="staff-role">Lyrics</td></tr>
+      <tr><td class="staff-name">?</td><td class="staff-role">Creative Supervisor</td></tr>
+      <tr><td class="staff-name">Karen Wang's Studio Co., LTD (景平工作室)</td><td class="staff-role">Dubbing studio (dialogues)</td></tr>
+      <tr><td class="staff-name">"HMG" House of Music Group (音樂世家)</td><td class="staff-role">Recording studio (songs)</td></tr>
+    </table>
+    <div class="studio-line">DISNEY CHARACTER VOICES INTERNATIONAL, INC.</div>
+  </div>
+
+  <hr class="cast-hr" style="margin-top:30px;">
+
+  <!-- ============================================================
+       TRIVIA — une <li> par anecdote (supprime le bloc entier s'il
+       n'y en a aucune pour cette page).
+       ============================================================ -->
+  <ul class="cast-trivia">
+    <li>Release date :<br>
+    Taiwan - <b>November 1994</b> <small>(VHS)</small></li>
+    <li>According to <a href="https://vocustaiwan.fandom.com/zh-tw/wiki/%E7%99%BD%E9%9B%AA%E5%85%AC%E4%B8%BB#cite_note-3" target="_blank" rel="noopener noreferrer">VocusTaiwan</a>, the <b>Hag</b> would actually be voiced by <i>Wáng Huá-Yí</i> (王華怡) and not "Karen Wang" Wáng Jǐng-Píng (王景平), the Queen's voice, as credited.</li>
+    <li>Xú Jiàn-Chūn (徐健春), the voice of Happy, was credited as 徐建春. The pronunciation and romanization remain the same.</li>
+  </ul>
+
+  <!-- ============================================================
+       GALERIE (diaporama) — MODIFIE ICI : un <img> par image, dans
+       l'ordre voulu. Les miniatures s'affichent en carré (recadrées
+       au centre) ; s'il y en a trop pour la largeur de la page, des
+       flèches apparaissent pour les faire défiler. Au clic, la
+       galerie s'ouvre en plein écran (flèches, clavier, Échap).
+       - data-caption="..." (optionnel) : légende affichée au survol
+         de la miniature (voile bleu) et sous l'image ouverte. Sans
+         data-caption, pas de voile ni de légende pour cette image.
+       - Les carrés gris numérotés sont des espaces réservés : remplace
+         chaque src par l'URL de la vraie image (la même image sert à
+         la miniature et à l'affichage en grand).
+       Change "Gallery" en "Media" si tu préfères.
+       ============================================================ -->
+  <div class="gallery-title">Gallery</div>
+  <div class="gallery-carousel" id="galleryCarousel">
+    <button class="gallery-arrow prev" type="button" aria-label="Previous images">&#8249;</button>
+    <div class="gallery-track" id="galleryTrack">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='450'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>1</text></svg>" alt="Pinocchio image 1" data-caption="Official poster">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>2</text></svg>" alt="Pinocchio image 2" data-caption="Recording session">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>3</text></svg>" alt="Pinocchio image 3" data-caption="Behind the scenes">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>4</text></svg>" alt="Pinocchio image 4">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='450'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>5</text></svg>" alt="Pinocchio image 5">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>6</text></svg>" alt="Pinocchio image 6">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>7</text></svg>" alt="Pinocchio image 7">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>8</text></svg>" alt="Pinocchio image 8">
+    </div>
+    <button class="gallery-arrow next" type="button" aria-label="Next images">&#8250;</button>
+  </div>
+
+  <!-- ============================================================
+       LIENS VERS LES PAGES SIMILAIRES (optionnel)
+       - .related-prev : film(s) qui viennent AVANT celui-ci (à gauche,
+         flèche vers la gauche). Ex : sur la page du live-action 2022,
+         un lien vers Pinocchio (2011).
+       - .related-next : film(s) qui viennent APRÈS (à droite, flèche
+         vers la droite).
+       Plusieurs films dans un bloc ? Ajoute simplement un <a> par ligne.
+       Pas de film avant (ou après) ? Supprime tout le bloc
+       correspondant (prev ou next) : l'autre reste à sa place.
+       ============================================================ -->
+  <div class="cast-related">
+    <div class="related-prev">
+      <a href="#"><span class="related-arrow">➤</span>Previous film (year)</a>
+    </div>
+    <div class="related-next">
+      <a href="#">Pinocchio (Live-action) (2022)<span class="related-arrow">➤</span></a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SOURCES + CONTACT — tout en bas de la page.
+       MODIFIE ICI : une <li> par source (numérotées automatiquement).
+       La petite flèche ↑ est OPTIONNELLE : ajoute-la seulement si tu
+       veux qu'une source fasse remonter vers une boîte précise, avec
+       href="#cast", "#additional-voices", "#choir", "#songs" ou
+       "#staff". Sans flèche, la source reste simple.
+       ============================================================ -->
+  <ol class="sources-list">
+    <li>DVD/BLU-RAY credits</li>
+    <li>Lyrics (song titles) <a href="#songs" class="back-ref" title="Back to Songs">↑</a></li>
+  </ol>
+
+</div>
+
+<!-- Galerie plein écran -->
+<div class="lightbox-overlay" id="lightbox" aria-hidden="true">
+  <button class="lightbox-btn close" type="button" aria-label="Close">&#10005;</button>
+  <button class="lightbox-btn prev" type="button" aria-label="Previous image">&#8249;</button>
+  <figure class="lightbox-figure">
+    <img id="lightboxImg" src="" alt="">
+    <figcaption class="lightbox-caption" id="lightboxCaption"></figcaption>
+  </figure>
+  <button class="lightbox-btn next" type="button" aria-label="Next image">&#8250;</button>
+  <div class="lightbox-counter" id="lightboxCounter"></div>
+</div>
+
+<script>
+(function () {
+  var track    = document.getElementById('galleryTrack');
+  var arrows   = document.querySelectorAll('.gallery-arrow');
+  var prevBtn  = document.querySelector('.gallery-arrow.prev');
+  var nextBtn  = document.querySelector('.gallery-arrow.next');
+  var images   = Array.prototype.slice.call(track.querySelectorAll('img'));
+
+  /* ----- Entoure chaque miniature d'un .gallery-item (+ voile de légende si data-caption) ----- */
+  var items = images.map(function (img) {
+    var item = document.createElement('div');
+    item.className = 'gallery-item';
+    img.parentNode.insertBefore(item, img);
+    item.appendChild(img);
+    var text = img.getAttribute('data-caption');
+    if (text) {
+      var cap = document.createElement('div');
+      cap.className = 'gallery-caption';
+      cap.textContent = text;
+      item.appendChild(cap);
+    }
+    return item;
+  });
+
+  /* ----- Flèches de défilement des miniatures ----- */
+  function updateArrows() {
+    var maxScroll = track.scrollWidth - track.clientWidth;
+    prevBtn.classList.toggle('visible', track.scrollLeft > 4);
+    nextBtn.classList.toggle('visible', track.scrollLeft < maxScroll - 4);
+  }
+  prevBtn.addEventListener('click', function () {
+    track.scrollBy({ left: -track.clientWidth * 0.8 });
+  });
+  nextBtn.addEventListener('click', function () {
+    track.scrollBy({ left: track.clientWidth * 0.8 });
+  });
+  track.addEventListener('scroll', updateArrows);
+  window.addEventListener('resize', updateArrows);
+  window.addEventListener('load', updateArrows);
+  updateArrows();
+
+  /* ----- Galerie plein écran ----- */
+  var box     = document.getElementById('lightbox');
+  var bigImg  = document.getElementById('lightboxImg');
+  var counter = document.getElementById('lightboxCounter');
+  var lbCaption = document.getElementById('lightboxCaption');
+  var current = 0;
+
+  function show(index) {
+    current = (index + images.length) % images.length;   // boucle : après la dernière, retour à la première
+    var img = images[current];
+    bigImg.src = img.src;
+    bigImg.alt = img.alt;
+    lbCaption.textContent = img.getAttribute('data-caption') || '';
+    counter.textContent = (current + 1) + ' / ' + images.length;
+  }
+  function open(index) {
+    show(index);
+    box.classList.add('open');
+    box.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    var single = images.length < 2;
+    box.querySelector('.prev').style.display = single ? 'none' : '';
+    box.querySelector('.next').style.display = single ? 'none' : '';
+  }
+  function close() {
+    box.classList.remove('open');
+    box.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  items.forEach(function (item, i) {
+    item.addEventListener('click', function () { open(i); });
+  });
+  box.querySelector('.prev').addEventListener('click', function (e) { e.stopPropagation(); show(current - 1); });
+  box.querySelector('.next').addEventListener('click', function (e) { e.stopPropagation(); show(current + 1); });
+  box.querySelector('.close').addEventListener('click', close);
+
+  // Clic en dehors de l'image (fond sombre, légende...) = fermer
+  box.addEventListener('click', function (e) {
+    if (e.target !== bigImg) close();
+  });
+
+  // Clavier : ← → pour naviguer, Échap pour fermer
+  document.addEventListener('keydown', function (e) {
+    if (!box.classList.contains('open')) return;
+    if (e.key === 'Escape')     close();
+    if (e.key === 'ArrowLeft')  show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+})();
+</script>
