@@ -118,6 +118,7 @@ show_songs: true
 
   /* ---------- GALERIE ---------- */
   --gallery-gap: 12px;            /* espace entre les miniatures */
+  --gallery-fade-width: 60px;     /* largeur du fondu blanc sur les bords quand il reste des images à faire défiler (0px = pas de fondu) */
   --gallery-thumb-size: 160px;    /* côté des miniatures carrées */
   --gallery-photo-radius: 6px;
   --gallery-space-above: 50px;    /* espace au-dessus du titre "Gallery" */
@@ -140,7 +141,7 @@ show_songs: true
   --related-arrow-gap: 6px;       /* espace entre la flèche et le texte */
 
   /* ---------- SOURCES + CONTACT (bas de page) ---------- */
-  --sources-size: 13px;
+  --sources-size: 12px;           /* un cran en dessous du texte courant (--cast-text-size) */
   --sources-color: var(--cast-text-color);
   --sources-style: italic;
   --sources-line-height: 1.7;
@@ -257,7 +258,8 @@ body {
 /* Titre des boîtes ET titre "Gallery" : même style, même alignement
    (le titre Gallery reprend le même retrait que le texte des boîtes). */
 .info-box-title,
-.gallery-title {
+.gallery-title,
+.sources-title {
   font-size: var(--box-title-size);
   font-weight: var(--box-title-weight);
   color: var(--box-title-color);
@@ -270,6 +272,11 @@ body {
 .gallery-title {
   padding-left: var(--box-pad-x);
   margin: var(--gallery-space-above) 0 var(--box-title-space-below);
+}
+
+.sources-title {
+  padding-left: var(--box-pad-x);
+  margin: var(--sources-space-above) 0 var(--box-title-space-below);
 }
 
 /* --- Tableau "Cast" --- */
@@ -439,7 +446,18 @@ body {
   overflow-x: auto;
   scroll-behavior: smooth;
   scrollbar-width: none;   /* pas de barre de défilement visible */
+  /* Fondu sur les bords : les images disparaissent doucement là où il y en a d'autres
+     à faire défiler (le script ajoute fade-left / fade-right sur .gallery-carousel). */
+  --fade-l: 0px;
+  --fade-r: 0px;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent 100%);
+  transition: --fade-l 0.2s ease, --fade-r 0.2s ease;
 }
+@property --fade-l { syntax: '<length>'; inherits: false; initial-value: 0px; }
+@property --fade-r { syntax: '<length>'; inherits: false; initial-value: 0px; }
+.gallery-carousel.fade-left  .gallery-track { --fade-l: var(--gallery-fade-width); }
+.gallery-carousel.fade-right .gallery-track { --fade-r: var(--gallery-fade-width); }
 .gallery-track::-webkit-scrollbar {
   display: none;
 }
@@ -623,8 +641,8 @@ body {
    SOURCES + CONTACT (tout en bas)
    ============================================================ */
 .sources-list {
-  margin: var(--sources-space-above) 0 0;
-  padding-left: 22px;
+  margin: 0;
+  padding-left: calc(var(--box-pad-x) + 22px);   /* alignée sur le titre "Sources" */
   font-size: var(--sources-size);
   font-style: var(--sources-style);
   color: var(--sources-color);
@@ -1005,12 +1023,14 @@ body {
 
   <!-- ============================================================
        SOURCES + CONTACT — tout en bas de la page.
+       Le titre "Sources" : mets "Source" au singulier s'il n'y en a qu'une.
        MODIFIE ICI : une <li> par source (numérotées automatiquement).
        La petite flèche ↑ est OPTIONNELLE : ajoute-la seulement si tu
        veux qu'une source fasse remonter vers une boîte précise, avec
        href="#cast", "#additional-voices", "#choir", "#songs" ou
        "#staff". Sans flèche, la source reste simple.
        ============================================================ -->
+  <div class="sources-title">Sources</div>
   <ol class="sources-list">
     <li>DVD/BLU-RAY credits</li>
     <li>Lyrics (song titles) <a href="#songs" class="back-ref" title="Back to Songs">↑</a></li>
@@ -1059,6 +1079,8 @@ body {
     var maxScroll = track.scrollWidth - track.clientWidth;
     prevBtn.classList.toggle('visible', track.scrollLeft > 4);
     nextBtn.classList.toggle('visible', track.scrollLeft < maxScroll - 4);
+    track.parentNode.classList.toggle('fade-left', track.scrollLeft > 4);
+    track.parentNode.classList.toggle('fade-right', track.scrollLeft < maxScroll - 4);
   }
   prevBtn.addEventListener('click', function () {
     track.scrollBy({ left: -track.clientWidth * 0.8 });
