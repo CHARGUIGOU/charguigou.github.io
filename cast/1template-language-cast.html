@@ -13,7 +13,6 @@ show_songs: true
 {% include header.html %}
 <!-- GOOGLE FONT -->
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
 <!-- ============================================================
      POLICE DU TITRE LOCALISÉ (optionnel) — seulement pour les pages dont
      le titre est dans une écriture non latine. Étapes :
@@ -52,11 +51,12 @@ show_songs: true
   --cast-text-letter-spacing: 0px; /* espace entre les lettres du texte courant (tableaux, chansons, trivia...) */
 
   /* ---------- TITRE DU FILM (titre localisé + année) ---------- */
-  --title-native-font: 'Noto Serif TC', var(--cast-font);   /* police du titre localisé (voir la liste en haut du fichier pour les écritures non latines) */
+  --title-native-font: var(--cast-font);   /* police du titre localisé (voir la liste en haut du fichier pour les écritures non latines) */
   --title-native-size: 28px;
   --title-native-color: var(--cast-accent);
   --title-native-weight: 700;
   --title-year-gap: 7px;          /* espace entre le titre et l'année */
+  --title-year-font: var(--cast-font);   /* police de l'année : reste celle du site même si le titre a une autre police (mets var(--title-native-font) pour la même que le titre) */
   --title-year-size: 22px;        /* taille de l'année (indépendante du titre : utile quand le titre est en hindi, arabe, etc. dont les lettres paraissent plus petites) */
   --title-year-weight: 700;
   --title-year-color: var(--title-native-color);
@@ -213,6 +213,7 @@ body {
   letter-spacing: var(--title-native-letter-spacing);
 }
 .cast-title-native .native-year {
+  font-family: var(--title-year-font);
   margin-left: var(--title-year-gap);
   font-size: var(--title-year-size);
   font-weight: var(--title-year-weight);
@@ -768,7 +769,7 @@ body {
        TITRE — MODIFIE ICI à chaque nouvelle page
        ============================================================ -->
   <div class="cast-title-native">
-    <span class="native-text">白雪公主</span><span class="native-year">(2011)</span>
+    <span class="native-text">पिनोक्कियो</span><span class="native-year">(2011)</span>
   </div>
   <div class="cast-title-english">Pinocchio</div>
   <hr class="cast-hr">
