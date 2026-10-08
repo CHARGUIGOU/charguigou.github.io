@@ -131,9 +131,10 @@ show_songs: true
   --title-year-letter-spacing: 0px;
 
   /* ---------- TITRE ANGLAIS (sous le titre localisé) ---------- */
-  --title-english-size: 14px;
+  --title-english-size: 15px;
   --title-english-color: var(--cast-text-color);
   --title-english-style: italic;  /* italic ou normal */
+  --title-english-weight: 700;    /* 400 = normal, 700 = gras */
   --title-english-space-above: 6px;
   --title-english-space-below: 30px;
   --title-english-letter-spacing: 1px;
@@ -291,6 +292,7 @@ body {
   text-align: center;
   font-size: var(--title-english-size);
   font-style: var(--title-english-style);
+  font-weight: var(--title-english-weight);
   color: var(--title-english-color);
   letter-spacing: var(--title-english-letter-spacing);
   margin-top: var(--title-english-space-above);
