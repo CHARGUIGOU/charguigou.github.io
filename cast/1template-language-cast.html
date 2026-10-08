@@ -98,6 +98,8 @@ show_songs: true
   --glass-edge-dark: rgba(0,0,0,0.035);         /* filet gris sous le liseré */
   --glass-edge-hold: 20px;        /* hauteur sur laquelle le trait reste net en haut du bord droit */
   --glass-edge-fade: 110px;       /* hauteur à laquelle il a complètement disparu (plus petit = disparaît plus vite) */
+  --glass-edge-top-start: 40%;    /* le trait du haut est invisible jusqu'ici (en % de la largeur, depuis la gauche) */
+  --glass-edge-top-full: 95%;     /* ...puis apparaît progressivement et est net à partir d'ici (vers le coin haut-droit) */
 
   /* ---------- TITRES DES BOÎTES (Cast, Songs... + Gallery) ---------- */
   --box-title-size: 17px;
@@ -294,8 +296,15 @@ body {
   border-color: var(--glass-edge-light);
   border-width: 1px 1px 0 0;
   box-shadow: inset -1px 1px 0 var(--glass-edge-dark);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 var(--glass-edge-hold), transparent var(--glass-edge-fade));
-  mask-image: linear-gradient(to bottom, #000 0, #000 var(--glass-edge-hold), transparent var(--glass-edge-fade));
+  /* deux fondus combinés : le trait du haut apparaît de gauche à droite, et le bord droit disparaît vers le bas */
+  -webkit-mask-image:
+    linear-gradient(to right, transparent var(--glass-edge-top-start), #000 var(--glass-edge-top-full)),
+    linear-gradient(to bottom, #000 0, #000 var(--glass-edge-hold), transparent var(--glass-edge-fade));
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent var(--glass-edge-top-start), #000 var(--glass-edge-top-full)),
+    linear-gradient(to bottom, #000 0, #000 var(--glass-edge-hold), transparent var(--glass-edge-fade));
+  mask-composite: intersect;
   pointer-events: none;
 }
 .info-box > * {
