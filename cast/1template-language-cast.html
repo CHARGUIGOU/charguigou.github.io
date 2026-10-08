@@ -91,9 +91,13 @@ show_songs: true
   --glass-tint-top: 1;            /* teinte du gris en haut à gauche (multiplie --box-opacity) */
   --glass-tint-bottom: 1;         /* teinte du gris en bas à droite (multiplie --box-opacity) : 1 = même gris partout, plus grand = plus de contraste avec le reflet */
   --glass-border: 1px solid rgba(0,0,0,0.07);   /* fin liseré extérieur */
-  /* Double trait qui suit l'arrondi : liseré blanc juste à l'intérieur du bord, puis un 2e filet gris plus fin à 2px,
-     + ombre fine en bas. Mets "none" pour garder seulement le liseré extérieur. */
-  --glass-edge: inset 0 0 0 1px rgba(255,255,255,0.95), inset 0 0 0 2px rgba(0,0,0,0.035), inset 0 -2px 0 rgba(0,0,0,0.04);
+  /* Double trait sur les bords HAUT et DROIT (la lumière vient du haut-gauche), qui suit l'arrondi des coins :
+     un liseré clair, puis un filet gris plus fin juste en dessous. Il disparaît en fondu en descendant le long du bord droit.
+     Pour le désactiver : --glass-edge-light: transparent et --glass-edge-dark: transparent. */
+  --glass-edge-light: rgba(255,255,255,0.95);   /* liseré clair */
+  --glass-edge-dark: rgba(0,0,0,0.035);         /* filet gris sous le liseré */
+  --glass-edge-hold: 20px;        /* hauteur sur laquelle le trait reste net en haut du bord droit */
+  --glass-edge-fade: 110px;       /* hauteur à laquelle il a complètement disparu (plus petit = disparaît plus vite) */
 
   /* ---------- TITRES DES BOÎTES (Cast, Songs... + Gallery) ---------- */
   --box-title-size: 17px;
@@ -267,7 +271,7 @@ body {
   border-radius: var(--box-radius);
   padding: var(--box-pad-y) var(--box-pad-x);
   margin-bottom: var(--box-space-below);
-  box-shadow: var(--glass-edge), var(--box-shadow);
+  box-shadow: var(--box-shadow);
   scroll-margin-top: 20px; /* marge d'arrivée quand on remonte via une flèche ↑ des sources */
 }
 
@@ -278,6 +282,20 @@ body {
   inset: 0;
   border-radius: inherit;
   background: linear-gradient(115deg, rgba(255,255,255,var(--glass-gloss)) 0%, rgba(255,255,255,0) var(--glass-gloss-size));
+  pointer-events: none;
+}
+/* Double trait haut + droite, en fondu vers le bas */
+.info-box::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border-style: solid;
+  border-color: var(--glass-edge-light);
+  border-width: 1px 1px 0 0;
+  box-shadow: inset -1px 1px 0 var(--glass-edge-dark);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 var(--glass-edge-hold), transparent var(--glass-edge-fade));
+  mask-image: linear-gradient(to bottom, #000 0, #000 var(--glass-edge-hold), transparent var(--glass-edge-fade));
   pointer-events: none;
 }
 .info-box > * {
