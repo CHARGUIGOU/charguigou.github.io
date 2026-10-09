@@ -229,6 +229,8 @@ body, .film-title, .category-title, #filmSearch {
 .film-title {
   --card-pad: 6px;                 /* marge blanche autour de l'image au repos (0px = aucune) */
   --caption-h: 62px;               /* hauteur de la zone titre sous l'image */
+  --zoom-duration: 0.5s;           /* durée de l'agrandissement de l'image au survol */
+  --zoom-ease: cubic-bezier(0.34, 1.56, 0.64, 1);  /* léger rebond. Autres choix : ease (doux), cubic-bezier(0.4, 0, 0.2, 1) (fluide) */
   --caption-pad-x: 12px;           /* marge gauche/droite du texte (année + titre) */
   container-type: inline-size;     /* permet de calculer la hauteur de l'image depuis la largeur de la carte (unité cqw) */
   display: block;
@@ -275,14 +277,21 @@ body, .film-title, .category-title, #filmSearch {
   object-position: center top;
   z-index: 0;
   display: block;
-  transition: filter 0.3s ease, opacity 0.3s ease, top 0.45s ease, left 0.45s ease, width 0.45s ease, height 0.45s ease, border-radius 0.45s ease;
+  transition: filter 0.3s ease, opacity 0.3s ease,
+    top var(--zoom-duration) var(--zoom-ease), left var(--zoom-duration) var(--zoom-ease),
+    width var(--zoom-duration) var(--zoom-ease), height var(--zoom-duration) var(--zoom-ease),
+    border-radius var(--zoom-duration) var(--zoom-ease);
 }
-.film-title.has-link:hover img {
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+/* TEST : l'image de base ne bouge plus ; une 2e image pleine carte (.img-full)
+   apparaît dans un cercle qui grandit depuis le centre. */
+.film-title .img-full {
+  top: 0; left: 0; width: 100%; height: 100%;
   border-radius: 0;
+  clip-path: circle(0% at 50% 50%);
+  transition: clip-path 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.film-title.has-link:hover .img-full {
+  clip-path: circle(75% at 50% 50%);
 }
 
 /* Repère visuel rapide : une carte SANS fiche a sa photo légèrement
@@ -712,7 +721,7 @@ const films = [
   { category:"classics", date:"1946-08-15", name:"Make Mine Music", img:PIC+"makeminemusic1946logo.png", studio:"disney", noDub:true },
   { category:"classics", date:"1947-09-27", name:"Fun and Fancy Free", img:PIC+"funandfancyfree1947logo.png", keywords:["mickey"], studio:"disney" },
   { category:"classics", date:"1948-05-27", name:"Melody Time", img:PIC+"melodytime1948logo.png", studio:"disney" },
-  { category:"classics", date:"1949-10-05", name:"The Adventures of Ichabod and Mr. Toad", img:PIC+"theadventuresofIchabodandmrtoad1949logo.png", studio:"disney" },
+  { category:"classics", date:"1949-10-05", name:"The Adventures of Ichabod<br>and Mr. Toad", img:PIC+"theadventuresofIchabodandmrtoad1949logo.png", studio:"disney" },
   { category:"classics", date:"1950-02-15", name:"Cinderella", img:PIC+"cinderella1950logo.png", studio:"disney" },
   { category:"classics", date:"1951-07-28", name:"Alice in Wonderland", img:PIC+"aliceinwonderland1951logo.png", studio:"disney" },
   { category:"classics", date:"1953-02-05", name:"Peter Pan", img:PIC+"peterpan1953logo.png", studio:"disney" },
@@ -787,7 +796,7 @@ const films = [
   { category:"classics", date:"2007-02-06", name:"Cinderella III: A Twist in Time", img:PIC+"cinderella3atwistintime2007logo.png", studio:"disneytoon" },
   { category:"classics", date:"2007-03-30", name:"Meet the Robinsons", img:PIC+"meettherobinsons2007logo.png", studio:"disney" },
   { category:"classics", date:"2007-06-29", name:"Ratatouille", img:PIC+"ratatouille2007logo.png", studio:"pixar" },
-  { category:"classics", date:"2007-09-04", name:"Disney Princess Enchanted Tales :<br>Follow Your Dreams", img:PIC+"disneyprincessenchantedtales2007logo.png", keywords:["aladdin", "sleeping beauty"], studio:"disneytoon" },
+  { category:"classics", date:"2007-09-04", name:"Disney Princess Enchanted Tales<br>Follow Your Dreams", img:PIC+"disneyprincessenchantedtales2007logo.png", keywords:["aladdin", "sleeping beauty"], studio:"disneytoon" },
   { category:"classics", date:"2008-06-27", name:"WALL·E", img:PIC+"walle2008logo.png", studio:"pixar" },
   { category:"classics", date:"2008-08-26", name:"The Little Mermaid:<br>Ariel's Beginning", img:PIC+"arielsbeginning2008logo.png", studio:"disneytoon" },
   { category:"classics", date:"2008-10-28", name:"Tinker Bell", img:PIC+"tinkerbell2008logo.png", studio:"disneytoon" },
@@ -919,6 +928,7 @@ function buildFilmItem(film) {
 
   card.innerHTML = `
     <img src="${film.img}" alt="${film.name.replace(/<br>/g,' ')}">
+    ${hasLink ? `<img class="img-full" src="${film.img}" alt="">` : ''}
     <div class="card-caption">
       <div class="caption-bg"></div>
       <span class="film-year">${film.year || film.date?.substring(0,4) || '????'}</span>
