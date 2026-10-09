@@ -7,7 +7,7 @@ layout: null
 # (pas besoin de supprimer le code HTML plus bas)
 # ============================================================
 show_additional_voices: true
-show_choir: true
+show_choir: false
 show_songs: true
 ---
 {% include header.html %}
@@ -1013,12 +1013,12 @@ body {
        ============================================================ -->
   {% if page.show_additional_voices %}
   <div class="info-box" id="additional-voices">
-    <div class="info-box-title">Additional voices</div>
+    <div class="info-box-title">Additional voices/Choir</div>
     <div class="voices-grid">
       <div>Magnus Loftsson</div>
       <div>Jennie Jahns</div>
       <div>Johan Hedenberg</div>
-      <div>NJohan Karlsson</div>
+      <div>Johan Karlsson</div>
       <div>Dick Eriksson</div>
       <div>Karolin Funke</div>
       <div>Anette Belander</div>
@@ -1066,6 +1066,7 @@ body {
   <div class="info-box" id="songs">
     <div class="info-box-title">Songs</div>
     <ul class="song-list">
+
       <li class="song-item">
         <span class="song-title-native">« Himmelen som bara London har »</span>
         <span class="song-title-english">(« (Underneath the) Lovely London Sky »)</span>
@@ -1089,13 +1090,49 @@ body {
       <li class="song-item">
         <span class="song-title-native">« Royal Doulton Music Hall »</span>
         <span class="song-title-english">(« The Royal Doulton Music Hall »)</span>
-        <span class="performed-by"><i>performed by</i> : Annika Herlitz (<i>Mary Poppins</i>) ; Lucas Krüger (<i>Jack</i>) ; Adrian Macéus (<i>John</i>) ; Valdemar Molino Sanchez (<i>Georgie</i>) ; Viva Östervall Lyngbrant (<i>Annabel</i>)</span>
+        <span class="performed-by"><i>performed by</i> : Annika Herlitz (<i>Mary Poppins</i>) ; Lucas Krüger (<i>Jack</i>) ; Adrian Macéus (<i>John</i>) ; Valdemar Molino Sanchez (<i>Georgie</i>) ; Viva Östervall Lyngbrant (<i>Annabel</i>) ; Karolin Funke ; Klara Nilsson ; Annica Edstam</span>
       </li>
       <li class="song-item">
-        <span class="song-title-native">« सच्चे मन से माँगो जो (Finale) »</span>
-        <span class="song-title-english">(« When You Wish Upon a Star (Finale) »)</span>
-        <span class="performed-by"><i>performed by</i> : ? (<i>Jiminy Cricket</i>) &amp; Choir</span>
+        <span class="song-title-native">« Ett omslag är ingen bok »</span>
+        <span class="song-title-english">(« A Cover Is Not the Book »)</span>
+        <span class="performed-by"><i>performed by</i> : Annika Herlitz (<i>Mary Poppins</i>) ; Lucas Krüger (<i>Jack</i>) ; Johan Karlsson ; Rikard Björk ; David Alvefjord ; Karolin Funke ; Kristin Lidström ; Annica Edstam ; Klara Nilsson ; Anette Belander ; Thérèse Andersson Lewis ; Magnus Loftsson ; Rolf Christianson</span>
       </li>
+      <li class="song-item">
+        <span class="song-title-native">« En plats någon särskild stans »</span>
+        <span class="song-title-english">(« The Place Where Lost Things Go »)</span>
+        <span class="performed-by"><i>performed by</i> : Annika Herlitz (<i>Mary Poppins</i>)</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« Sköldpaddsvisan »</span>
+        <span class="song-title-english">(« Turning Turtle »)</span>
+        <span class="performed-by"><i>performed by</i> : Kajsa Reingardt (<i>Topsy</i>) ; Lucas Krüger (<i>Jack</i>) ; Adrian Macéus (<i>John</i>) ; Viva Östervall Lyngbrant (<i>Annabel</i>) ; Valdemar Molino Sanchez (<i>Georgie</i>) ; Annika Herlitz (<i>Mary Poppins</i>)</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« Ta en liten sväng i ljuset »</span>
+        <span class="song-title-english">(« Trip a Little Light Fantastic »)</span>
+        <span class="performed-by"><i>performed by</i> : Lucas Krüger (<i>Jack</i>) ; Annika Herlitz (<i>Mary Poppins</i>) ; Adrian Macéus (<i>John</i>) ; Viva Östervall Lyngbrant (<i>Annabel</i>) ; Valdemar Molino Sanchez (<i>Georgie</i>) ; Magnus Loftsson ; Rolf Christianson ; Johan Karlsson ; Rikard Björk ; David Alvefjord ; Christopher Wollter ; Oskar Nilsson</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« En plats någon särskild stans (repris) »</span>
+        <span class="song-title-english">(« The Place Where Lost Things Go (Reprise) »)</span>
+        <span class="performed-by"><i>performed by</i> : Valdemar Molino Sanchez (<i>Georgie</i>) ; Viva Östervall Lyngbrant (<i>Annabel</i>) ; Adrian Macéus (<i>John</i>)</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« Ta en liten sväng i ljuset (repris) »</span>
+        <span class="song-title-english">(« Trip a Little Light Fantastic (Reprise) »)</span>
+        <span class="performed-by"><i>performed by</i> : Gustav Levin (<i>Mr. Dawes Jr.</i>) ; Adrian Macéus (<i>John</i>) ; Viva Östervall Lyngbrant (<i>Annabel</i>) ; Valdemar Molino Sanchez (<i>Georgie</i>) ; Annika Herlitz (<i>Mary Poppins</i>) ; Lucas Krüger (<i>Jack</i>) ; David Alvefjord (<i>Michael Banks</i>)</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« När allt känns lätt »</span>
+        <span class="song-title-english">(« Nowhere To Go But Up »)</span>
+        <span class="performed-by"><i>performed by</i> : Annica Risberg (<i>Balloon Lady</i>) ; David Alvefjord (<i>Michael Banks</i>) ; Adrian Macéus (<i>John</i>) ; Viva Östervall Lyngbrant (<i>Annabel</i>) ; Valdemar Molino Sanchez (<i>Georgie</i>) ; Lucas Krüger (<i>Jack</i>) ; Linda Ulvaeus (<i>Jane Banks</i>) ; Mia Benson (<i>Ellen</i>) ; Andreas Rothlin Svensson (<i>Gooding</i>) ; Joachim Bergström (<i>Frye</i>) ; Johan Hedenberg (<i>Admiral Boom</i>) ; Karolin Funke ; Kristin Lidström ; Annica Edstam ; Klara Nilsson ; Thérèse Andersson Lewis ; Anette Belander ; Magnus Loftsson ; Rolf Christianson ; Johan Karlsson ; Rikard Björk ; David Alvefjord ; Christopher Wollter</span>
+      </li>
+      <li class="song-item">
+        <span class="song-title-native">« Himmelen som bara London har (repris II) »</span>
+        <span class="song-title-english">(« (Underneath the) Lovely London Sky (Finale) »)</span>
+        <span class="performed-by"><i>performed by</i> : Lucas Krüger (<i>Jack</i>)</span>
+      </li>
+
     </ul>
   </div>
   {% endif %}
@@ -1108,12 +1145,20 @@ body {
   <div class="info-box" id="staff">
     <div class="info-box-title">Technical Staff</div>
     <table class="staff-table">
-      <tr><td class="staff-name">Ashwin Saxena</td><td class="staff-role">Dubbing director</td></tr>
-      <tr><td class="staff-name">?</td><td class="staff-role">Musical director</td></tr>
-      <tr><td class="staff-name">Baba Khan</td><td class="staff-role">Translator</td></tr>
-      <tr><td class="staff-name">?</td><td class="staff-role">Lyricist</td></tr>
-      <tr><td class="staff-name">Paddy ?</td><td class="staff-role">Creative Supervisor</td></tr>
-      <tr><td class="staff-name">?</td><td class="staff-role">Dubbing studio</td></tr>
+      <tr><td class="staff-name">Joakim Jennefors</td><td class="staff-role">Dubbing director</td></tr>
+      <tr><td class="staff-name">Charlotte Ardai Jennefors</td><td class="staff-role">Dubbing director</td></tr>
+      <tr><td class="staff-name">Joakim Jennefors</td><td class="staff-role">Musical director</td></tr>
+      <tr><td class="staff-name">Robert Cronholt</td><td class="staff-role">Translation</td></tr>
+      <tr><td class="staff-name">Robert Cronholt</td><td class="staff-role">Lyrics</td></tr>
+      <tr><td class="staff-name">Adam Vassée</td><td class="staff-role">Sound engineer</td></tr>
+      <tr><td class="staff-name">Enny Rönnbäck</td><td class="staff-role">Booking</td></tr>
+      <tr><td class="staff-name">Maria Hellström</td><td class="staff-role">Production manager</td></tr>
+      <tr><td class="staff-name">Robert Cronholt</td><td class="staff-role">Lyrics</td></tr>
+      <tr><td class="staff-name">Robert Cronholt</td><td class="staff-role">Lyrics</td></tr>
+      <tr><td class="staff-name">Michael Rudolph</td><td class="staff-role">Creative supervisor</td></tr>
+      <tr><td class="staff-name">SDI Media Sweden</td><td class="staff-role">Dubbing studio</td></tr>
+      <tr><td class="staff-name">Shepperton International</td><td class="staff-role">Mixing studio</td></tr>
+      <tr><td class="staff-name">Eric Broberg<br>Walt Disney Studios Motion Pictures Sweden AB</td><td class="staff-role">Responsible publisher</td></tr>
     </table>
     <div class="studio-line">DISNEY CHARACTER VOICES INTERNATIONAL, INC.</div>
   </div>
@@ -1125,6 +1170,8 @@ body {
        n'y en a aucune pour cette page).
        ============================================================ -->
   <ul class="cast-trivia">
+    <li>Release date :<br>
+         Sweden - <b>25 December 2018</b> (<small>(Cinemas)</small>.</li>
     <li>Linda Ulvaeus, the voice of Jane Banks, was miscredited as <i>Linda Ulveaus</i>.</li>
   </ul>
 
@@ -1146,14 +1193,8 @@ body {
   <div class="gallery-carousel" id="galleryCarousel">
     <button class="gallery-arrow prev" type="button" aria-label="Previous images">&#8249;</button>
     <div class="gallery-track" id="galleryTrack">
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='450'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>1</text></svg>" alt="Pinocchio image 1" data-caption="Official poster">
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>2</text></svg>" alt="Pinocchio image 2" data-caption="Recording session">
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>3</text></svg>" alt="Pinocchio image 3" data-caption="Behind the scenes">
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>4</text></svg>" alt="Pinocchio image 4">
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='450'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>5</text></svg>" alt="Pinocchio image 5">
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>6</text></svg>" alt="Pinocchio image 6">
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='450' height='320'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>7</text></svg>" alt="Pinocchio image 7">
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect width='100%25' height='100%25' fill='%23ddd'/><text x='50%25' y='50%25' font-size='48' fill='%23999' text-anchor='middle' dominant-baseline='middle'>8</text></svg>" alt="Pinocchio image 8">
+      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Mary_Poppins_Returns_Swedish_1.jpg" alt="Poster 1">
+      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Mary_Poppins_Returns_Swedish_2.jpg" alt="Poster 2">
     </div>
     <button class="gallery-arrow next" type="button" aria-label="Next images">&#8250;</button>
   </div>
