@@ -229,8 +229,6 @@ body, .film-title, .category-title, #filmSearch {
 .film-title {
   --card-pad: 6px;                 /* marge blanche autour de l'image au repos (0px = aucune) */
   --caption-h: 62px;               /* hauteur de la zone titre sous l'image */
-  --zoom-duration: 0.5s;           /* durée de l'agrandissement de l'image au survol */
-  --zoom-ease: cubic-bezier(0.34, 1.56, 0.64, 1);  /* léger rebond. Autres choix : ease (doux), cubic-bezier(0.4, 0, 0.2, 1) (fluide) */
   --caption-pad-x: 12px;           /* marge gauche/droite du texte (année + titre) */
   container-type: inline-size;     /* permet de calculer la hauteur de l'image depuis la largeur de la carte (unité cqw) */
   display: block;
@@ -277,10 +275,7 @@ body, .film-title, .category-title, #filmSearch {
   object-position: center top;
   z-index: 0;
   display: block;
-  transition: filter 0.3s ease, opacity 0.3s ease,
-    top var(--zoom-duration) var(--zoom-ease), left var(--zoom-duration) var(--zoom-ease),
-    width var(--zoom-duration) var(--zoom-ease), height var(--zoom-duration) var(--zoom-ease),
-    border-radius var(--zoom-duration) var(--zoom-ease);
+  transition: filter 0.3s ease, opacity 0.3s ease, top 0.45s ease, left 0.45s ease, width 0.45s ease, height 0.45s ease, border-radius 0.45s ease;
 }
 .film-title.has-link:hover img {
   top: 0;
