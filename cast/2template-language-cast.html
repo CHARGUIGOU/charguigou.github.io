@@ -220,7 +220,7 @@ show_songs_v2: true
   --box-title-letter-spacing: 0px;      /* aussi appliqué au titre "Gallery" */
 
   /* ---------- TABLEAUX (Cast, Technical Staff) ---------- */
-  --table-head-size: 13px;
+  --table-head-size: 12px;
   --table-head-letter-spacing: 0px;
   --table-row-border: #e3e3e3;    /* trait entre les lignes du tableau Cast */
   --table-cell-pad-x: 10px;       /* espace intérieur gauche/droite de chaque cellule : l'écart entre deux colonnes = 2 x cette valeur */
@@ -461,10 +461,6 @@ body {
   color: var(--cast-heading-color);
   letter-spacing: var(--table-head-letter-spacing);
   padding: 6px var(--table-cell-pad-x) 10px;
-}
-.cast-table th.col-voices {
-  text-align: center;
-  text-decoration: underline;
 }
 .cast-table td {
   font-size: var(--cast-text-size);
@@ -1014,7 +1010,7 @@ body {
         <tr>
           <th>Hindi name</th>
           <th>Original name</th>
-          <th class="col-voices">Voices</th>
+          <th>Voices</th>
         </tr>
       </thead>
       <tbody>
