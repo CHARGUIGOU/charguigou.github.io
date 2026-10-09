@@ -282,16 +282,12 @@ body, .film-title, .category-title, #filmSearch {
     width var(--zoom-duration) var(--zoom-ease), height var(--zoom-duration) var(--zoom-ease),
     border-radius var(--zoom-duration) var(--zoom-ease);
 }
-/* TEST : l'image de base ne bouge plus ; une 2e image pleine carte (.img-full)
-   apparaît dans un cercle qui grandit depuis le centre. */
-.film-title .img-full {
-  top: 0; left: 0; width: 100%; height: 100%;
+.film-title.has-link:hover img {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   border-radius: 0;
-  clip-path: circle(0% at 50% 50%);
-  transition: clip-path 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.film-title.has-link:hover .img-full {
-  clip-path: circle(75% at 50% 50%);
 }
 
 /* Repère visuel rapide : une carte SANS fiche a sa photo légèrement
@@ -928,7 +924,6 @@ function buildFilmItem(film) {
 
   card.innerHTML = `
     <img src="${film.img}" alt="${film.name.replace(/<br>/g,' ')}">
-    ${hasLink ? `<img class="img-full" src="${film.img}" alt="">` : ''}
     <div class="card-caption">
       <div class="caption-bg"></div>
       <span class="film-year">${film.year || film.date?.substring(0,4) || '????'}</span>
