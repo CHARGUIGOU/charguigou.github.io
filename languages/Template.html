@@ -223,16 +223,16 @@ body, .film-title, .category-title, #filmSearch {
    vrai <a href="..."> (fiche disponible) : on neutralise le style de
    lien natif du navigateur (soulignement, couleur bleue par défaut)
    pour garder l'apparence identique dans les deux cas. */
-/* La carte EST la zone photo : elle garde toujours le ratio des
-   affiches (379×220), quelle que soit sa largeur (donc quel que soit
-   le nombre de colonnes). La photo remplit la carte en entier, tout
-   le temps — c'est la petite barre de titre par-dessus (juste après)
-   qui apparaît/disparaît, pas la photo elle-même. */
+/* La CARTE = image entière (ratio 379×220, avec une petite marge blanche)
+   + zone de titre en dessous. Au survol (cartes avec lien), l'image
+   s'étend sur toute la carte (voir plus bas) et le titre passe par-dessus. */
 .film-title {
+  --card-pad: 6px;                 /* marge blanche autour de l'image au repos (0px = aucune) */
+  --caption-h: 56px;               /* hauteur de la zone titre sous l'image */
+  container-type: inline-size;     /* permet de calculer la hauteur de l'image depuis la largeur de la carte (unité cqw) */
   display: block;
   position: relative;
   width: 100%;
-  aspect-ratio: 379 / 220;
   border-radius: 8px;
   overflow: hidden;
   background: #fff;
@@ -240,6 +240,13 @@ body, .film-title, .category-title, #filmSearch {
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   text-decoration: none;
   color: inherit;
+}
+/* Donne sa hauteur à la carte : image entière (ratio fixe) + zone titre
+   (l'image et le titre sont en position absolue, ce bloc réserve la place). */
+.film-title::after {
+  content: "";
+  display: block;
+  height: calc(var(--card-pad) + (100cqw - 2 * var(--card-pad)) / (379 / 220) + var(--caption-h));
 }
 
 /* Au survol d'une carte AVEC lien : juste une ombre un peu plus
@@ -253,35 +260,28 @@ body, .film-title, .category-title, #filmSearch {
   z-index: 5;
 }
 
-/* Fine bordure blanche en haut/côtés de la photo (pas en bas, la barre
-   de titre y est déjà blanche) : plutôt qu'une vraie "border" CSS (qui
-   ne peut pas "disparaître" proprement — en dessous, le fond de la
-   carte est blanc aussi, donc une bordure rendue transparente laisse
-   juste voir... du blanc), c'est la PHOTO elle-même qui est légèrement
-   réduite et qui vient combler cet espace au survol, comme un cadre
-   qui s'efface en même temps qu'elle s'étire. */
+/* IMAGE : au repos, elle est entière (ratio d'origine) avec la petite
+   marge blanche ; au survol, elle s'étend sur TOUTE la carte (les côtés
+   sont alors un peu coupés). Vitesse de l'animation : les 0.45s ci-dessous. */
 .film-title img {
   position: absolute;
-  top: 3px;
-  left: 3px;
-  /* <img> est un élément "remplacé" : contrairement à une <div>, lui
-     laisser width/height en auto avec juste des offsets ne l'étire pas
-     pour combler l'espace — il garde sa taille naturelle (d'où un
-     zoom sur le coin haut-gauche). Il faut donc calculer la largeur/
-     hauteur explicitement à partir des offsets. */
-  width: calc(100% - 6px);
-  height: calc(100% - 3px);
+  top: var(--card-pad);
+  left: var(--card-pad);
+  width: calc(100% - 2 * var(--card-pad));
+  height: calc((100cqw - 2 * var(--card-pad)) / (379 / 220));
+  border-radius: 6px;
   object-fit: cover;
   object-position: center top;
   z-index: 0;
   display: block;
-  transition: filter 0.3s ease, opacity 0.3s ease, top 0.3s ease, left 0.3s ease, width 0.3s ease, height 0.3s ease;
+  transition: filter 0.3s ease, opacity 0.3s ease, top 0.45s ease, left 0.45s ease, width 0.45s ease, height 0.45s ease, border-radius 0.45s ease;
 }
 .film-title.has-link:hover img {
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  border-radius: 0;
 }
 
 /* Repère visuel rapide : une carte SANS fiche a sa photo légèrement
@@ -308,7 +308,7 @@ body, .film-title, .category-title, #filmSearch {
   right: 0;
   bottom: 0;
   z-index: 2;
-  height: 56px;             /* hauteur fixe : même taille de barre, titre sur 1 ou 2 lignes */
+  height: var(--caption-h);   /* même hauteur de zone titre pour toutes les cartes (titre sur 1 ou 2 lignes) */
   box-sizing: border-box;
   padding: 4px 6px 5px;
   display: flex;
@@ -989,7 +989,7 @@ function applyFilters() {
     const filmStudio  = el.dataset.studio || 'disney';
     const matchSearch = text.includes(search);
     const matchStudio = studioMatches(filmStudio, activeStudio);
-    el.style.display  = (matchSearch && matchStudio) ? 'flex' : 'none';
+    el.style.display  = (matchSearch && matchStudio) ? 'block' : 'none';
   });
 
   let anyVisible = false;
