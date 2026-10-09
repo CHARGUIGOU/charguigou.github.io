@@ -770,12 +770,13 @@ body {
   color: var(--related-color);
   text-decoration: none;
 }
-.cast-related a:hover {
-  text-decoration: underline;
+/* Avec lien (href) : bleu du site, souligné au survol.
+   Sans href (page pas encore créée) : reste dans le rouge ci-dessus, sans réaction. */
+.cast-related a[href] {
+  color: var(--link-color);
 }
-/* Lien sans href (page pas encore créée) : pas de soulignement au survol */
-.cast-related a:not([href]):hover {
-  text-decoration: none;
+.cast-related a[href]:hover {
+  text-decoration: underline;
 }
 .related-arrow {
   display: inline-block;      /* évite que la flèche soit soulignée au survol */
