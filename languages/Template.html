@@ -340,26 +340,26 @@ body, .film-title, .category-title, #filmSearch {
 .film-title.has-link::before {
   content: "";
   position: absolute;
-  /* Même technique que le bouton "Send message" de la page Contact :
-     une bande à largeur FIXE (50%) dont on anime la position "left"
-     en % de la carte — pas un gros bloc qu'on déplace avec
-     "transform: translateX()" (ça obligeait à agrandir l'élément pour
-     garder un dégradé doux, ce qui faisait partir le reflet de
-     beaucoup trop loin hors-cadre). Ici, la largeur du dégradé ne
-     change jamais : seule sa position traverse la carte. */
-  top: -60%;
-  left: -60%;
-  width: 50%;
-  height: 220%;
+  top: -40%;
+  left: -70%;
+  width: 70%;               /* bande large : plus la valeur est grande, plus le reflet est diffus */
+  height: 180%;
+  /* Dégradé à plusieurs paliers (pas de bord net) + flou + mode de fusion :
+     la lumière « éclaire » l'image au lieu de poser un rectangle clair dessus.
+     Les 3 réglages : l'intensité (0.5 ci-dessous), le flou (blur) et l'angle (rotate). */
   background: linear-gradient(
-    60deg,
+    90deg,
     rgba(255,255,255,0) 0%,
-    rgba(255,255,255,0.18) 45%,
-    rgba(255,255,255,0.25) 50%,
-    rgba(255,255,255,0.18) 55%,
+    rgba(255,255,255,0.04) 18%,
+    rgba(255,255,255,0.16) 36%,
+    rgba(255,255,255,0.5) 50%,
+    rgba(255,255,255,0.16) 64%,
+    rgba(255,255,255,0.04) 82%,
     rgba(255,255,255,0) 100%
   );
-  transform: rotate(20deg);
+  filter: blur(8px);
+  mix-blend-mode: soft-light;  /* éclaircit selon l'image (visible sur les affiches sombres aussi). Essaie "overlay" pour plus d'intensité */
+  transform: rotate(14deg);
   pointer-events: none;
   opacity: 0;
   z-index: 1;   /* au-dessus de l'image, sous la barre de titre */
@@ -371,8 +371,8 @@ body, .film-title, .category-title, #filmSearch {
 }
 
 @keyframes projectorSweepOnce {
-  0%   { left: -60%; }
-  100% { left: 130%; }
+  0%   { left: -70%; }
+  100% { left: 110%; }
 }
 
 .film-title .film-year {
@@ -629,28 +629,28 @@ body, .film-title, .category-title, #filmSearch {
 
 <!-- CONTAINERS -->
 <h2 class="category-title" id="title-classics">
-  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/clap-cinema_orig.gif" alt="">Original Classics
+  <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Clap_Cinema.gif" alt="">Original Classics
 </h2>
 <div class="film-list-wrapper" id="wrapper-classics">
   <ul class="film-list" id="list-classics"></ul>
 </div>
 
 <h2 class="category-title" id="title-shorts">
-  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/clap-cinema_orig.gif" alt="">Shorts
+  <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Clap_Cinema.gif" alt="">Shorts
 </h2>
 <div class="film-list-wrapper" id="wrapper-shorts">
   <ul class="film-list" id="list-shorts"></ul>
 </div>
 
 <h2 class="category-title" id="title-live">
-  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/clap-cinema_orig.gif" alt="">Live-action/Remakes
+  <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Clap_Cinema.gif" alt="">Live-action/Remakes
 </h2>
 <div class="film-list-wrapper" id="wrapper-live">
   <ul class="film-list" id="list-live"></ul>
 </div>
 
 <h2 class="category-title no-dub-title" id="title-nodub">
-  <img src="https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/no-sound-movie-cast_orig.gif" alt="">No Dub
+  <img src="https://res.cloudinary.com/dofvjifeo/image/upload/No_sound_Movie_Cast.gif" alt="">No Dub
 </h2>
 <div class="film-list-wrapper" id="wrapper-nodub">
   <ul class="film-list" id="list-nodub"></ul>
