@@ -937,7 +937,7 @@ function buildFilmItem(film) {
     <div class="card-caption">
       <div class="caption-bg"></div>
       <span class="film-year">${film.year || film.date?.substring(0,4) || '????'}</span>
-      <span class="film-name">${film.name}</span>
+      <span class="film-name">${film.name.replace(/<br>/g, ' <br>')}</span>
     </div>
     ${kwHTML}
     ${badgeHTML}
@@ -1034,7 +1034,7 @@ function applyFilters() {
   // Mise à jour des compteurs
   document.querySelectorAll('.studio-btn').forEach(function(btn) {
     const studio = btn.dataset.studio;
-    const count = films.filter(f => !f.noDub && studioMatches(f.studio || 'disney', studio) && f.name.toLowerCase().includes(search)).length;
+    const count = films.filter(f => !f.noDub && studioMatches(f.studio || 'disney', studio) && f.name.replace(/<br>/g, ' ').toLowerCase().includes(search)).length;
     btn.querySelector('.count').textContent = '(' + count + ')';
   });
 }
