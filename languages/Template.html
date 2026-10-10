@@ -105,6 +105,15 @@ title: "Language"
   margin-top: 4px;
 }
 
+/* Drapeau du pays au-dessus du titre (réglages dans :root : --flag-width, --flag-gap) */
+.lang-flag {
+  display: block;
+  width: var(--flag-width);
+  height: auto;
+  margin: 0 auto var(--flag-gap);
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.25));   /* ombre qui suit la forme de l'image (enlève la ligne si tu n'en veux pas) */
+}
+
 /* Défilement en douceur (pas de saut brutal) pour les liens d'ancrage,
    notamment le sommaire de catégories juste en dessous */
 html {
@@ -122,6 +131,10 @@ html {
   --title-native-style: italic;      /* italic ou normal */
   --title-native-color: #2a5da0;
   --title-native-letter-spacing: 2px; /* mets 0px pour arabe, hindi... (écriture reliée) */
+
+  /* ---------- DRAPEAU (au-dessus du titre) ---------- */
+  --flag-width: 200px;        /* largeur du drapeau (la hauteur s'adapte) */
+  --flag-gap: 30px;          /* espace entre le drapeau et le titre */
 }
 
 body, .film-title, .category-title, #filmSearch {
@@ -603,7 +616,10 @@ body, .film-title, .category-title, #filmSearch {
      TITRE BILINGUE — HTML pur, tout est modifiable ligne par ligne
      MODIFIE ICI selon la page : nom anglais + nom natif en dessous
      ============================================================ -->
-<div style="text-align:center; padding-top:100px;">
+<div style="text-align:center; padding-top:50px;">
+
+  <!-- Drapeau du pays (optionnel : supprime la ligne si pas de drapeau) -->
+  <img class="lang-flag" src="https://res.cloudinary.com/dofvjifeo/image/upload/usa_flag_on_banner.png" alt="Country">
 
   <!-- Nom de la langue en anglais -->
   <div style="font-family:'Open Sans', sans-serif; font-size:26px; font-weight:600; color:#222222; line-height:1.3; letter-spacing:1px; margin:0;">ENGLISH credits</div>
