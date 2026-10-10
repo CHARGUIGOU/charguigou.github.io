@@ -111,8 +111,6 @@ title: "Taiwanese Mandarin credits"
   width: var(--flag-width);
   height: auto;
   margin: 0 auto var(--flag-gap);
-  border-radius: var(--flag-radius);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.25);   /* léger relief, enlève la ligne si tu n'en veux pas */
 }
 
 /* Défilement en douceur (pas de saut brutal) pour les liens d'ancrage,
@@ -134,9 +132,8 @@ html {
   --title-native-letter-spacing: 2px; /* mets 0px pour arabe, hindi... (écriture reliée) */
 
   /* ---------- DRAPEAU (au-dessus du titre) ---------- */
-  --flag-width: 100px;        /* largeur du drapeau (la hauteur s'adapte) */
-  --flag-radius: 0px;        /* coins arrondis (0px = carrés) */
-  --flag-gap: 30px;          /* espace entre le drapeau et le titre */
+  --flag-width: 200px;        /* largeur du drapeau (la hauteur s'adapte) */
+  --flag-gap: 40px;          /* espace entre le drapeau et le titre */
 }
 
 body, .film-title, .category-title, #filmSearch {
@@ -618,7 +615,7 @@ body, .film-title, .category-title, #filmSearch {
      TITRE BILINGUE — HTML pur, tout est modifiable ligne par ligne
      MODIFIE ICI selon la page : nom anglais + nom natif en dessous
      ============================================================ -->
-<div style="text-align:center; padding-top:100px;">
+<div style="text-align:center; padding-top:50px;">
 
   <!-- Drapeau du pays (optionnel : supprime la ligne si pas de drapeau) -->
   <img class="lang-flag" src="https://res.cloudinary.com/dofvjifeo/image/upload/taiwan_flag_on_banner.png" alt="Taiwan">
