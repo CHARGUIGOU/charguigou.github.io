@@ -453,16 +453,27 @@ body, .film-title, .category-title, #filmSearch {
   opacity: 1;
 }
 
-.no-dub-badge {
+/* Badges en haut à droite de la carte, empilés (le 1er en haut, le suivant dessous) :
+   - "No Dub" (automatique avec noDub:true)
+   - le badge personnalisé (champ badge:"…"), ajouté en plus.
+   S'il n'y a qu'un seul badge, il se place tout en haut. */
+.card-badges {
   position: absolute;
   top: 10px;
   right: 10px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  pointer-events: none;
+}
+.no-dub-badge {
   background: rgba(0,0,0,0.6);
   color: #fff;
   font-size: 10px;
   padding: 2px 6px;
   border-radius: 5px;
-  pointer-events: none;
 }
 
 .no-dub-title img {
@@ -689,7 +700,7 @@ body, .film-title, .category-title, #filmSearch {
 //    keywords  : extra search terms (optional array)
 //    noDub     : true  → goes to No Dub section
 //    category  : "classics" | "shorts" | "live"
-//    badge     : override badge text (default "No Dub")
+//    badge     : badge supplémentaire (ex. "Dubbed in China"), affiché sous le badge "No Dub" (ou tout en haut s'il est seul)
 // ============================================================
 
 const PIC     = "https://res.cloudinary.com/dofvjifeo/image/upload/";
@@ -913,9 +924,13 @@ function buildFilmItem(film) {
     ? film.keywords.map(k => `<span class="keywords">${k}</span>`).join('')
     : '';
 
-  // Badge
-  const badgeText = film.badge || 'No Dub';
-  const badgeHTML = (isNoDub || film.badge) ? `<span class="no-dub-badge">${badgeText}</span>` : '';
+  // Badges : "No Dub" (si noDub:true) + badge personnalisé (si badge:"…"), empilés
+  const badges = [];
+  if (isNoDub) badges.push('No Dub');
+  if (film.badge) badges.push(film.badge);
+  const badgeHTML = badges.length
+    ? `<div class="card-badges">${badges.map(t => `<span class="no-dub-badge">${t}</span>`).join('')}</div>`
+    : '';
 
   card.innerHTML = `
     <img src="${film.img}" alt="${film.name.replace(/<br>/g,' ')}">
