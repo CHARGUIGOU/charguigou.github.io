@@ -495,7 +495,9 @@ body {
 .cast-table a:hover {
   text-decoration: underline;
 }
-
+.cast-table tr[id] {
+  scroll-margin-top: 20px;   /* espace au-dessus du bandeau quand on arrive via un lien */
+}
 /* --- Bandeau de catégorie : ligne pleine largeur, hauteur fixe (--banner-height) ;
        l'image remplit tout le bandeau, le texte (optionnel) se pose PAR-DESSUS --- */
 .cast-table td.cast-banner {
