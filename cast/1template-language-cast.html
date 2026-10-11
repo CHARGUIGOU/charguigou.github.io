@@ -1101,10 +1101,19 @@ body {
        - data-caption="..." (optionnel) : légende affichée au survol
          de la miniature (voile bleu) et sous l'image ouverte. Sans
          data-caption, pas de voile ni de légende pour cette image.
-       - Les carrés gris numérotés sont des espaces réservés : remplace
-         chaque src par l'URL de la vraie image (la même image sert à
-         la miniature et à l'affichage en grand).
-       Change "Gallery" en "Media" si tu préfères.
+       - - Les carrés gris numérotés sont des espaces réservés : remplace
+  chaque src par l'URL de la vraie image.
+- IMAGES TRÈS GRANDES ou avec une trame fine (affiches, motifs...) :
+  une image redimensionnée par le navigateur peut paraître granuleuse
+  ou « moirée ». Solution : faire redimensionner l'image par Cloudinary,
+  en ajoutant des réglages juste après /upload/ dans l'URL.
+    src       = miniature : .../upload/w_450,h_450,c_fill,g_north,q_auto:best/NOM.png
+                (carré 450px, recadré sur le haut ; g_center = au centre, g_south = en bas)
+    data-full = affichage plein écran : .../upload/w_1600,q_auto:best/NOM.png
+                (le navigateur l'utilise à l'ouverture ; sans data-full, c'est le src)
+  Exemple :
+    <img src="https://res.cloudinary.com/dofvjifeo/image/upload/w_450,h_450,c_fill,g_north,q_auto:best/NOM.png"
+         data-full="https://res.cloudinary.com/dofvjifeo/image/upload/w_1600,q_auto:best/NOM.png" alt="...">
        ============================================================ -->
   <div class="gallery-title">Gallery</div>
   <div class="gallery-carousel" id="galleryCarousel">
@@ -1226,7 +1235,7 @@ body {
   function show(index) {
     current = (index + images.length) % images.length;   // boucle : après la dernière, retour à la première
     var img = images[current];
-    bigImg.src = img.src;
+    bigImg.src = img.getAttribute('data-full') || img.src;   // version grande (data-full) si elle existe, sinon la miniature
     bigImg.alt = img.alt;
     lbCaption.textContent = img.getAttribute('data-caption') || '';
     counter.textContent = (current + 1) + ' / ' + images.length;
