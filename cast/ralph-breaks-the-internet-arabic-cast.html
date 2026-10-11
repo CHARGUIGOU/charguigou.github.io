@@ -1435,7 +1435,8 @@ body {
   <div class="gallery-carousel" id="galleryCarousel">
     <button class="gallery-arrow prev" type="button" aria-label="Previous images">&#8249;</button>
     <div class="gallery-track" id="galleryTrack">
-      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Ralph_Breaks_the_Internet_Arabic_1.png"">
+      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/w_450,h_450,c_fill,g_north,q_auto:best/Ralph_Breaks_the_Internet_Arabic_1.png"
+           data-full="https://res.cloudinary.com/dofvjifeo/image/upload/w_1600,q_auto:best/Ralph_Breaks_the_Internet_Arabic_1.png" alt="Ralph Breaks the Internet Arabic poster">
     </div>
     <button class="gallery-arrow next" type="button" aria-label="Next images">&#8250;</button>
   </div>
@@ -1666,7 +1667,7 @@ body {
   function show(index) {
     current = (index + images.length) % images.length;   // boucle : après la dernière, retour à la première
     var img = images[current];
-    bigImg.src = img.src;
+    bigImg.src = img.getAttribute('data-full') || img.src;   // version grande (data-full) si elle existe, sinon la miniature
     bigImg.alt = img.alt;
     lbCaption.textContent = img.getAttribute('data-caption') || '';
     counter.textContent = (current + 1) + ' / ' + images.length;
