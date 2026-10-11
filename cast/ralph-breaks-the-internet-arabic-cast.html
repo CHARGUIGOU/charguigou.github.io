@@ -207,13 +207,13 @@ show_songs: true
 
   /* ---------- BANDEAUX DE CATÉGORIE (dans le tableau Cast : "Disney Princesses", "Movie characters"...) ---------- */
   --banner-bg: #ecebfa;           /* couleur de fond par défaut des bandeaux (modifiable bandeau par bandeau, voir l'exemple en bas du tableau) */
-  --banner-height: 50px;          /* hauteur des bandeaux */
-  --banner-img-height: 100%;      /* hauteur de l'image dans le bandeau (100% = toute la hauteur) */
-  --banner-justify: flex-start;   /* position de l'image + du texte : flex-start = à gauche, center = centré, flex-end = à droite */
-  --banner-gap: 14px;             /* espace entre l'image et le texte */
+  --banner-height: 50px;          /* hauteur de TOUS les bandeaux (l'image prend toute la largeur ; si elle est trop haute, elle est rognée en haut et en bas, jamais déformée) */
+  --banner-img-position: center;  /* partie de l'image gardée quand elle est rognée : center, top, bottom... */
+  --banner-justify: flex-start;   /* position du texte sur l'image : flex-start = à gauche, center = centré, flex-end = à droite */
   --banner-text-size: 14px;
   --banner-text-weight: 700;
-  --banner-text-color: var(--cast-accent);
+  --banner-text-color: #fff;      /* couleur du texte (blanc par défaut, lisible sur une image) */
+  --banner-text-shadow: 0 1px 6px rgba(0,0,0,0.85);   /* ombre du texte pour la lisibilité (mets none pour l'enlever) */
   --banner-text-letter-spacing: 1px;
 
   --staff-table-max-width: 100%;   /* largeur max du tableau Technical Staff (100% = toute la boîte, évite que les noms longs passent à la ligne ; mets 420px pour le resserrer au centre) */
@@ -480,33 +480,40 @@ body {
   text-decoration: underline;
 }
 
-/* --- Bandeau de catégorie : ligne pleine largeur avec image et/ou texte --- */
+/* --- Bandeau de catégorie : ligne pleine largeur, hauteur fixe (--banner-height) ;
+       l'image remplit tout le bandeau, le texte (optionnel) se pose PAR-DESSUS --- */
 .cast-table td.cast-banner {
   padding: 0;
-  height: var(--banner-height);
   background: var(--banner-bg);
   border-top: 1px solid var(--table-row-border);
   border-bottom: 1px solid var(--table-row-border);
 }
 .cast-banner .banner-inner {
+  position: relative;
+  height: var(--banner-height);
   display: flex;
   align-items: center;
-  justify-content: var(--banner-justify);
-  gap: var(--banner-gap);
-  height: var(--banner-height);
   overflow: hidden;
 }
 .cast-banner img {
-  height: var(--banner-img-height);
-  width: auto;
   display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--banner-img-position);
 }
 .cast-banner .banner-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: var(--banner-justify);
+  padding: 0 calc(var(--table-cell-pad-x) + 14px);
   font-size: var(--banner-text-size);
   font-weight: var(--banner-text-weight);
   color: var(--banner-text-color);
   letter-spacing: var(--banner-text-letter-spacing);
-  padding: 0 var(--table-cell-pad-x);
+  text-shadow: var(--banner-text-shadow);
 }
 
 /* --- Listes "Additional voices" / "Choir" ---
@@ -1025,16 +1032,17 @@ body {
         <!-- ============================================================
              BANDEAUX DE CATÉGORIE — exemples (copie/colle celui que tu veux).
              L'image est un espace réservé gris : remplace src par l'URL Cloudinary.
-             A) image + texte (comme ci-dessous)
+             A) image + texte par-dessus (comme ci-dessous)
              B) image seule : supprime le <span class="banner-text">
-             C) texte seul : supprime l'<img>
-             D) couleur propre à ce bandeau : ajoute style="background:#fde8f0;" sur le <td>
-             E) texte centré : ajoute style="justify-content:center;" sur le <div class="banner-inner">
+             C) texte seul (sur fond de couleur) : supprime l'<img> ; pense à mettre
+                style="color:#2a5da0; text-shadow:none;" sur le <span> si --banner-text-color est blanc
+             D) couleur de fond propre à ce bandeau : ajoute style="background:#fde8f0;" sur le <td>
+             E) texte centré : ajoute style="justify-content:center;" sur le <span class="banner-text">
              ============================================================ -->
         <tr>
           <td class="cast-banner" colspan="3">
             <div class="banner-inner">
-              <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='50'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="">
+              <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='50'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="">
               <span class="banner-text">Disney Princesses</span>
             </div>
           </td>
