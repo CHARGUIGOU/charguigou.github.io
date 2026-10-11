@@ -14,7 +14,7 @@ show_songs: true
 {% include header.html %}
 <title>{{ page.title }}</title>
 <!-- GOOGLE FONT -->
-<link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap" rel="stylesheet">   <!-- police des bandeaux (Homemade Apple) -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap" rel="stylesheet">   <!-- police des bandeaux (Cinzel) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -210,11 +210,12 @@ show_songs: true
   --banner-bg: #e8f1fb;           /* couleur de fond par défaut des bandeaux (modifiable bandeau par bandeau, voir l'exemple en bas du tableau) */
   --banner-height: 70px;          /* hauteur de TOUS les bandeaux (l'image prend toute la largeur ; si elle est trop haute, elle est rognée en haut et en bas, jamais déformée) */
   --banner-img-position: left center;  /* partie de l'image gardée quand elle est rognée : left center, center, right center, top, bottom... */
-  --banner-text-offset: 100px;    /* décale le texte vers la droite (pour dégager le logo à gauche de l'image) ; 0px = collé à gauche */
+  --banner-text-offset: 70px;    /* décale le texte vers la droite (pour dégager le logo à gauche de l'image) ; 0px = collé à gauche */
   --banner-justify: flex-start;   /* position du texte sur l'image : flex-start = à gauche, center = centré, flex-end = à droite */
-  --banner-text-font: 'Homemade Apple', var(--cast-font), cursive;   /* police du texte des bandeaux (mets var(--cast-font) pour revenir à celle du site) */
-  --banner-text-size: 21px;       /* ajuste selon la police (les polices décoratives paraissent plus grandes ou plus petites que celle du site) */
-  --banner-text-weight: 400;      /* Homemade Apple n'existe qu'en 400 */
+  --banner-text-font: 'Cinzel', var(--cast-font), serif;   /* police du texte des bandeaux (mets var(--cast-font) pour revenir à celle du site) */
+  --banner-text-size: 20px;       /* ajuste selon la police (les polices décoratives paraissent plus grandes ou plus petites que celle du site) */
+  --banner-text-letter-spacing: 2px;   /* espace entre les lettres du texte des bandeaux */
+  --banner-text-weight: 600;      /* Cinzel est variable : de 400 (normal) à 900 (très gras) */
   --banner-text-color: #fff;      /* couleur du texte */
   --banner-text-shadow: 0 1px 6px rgba(0,0,0,0.85);   /* ombre noire douce (pour l'enlever : 0 0 0 transparent) */
   /* Effets animés (classes "sparkle" et "glow" à ajouter sur le <td class="cast-banner">) */
