@@ -60,12 +60,14 @@ body {
    MODIFIE ICI : largeur du contenu, couleurs, espacements
    ============================================================ */
 :root {
-  --updates-max-width: 640px;
+  --updates-max-width: 640px;        /* largeur de tout ce qui garde la marge : annonce, titres de mois (centrés) */
+  --update-date-indent: 8px;         /* retrait des dates par rapport au texte en dessous (0px = alignées) */
+  --updates-list-max-width: 860px;   /* largeur MAXIMALE des blocs de texte des mises à jour (.update-list) : plus grand = texte moins "bloc" */
   --updates-accent: #d9534f;   /* couleur de l'année en haut de page uniquement */
 }
 
 .updates-wrap {
-  max-width: var(--updates-max-width);
+  max-width: var(--updates-list-max-width);
   margin: 0 auto 80px;
   padding: 0 20px;
   box-sizing: border-box;
@@ -91,7 +93,9 @@ body {
   background: #f7f7f7;
   border-radius: 10px;
   padding: 20px 24px;
-  margin-bottom: 50px;
+  margin: 0 auto 50px;
+  max-width: calc(var(--updates-max-width) - 40px);   /* garde la largeur (et donc la marge) d'origine */
+  box-sizing: border-box;
   font-size: 14px;
   line-height: 1.6;
   color: #444;
@@ -137,16 +141,16 @@ body {
   border-bottom: 1px solid #e2e2e2;
   margin: 0 auto 16px;   /* centré au milieu de la page malgré la largeur réduite */
   text-align: center;
-  width: 55%;             /* ligne + titre plus étroits que la liste des updates en dessous */
+  width: calc((var(--updates-max-width) - 40px) * 0.55);   /* ligne + titre plus étroits que la liste des updates en dessous (même largeur qu'avant : 55 % de la colonne d'origine) */
+  max-width: 100%;
   min-width: 160px;       /* pour que "September" ait toujours la place, même sur petit écran */
 }
 
-/* La liste des updates déborde légèrement des marges habituelles de
-   la page (au-delà du padding de .updates-wrap), pour avoir plus de
-   place que le titre du mois — utile pour les entrées plus longues. */
+/* La liste des updates est PLUS LARGE que le reste (annonce, titres de mois) :
+   sa largeur max se règle avec --updates-list-max-width dans :root. */
 .update-list {
   list-style: none;
-  margin: 0 -20px;
+  margin: 0;
   padding: 0;
 }
 .update-list li {
@@ -164,7 +168,7 @@ body {
   display: block;
   font-size: 12px; /* légèrement plus petit que le texte de l'update */
   font-weight: 700;
-  margin-bottom: 2px;
+  margin: 0 0 2px var(--update-date-indent);
   background: radial-gradient(circle, #2a5da0 0%, #0d2c54 70%);
   background-size: 250% 250%;
   -webkit-background-clip: text;
