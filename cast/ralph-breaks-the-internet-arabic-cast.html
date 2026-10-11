@@ -14,6 +14,7 @@ show_songs: true
 {% include header.html %}
 <title>{{ page.title }}</title>
 <!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap" rel="stylesheet">   <!-- police des bandeaux (Homemade Apple) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -206,15 +207,28 @@ show_songs: true
   --cast-names-wrap: nowrap;      /* colonnes 1 et 2 : nowrap = aussi larges que leur plus long nom (la colonne Voices prend le reste) ; normal = elles peuvent passer à la ligne */
 
   /* ---------- BANDEAUX DE CATÉGORIE (dans le tableau Cast : "Disney Princesses", "Movie characters"...) ---------- */
-  --banner-bg: #ecebfa;           /* couleur de fond par défaut des bandeaux (modifiable bandeau par bandeau, voir l'exemple en bas du tableau) */
+  --banner-bg: #e8f1fb;           /* couleur de fond par défaut des bandeaux (modifiable bandeau par bandeau, voir l'exemple en bas du tableau) */
   --banner-height: 70px;          /* hauteur de TOUS les bandeaux (l'image prend toute la largeur ; si elle est trop haute, elle est rognée en haut et en bas, jamais déformée) */
-  --banner-img-position: center;  /* partie de l'image gardée quand elle est rognée : center, top, bottom... */
+  --banner-img-position: left center;  /* partie de l'image gardée quand elle est rognée : left center, center, right center, top, bottom... */
+  --banner-text-offset: 100px;    /* décale le texte vers la droite (pour dégager le logo à gauche de l'image) ; 0px = collé à gauche */
   --banner-justify: flex-start;   /* position du texte sur l'image : flex-start = à gauche, center = centré, flex-end = à droite */
-  --banner-text-size: 14px;
-  --banner-text-weight: 700;
-  --banner-text-color: #fff;      /* couleur du texte (blanc par défaut, lisible sur une image) */
-  --banner-text-shadow: 0 1px 6px rgba(0,0,0,0.85);   /* ombre du texte pour la lisibilité (mets none pour l'enlever) */
-  --banner-text-letter-spacing: 1px;
+  --banner-text-font: 'Homemade Apple', var(--cast-font), cursive;   /* police du texte des bandeaux (mets var(--cast-font) pour revenir à celle du site) */
+  --banner-text-size: 21px;       /* ajuste selon la police (les polices décoratives paraissent plus grandes ou plus petites que celle du site) */
+  --banner-text-weight: 400;      /* Homemade Apple n'existe qu'en 400 */
+  --banner-text-color: #fff;      /* couleur du texte */
+  --banner-text-shadow: 0 1px 6px rgba(0,0,0,0.85);   /* ombre noire douce (pour l'enlever : 0 0 0 transparent) */
+  /* Effets animés (classes "sparkle" et "glow" à ajouter sur le <td class="cast-banner">) */
+  --banner-sparkle-color: 255,255,255;   /* couleur de la poussière de fée, en R,G,B */
+  --banner-spark-size-min: 2px;          /* taille des plus petits grains */
+  --banner-spark-size-max: 6px;          /* taille des plus gros grains */
+  --banner-spark-density: 7px;           /* 1 grain tous les ~7px de trajet (plus petit = traînée plus fournie) */
+  --banner-spark-life: 1.8s;             /* durée de vie d'un grain = longueur de la traînée derrière la tête (plus grand = traînée plus longue) */
+  --banner-wave-duration: 7s;            /* durée d'un cycle complet (traversée + pause) */
+  --banner-wave-crossing: 3.4s;          /* temps que met la poussière pour traverser le bandeau (le reste du cycle = pause) */
+  --banner-glow-color: 190,215,248;      /* couleur de la lueur derrière le texte, en R,G,B (un bleu doux : du blanc ne se verrait pas sur un fond aussi clair) */
+  --banner-dust-halo: 120,170,240;       /* couleur du petit halo autour des grains de poussière, en R,G,B */
+  --banner-glow-size: 18px;              /* de combien la lueur dépasse autour du texte */
+  --banner-glow-strength: 0.9;           /* intensité de la lueur au plus fort (0 à 1) */
 
   --staff-table-max-width: 100%;   /* largeur max du tableau Technical Staff (100% = toute la boîte, évite que les noms longs passent à la ligne ; mets 420px pour le resserrer au centre) */
 
@@ -495,6 +509,55 @@ body {
   align-items: center;
   overflow: hidden;
 }
+/* ----- Effet "étincelles" (class="cast-banner sparkle") : une traînée de poussière de fée qui
+         traverse le bandeau en ondulant. Une petite étoile brillante ouvre la voie et laisse
+         derrière elle des grains qui scintillent, dérivent doucement et s'éteignent.
+         Les éléments sont créés et animés par le petit script en bas de page. ----- */
+.banner-sparkles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.banner-dust {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  opacity: 0;
+  background: radial-gradient(circle, rgba(var(--banner-sparkle-color), 1) 0, rgba(var(--banner-sparkle-color), 0.95) 40%, rgba(var(--banner-sparkle-color), 0) 72%);
+  box-shadow: 0 0 5px 1px rgba(var(--banner-dust-halo), 0.6);   /* léger halo bleu pour qu'ils ressortent sur le fond pastel */
+  will-change: transform, opacity;
+}
+.banner-dust.head {
+  box-shadow: 0 0 8px 2px rgba(var(--banner-sparkle-color), 0.95), 0 0 18px 6px rgba(var(--banner-dust-halo), 0.7);
+}
+
+/* ----- Effet "halo" (class="cast-banner glow") : une lueur douce derrière le texte qui apparaît
+         et disparaît en fondu. Avec "sparkle" en plus, elle s'allume quand la poussière passe dessus.
+         (Le calque de lueur est créé et placé derrière le texte par le script en bas de page.) ----- */
+.banner-glow {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side,
+    rgba(var(--banner-glow-color), 0.95) 0%,
+    rgba(var(--banner-glow-color), 0.75) 25%,
+    rgba(var(--banner-glow-color), 0.4) 50%,
+    rgba(var(--banner-glow-color), 0.15) 75%,
+    rgba(var(--banner-glow-color), 0) 100%);
+  animation: bannerGlowFade var(--banner-wave-duration) ease-in-out infinite;
+}
+@keyframes bannerGlowFade {
+  0%, 20%, 80%, 100% { opacity: 0; }
+  50%                { opacity: var(--banner-glow-strength); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .banner-sparkles { display: none; }
+  .banner-glow { display: none; }
+}
+
 .cast-banner img {
   display: block;
   width: 100%;
@@ -508,7 +571,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: var(--banner-justify);
-  padding: 0 calc(var(--table-cell-pad-x) + 14px);
+  padding: 0 calc(var(--table-cell-pad-x) + 14px) 0 calc(var(--table-cell-pad-x) + 14px + var(--banner-text-offset));
+  font-family: var(--banner-text-font);
   font-size: var(--banner-text-size);
   font-weight: var(--banner-text-weight);
   color: var(--banner-text-color);
@@ -1030,19 +1094,22 @@ body {
         <tr><td>Thomas Banestål</td></tr>
 
         <!-- ============================================================
-             BANDEAUX DE CATÉGORIE — exemples (copie/colle celui que tu veux).
-             L'image est un espace réservé gris : remplace src par l'URL Cloudinary.
-             A) image + texte par-dessus (comme ci-dessous)
-             B) image seule : supprime le <span class="banner-text">
-             C) texte seul (sur fond de couleur) : supprime l'<img> ; pense à mettre
-                style="color:#2a5da0; text-shadow:none;" sur le <span> si --banner-text-color est blanc
-             D) couleur de fond propre à ce bandeau : ajoute style="background:#fde8f0;" sur le <td>
-             E) texte centré : ajoute style="justify-content:center;" sur le <span class="banner-text">
+             BANDEAUX DE CATÉGORIE — exemple (copie/colle pour en ajouter).
+             Effets (à mettre dans class="cast-banner ...") :
+               sparkle = traînée de poussière de fée qui traverse le bandeau
+               glow    = halo lumineux derrière le texte (calé sur le passage de la poussière si "sparkle" aussi)
+               (les deux ensemble : class="cast-banner sparkle glow" ; aucun = bandeau simple)
+             Variantes :
+               - image de fond : ajoute <img src="..." alt=""> avant le <span> ; le texte
+                 blanc à ombre noire reste lisible dessus
+               - couleur propre à ce bandeau : style="background:#fde8f0;" sur le <td>
+               - texte centré : style="justify-content:center;" sur le <span class="banner-text">
+               - image seule : supprime le <span class="banner-text">
              ============================================================ -->
         <tr>
-          <td class="cast-banner" colspan="3">
+          <td class="cast-banner sparkle glow" colspan="3">
             <div class="banner-inner">
-              <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Ralph-Princesses.jpg" alt="">
+              <img src="https://res.cloudinary.com/dofvjifeo/image/upload/ralph-princesses.png" alt="">
               <span class="banner-text">Disney Princesses</span>
             </div>
           </td>
@@ -1257,6 +1324,132 @@ body {
   <button class="lightbox-btn next" type="button" aria-label="Next image">&#8250;</button>
   <div class="lightbox-counter" id="lightboxCounter"></div>
 </div>
+
+
+<!-- ============================================================
+     POUSSIÈRE DE FÉE DES BANDEAUX (seulement les bandeaux avec class="sparkle").
+     Une petite étoile traverse le bandeau en ondulant et sème des grains qui
+     scintillent puis s'éteignent derrière elle. Positions, tailles et durées
+     sont aléatoires (rendu organique). Réglages : :root (--banner-spark-*,
+     --banner-wave-*). Si le bandeau a aussi "glow", le halo du texte s'allume
+     quand la poussière passe dessus.
+     ============================================================ -->
+<script>
+(function () {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!Element.prototype.animate) return;
+
+  function init() {
+    var css = getComputedStyle(document.documentElement);
+    function num(name, fallback) { var v = parseFloat(css.getPropertyValue(name)); return isNaN(v) ? fallback : v; }
+    var minSize  = num('--banner-spark-size-min', 2);
+    var maxSize  = num('--banner-spark-size-max', 6);
+    var spacing  = num('--banner-spark-density', 7);
+    var life     = num('--banner-spark-life', 1.8);
+    var period   = num('--banner-wave-duration', 7);
+    var crossing = Math.min(num('--banner-wave-crossing', 3.4), period * 0.9);
+
+    document.querySelectorAll('.cast-banner.sparkle').forEach(function (cell) {
+      var inner = cell.querySelector('.banner-inner');
+      var w = inner.clientWidth, h = inner.clientHeight;
+      if (!w || !h) return;
+
+      // Trajet ondulé de la "tête" : u va de 0 (gauche) à 1 (droite)
+      var ph1 = Math.random() * 6.28, ph2 = Math.random() * 6.28;
+      var waves = Math.max(2, w / 260);
+      function pos(u) {
+        var x = (-0.04 + 1.08 * u) * w;
+        var y = h / 2 + h * 0.26 * (0.65 * Math.sin(u * waves * 6.28 + ph1) + 0.35 * Math.sin(u * waves * 15.7 + ph2));
+        return { x: x, y: y };
+      }
+      function T(x, y, scale) { return 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + scale + ')'; }
+
+      var layer = document.createElement('div');
+      layer.className = 'banner-sparkles';
+      var cyc = crossing / period;   // part du cycle pendant laquelle la poussière avance
+
+      // La tête brillante
+      var headSize = maxSize + 3;
+      var head = document.createElement('span');
+      head.className = 'banner-dust head';
+      head.style.width = head.style.height = headSize + 'px';
+      var hk = [], steps = 48;
+      for (var k = 0; k <= steps; k++) {
+        var u = k / steps, p = pos(u);
+        hk.push({ offset: u * cyc, opacity: (u < 0.04 || u > 0.96) ? 0 : 1,
+                  transform: T(p.x - headSize / 2, p.y - headSize / 2, 1) });
+      }
+      hk.push({ offset: 1, opacity: 0, transform: hk[hk.length - 1].transform });
+      layer.appendChild(head);
+      head.animate(hk, { duration: period * 1000, iterations: Infinity, easing: 'linear' });
+
+      // Les grains semés derrière la tête
+      var count = Math.max(20, Math.round(w / spacing));
+      for (var i = 0; i < count; i++) {
+        var uu = Math.min(1, Math.max(0, (i + Math.random()) / count));
+        var p = pos(uu);
+        var size = minSize + Math.pow(Math.random(), 1.8) * (maxSize - minSize);   // surtout des petits, quelques gros
+        var x = p.x - size / 2 + (Math.random() - 0.5) * 6;
+        var y = p.y - size / 2 + (Math.random() - 0.5) * h * 0.28;
+        var dx = -Math.random() * 12;            // les grains restent un peu en arrière
+        var dy = 4 + Math.random() * 16;         // et retombent doucement
+        var L = life * (0.55 + Math.random() * 0.9);
+        var f = Math.min(0.95, L / period);
+
+        var d = document.createElement('span');
+        d.className = 'banner-dust';
+        d.style.width = d.style.height = size + 'px';
+        layer.appendChild(d);
+        d.animate([
+          { offset: 0,        opacity: 0,    transform: T(x, y, 0.3) },
+          { offset: f * 0.10, opacity: 1,    transform: T(x + dx * 0.15, y + dy * 0.15, 1) },
+          { offset: f * 0.30, opacity: 0.45, transform: T(x + dx * 0.4,  y + dy * 0.4,  0.85) },   // petit scintillement
+          { offset: f * 0.45, opacity: 0.95, transform: T(x + dx * 0.55, y + dy * 0.55, 1) },
+          { offset: f,        opacity: 0,    transform: T(x + dx,        y + dy,        0.2) },
+          { offset: 1,        opacity: 0,    transform: T(x + dx,        y + dy,        0.2) }
+        ], { duration: period * 1000, delay: uu * crossing * 1000, iterations: Infinity, easing: 'ease-out' });
+      }
+      inner.insertBefore(layer, inner.firstChild);
+
+    });
+  }
+
+  function initGlow() {
+    var css = getComputedStyle(document.documentElement);
+    function num(name, fallback) { var v = parseFloat(css.getPropertyValue(name)); return isNaN(v) ? fallback : v; }
+    var period   = num('--banner-wave-duration', 7);
+    var crossing = Math.min(num('--banner-wave-crossing', 3.4), period * 0.9);
+    var size     = num('--banner-glow-size', 18);
+
+    document.querySelectorAll('.cast-banner.glow').forEach(function (cell) {
+      var inner = cell.querySelector('.banner-inner');
+      var text = cell.querySelector('.banner-text');
+      if (!inner || !text || !text.firstChild) return;
+      var r = document.createRange();
+      r.selectNodeContents(text);
+      var rect = r.getBoundingClientRect(), box = inner.getBoundingClientRect();
+      var pad = size * 2.2;
+      var glow = document.createElement('div');
+      glow.className = 'banner-glow';
+      glow.style.left   = (rect.left - box.left - pad) + 'px';
+      glow.style.top    = (rect.top  - box.top  - pad * 0.6) + 'px';
+      glow.style.width  = (rect.width  + pad * 2) + 'px';
+      glow.style.height = (rect.height + pad * 1.2) + 'px';
+      // Avec "sparkle" : le pic de la lueur (à 50 % du cycle) tombe quand la poussière passe sur le texte
+      if (cell.classList.contains('sparkle')) {
+        var frac = ((rect.left + rect.width / 2) - box.left) / box.width;
+        var uText = Math.min(1, Math.max(0, (frac + 0.04) / 1.08));
+        glow.style.animationDelay = (uText * crossing - period * 0.5) + 's';
+      }
+      inner.insertBefore(glow, inner.firstChild);
+    });
+  }
+
+  function start() { init(); initGlow(); }
+  if (document.readyState === 'complete') start();
+  else window.addEventListener('load', start);
+})();
+</script>
 
 <script>
 (function () {
