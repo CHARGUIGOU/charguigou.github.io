@@ -506,7 +506,17 @@ body {
   margin-bottom: var(--song-space-between);
 }
 .song-item .song-title-native {
+  font-family: var(--title-native-font);   /* même police que le titre du film */
+  font-weight: var(--title-native-weight);
+}
+/* Guillemets générés ici : ils restent dans la police du site */
+.song-item .song-title-native::before,
+.song-item .song-title-native::after {
+  font-family: var(--cast-font);
   font-weight: 700;
+}
+.song-item .song-title-native::before { content: "«\00a0"; }
+.song-item .song-title-native::after  { content: "\00a0»"; }
 }
 .song-item .song-title-native a,
 .song-item .performed-by a {
@@ -1029,32 +1039,32 @@ body {
     <div class="info-box-title">Songs</div>
     <ul class="song-list">
       <li class="song-item">
-        <span class="song-title-native">« सच्चे मन से माँगो जो »</span>
+        <span class="song-title-native">सच्चे मन से माँगो जो</span>
         <span class="song-title-english">(« When You Wish Upon a Star (Opening credits) »)</span>
         <span class="performed-by"><i>performed by</i> : ? (<i>Jiminy Cricket</i>) &amp; Choir</span>
       </li>
       <li class="song-item">
-        <span class="song-title-native">« ? »</span>
+        <span class="song-title-native">?</span>
         <span class="song-title-english">(« Little Wooden Head »)</span>
         <span class="performed-by"><i>performed by</i> : ? (<i>Geppetto</i>)</span>
       </li>
       <li class="song-item">
-        <span class="song-title-native">« बजाओ सीटी »</span>
+        <span class="song-title-native">बजाओ सीटी</span>
         <span class="song-title-english">(« Give A Little Whistle »)</span>
         <span class="performed-by"><i>performed by</i> : ? (<i>Jiminy Cricket</i>) ; Arth Vidyarth (<i>Pinocchio</i>)</span>
       </li>
       <li class="song-item">
-        <span class="song-title-native">« ? »</span>
+        <span class="song-title-native">?</span>
         <span class="song-title-english">(« Hi-Diddle-Dee-Dee (An Actor's Life for Me) »)</span>
         <span class="performed-by"><i>performed by</i> : ? (<i>Honest John</i>) ; Arth Vidyarth (<i>Pinocchio</i>)</span>
       </li>
       <li class="song-item">
-        <span class="song-title-native">« ? »</span>
+        <span class="song-title-native">?</span>
         <span class="song-title-english">(« I've Got No Strings »)</span>
         <span class="performed-by"><i>performed by</i> : Arth Vidyarth (<i>Pinocchio</i>) ; ? (<i>Dutch Marionette</i>) ; ? (<i>French Marionette</i>) ; ? (<i>Russian Marionette</i>) &amp; Choir</span>
       </li>
       <li class="song-item">
-        <span class="song-title-native">« सच्चे मन से माँगो जो (Finale) »</span>
+        <span class="song-title-native">सच्चे मन से माँगो जो (Finale)</span>
         <span class="song-title-english">(« When You Wish Upon a Star (Finale) »)</span>
         <span class="performed-by"><i>performed by</i> : ? (<i>Jiminy Cricket</i>) &amp; Choir</span>
       </li>
