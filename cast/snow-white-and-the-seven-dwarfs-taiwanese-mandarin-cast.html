@@ -215,6 +215,7 @@ show_songs: true
   /* ---------- CHANSONS ---------- */
   --song-space-between: 18px;     /* espace entre deux chansons */
   --song-line-height: 1.5;
+  --song-native-size: 1em;   /* taille des titres natifs des chansons (1em = taille normale du texte ; 1.15em = +15%) */
 
   /* ---------- LIENS (quand tu en ajoutes) ---------- */
   --link-color: var(--cast-accent);
@@ -509,6 +510,7 @@ body {
 .song-item .song-title-native {
   font-family: var(--title-native-font);   /* même police que le titre du film */
   font-weight: var(--title-native-weight);
+  font-size: var(--song-native-size);
 }
 /* Guillemets générés ici : ils restent dans la police du site */
 .song-item .song-title-native::before,
