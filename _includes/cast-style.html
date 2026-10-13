@@ -122,6 +122,8 @@
   --table-row-border: #e3e3e3;    /* trait entre les lignes du tableau Cast */
   --table-cell-pad-x: 10px;       /* espace intérieur gauche/droite de chaque cellule : l'écart entre deux colonnes = 2 x cette valeur */
   --cast-names-wrap: nowrap;      /* colonnes 1 et 2 : nowrap = aussi larges que leur plus long nom (la colonne Voices prend le reste) ; normal = elles peuvent passer à la ligne */
+  --cast-native-name-font: var(--title-native-font);   /* police de la colonne des noms natifs du tableau Cast (par défaut : celle du titre du film) */
+  --cast-native-name-scale: 1;    /* taille des noms natifs : multiple du texte courant (1 = normal ; 1.2 = +20%) */
 
   /* ---------- BANDEAUX DE CATÉGORIE (dans le tableau Cast : "Disney Princesses", "Movie characters"...) ---------- */
   --banner-bg: #e8f1fb;           /* couleur de fond par défaut des bandeaux (modifiable bandeau par bandeau, voir l'exemple en bas du tableau) */
@@ -393,6 +395,13 @@ body {
   padding: 10px var(--table-cell-pad-x);
   border-top: 1px solid var(--table-row-border);
   text-align: center;
+}
+/* Colonne 1 (noms natifs) : police réglable par page (--cast-native-name-font) et taille réglable
+   (--cast-native-name-scale, un multiple du texte courant). Les cellules seules sur leur ligne
+   (voix d'un rowspan) sont ignorées. */
+.cast-table td:first-child:not(:only-child) {
+  font-family: var(--cast-native-name-font);
+  font-size: calc(var(--cast-text-size) * var(--cast-native-name-scale));
 }
 /* Colonnes 1 et 2 (noms du personnage) : aussi larges que leur plus long contenu,
    la colonne "Voices" prend tout le reste. (Les cellules seules sur leur ligne,
