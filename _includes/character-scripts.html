@@ -1,0 +1,197 @@
+{% comment %}
+  ============================================================
+  character-scripts.html — JAVASCRIPT COMMUN DES PAGES PERSONNAGES
+  À inclure tout en bas de la page, APRÈS le <script> de la page qui
+  contient les données (voices_xxx) et la liste "voicesData".
+  ============================================================
+{% endcomment %}
+<script>
+// ============================================================
+//  RENDU DES TABLEAUX DE VOIX
+//  Fonction générique : construit le <table> à partir d'un tableau
+//  { lang, voice } et l'insère dans le point de montage (id fourni).
+// ============================================================
+
+function renderVoiceTable(mountId, data) {
+  const mount = document.getElementById(mountId);
+  if (!mount) return;
+
+  const table = document.createElement('table');
+  table.className = 'voice-table';
+  const tbody = document.createElement('tbody');
+
+  data.forEach(entry => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td class="lang-cell">${entry.lang}</td><td class="voice-cell">${entry.voice}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  table.appendChild(tbody);
+  mount.appendChild(table);
+}
+
+// (La liste "voicesData" est définie dans le <script> de chaque page,
+//  juste avant l'include de ce fichier.)
+// Parcourt TOUS les points de montage réellement présents sur la page, et
+// construit le tableau pour chacun s'il a des données dans "voicesData"
+// ci-dessus. S'il n'y en a pas encore (film pas encore rempli), le
+// script ne plante plus comme avant : il affiche juste un avertissement
+// discret dans la console (invisible pour les visiteurs), pour que tu
+// puisses repérer facilement ce qu'il reste à faire.
+document.querySelectorAll('.voice-table-mount').forEach(mount => {
+  const data = voicesData[mount.id];
+  if (data) {
+    renderVoiceTable(mount.id, data);
+  } else {
+    console.warn('Pas encore de données de voix pour', mount.id);
+  }
+});
+
+// ============================================================
+//  CALCUL AUTOMATIQUE DE data-lang
+//  Pour chaque ligne du tableau qui n'a pas déjà un data-lang manuel,
+//  on le déduit automatiquement du texte affiché : la langue ET les
+//  noms des voix (acteurs). Tu n'as donc PLUS BESOIN d'écrire
+//  data-lang="..." toi-même :
+//    <tr><td class="lang-cell">Albanian 2002</td><td class="voice-cell">Julka Gramo...</td></tr>
+//  suffit, et chercher "Julka" ou "Albanian" fonctionnera pareil.
+//  Tu peux quand même en mettre un manuellement si tu veux un mot-clé
+//  de recherche différent du texte affiché, il sera alors utilisé à
+//  la place (et n'inclura pas automatiquement les noms des voix).
+// ============================================================
+
+document.querySelectorAll('.voice-table tr').forEach(row => {
+  if (!row.dataset.lang) {
+    row.dataset.lang = row.textContent.toLowerCase();
+  }
+});
+
+// ============================================================
+//  RECHERCHE PAR LANGUE
+//  Filtre chaque ligne (<tr data-lang="...">) sur toutes les sections.
+//  Une section entière se cache si plus aucune de ses lignes ne matche.
+// ============================================================
+
+const langSearch = document.getElementById('langSearch');
+const langResultInfo = document.getElementById('langResultInfo');
+
+function applyLangSearch() {
+  const query = langSearch.value.toLowerCase().trim();
+  let totalMatches = 0;
+
+  // Active dès qu'une recherche est en cours : sert à cacher les trivia
+  // (voir la règle CSS "body.searching .trivia" un peu plus haut)
+  document.body.classList.toggle('searching', query !== '');
+
+  document.querySelectorAll('.film-section').forEach(section => {
+    let sectionHasMatch = false;
+
+    section.querySelectorAll('tr[data-lang]').forEach(row => {
+      const matches = query === '' || row.dataset.lang.includes(query);
+      row.classList.toggle('row-hidden', !matches);
+      if (matches) {
+        sectionHasMatch = true;
+        if (query !== '') totalMatches++;
+      }
+    });
+
+    section.classList.toggle('no-match', query !== '' && !sectionHasMatch);
+  });
+
+  langResultInfo.textContent = query
+    ? `${totalMatches} appearance${totalMatches !== 1 ? 's' : ''} found for "${query}"`
+    : '';
+}
+
+langSearch.addEventListener('keyup', applyLangSearch);
+
+// ============================================================
+//  SOMMAIRE : construit automatiquement à partir des sections film
+//  Pour chaque .film-section trouvée sur la page, on lit son id et
+//  le texte de son titre (.film-title), et on crée le lien correspondant.
+//  Tu n'as jamais besoin de modifier "Appearances" toi-même : ajoute
+//  juste une nouvelle <section class="film-section" id="..."> plus
+//  bas avec son titre, et elle apparaîtra ici automatiquement.
+//  (Le surlignage automatique du film en cours de lecture au scroll
+//  a été retiré à la demande de l'utilisateur.)
+// ============================================================
+
+const tocList = document.getElementById('tocList');
+
+document.querySelectorAll('.film-section').forEach(section => {
+  const titleEl = section.querySelector('.film-title');
+  if (!titleEl) return;
+
+  const li = document.createElement('li');
+  const a = document.createElement('a');
+  a.href = '#' + section.id;
+  a.textContent = titleEl.textContent.trim();
+  li.appendChild(a);
+  tocList.appendChild(li);
+});
+
+// ============================================================
+//  BOUTON RETOUR EN HAUT
+//  Apparaît après 400px de scroll, ramène en douceur en haut de page.
+// ============================================================
+
+const backToTop = document.getElementById('backToTop');
+
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ============================================================
+//  FALLBACK DES BANDEAUX SANS IMAGE
+//  Si une image de bandeau ne charge pas (lien cassé, faute de frappe,
+//  pas encore uploadée...), on la cache et on affiche le dégradé bleu
+//  à la place. Fonctionne automatiquement pour tous les bandeaux,
+//  actuels ET futurs : rien à faire de ton côté.
+// ============================================================
+
+document.querySelectorAll('.film-banner').forEach(img => {
+  img.addEventListener('error', () => {
+    img.style.display = 'none';
+    img.closest('.film-header').classList.add('banner-fallback');
+  });
+});
+
+// ============================================================
+//  ACCORDEON "CONTINUITY"
+//  Fermé par défaut. Chaque bloc s'ouvre/se ferme indépendamment
+//  des autres (ce n'est pas un accordéon "un seul ouvert à la fois").
+// ============================================================
+
+document.querySelectorAll('.continuity').forEach(box => {
+  const toggle = box.querySelector('.continuity-toggle');
+  const content = box.querySelector('.continuity-content');
+
+  toggle.addEventListener('click', () => {
+    const isOpen = box.classList.contains('open');
+
+    if (isOpen) {
+      box.classList.remove('open');
+      content.style.maxHeight = null;
+    } else {
+      box.classList.add('open');
+      content.style.maxHeight = content.scrollHeight + 'px';
+    }
+  });
+});
+
+// Si la fenêtre est redimensionnée (ex: on la rétrécit) pendant qu'un
+// bloc Continuity est ouvert, le texte peut retourner à la ligne
+// différemment et devenir plus haut que la limite fixée au moment du
+// clic (qui, elle, ne bouge pas toute seule) : le bas du texte se
+// retrouvait alors coupé. On recalcule donc cette limite à chaque
+// redimensionnement, pour tous les blocs actuellement ouverts.
+window.addEventListener('resize', () => {
+  document.querySelectorAll('.continuity.open .continuity-content').forEach(content => {
+    content.style.maxHeight = content.scrollHeight + 'px';
+  });
+});
+</script>
