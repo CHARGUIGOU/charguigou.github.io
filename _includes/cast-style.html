@@ -530,7 +530,7 @@ body {
    2 colonnes : la colonne de gauche est alignée à droite, celle de
    droite à gauche (elles se rejoignent au centre). L'ordre d'ajout
    se lit ligne par ligne : Nom 1, Nom 2 / Nom 3, Nom 4 / Nom 5...
-   Un nombre impair laisse la dernière ligne à gauche. */
+   Un nombre impair : la dernière voix est centrée sous les deux colonnes. */
 .voices-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -541,6 +541,11 @@ body {
 }
 .voices-grid > div:nth-child(odd)  { text-align: right; }
 .voices-grid > div:nth-child(even) { text-align: left; }
+/* Nombre impair : la dernière voix (seule sur sa ligne) est centrée sous les deux colonnes. */
+.voices-grid > div:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  text-align: center;
+}
 .voices-grid a {
   color: var(--link-color);
   text-decoration: none;
