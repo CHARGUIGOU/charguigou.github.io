@@ -155,6 +155,9 @@
   /* ---------- LISTES À 2 COLONNES (Additional voices / Choir) ---------- */
   --voices-column-gap: 40px;      /* espace central entre colonne gauche et droite */
   --voices-row-gap: 8px;
+  --voices-subtitle-size: 14px;          /* taille d'un sous-titre placé entre deux listes (class="voices-subtitle") */
+  --voices-subtitle-space-above: 28px;  /* espace entre la liste du dessus et le sous-titre */
+  --voices-subtitle-space-below: 16px;  /* espace entre le sous-titre et la liste du dessous */
 
   /* ---------- CHANSONS ---------- */
   --song-space-between: 18px;     /* espace entre deux chansons */
@@ -545,6 +548,16 @@ body {
 }
 .voices-grid a:hover {
   text-decoration: underline;
+}
+
+/* Sous-titre centré entre deux listes (ex : "International Additional Voices") :
+   <div class="voices-subtitle">Texte</div> entre deux <div class="voices-grid">. */
+.voices-subtitle {
+  text-align: center;
+  font-size: var(--voices-subtitle-size);
+  font-weight: 700;
+  color: var(--cast-text-color);
+  margin: var(--voices-subtitle-space-above) 0 var(--voices-subtitle-space-below);
 }
 
 /* --- Liste "Songs" --- */
