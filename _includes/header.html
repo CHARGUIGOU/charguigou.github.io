@@ -5,7 +5,7 @@
      où tu ajoutes la balise include "header.html" dans une page.
      Un seul fichier à modifier = ça se met à jour sur TOUTES les pages.
      ============================================================ -->
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&family=Lavishly+Yours&display=swap+Display:ital,wght@1,700" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&family=Lavishly+Yours&display=swap" rel="stylesheet">
 <style>
 .site-header {
   position: relative;
@@ -96,6 +96,10 @@
   display: flex;
   align-items: center;
 }
+/* "Movie Cast" n'a pas de lien : curseur flèche classique (pas la barre de texte) */
+.site-nav-item > a:not([href]) {
+  cursor: default;
+}
 .site-nav-item > a::after {
   content: "\25BE"; /* petite flèche vers le bas */
   display: inline-block;
@@ -167,7 +171,7 @@
     <a href="/character-voices.html">Character Voices</a>
     <!-- MODIFIE ICI : sous-menu "Movie Cast" → "By Movie" / "By Language" -->
     <div class="site-nav-item has-dropdown">
-      <a>Movie Cast</a>
+      <a tabindex="0">Movie Cast</a>
       <div class="site-nav-dropdown">
         <a href="/movie_cast_movie.html">By Movie</a>
         <a href="/movie_cast_language.html">By Language</a>
