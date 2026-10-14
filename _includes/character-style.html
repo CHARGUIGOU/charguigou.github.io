@@ -4,7 +4,24 @@
   Inclus avec {% include character-style.html %} dans chaque page
   personnage (Blanche-Neige, Cendrillon, Aurore...).
 
-  Les valeurs par défaut sont dans le bloc :root juste en dessous.
+  Les valeurs par défaut sont dans le bloc /* Coréen : police système du visiteur, limitée au HANGUL seulement (unicode-range),
+   pour que les caractères chinois/japonais, eux, restent au choix du navigateur.
+   (On ne peut pas simplement écrire 'Malgun Gothic' dans font-family : cette police
+   contient aussi des hanja, elle prendrait donc la place des caractères chinois/japonais.) */
+@font-face {
+  font-family: 'Hangul Systeme';
+  font-weight: 100 599;
+  src: local('Malgun Gothic'), local('Apple SD Gothic Neo'), local('AppleSDGothicNeo-Regular'), local('Noto Sans CJK KR'), local('Noto Sans KR');
+  unicode-range: U+1100-11FF, U+3130-318F, U+A960-A97F, U+AC00-D7AF, U+D7B0-D7FF;
+}
+@font-face {
+  font-family: 'Hangul Systeme';
+  font-weight: 600 900;
+  src: local('Malgun Gothic Bold'), local('Malgun Gothic'), local('AppleSDGothicNeo-Bold'), local('Apple SD Gothic Neo Bold'), local('Noto Sans CJK KR Bold'), local('Noto Sans KR Bold');
+  unicode-range: U+1100-11FF, U+3130-318F, U+A960-A97F, U+AC00-D7AF, U+D7B0-D7FF;
+}
+
+:root juste en dessous.
   Pour changer un réglage sur UNE seule page, ajoute dans cette page,
   juste après l'include, un petit bloc :
       <style>:root { --banner-height: 360px; }</style>
@@ -15,6 +32,12 @@
 :root {
   --page-margin: 10%;
   --accent: #1a4a8a;
+  /* Police du texte + polices de secours par alphabet. Le japonais et le chinois
+     sont VOLONTAIREMENT absents : le navigateur de chaque visiteur choisit alors
+     lui-même la police adaptée à sa langue. (Coréen : voir 'Hangul Systeme' plus haut.)
+     Latin, cyrillique, grec et vietnamien : déjà dans Open Sans. Pour ajouter un alphabet :
+     ajoute 'Noto Sans NomDeLÉcriture' ici ET dans le <link> Google Fonts de la page. */
+  --body-font: 'Open Sans', 'Hangul Systeme', 'Noto Sans Arabic', 'Noto Sans Armenian', 'Noto Sans Bengali', 'Noto Sans Devanagari', 'Noto Sans Georgian', 'Noto Sans Hebrew', 'Noto Sans Kannada', 'Noto Sans Malayalam', 'Noto Sans Tamil', 'Noto Sans Telugu', 'Noto Sans Thai', sans-serif;
   --name-font: 'IM Fell English', serif;
   --toc-title-size: 13px;      /* taille du titre "Appearances" */
   --toc-item-size: 12px;       /* taille des lignes ET des chiffres du sommaire */
@@ -35,7 +58,7 @@ html {
 }
 
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: var(--body-font);
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -300,7 +323,6 @@ body {
 .voice-table td {
   padding: 3px 10px;    /* espace entre les lignes (1er chiffre = vertical) */
   font-size: 13.5px;    /* ← change ici pour agrandir/réduire TOUT le tableau */
-  line-height: 1.4;   /* hauteur fixe : plus d'écart selon la police de secours */
   vertical-align: top;
 }
 
@@ -421,7 +443,7 @@ body.searching .continuity {
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--accent);
-  font-family: 'Open Sans', sans-serif;
+  font-family: var(--body-font);
 }
 /* La petite flèche qui tourne à l'ouverture */
 .continuity-icon {
