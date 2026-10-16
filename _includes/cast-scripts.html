@@ -261,3 +261,54 @@
   });
 })();
 </script>
+
+<!-- ============================================================
+     IMAGES DE SECOURS : si une photo de comédien ou une miniature de galerie
+     ne se charge pas (lien cassé), un cadre gris avec une icône discrète
+     s'affiche à la place, au même format. Dans la galerie plein écran, si
+     la grande image (data-full) est cassée, la miniature est utilisée à sa place.
+     ============================================================ -->
+<script>
+(function () {
+  function svg(inner) {
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200"><rect width="300" height="200" fill="#ececec"/>' + inner + '</svg>');
+  }
+  var PERSON  = svg('<circle cx="150" cy="82" r="30" fill="#c9c9c9"/><path d="M90 178c0-34 27-52 60-52s60 18 60 52z" fill="#c9c9c9"/>');
+  var PICTURE = svg('<rect x="95" y="62" width="110" height="76" rx="6" fill="none" stroke="#c9c9c9" stroke-width="8"/><circle cx="127" cy="88" r="9" fill="#c9c9c9"/><path d="M100 132l32-30 22 20 16-14 30 24z" fill="#c9c9c9"/>');
+
+  function fix(img) {
+    if (img.getAttribute('data-broken')) return;
+    var fb = img.closest('.voice-card') ? PERSON : (img.closest('.gallery-track') ? PICTURE : null);
+    if (!fb) return;
+    img.setAttribute('data-broken', '1');
+    img.src = fb;
+  }
+  // 'error' ne remonte pas dans la page : on l'écoute en phase de capture
+  document.addEventListener('error', function (e) {
+    if (e.target && e.target.tagName === 'IMG') fix(e.target);
+  }, true);
+  // images déjà en échec avant que ce script s'exécute
+  function scan() {
+    Array.prototype.forEach.call(document.querySelectorAll('.voice-card img, .gallery-track img'), function (img) {
+      if (img.complete && img.naturalWidth === 0 && img.getAttribute('src')) fix(img);
+    });
+  }
+  scan();
+  window.addEventListener('load', scan);
+
+  // Galerie plein écran : grande image cassée -> miniature, sinon cadre gris
+  var big = document.getElementById('lightboxImg');
+  if (big) big.addEventListener('error', function () {
+    if (big.src === PICTURE) return;
+    var thumb = null;
+    Array.prototype.forEach.call(document.querySelectorAll('.gallery-track img'), function (img) {
+      var full = img.getAttribute('data-full');
+      if (full && new URL(full, location.href).href === big.src) thumb = img;
+    });
+    var s = thumb && !thumb.getAttribute('data-broken') ? thumb.src : PICTURE;
+    if (s === big.src) s = PICTURE;
+    big.src = s;
+  });
+})();
+</script>
