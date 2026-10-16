@@ -656,7 +656,17 @@ body {
 .cast-trivia li {
   margin-bottom: 8px;
 }
-
+.cast-trivia li ul {
+  margin: 8px 0 0;            /* espace entre le texte d'intro et la 1re sous-puce (augmente pour plus d'air) */
+  padding-left: 15px;
+  list-style-type: "– ";     /* forme des puces de la sous-liste */
+}
+.cast-trivia li ul li::marker {
+  color: var(--cast-text-color);   /* couleur de la puce */
+}
+.cast-trivia li ul li:last-child {
+  margin-bottom: 0;            /* évite de doubler l'espace sous la dernière sous-puce */
+}
 /* ============================================================
    GALERIE (diaporama) — miniatures carrées qui défilent avec des
    flèches quand il y en a plus que la place disponible ; un clic
