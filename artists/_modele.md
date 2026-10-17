@@ -17,6 +17,8 @@ native: "周世鏗"              # nom natif
 # page_name: "Texte libre"       # nom affiché SOUS LA PHOTO de la fiche uniquement (une ligne, texte libre) ; les pages de cast gardent le nom normal
 # short_name: "Jason Chau"    # nom sous la photo dans les cartes (défaut : nickname, sinon romanization)
 # photo: "https://res.cloudinary.com/dofvjifeo/image/upload/Jason_Chau.png"   # sans cette ligne : silhouette grise
+# script: cantonese               # police du nom natif (une seule est chargée). Valeurs : arabic, armenian, bengali, cantonese, chinese-simplified, chinese-traditional, cyrillic, georgian, greek, hebrew, hindi, marathi, japanese, kannada, korean, malayalam, tamil, telugu, thai
+# country: "Hong Kong"          # pays d'origine, affiché sous les dates (sans cette ligne : rien)
 # dates: "4 November 1982 -  "   # sans cette ligne : Unknown dates
 # kind: studio                    # pour la fiche d'un STUDIO : pas de dates, icône de bâtiment ; mets le nom complet dans display: et laisse nickname/romanization/native de côté
 # gallery:                       # photos supplémentaires : colle seulement le lien Cloudinary ORIGINAL (la miniature allégée est calculée toute seule)

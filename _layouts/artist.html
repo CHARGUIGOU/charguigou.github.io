@@ -6,23 +6,87 @@
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
 
 {% include cast-style-v2.html %}
+{%- comment %} ---- Police du nom natif, selon "script:" dans la fiche (une seule police est chargée) ---- {% endcomment -%}
+{%- assign sc = page.script | default: "" | downcase | strip -%}
+{%- case sc -%}
+  {%- when "arabic" -%}
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    {%- assign native_font = "'Amiri'" -%}
+  {%- when "armenian" -%}
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wdth,wght@62.5..100,100..900&display=swap" rel="stylesheet">
+    {%- assign native_font = "'Noto Sans Armenian'" -%}
+  {%- when "bengali" -%}
+    <link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+    {%- assign native_font = "'Tiro Bangla'" -%}
+  {%- when "cantonese" -%}
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&display=swap" rel="stylesheet">
+    {%- assign native_font = "'Noto Serif HK'" -%}
+  {%- when "chinese-simplified" -%}
+    <link href="https://fonts.googleapis.com/css2?family=Long+Cang&display=swap" rel="stylesheet">
+    {%- assign native_font = "'Long Cang'" -%}
+  {%- when "chinese-traditional" -%}
+    <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC:wght@300;400;700&display=swap" rel="stylesheet">
+    {%- assign native_font = "'LXGW WenKai Mono TC'" -%}
+  {%- when "cyrillic" -%}
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+    {%- assign native_font = "'Cormorant Garamond'" -%}
+  {%- when "georgian" -%}
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Georgian:wght@100..900&display=swap" rel="stylesheet">
+    {%- assign native_font = "'Noto Serif Georgian'" -%}
+  {%- when "greek" -%}
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    {%- assign native_font = "'EB Garamond'" -%}
+  {%- when "hebrew" -%}
+    <link href="https://fonts.googleapis.com/css2?family=David+Libre:wght@400;500;700&display=swap" rel="stylesheet">
+    {%- assign native_font = "'David Libre'" -%}
+  {%- when "hindi", "marathi" -%}
+    <link href="https://fonts.googleapis.com/css2?family=Tillana:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    {%- assign native_font = "'Tillana'" -%}
+  {%- when "japanese" -%}
+    <link href="https://fonts.googleapis.com/css2?family=Yuji+Mai&display=swap" rel="stylesheet">
+    {%- assign native_font = "'Yuji Mai'" -%}
+  {%- when "kannada" -%}
+    <link href="https://fonts.googleapis.com/css2?family=Tiro+Kannada&display=swap" rel="stylesheet">
+    {%- assign native_font = "'Tiro Kannada'" -%}
+  {%- when "korean" -%}
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap" rel="stylesheet">
+    {%- assign native_font = "'Nanum Brush Script'" -%}
+  {%- when "malayalam" -%}
+    <link href="https://fonts.googleapis.com/css2?family=Chilanka&display=swap" rel="stylesheet">
+    {%- assign native_font = "'Chilanka'" -%}
+  {%- when "tamil" -%}
+    <link href="https://fonts.googleapis.com/css2?family=Meera+Inimai&display=swap" rel="stylesheet">
+    {%- assign native_font = "'Meera Inimai'" -%}
+  {%- when "telugu" -%}
+    <link href="https://fonts.googleapis.com/css2?family=Gurajada&display=swap" rel="stylesheet">
+    {%- assign native_font = "'Gurajada'" -%}
+  {%- when "thai" -%}
+    <link href="https://fonts.googleapis.com/css2?family=Sriracha&display=swap" rel="stylesheet">
+    {%- assign native_font = "'Sriracha'" -%}
+{%- endcase -%}
+{%- if native_font %}<style>:root { --artist-native-font: {{ native_font }}, var(--cast-font); }</style>{% endif %}
+
 <style>
 /* EN-TÊTE DE LA FICHE : photo à gauche, infos à droite */
 :root {
   --artist-photo-width: var(--voice-card-max);   /* largeur de la photo */
   --artist-card-gap: 36px;                       /* espace entre la photo et le texte */
-  --artist-nick-size: 20px;                      /* pseudo (1re ligne, quand il y en a un) */
-  --artist-name-size: 22px;                      /* nom romanisé + natif (2e ligne, ou seule ligne sans pseudo) */
-  --artist-meta-size: 20px;                      /* dates et pays */
+  --artist-nick-size: 16px;                      /* pseudo (1re ligne, en italique, quand il y en a un) */
+  --artist-name-size: 20px;                      /* nom romanisé + natif (2e ligne, ou seule ligne sans pseudo) */
+  --artist-dates-size: 14px;                     /* dates */
+  --artist-country-size: 16px;                   /* pays */
+  --artist-accent-color: #d23b3b;                /* couleur de la 1re lettre du nom (mets var(--actor-name-color) pour la désactiver) */
 }
 .artist-card { display: flex; align-items: center; justify-content: center; gap: var(--artist-card-gap); flex-wrap: wrap; margin-bottom: var(--voice-space-below); }
 .artist-card .voice-card { flex: 0 0 var(--artist-photo-width); max-width: 100%; }
 .artist-info { flex: 0 1 420px; text-align: left; }
 .artist-info .actor-name { margin-top: 0; font-size: var(--artist-name-size); line-height: 1.25; color: var(--actor-name-color); letter-spacing: var(--actor-name-letter-spacing); }
-.artist-info .name-main { font-size: var(--artist-nick-size); }
+.artist-info .name-main { font-size: var(--artist-nick-size); font-style: italic; }
+.artist-info .accent { color: var(--artist-accent-color); }
+.artist-info .native { font-family: var(--artist-native-font, inherit); }
 .artist-info .name-sub { font-size: var(--artist-name-size); }
-.artist-info .artist-dates { margin-top: 12px; font-size: var(--artist-meta-size); color: var(--actor-dates-color); letter-spacing: var(--actor-dates-letter-spacing); }
-.artist-info .artist-country { margin-top: 4px; font-size: var(--artist-meta-size); color: var(--actor-dates-color); }
+.artist-info .artist-dates { margin-top: 12px; font-size: var(--artist-dates-size); color: var(--actor-dates-color); letter-spacing: var(--actor-dates-letter-spacing); }
+.artist-info .artist-country { margin-top: 4px; font-size: var(--artist-country-size); color: var(--actor-dates-color); }
 /* Fiche de STUDIO : photo, nom et pays l'un sous l'autre, centrés */
 .artist-card.studio { flex-direction: column; gap: 20px; }
 .artist-card.studio .voice-card { flex: 0 0 auto; width: var(--artist-photo-width); }
@@ -205,20 +269,22 @@
 {%- assign d_rom = page.romanization | default: "" -%}
 {%- assign d_nnick = page.native_nick | default: "" -%}
 {%- assign d_native = page.native | default: "" -%}
-{%- capture line2 -%}
-  {{ d_rom }}
-  {%- if d_native != "" -%}
-    {%- if d_rom != "" %} ({% if d_nnick != "" %}"{{ d_nnick }}" {% endif %}{{ d_native }})
-    {%- else %}{% if d_nnick != "" %}"{{ d_nnick }}" {% endif %}{{ d_native }}{% endif -%}
-  {%- endif -%}
+{%- capture native_html -%}
+  {%- if d_native != "" -%}<span class="native">{% if d_nnick != "" %}"{{ d_nnick }}" {% endif %}{{ d_native }}</span>{%- endif -%}
 {%- endcapture -%}
+{%- assign head = d_rom -%}
+{%- if d_prefix != "" -%}{%- assign head = d_prefix | append: " " | append: d_rom | strip -%}{%- endif -%}
 {%- capture name_html -%}
-  {%- if d_display != "" -%}{{ d_display }}
+  {%- if d_display != "" -%}
+    <span class="accent">{{ d_display | slice: 0, 1 }}</span>{{ d_display | slice: 1, 500 }}
   {%- elsif d_nick != "" -%}
-    <span class="name-main">{% if d_prefix != "" %}{{ d_prefix }} "{{ d_nick }}"{% else %}{{ d_nick }}{% endif %}</span>
-    {%- assign l2 = line2 | strip -%}
-    {%- if l2 != "" %}<span class="name-sub">{{ l2 }}</span>{% endif -%}
-  {%- else -%}{% if d_prefix != "" %}{{ d_prefix }} {% endif %}{{ line2 | strip }}
+    {%- if d_prefix != "" -%}{%- assign main_text = d_prefix | append: ' "' | append: d_nick | append: '"' -%}{%- else -%}{%- assign main_text = d_nick -%}{%- endif -%}
+    <span class="name-main"><span class="accent">{{ main_text | slice: 0, 1 }}</span>{{ main_text | slice: 1, 500 }}</span>
+    {%- if d_rom != "" %}<span class="name-sub">{{ d_rom }}{% if d_native != "" %} ({{ native_html }}){% endif %}</span>
+    {%- elsif d_native != "" %}<span class="name-sub">{{ native_html }}</span>{% endif -%}
+  {%- elsif head != "" -%}
+    <span class="accent">{{ head | slice: 0, 1 }}</span>{{ head | slice: 1, 500 }}{% if d_native != "" %} ({{ native_html }}){% endif %}
+  {%- else -%}{{ native_html }}
   {%- endif -%}
 {%- endcapture -%}
 
