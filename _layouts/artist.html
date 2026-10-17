@@ -74,19 +74,21 @@
   --artist-nick-size: 16px;                      /* pseudo (1re ligne, en italique, quand il y en a un) */
   --artist-name-size: 20px;                      /* nom romanisé + natif (2e ligne, ou seule ligne sans pseudo) */
   --artist-dates-size: 14px;                     /* dates */
-  --artist-country-size: 16px;                   /* pays */
+  --artist-country-size: 14px;                   /* pays (même taille que les dates) */
+  --artist-name-letter-spacing: 1px;             /* espace entre les lettres du nom (gras) */
+  --artist-meta-font: 'Palatino Linotype', Palatino, 'Book Antiqua', 'URW Palladio L', 'P052', serif;   /* police des dates et du pays (style Palatino ; mets var(--cast-font) pour revenir à celle du site) */
   --artist-accent-color: #d23b3b;                /* couleur de la 1re lettre du nom (mets var(--actor-name-color) pour la désactiver) */
 }
 .artist-card { display: flex; align-items: center; justify-content: center; gap: var(--artist-card-gap); flex-wrap: wrap; margin-bottom: var(--voice-space-below); }
 .artist-card .voice-card { flex: 0 0 var(--artist-photo-width); max-width: 100%; }
 .artist-info { flex: 0 1 420px; text-align: left; }
-.artist-info .actor-name { margin-top: 0; font-size: var(--artist-name-size); line-height: 1.25; color: var(--actor-name-color); letter-spacing: var(--actor-name-letter-spacing); }
-.artist-info .name-main { font-size: var(--artist-nick-size); font-style: italic; }
+.artist-info .actor-name { margin-top: 0; font-size: var(--artist-name-size); line-height: 1.25; color: var(--actor-name-color); letter-spacing: var(--artist-name-letter-spacing); font-weight: 700; }
+.artist-info .name-main { font-size: var(--artist-nick-size); font-style: italic; font-weight: 400; letter-spacing: var(--actor-name-letter-spacing); }
 .artist-info .accent { color: var(--artist-accent-color); }
 .artist-info .native { font-family: var(--artist-native-font, inherit); }
 .artist-info .name-sub { font-size: var(--artist-name-size); }
-.artist-info .artist-dates { margin-top: 12px; font-size: var(--artist-dates-size); color: var(--actor-dates-color); letter-spacing: var(--actor-dates-letter-spacing); }
-.artist-info .artist-country { margin-top: 4px; font-size: var(--artist-country-size); color: var(--actor-dates-color); }
+.artist-info .artist-dates { margin-top: 12px; font-size: var(--artist-dates-size); color: var(--actor-dates-color); letter-spacing: var(--actor-dates-letter-spacing); font-family: var(--artist-meta-font); }
+.artist-info .artist-country { margin-top: 4px; font-size: var(--artist-country-size); color: var(--actor-dates-color); font-family: var(--artist-meta-font); }
 /* Fiche de STUDIO : photo, nom et pays l'un sous l'autre, centrés */
 .artist-card.studio { flex-direction: column; gap: 20px; }
 .artist-card.studio .voice-card { flex: 0 0 auto; width: var(--artist-photo-width); }
@@ -279,8 +281,8 @@
     <span class="accent">{{ d_display | slice: 0, 1 }}</span>{{ d_display | slice: 1, 500 }}
   {%- elsif d_nick != "" -%}
     {%- if d_prefix != "" -%}{%- assign main_text = d_prefix | append: ' "' | append: d_nick | append: '"' -%}{%- else -%}{%- assign main_text = d_nick -%}{%- endif -%}
-    <span class="name-main"><span class="accent">{{ main_text | slice: 0, 1 }}</span>{{ main_text | slice: 1, 500 }}</span>
-    {%- if d_rom != "" %}<span class="name-sub">{{ d_rom }}{% if d_native != "" %} ({{ native_html }}){% endif %}</span>
+    <span class="name-main">{{ main_text }}</span>
+    {%- if d_rom != "" %}<span class="name-sub"><span class="accent">{{ d_rom | slice: 0, 1 }}</span>{{ d_rom | slice: 1, 500 }}{% if d_native != "" %} ({{ native_html }}){% endif %}</span>
     {%- elsif d_native != "" %}<span class="name-sub">{{ native_html }}</span>{% endif -%}
   {%- elsif head != "" -%}
     <span class="accent">{{ head | slice: 0, 1 }}</span>{{ head | slice: 1, 500 }}{% if d_native != "" %} ({{ native_html }}){% endif %}

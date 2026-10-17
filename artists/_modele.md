@@ -6,6 +6,10 @@ layout: artist
 # et remplis ce que tu connais. Tout est facultatif sauf "artist".
 # Les lignes qui commencent par "#" sont désactivées : enlève le "#" pour les utiliser.
 # Sans "photo" : silhouette grise ; sans "dates" : Unknown dates.
+# TEXTE LIBRE (bio) : il se met EN BAS du fichier, sous le second "---". Pour l'afficher, écris ton texte
+# ENTRE les deux lignes "comment" et "endcomment" puis supprime ces deux lignes (celles avec les accolades).
+# Pour le désactiver à nouveau, remets-les autour du texte. Un "#" ne désactive rien dans cette zone :
+# il transforme la ligne en gros titre.
 # ============================================================
 artist: jason-chau            # l'identifiant utilisé dans les pages de cast (sans espaces ni majuscules)
 nickname: "Jason Chau"        # pseudo / nom d'usage entre guillemets (version latine)
@@ -25,4 +29,6 @@ native: "周世鏗"              # nom natif
 #   - "https://res.cloudinary.com/dofvjifeo/image/upload/Jason_Chau_2.jpg | Légende facultative"
 #   - "https://res.cloudinary.com/dofvjifeo/image/upload/Jason_Chau_3.jpg"
 ---
-Texte libre facultatif (bio, anecdotes) : il s'affiche sous le nom, au-dessus des tableaux.
+{% comment %}
+Écris ici ton texte libre (bio, anecdotes) : il s'affichera sous le nom, au-dessus des tableaux.
+{% endcomment %}
