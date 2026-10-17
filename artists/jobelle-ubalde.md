@@ -1,13 +1,5 @@
 ---
 layout: artist
-artist: "jobelle-ubalde"
-nickname: "Jobelle Ubalde"
-romanization: "Baak Zan-bou"
-native: "白珍寶"
----
-
----
-layout: artist
 # ============================================================
 # MODÈLE DE FICHE COMÉDIEN — copie ce fichier dans artists/ sous le nom
 # du comédien (ex : artists/jason-chau.md), retire le "_" au début du nom
@@ -33,4 +25,4 @@ country: "Hong Kong"          # pays d'origine, affiché sous les dates (sans ce
 #   - "https://res.cloudinary.com/dofvjifeo/image/upload/Jason_Chau_2.jpg | Légende facultative"
 #   - "https://res.cloudinary.com/dofvjifeo/image/upload/Jason_Chau_3.jpg"
 ---
-Texte libre facultatif (bio, anecdotes) : il s'affiche sous le nom, au-dessus des tableaux.
+# Texte libre facultatif (bio, anecdotes) : il s'affiche sous le nom, au-dessus des tableaux.
