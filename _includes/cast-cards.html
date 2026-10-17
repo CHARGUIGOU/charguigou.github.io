@@ -1,0 +1,24 @@
+{%- comment -%}
+  Cartes photo des comédiens (haut de page). Dans le front matter de la page :
+    cards: [tommy-chu, melodee-mak, gu-wing-syut]
+  (chaque mot = le champ "artist" d'une fiche dans /artists/)
+{%- endcomment -%}
+{%- assign artist_pages = site.pages | where_exp: "p", "p.artist" -%}
+<div class="voice-cast">
+{%- for slug in page.cards -%}
+  {%- assign a = artist_pages | where: "artist", slug | first -%}
+  {%- if a -%}
+  <div class="voice-card">
+    <a href="{{ a.url }}"><img src="{% include artist-photo.html a=a %}" alt="{{ a.short_name | default: a.nickname | default: a.romanization }}"></a>
+    <div class="actor-name"><a class="actor-link" href="{{ a.url }}">{{ a.short_name | default: a.nickname | default: a.romanization }}</a></div>
+    <div class="actor-dates">({{ a.dates | default: "Unknown dates" }})</div>
+  </div>
+  {%- else -%}
+  <div class="voice-card">
+    <img src="{% include artist-photo.html a=nil %}" alt="">
+    <div class="actor-name">{{ slug }}</div>
+    <div class="actor-dates">(Unknown dates)</div>
+  </div>
+  {%- endif -%}
+{%- endfor -%}
+</div>

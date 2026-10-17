@@ -1,0 +1,29 @@
+{%- comment -%}
+  Nom "officiel" d'un comédien, composé à partir de sa fiche (include.a).
+  Champs de la fiche utilisés (tous facultatifs) :
+    display      = texte complet à afficher tel quel (remplace tout le reste)
+    prefix       = texte avant le nom (ex : Slime's wife)
+    nickname     = pseudo entre guillemets, version latine   → "Jason Chau"
+    romanization = nom romanisé                               → Zau Sai-hang
+    native_nick  = pseudo entre guillemets, version native    → "大J"
+    native       = nom natif                                  → 周世鏗
+  Résultat : "Jason Chau" Zau Sai-hang / "大J" 周世鏗
+  (un champ laissé vide est ignoré)
+  fmt="paren" (staff) : "Peggy Kwok" Gwok Bik-zan (郭碧珍)
+{%- endcomment -%}
+{%- assign n_display = include.a.display | default: "" -%}
+{%- assign n_prefix = include.a.prefix | default: "" -%}
+{%- assign n_nick = include.a.nickname | default: "" -%}
+{%- assign n_rom = include.a.romanization | default: "" -%}
+{%- assign n_nnick = include.a.native_nick | default: "" -%}
+{%- assign n_native = include.a.native | default: "" -%}
+{%- if n_display != "" -%}{{ n_display }}
+{%- else -%}
+{%- if n_prefix != "" -%}{{ n_prefix }} {% endif -%}
+{%- if n_nick != "" -%}"{{ n_nick }}" {% endif -%}
+{{- n_rom -}}
+{%- if n_native != "" -%}
+  {%- if include.fmt == "paren" %} ({% if n_nnick != "" %}"{{ n_nnick }}" {% endif %}{{ n_native }})
+  {%- else %}{% if n_rom != "" or n_nick != "" or n_prefix != "" %} / {% endif %}{% if n_nnick != "" %}"{{ n_nnick }}" {% endif %}{{ n_native }}{% endif -%}
+{%- endif -%}
+{%- endif -%}

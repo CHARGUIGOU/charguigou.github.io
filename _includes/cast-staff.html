@@ -1,0 +1,18 @@
+{%- comment -%}
+  Tableau Technical Staff depuis page.staff. Une ligne = "personne(s) | poste".
+  Plusieurs personnes : sépare par ; (elles s'affichent l'une sous l'autre).
+  Une personne sans fiche, un studio : texte affiché tel quel, sans lien.
+{%- endcomment -%}
+<table class="staff-table">
+{%- for row in page.staff %}
+  {%- assign f = row | split: "|" -%}
+  {%- assign people = f[0] | split: ";" %}
+      <tr><td class="staff-name{% if people.size > 1 %} staff-multi{% endif %}">
+        {%- for person in people -%}
+          {%- assign person_key = person | strip -%}
+          {%- include artist-link.html who=person_key fmt="paren" -%}
+          {%- unless forloop.last -%}<br>{%- endunless -%}
+        {%- endfor -%}
+      </td><td class="staff-role">{{ f[1] | strip }}</td></tr>
+{%- endfor %}
+    </table>

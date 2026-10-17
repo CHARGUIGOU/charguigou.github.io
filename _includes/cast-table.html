@@ -1,0 +1,100 @@
+{%- comment -%}
+  TABLEAU CAST construit depuis le front matter (page.cast). Une ligne = une chaîne :
+      natif | nom original | comédien | note
+  - comédien = le champ "artist" de sa fiche (artists/xxx.md) ; "?" ou vide = inconnu ;
+    un texte libre est affiché tel quel si aucune fiche ne porte ce nom.
+  - note (facultatif) = texte ajouté après le nom : (speaking & singing), ?, ...
+  - même comédien sur plusieurs lignes CONSÉCUTIVES → cellule fusionnée (rowspan) automatique.
+  - ligne dont natif ET nom original sont vides → voix supplémentaire du personnage au-dessus
+    (les deux cellules de noms sont fusionnées automatiquement).
+  - bandeau :  banner | Texte | URL de l'image | sparkle glow | id-d-ancrage
+  Titres de colonnes : cast_columns: "Cantonese name | Original name | Voices"
+{%- endcomment -%}
+{%- assign artist_pages = site.pages | where_exp: "p", "p.artist" -%}
+{%- assign colnames = page.cast_columns | default: "Native name | Original name | Voices" | split: "|" -%}
+<div class="info-box" id="cast">
+  <div class="info-box-title">Cast</div>
+  <table class="cast-table">
+    <thead>
+      <tr>
+        <th>{{ colnames[0] | strip }}</th>
+        <th>{{ colnames[1] | strip }}</th>
+        <th>{{ colnames[2] | strip }}</th>
+      </tr>
+    </thead>
+    <tbody>
+{%- assign prev_actor = "" -%}
+{%- for row in page.cast -%}
+  {%- assign nxt = forloop.index -%}
+  {%- assign f = row | split: "|" -%}
+  {%- assign c0 = f[0] | default: "" | strip -%}
+  {%- assign c1 = f[1] | default: "" | strip -%}
+  {%- assign c2 = f[2] | default: "" | strip -%}
+  {%- assign c3 = f[3] | default: "" | strip -%}
+  {%- if c0 == "banner" -%}
+    {%- assign prev_actor = "" -%}
+    {%- assign b_fx = f[3] | default: "sparkle glow" | strip -%}
+    {%- assign b_id = f[4] | default: "" | strip %}
+      <tr{% if b_id != "" %} id="{{ b_id }}"{% endif %}>
+        <td class="cast-banner {{ b_fx }}" colspan="3">
+          <div class="banner-inner">
+            {%- if c2 != "" %}<img src="{{ c2 }}" alt="">{% endif %}
+            <span class="banner-text">{{ c1 }}</span>
+          </div>
+        </td>
+      </tr>
+  {%- else -%}
+    {%- assign is_cont = false -%}
+    {%- if c0 == "" and c1 == "" -%}{%- assign is_cont = true -%}{%- endif -%}
+    {%- assign real = true -%}
+    {%- if c2 == "" or c2 == "?" -%}{%- assign real = false -%}{%- endif -%}
+
+    {%- comment %} rowspan des noms : nombre de lignes "voix supplémentaire" qui suivent {% endcomment -%}
+    {%- assign name_span = 1 -%}
+    {%- unless is_cont -%}
+      {%- for r2 in page.cast offset: nxt -%}
+        {%- assign g = r2 | split: "|" -%}
+        {%- assign g0 = g[0] | default: "" | strip -%}
+        {%- assign g1 = g[1] | default: "" | strip -%}
+        {%- if g0 == "" and g1 == "" -%}
+          {%- assign name_span = name_span | plus: 1 -%}
+        {%- else -%}{%- break -%}{%- endif -%}
+      {%- endfor -%}
+    {%- endunless -%}
+
+    {%- comment %} rowspan de la voix : lignes consécutives avec le même comédien {% endcomment -%}
+    {%- assign actor_span = 1 -%}
+    {%- assign skip_actor = false -%}
+    {%- if real -%}
+      {%- if c2 == prev_actor -%}{%- assign skip_actor = true -%}
+      {%- else -%}
+        {%- for r2 in page.cast offset: nxt -%}
+          {%- assign g = r2 | split: "|" -%}
+          {%- assign g2 = g[2] | default: "" | strip -%}
+          {%- if g2 == c2 -%}{%- assign actor_span = actor_span | plus: 1 -%}
+          {%- else -%}{%- break -%}{%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    {%- endif -%}
+    {%- assign prev_actor = c2 %}
+      <tr>
+        {%- unless is_cont %}
+        <td{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}>{{ c0 }}</td>
+        <td{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}>{{ c1 }}</td>
+        {%- endunless -%}
+        {%- unless skip_actor %}
+        <td{% if actor_span > 1 %} rowspan="{{ actor_span }}"{% endif %}>
+          {%- if real -%}
+            {%- assign fiche = artist_pages | where: "artist", c2 | first -%}
+            {%- if fiche -%}<a class="actor-link" href="{{ fiche.url }}">{% include artist-name.html a=fiche %}</a>
+            {%- else -%}{{ c2 }}{%- endif -%}
+            {%- if c3 != "" %} {{ c3 }}{% endif -%}
+          {%- else -%}?{%- endif -%}
+        </td>
+        {%- endunless %}
+      </tr>
+  {%- endif -%}
+{%- endfor %}
+    </tbody>
+  </table>
+</div>

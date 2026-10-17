@@ -1,0 +1,163 @@
+{% include header.html %}
+<title>{% capture official %}{% include artist-name.html a=page %}{% endcapture %}{{ official | strip_html | strip }}</title>
+<!-- GOOGLE FONT (mêmes polices que les pages de cast) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&display=swap" rel="stylesheet">
+
+{% include cast-style-v2.html %}
+<style>
+:root { --cast-native-name-font: 'Noto Serif HK', var(--cast-font); }
+.artist-card { display: flex; justify-content: center; margin-bottom: var(--voice-space-below); }
+.artist-card .voice-card { flex: 0 1 480px; max-width: 480px; }
+.artist-card .voice-card img { width: var(--voice-card-max); max-width: 100%; margin: 0 auto; }
+.artist-card .actor-name { font-size: 22px; line-height: 1.3; }
+.artist-bio { margin: 0 auto 30px; max-width: 700px; line-height: 1.6; }
+.roles-table td:first-child { width: 40%; }
+.roles-table td { text-align: left; }
+.roles-table td:last-child div + div { margin-top: 4px; }
+</style>
+
+{%- assign slug = page.artist -%}
+{%- assign cast_pages = site.pages | where_exp: "p", "p.cast" | sort: "title" -%}
+{%- assign staff_pages = site.pages | where_exp: "p", "p.staff" | sort: "title" -%}
+
+{%- comment %} ---- Rôles de voix (personnages + voix additionnelles) ---- {% endcomment -%}
+{%- assign total = 0 -%}
+{%- capture roles_rows -%}
+{%- for p in cast_pages -%}
+  {%- assign roles = "" -%}
+  {%- assign found = 0 -%}
+  {%- assign cur_n = "" -%}
+  {%- assign cur_e = "" -%}
+  {%- for row in p.cast -%}
+    {%- assign f = row | split: "|" -%}
+    {%- assign c0 = f[0] | default: "" | strip -%}
+    {%- assign c1 = f[1] | default: "" | strip -%}
+    {%- assign c2 = f[2] | default: "" | strip -%}
+    {%- if c0 != "banner" -%}
+      {%- if c0 != "" or c1 != "" -%}
+        {%- assign cur_n = c0 -%}
+        {%- assign cur_e = c1 -%}
+      {%- endif -%}
+      {%- if c2 == slug -%}
+        {%- assign found = found | plus: 1 -%}
+        {%- assign cur_e_txt = cur_e | replace: "<br/>", " " | replace: "<br>", " " | strip_html -%}
+        {%- assign roles = roles | append: "<div>" | append: cur_e_txt -%}
+        {%- if cur_n != "" and cur_n != "?" -%}{%- assign roles = roles | append: " (" | append: cur_n | append: ")" -%}{%- endif -%}
+        {%- assign c3 = f[3] | default: "" | strip -%}
+        {%- if c3 != "" -%}{%- assign roles = roles | append: " " | append: c3 -%}{%- endif -%}
+        {%- assign roles = roles | append: "</div>" -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- if p.additional contains slug -%}
+    {%- assign found = found | plus: 1 -%}
+    {%- assign roles = roles | append: "<div><i>Additional voice</i></div>" -%}
+  {%- endif -%}
+  {%- if found > 0 %}
+        <tr>
+          <td><a href="{{ p.url }}#cast">{{ p.film | default: p.title }}</a></td>
+          <td>{{ roles }}</td>
+        </tr>
+  {%- endif -%}
+{%- endfor -%}
+{%- endcapture -%}
+
+{%- comment %} ---- Postes techniques (staff) ---- {% endcomment -%}
+{%- capture staff_rows -%}
+{%- for p in staff_pages -%}
+  {%- assign sroles = "" -%}
+  {%- assign sfound = 0 -%}
+  {%- for row in p.staff -%}
+    {%- assign f = row | split: "|" -%}
+    {%- assign people = f[0] | split: ";" -%}
+    {%- for person in people -%}
+      {%- assign person_key = person | strip -%}
+      {%- if person_key == slug -%}
+        {%- assign sfound = sfound | plus: 1 -%}
+        {%- assign role_txt = f[1] | strip -%}
+        {%- assign sroles = sroles | append: "<div>" | append: role_txt | append: "</div>" -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+  {%- if sfound > 0 %}
+        <tr>
+          <td><a href="{{ p.url }}#staff">{{ p.film | default: p.title }}</a></td>
+          <td>{{ sroles }}</td>
+        </tr>
+  {%- endif -%}
+{%- endfor -%}
+{%- endcapture -%}
+{%- assign roles_rows = roles_rows | strip -%}
+{%- assign staff_rows = staff_rows | strip -%}
+
+<div class="cast-wrap">
+
+  <div class="artist-card">
+    <div class="voice-card">
+      <img src="{% include artist-photo.html a=page %}" alt="{{ official | strip_html | strip }}">
+      <div class="actor-name">{{ official }}</div>
+      <div class="actor-dates">({{ page.dates | default: "Unknown dates" }})</div>
+    </div>
+  </div>
+
+  {%- assign bio = content | strip -%}
+  {%- if bio != "" %}
+  <div class="artist-bio">{{ content }}</div>
+  {%- endif %}
+
+  {%- if roles_rows != "" or staff_rows == "" %}
+  <div class="info-box" id="roles">
+    <div class="info-box-title">Roles</div>
+    <table class="cast-table roles-table">
+      <thead>
+        <tr><th>Production</th><th>Role(s)</th></tr>
+      </thead>
+      <tbody>
+        {%- if roles_rows != "" %}
+        {{ roles_rows }}
+        {%- else %}
+        <tr><td colspan="2">No role listed yet.</td></tr>
+        {%- endif %}
+      </tbody>
+    </table>
+  </div>
+  {%- endif %}
+
+  {%- if staff_rows != "" %}
+  <div class="info-box" id="technical-credits">
+    <div class="info-box-title">Technical credits</div>
+    <table class="cast-table roles-table">
+      <thead>
+        <tr><th>Production</th><th>Position(s)</th></tr>
+      </thead>
+      <tbody>
+        {{ staff_rows }}
+      </tbody>
+    </table>
+  </div>
+  {%- endif %}
+
+  {%- if page.gallery %}
+  <div class="gallery-title">Gallery</div>
+  <div class="gallery-carousel" id="galleryCarousel">
+    <button class="gallery-arrow prev" type="button" aria-label="Previous images">&#8249;</button>
+    <div class="gallery-track" id="galleryTrack">
+      {%- for item in page.gallery %}
+      {%- assign g = item | split: "|" -%}
+      {%- assign g_full = g[0] | strip -%}
+      {%- assign g_cap = g[1] | default: "" | strip -%}
+      {%- assign g_thumb = g_full | replace: "/upload/", "/upload/w_450,h_450,c_fill,g_north,q_auto:best/" %}
+      <img src="{{ g_thumb }}" data-full="{{ g_full }}" alt="{{ g_cap | default: official | strip_html }}"{% if g_cap != "" %} data-caption="{{ g_cap }}"{% endif %}>
+      {%- endfor %}
+    </div>
+    <button class="gallery-arrow next" type="button" aria-label="Next images">&#8250;</button>
+  </div>
+  {%- endif %}
+
+</div>
+
+{% include cast-scripts-v2.html %}
