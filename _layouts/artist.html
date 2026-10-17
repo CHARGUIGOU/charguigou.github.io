@@ -46,7 +46,7 @@
     {%- assign f = row | split: "|" -%}
     {%- assign c0 = f[0] | default: "" | strip -%}
     {%- assign c1 = f[1] | default: "" | strip -%}
-    {%- assign c2 = f[2] | default: "" | strip -%}
+    {%- assign c2 = f[2] | default: "" | split: "=" | first | default: "" | strip -%}
     {%- if c0 != "banner" -%}
       {%- if c0 != "" or c1 != "" -%}
         {%- assign cur_n = c0 -%}
@@ -62,11 +62,16 @@
       {%- endif -%}
     {%- endif -%}
   {%- endfor -%}
-  {%- if p.additional contains slug or p.additional_intl contains slug -%}
+  {%- assign in_add = false -%}
+  {%- for it in p.additional -%}{%- assign it_key = it | split: "=" | first | strip -%}{%- if it_key == slug -%}{%- assign in_add = true -%}{%- endif -%}{%- endfor -%}
+  {%- for it in p.additional_intl -%}{%- assign it_key = it | split: "=" | first | strip -%}{%- if it_key == slug -%}{%- assign in_add = true -%}{%- endif -%}{%- endfor -%}
+  {%- if in_add -%}
     {%- assign found = found | plus: 1 -%}
     {%- assign roles = roles | append: "<div><i>Additional voice</i></div>" -%}
   {%- endif -%}
-  {%- if p.choir contains slug -%}
+  {%- assign in_choir = false -%}
+  {%- for it in p.choir -%}{%- assign it_key = it | split: "=" | first | strip -%}{%- if it_key == slug -%}{%- assign in_choir = true -%}{%- endif -%}{%- endfor -%}
+  {%- if in_choir -%}
     {%- assign found = found | plus: 1 -%}
     {%- assign roles = roles | append: "<div><i>Choir</i></div>" -%}
   {%- endif -%}
@@ -80,7 +85,7 @@
       {%- for tok in s_tokens -%}
         {%- assign t = tok | strip | replace_first: "&", "" | strip -%}
         {%- assign pr = t | split: "@" -%}
-        {%- assign t_key = pr[0] | strip -%}
+        {%- assign t_key = pr[0] | split: "=" | first | strip -%}
         {%- if t_key == slug -%}
           {%- assign sing_found = true -%}
           {%- assign t_role = pr[1] | default: "" | strip -%}
@@ -118,7 +123,7 @@
     {%- for tok in s_tokens -%}
       {%- assign t = tok | strip | replace_first: "&", "" | strip -%}
       {%- assign pr = t | split: "@" -%}
-      {%- assign t_key = pr[0] | strip -%}
+      {%- assign t_key = pr[0] | split: "=" | first | strip -%}
       {%- if t_key == slug -%}
         {%- assign t_role = pr[1] | default: "" | strip -%}
         {%- assign sfound2 = sfound2 | plus: 1 -%}
@@ -148,7 +153,7 @@
     {%- assign f = row | split: "|" -%}
     {%- assign people = f[0] | split: ";" -%}
     {%- for person in people -%}
-      {%- assign person_key = person | strip -%}
+      {%- assign person_key = person | split: "=" | first | strip -%}
       {%- if person_key == slug -%}
         {%- assign sfound = sfound | plus: 1 -%}
         {%- assign role_txt = f[1] | strip -%}

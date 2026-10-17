@@ -4,6 +4,8 @@
   - comédien = le champ "artist" de sa fiche (artists/xxx.md) ; "?" ou vide = inconnu ;
     un texte libre est affiché tel quel si aucune fiche ne porte ce nom.
   - note (facultatif) = texte ajouté après le nom : (speaking & singing), ?, ...
+  - "fiche = Texte" : affiche "Texte" à la place du nom officiel (cette page seulement, lien conservé).
+    Pour un groupe fusionné, écris-le sur la PREMIÈRE ligne du groupe.
   - même comédien sur plusieurs lignes CONSÉCUTIVES → cellule fusionnée (rowspan) automatique.
   - ligne dont natif ET nom original sont vides → voix supplémentaire du personnage au-dessus
     (les deux cellules de noms sont fusionnées automatiquement).
@@ -30,6 +32,10 @@
   {%- assign c0 = f[0] | default: "" | strip -%}
   {%- assign c1 = f[1] | default: "" | strip -%}
   {%- assign c2 = f[2] | default: "" | strip -%}
+  {%- assign c2_parts = c2 | split: "=" -%}
+  {%- assign c2_key = c2_parts[0] | default: "" | strip -%}
+  {%- assign c2_custom = c2 | remove_first: c2_key | remove_first: "=" | strip -%}
+  {%- assign c2 = c2_key -%}
   {%- assign c3 = f[3] | default: "" | strip -%}
   {%- if c0 == "banner" -%}
     {%- assign prev_actor = "" -%}
@@ -70,7 +76,7 @@
       {%- else -%}
         {%- for r2 in page.cast offset: nxt -%}
           {%- assign g = r2 | split: "|" -%}
-          {%- assign g2 = g[2] | default: "" | strip -%}
+          {%- assign g2 = g[2] | default: "" | split: "=" | first | default: "" | strip -%}
           {%- if g2 == c2 -%}{%- assign actor_span = actor_span | plus: 1 -%}
           {%- else -%}{%- break -%}{%- endif -%}
         {%- endfor -%}
@@ -86,7 +92,7 @@
         <td{% if actor_span > 1 %} rowspan="{{ actor_span }}"{% endif %}>
           {%- if real -%}
             {%- assign fiche = artist_pages | where: "artist", c2 | first -%}
-            {%- if fiche -%}<a class="actor-link" href="{{ fiche.url }}">{% include artist-name.html a=fiche %}</a>
+            {%- if fiche -%}<a class="actor-link" href="{{ fiche.url }}">{% if c2_custom != "" %}{{ c2_custom }}{% else %}{% include artist-name.html a=fiche %}{% endif %}</a>
             {%- else -%}{{ c2 }}{%- endif -%}
             {%- if c3 != "" %} {{ c3 }}{% endif -%}
           {%- else -%}?{%- endif -%}

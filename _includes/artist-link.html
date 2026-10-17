@@ -1,8 +1,12 @@
 {%- comment -%}
   Lien vers la fiche d'un comédien / d'une personne du staff.
     who = le "artist" de la fiche ; fmt = "paren" pour le format du staff : Nom (natif)
+  "fiche = Texte" : garde le lien mais affiche "Texte" à la place du nom officiel (cette occurrence seulement).
   Sans fiche correspondante : le texte reçu est affiché tel quel, sans lien.
 {%- endcomment -%}
+{%- assign al_parts = include.who | split: "=" -%}
+{%- assign al_key = al_parts[0] | default: "" | strip -%}
+{%- assign al_custom = include.who | remove_first: al_key | remove_first: "=" | strip -%}
 {%- assign al_pages = site.pages | where_exp: "p", "p.artist" -%}
-{%- assign al = al_pages | where: "artist", include.who | first -%}
-{%- if al -%}<a class="actor-link" href="{{ al.url }}">{% include artist-name.html a=al fmt=include.fmt %}</a>{%- else -%}{{ include.who }}{%- endif -%}
+{%- assign al = al_pages | where: "artist", al_key | first -%}
+{%- if al -%}<a class="actor-link" href="{{ al.url }}">{% if al_custom != "" %}{{ al_custom }}{% else %}{% include artist-name.html a=al fmt=include.fmt %}{% endif %}</a>{%- else -%}{{ include.who }}{%- endif -%}
