@@ -50,7 +50,6 @@
         {%- assign found = found | plus: 1 -%}
         {%- assign cur_e_txt = cur_e | replace: "<br/>", " " | replace: "<br>", " " | strip_html -%}
         {%- assign roles = roles | append: "<div>" | append: cur_e_txt -%}
-        {%- if cur_n != "" and cur_n != "?" -%}{%- assign roles = roles | append: " (" | append: cur_n | append: ")" -%}{%- endif -%}
         {%- assign c3 = f[3] | default: "" | strip -%}
         {%- if c3 != "" -%}{%- assign roles = roles | append: " " | append: c3 -%}{%- endif -%}
         {%- assign roles = roles | append: "</div>" -%}
@@ -64,6 +63,31 @@
   {%- if p.choir contains slug -%}
     {%- assign found = found | plus: 1 -%}
     {%- assign roles = roles | append: "<div><i>Choir</i></div>" -%}
+  {%- endif -%}
+  {%- comment %} Chanteur/chanteuse sans rôle dans le cast ce film-là : ligne "Singer" {% endcomment -%}
+  {%- if found == 0 -%}
+    {%- assign sing_found = false -%}
+    {%- assign sing_role = "" -%}
+    {%- for song in p.songs -%}
+      {%- assign sf = song | split: "|" -%}
+      {%- assign s_tokens = sf[2] | default: "" | split: ";" -%}
+      {%- for tok in s_tokens -%}
+        {%- assign t = tok | strip | replace_first: "&", "" | strip -%}
+        {%- assign pr = t | split: "@" -%}
+        {%- assign t_key = pr[0] | strip -%}
+        {%- if t_key == slug -%}
+          {%- assign sing_found = true -%}
+          {%- assign t_role = pr[1] | default: "" | strip -%}
+          {%- if sing_role == "" and t_role != "" -%}{%- assign sing_role = t_role -%}{%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endfor -%}
+    {%- if sing_found -%}
+      {%- assign found = found | plus: 1 -%}
+      {%- assign roles = roles | append: "<div><i>Singer</i>" -%}
+      {%- if sing_role != "" -%}{%- assign roles = roles | append: " (" | append: sing_role | append: ")" -%}{%- endif -%}
+      {%- assign roles = roles | append: "</div>" -%}
+    {%- endif -%}
   {%- endif -%}
   {%- if found > 0 %}
         <tr>
@@ -93,7 +117,7 @@
         {%- assign t_role = pr[1] | default: "" | strip -%}
         {%- assign sfound2 = sfound2 | plus: 1 -%}
         {%- assign sroles2 = sroles2 | append: "<div>« " | append: s_eng | append: " »" -%}
-        {%- if t_role != "" -%}{%- assign sroles2 = sroles2 | append: " (" | append: t_role | append: ")" -%}{%- endif -%}
+        {%- if t_role != "" -%}{%- assign sroles2 = sroles2 | append: " <i>as " | append: t_role | append: "</i>" -%}{%- endif -%}
         {%- assign sroles2 = sroles2 | append: "</div>" -%}
       {%- endif -%}
     {%- endfor -%}
