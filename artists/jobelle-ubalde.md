@@ -25,4 +25,6 @@ country: "Hong Kong"          # pays d'origine, affiché sous les dates (sans ce
 #   - "https://res.cloudinary.com/dofvjifeo/image/upload/Jason_Chau_2.jpg | Légende facultative"
 #   - "https://res.cloudinary.com/dofvjifeo/image/upload/Jason_Chau_3.jpg"
 ---
-# Texte libre facultatif (bio, anecdotes) : il s'affiche sous le nom, au-dessus des tableaux.
+{% comment %}
+Texte libre facultatif (bio, anecdotes) : il s'affiche sous le nom, au-dessus des tableaux.
+{% endcomment %}
