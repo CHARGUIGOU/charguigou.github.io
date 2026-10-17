@@ -13,7 +13,8 @@ romanization: "Zau Sai-hang"  # nom romanisé
 native_nick: "大J"            # pseudo natif entre guillemets
 native: "周世鏗"              # nom natif
 # prefix: "Slime's wife"     # texte avant le nom (rare)
-# display: ""                 # pour un cas tordu : texte complet affiché tel quel (remplace tout ce qui précède)
+# display: "Texte libre"      # texte complet affiché tel quel PARTOUT (cast, staff, chansons, fiche) à la place du nom composé
+# page_name: "Texte libre"       # nom affiché SOUS LA PHOTO de la fiche uniquement (une ligne, texte libre) ; les pages de cast gardent le nom normal
 # short_name: "Jason Chau"    # nom sous la photo dans les cartes (défaut : nickname, sinon romanization)
 # photo: "https://res.cloudinary.com/dofvjifeo/image/upload/Jason_Chau.png"   # sans cette ligne : silhouette grise
 # dates: "4 November 1982 -  "   # sans cette ligne : Unknown dates

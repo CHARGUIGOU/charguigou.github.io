@@ -15,8 +15,17 @@
 .roles-table td:nth-child(-n+3) { text-align: center; }
 .roles-table td:first-child { font-family: inherit; font-size: var(--cast-text-size); }
 .roles-table th.sortable { cursor: pointer; user-select: none; }
-.roles-table th[data-sort="asc"]::after { content: " \25B2"; font-size: 0.7em; }
-.roles-table th[data-sort="desc"]::after { content: " \25BC"; font-size: 0.7em; }
+/* petites flèches haut/bas à droite de chaque titre de colonne ; la flèche active est plus foncée */
+.roles-table th.sortable::after {
+  content: ""; display: inline-block; width: 8px; height: 12px; margin-left: 6px; vertical-align: -2px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 12'%3E%3Cpath d='M4 0l4 5H0z' fill='%23b5b5b5'/%3E%3Cpath d='M4 12L0 7h8z' fill='%23b5b5b5'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+.roles-table th.sortable:hover::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 12'%3E%3Cpath d='M4 0l4 5H0z' fill='%23888'/%3E%3Cpath d='M4 12L0 7h8z' fill='%23888'/%3E%3C/svg%3E"); }
+.roles-table th[data-sort="asc"]::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 12'%3E%3Cpath d='M4 0l4 5H0z' fill='%23333'/%3E%3Cpath d='M4 12L0 7h8z' fill='%23ccc'/%3E%3C/svg%3E"); }
+.roles-table th[data-sort="desc"]::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 12'%3E%3Cpath d='M4 0l4 5H0z' fill='%23ccc'/%3E%3Cpath d='M4 12L0 7h8z' fill='%23333'/%3E%3C/svg%3E"); }
+.roles-table th:last-child { text-align: left; }
+.artist-card .actor-name .name-main { display: block; }
+.artist-card .actor-name .name-sub { display: block; margin-top: 4px; font-size: 16px; }
 .roles-table td { text-align: left; }
 .roles-table td:last-child div + div { margin-top: 4px; }
 </style>
@@ -161,12 +170,38 @@
 {%- assign staff_rows = staff_rows | strip -%}
 {%- assign songs_rows = songs_rows | strip -%}
 
+{%- comment %} ---- Nom affiché SOUS LA PHOTO (cette page seulement) ----
+     avec pseudo : ligne 1 = pseudo ; ligne 2 = nom romanisé (nom natif)
+     sans pseudo : une seule ligne = nom romanisé (nom natif) {% endcomment -%}
+{%- assign d_display = page.page_name | default: page.display | default: "" -%}
+{%- assign d_prefix = page.prefix | default: "" -%}
+{%- assign d_nick = page.nickname | default: "" -%}
+{%- assign d_rom = page.romanization | default: "" -%}
+{%- assign d_nnick = page.native_nick | default: "" -%}
+{%- assign d_native = page.native | default: "" -%}
+{%- capture line2 -%}
+  {{ d_rom }}
+  {%- if d_native != "" -%}
+    {%- if d_rom != "" %} ({% if d_nnick != "" %}"{{ d_nnick }}" {% endif %}{{ d_native }})
+    {%- else %}{% if d_nnick != "" %}"{{ d_nnick }}" {% endif %}{{ d_native }}{% endif -%}
+  {%- endif -%}
+{%- endcapture -%}
+{%- capture name_html -%}
+  {%- if d_display != "" -%}{{ d_display }}
+  {%- elsif d_nick != "" -%}
+    <span class="name-main">{% if d_prefix != "" %}{{ d_prefix }} "{{ d_nick }}"{% else %}{{ d_nick }}{% endif %}</span>
+    {%- assign l2 = line2 | strip -%}
+    {%- if l2 != "" %}<span class="name-sub">{{ l2 }}</span>{% endif -%}
+  {%- else -%}{% if d_prefix != "" %}{{ d_prefix }} {% endif %}{{ line2 | strip }}
+  {%- endif -%}
+{%- endcapture -%}
+
 <div class="cast-wrap">
 
   <div class="artist-card">
     <div class="voice-card">
       <img src="{% include artist-photo.html a=page %}" alt="{{ official | strip_html | strip }}">
-      <div class="actor-name">{{ official }}</div>
+      <div class="actor-name">{{ name_html }}</div>
       {%- if page.kind != "studio" %}
       <div class="actor-dates">({{ page.dates | default: "Unknown dates" }})</div>
       {%- endif %}
