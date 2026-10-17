@@ -977,19 +977,20 @@ body {
 }
 
 /* ============================================================
-   LIENS VERS LES FICHES DES COMÉDIENS (générés par cast-table.html / cast-cards.html)
-   Même couleur que le texte, soulignement seulement au survol. Pour des liens bleus
-   comme les autres liens du tableau, supprime ces lignes.
+   LIENS VERS LES FICHES DES COMÉDIENS (générés par cast-table / cast-names / cast-songs / cast-staff)
+   Même couleur que le texte ; au survol : le texte devient bleu pâle (pas de soulignage).
    ============================================================ */
-.cast-table a.actor-link,
-.voice-card a.actor-link {
-  color: inherit;
-  font-weight: inherit;
+:root {
+  --actor-link-hover-color: #7aa9de;   /* couleur au survol d'un nom qui a une fiche */
 }
-.voice-card > a { display: block; }
-.staff-table a.actor-link,
-.voices-grid a.actor-link {
+.cast-wrap a.actor-link {
   color: inherit;
   font-weight: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+.cast-wrap a.actor-link:hover {
+  color: var(--actor-link-hover-color);
+  text-decoration: none;
 }
 </style>

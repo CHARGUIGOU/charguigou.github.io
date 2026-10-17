@@ -17,6 +17,14 @@ show_songs: true
 cards: [tommy-chu, melodee-mak, gu-wing-syut]
 
 # ============================================================
+# INFOS DE LA PAGE, reprises sur les fiches des artistes (tableau "Roles")
+# year = année du film/doublage (sert au tri) ; film = titre court ; language = langue du doublage
+# ============================================================
+year: 2018
+film: "Ralph Breaks the Internet"
+language: "Cantonese"
+
+# ============================================================
 # VOIX ADDITIONNELLES CRÉDITÉES : les "artist" de leurs fiches, dans l'ordre d'affichage
 # (une fiche par personne ; elles apparaissent sur la page de la personne avec "Additional voice")
 # ============================================================
@@ -55,6 +63,37 @@ additional:
   - "inez-leung"
   - "lei-co-kiu"
 
+# Voix additionnelles internationales : une fiche si le texte est l'identifiant d'une fiche, sinon texte simple.
+additional_intl:
+  - "Pauline Brunner"
+  - "Sam Salhi"
+  - "Christian Peythieu"
+  - "Marion Lécrivain"
+  - "Richard Leroussel"
+  - "Olivier Bénard"
+  - "Guillaume Bourboulon"
+  - "Iván González"
+  - "Alexis Rangheard"
+  - "Marie-Christine Robert"
+  - "Carole Gioan"
+  - "Mathilde Martin"
+  - "Emmanuel Daumas"
+
+# CHOEUR (affiché si show_choir: true) : mêmes règles que additional.
+choir: []
+
+# ============================================================
+# CHANSONS : "titre natif | titre anglais | interprètes | note"
+# - titre natif vide = pas de ligne native (le titre anglais passe en gras ; la note s'affiche à côté)
+# - interprètes séparés par ; : "fiche @ Personnage" (le personnage est facultatif)
+# - un interprète qui commence par & est précédé de "&" au lieu de ";" (ex : &Choir)
+# - plusieurs voix pour un même personnage : répète le "@ Personnage" pour chacune
+# ============================================================
+songs:
+  - "冰心鎖 (無敵破壞王2版本) | Let it Go (Demi Lovato Version) | jobelle-ubalde"
+  - "撕殺賽車 | A Place Called Slaughter Race | melodee-mak @ Vanellope; gu-wing-syut @ Shank; day-leung; lei-co-kiu; bonnie-chan; amy-kwok; jeffero-chan; loeng-sing-dak; &Choir"
+  - " | Never Gonna Give You Up | tommy-chu @ Ralph | Performed in English"
+
 # ============================================================
 # TECHNICAL STAFF : "personne(s) | poste". Plusieurs personnes : sépare-les par ;
 # Un studio (ou tout texte qui n'est pas une fiche) s'affiche tel quel, sans lien.
@@ -68,9 +107,9 @@ staff:
   - "yvonne-kwan; cecilia-cheng; iris-wan; rainbow-li | Production coordinators"
   - "yung-liang | Technical support"
   - "sink-kwok | Creative supervisor"
-  - "SDI Media Hong Kong Limited | Dubbing studio"
-  - "Watch Music Limited (時計音樂有限公司) | Recording studio (songs)"
-  - "Shepperton International | Mixing studio"
+  - "sdi-media-hong-kong-limited | Dubbing studio"
+  - "watch-music-limited | Recording studio (songs)"
+  - "shepperton-international | Mixing studio"
 
 # ============================================================
 # TABLEAU CAST : une ligne par personnage, au format
@@ -300,38 +339,20 @@ cast:
   {% if page.show_additional_voices %}
   <div class="info-box" id="additional-voices">
     <div class="info-box-title">Additional voices/Choir</div>
-    {% include cast-additional.html %}
+    {% include cast-names.html names=page.additional %}
 
+  {% if page.additional_intl %}
   <div class="voices-subtitle">International Additional Voices</div>
 
-    <div class="voices-grid">
-      <div>Pauline Brunner</div>
-      <div>Sam Salhi</div>
-      <div>Christian Peythieu</div>
-      <div>Marion Lécrivain</div>
-      <div>Richard Leroussel</div>
-      <div>Olivier Bénard</div>
-      <div>Guillaume Bourboulon</div>
-      <div>Iván González</div>
-      <div>Alexis Rangheard</div>
-      <div>Marie-Christine Robert</div>
-      <div>Carole Gioan</div>
-      <div>Mathilde Martin</div>
-      <div>Emmanuel Daumas</div>
-    </div>
+    {% include cast-names.html names=page.additional_intl %}
+  {% endif %}
   </div>
   {% endif %}
 
   {% if page.show_choir %}
   <div class="info-box" id="choir">
     <div class="info-box-title">Choir</div>
-    <div class="voices-grid">
-      <div>Name 1 / Native name 1</div>
-      <div>Name 2 / Native name 2</div>
-      <div>Name 3 / Native name 3</div>
-      <div>Name 4 / Native name 4</div>
-      <div>?</div>
-    </div>
+    {% include cast-names.html names=page.choir %}
   </div>
   {% endif %}
 
@@ -351,20 +372,7 @@ cast:
   <div class="info-box" id="songs">
     <div class="info-box-title">Songs</div>
     <ul class="song-list">
-      <li class="song-item">
-        <span class="song-title-native">冰心鎖 (無敵破壞王2版本)</span>
-        <span class="song-title-english">(« Let it Go (Demi Lovato Version) »)</span>
-        <span class="performed-by"><i>performed by</i> : "Jobelle Ubalde" Baak Zan-bou / 白珍寶</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">撕殺賽車</span>
-        <span class="song-title-english">(« A Place Called Slaughter Race »)</span>
-        <span class="performed-by"><i>performed by</i> : "Melodee Mak" Mak Zi-Wan / 麥紫筠 (<i>Vanellope</i>) ; Gu Wing-syut / 顧詠雪 (<i>Shank</i>) ; "Day Leung" Loeng Wai-gei / 梁偉基 ; Lei Co-kiu / 李楚翹 ; "Bonnie Chan" Can Hei-man / 陳希敏 ; "Amy Kwok" Gwok Gaa-bik / 郭嘉碧 ; "Jeffero Chan" Can Jin-ting / 陳彥廷 ; Loeng Sing-dak / 梁成德 &amp; Choir</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-english"><b>« Never Gonna Give You Up » <small>(Performed in English)</small></b></span>
-        <span class="performed-by"><i>performed by</i> : "Tommy Chu" Zyu Paak-Hong / 朱栢康 (<i>Ralph</i>)</span>
-      </li>
+      {% include cast-songs.html %}
     </ul>
   </div>
   {% endif %}

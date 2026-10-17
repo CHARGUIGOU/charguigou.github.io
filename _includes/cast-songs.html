@@ -1,0 +1,33 @@
+{%- comment -%}
+  Liste des chansons depuis page.songs. Une chanson = "titre natif | titre anglais | interprètes | note".
+  Interprètes séparés par ; : "fiche @ Personnage". Un interprète qui commence par & est
+  précédé de "&" au lieu de ";" (ex : &Choir). Titre natif vide : titre anglais seul, en gras.
+{%- endcomment -%}
+{%- for song in page.songs %}
+      {%- assign f = song | split: "|" -%}
+      {%- assign s_nat = f[0] | default: "" | strip -%}
+      {%- assign s_eng = f[1] | default: "" | strip -%}
+      {%- assign s_perf = f[2] | default: "" | strip -%}
+      {%- assign s_note = f[3] | default: "" | strip %}
+      <li class="song-item">
+        {%- if s_nat != "" %}
+        <span class="song-title-native">{{ s_nat }}</span>
+        <span class="song-title-english">(« {{ s_eng }} »)</span>
+        {%- else %}
+        <span class="song-title-english"><b>« {{ s_eng }} »{% if s_note != "" %} <small>({{ s_note }})</small>{% endif %}</b></span>
+        {%- endif %}
+        <span class="performed-by"><i>performed by</i> : {% assign tokens = s_perf | split: ";" -%}
+          {%- for tok in tokens -%}
+            {%- assign t = tok | strip -%}
+            {%- assign amp = t | slice: 0, 1 -%}
+            {%- if amp == "&" -%}{%- assign t = t | replace_first: "&", "" | strip -%}{%- endif -%}
+            {%- assign pr = t | split: "@" -%}
+            {%- assign who = pr[0] | strip -%}
+            {%- assign role = pr[1] | default: "" | strip -%}
+            {%- unless forloop.first -%}{%- if amp == "&" %} &amp; {% else %} ; {% endif -%}{%- endunless -%}
+            {%- include artist-link.html who=who -%}
+            {%- if role != "" %} (<i>{{ role }}</i>){% endif -%}
+          {%- endfor -%}
+        </span>
+      </li>
+{%- endfor %}

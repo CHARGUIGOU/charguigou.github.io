@@ -17,6 +17,7 @@ native: "周世鏗"              # nom natif
 # short_name: "Jason Chau"    # nom sous la photo dans les cartes (défaut : nickname, sinon romanization)
 # photo: "https://res.cloudinary.com/dofvjifeo/image/upload/Jason_Chau.png"   # sans cette ligne : silhouette grise
 # dates: "4 November 1982 -  "   # sans cette ligne : Unknown dates
+# kind: studio                    # pour la fiche d'un STUDIO : pas de dates, icône de bâtiment ; mets le nom complet dans display: et laisse nickname/romanization/native de côté
 # gallery:                       # photos supplémentaires : colle seulement le lien Cloudinary ORIGINAL (la miniature allégée est calculée toute seule)
 #   - "https://res.cloudinary.com/dofvjifeo/image/upload/Jason_Chau_2.jpg | Légende facultative"
 #   - "https://res.cloudinary.com/dofvjifeo/image/upload/Jason_Chau_3.jpg"

@@ -1,0 +1,11 @@
+{%- comment -%}
+  Grille de noms (voix additionnelles, choeur...). Utilisation :
+    {% include cast-names.html names=page.additional %}
+  Chaque élément de la liste = l'identifiant d'une fiche (nom officiel + lien),
+  ou un texte libre (affiché tel quel, sans lien).
+{%- endcomment -%}
+<div class="voices-grid">
+{%- for person in include.names %}
+      <div>{% include artist-link.html who=person %}</div>
+{%- endfor %}
+    </div>

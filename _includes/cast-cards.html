@@ -9,8 +9,8 @@
   {%- assign a = artist_pages | where: "artist", slug | first -%}
   {%- if a -%}
   <div class="voice-card">
-    <a href="{{ a.url }}"><img src="{% include artist-photo.html a=a %}" alt="{{ a.short_name | default: a.nickname | default: a.romanization }}"></a>
-    <div class="actor-name"><a class="actor-link" href="{{ a.url }}">{{ a.short_name | default: a.nickname | default: a.romanization }}</a></div>
+    <img src="{% include artist-photo.html a=a %}" alt="{{ a.short_name | default: a.nickname | default: a.romanization }}">
+    <div class="actor-name">{{ a.short_name | default: a.nickname | default: a.romanization }}</div>
     <div class="actor-dates">({{ a.dates | default: "Unknown dates" }})</div>
   </div>
   {%- else -%}

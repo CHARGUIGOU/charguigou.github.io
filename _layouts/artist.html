@@ -15,7 +15,10 @@
 .artist-card .voice-card img { width: var(--voice-card-max); max-width: 100%; margin: 0 auto; }
 .artist-card .actor-name { font-size: 22px; line-height: 1.3; }
 .artist-bio { margin: 0 auto 30px; max-width: 700px; line-height: 1.6; }
-.roles-table td:first-child { width: 40%; }
+.roles-table td:nth-child(-n+3) { text-align: center; }
+.roles-table th.sortable { cursor: pointer; user-select: none; }
+.roles-table th[data-sort="asc"]::after { content: " \25B2"; font-size: 0.7em; }
+.roles-table th[data-sort="desc"]::after { content: " \25BC"; font-size: 0.7em; }
 .roles-table td { text-align: left; }
 .roles-table td:last-child div + div { margin-top: 4px; }
 </style>
@@ -53,13 +56,36 @@
       {%- endif -%}
     {%- endif -%}
   {%- endfor -%}
-  {%- if p.additional contains slug -%}
+  {%- if p.additional contains slug or p.additional_intl contains slug -%}
     {%- assign found = found | plus: 1 -%}
     {%- assign roles = roles | append: "<div><i>Additional voice</i></div>" -%}
   {%- endif -%}
+  {%- if p.choir contains slug -%}
+    {%- assign found = found | plus: 1 -%}
+    {%- assign roles = roles | append: "<div><i>Choir</i></div>" -%}
+  {%- endif -%}
+  {%- for song in p.songs -%}
+    {%- assign sf = song | split: "|" -%}
+    {%- assign s_eng = sf[1] | default: "" | strip -%}
+    {%- assign s_tokens = sf[2] | default: "" | split: ";" -%}
+    {%- for tok in s_tokens -%}
+      {%- assign t = tok | strip | replace_first: "&", "" | strip -%}
+      {%- assign pr = t | split: "@" -%}
+      {%- assign t_key = pr[0] | strip -%}
+      {%- if t_key == slug -%}
+        {%- assign t_role = pr[1] | default: "" | strip -%}
+        {%- assign found = found | plus: 1 -%}
+        {%- assign roles = roles | append: "<div><i>Song</i> : « " | append: s_eng | append: " »" -%}
+        {%- if t_role != "" -%}{%- assign roles = roles | append: " (" | append: t_role | append: ")" -%}{%- endif -%}
+        {%- assign roles = roles | append: "</div>" -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
   {%- if found > 0 %}
         <tr>
+          <td>{{ p.year }}</td>
           <td><a href="{{ p.url }}#cast">{{ p.film | default: p.title }}</a></td>
+          <td>{{ p.language }}</td>
           <td>{{ roles }}</td>
         </tr>
   {%- endif -%}
@@ -85,7 +111,9 @@
   {%- endfor -%}
   {%- if sfound > 0 %}
         <tr>
+          <td>{{ p.year }}</td>
           <td><a href="{{ p.url }}#staff">{{ p.film | default: p.title }}</a></td>
+          <td>{{ p.language }}</td>
           <td>{{ sroles }}</td>
         </tr>
   {%- endif -%}
@@ -100,7 +128,9 @@
     <div class="voice-card">
       <img src="{% include artist-photo.html a=page %}" alt="{{ official | strip_html | strip }}">
       <div class="actor-name">{{ official }}</div>
+      {%- if page.kind != "studio" %}
       <div class="actor-dates">({{ page.dates | default: "Unknown dates" }})</div>
+      {%- endif %}
     </div>
   </div>
 
@@ -114,13 +144,13 @@
     <div class="info-box-title">Roles</div>
     <table class="cast-table roles-table">
       <thead>
-        <tr><th>Production</th><th>Role(s)</th></tr>
+        <tr><th>Year</th><th>Film</th><th>Language</th><th>Role(s)</th></tr>
       </thead>
       <tbody>
         {%- if roles_rows != "" %}
         {{ roles_rows }}
         {%- else %}
-        <tr><td colspan="2">No role listed yet.</td></tr>
+        <tr><td colspan="4">No role listed yet.</td></tr>
         {%- endif %}
       </tbody>
     </table>
@@ -129,10 +159,10 @@
 
   {%- if staff_rows != "" %}
   <div class="info-box" id="technical-credits">
-    <div class="info-box-title">Technical credits</div>
+    <div class="info-box-title">{% if page.kind == "studio" %}Dubbings{% else %}Technical credits{% endif %}</div>
     <table class="cast-table roles-table">
       <thead>
-        <tr><th>Production</th><th>Position(s)</th></tr>
+        <tr><th>Year</th><th>Film</th><th>Language</th><th>{% if page.kind == "studio" %}Role{% else %}Position(s){% endif %}</th></tr>
       </thead>
       <tbody>
         {{ staff_rows }}
@@ -161,3 +191,32 @@
 </div>
 
 {% include cast-scripts-v2.html %}
+
+<script>
+/* TRI DES TABLEAUX : clic sur un titre de colonne = tri croissant, 2e clic = décroissant.
+   Au chargement : tri par année. */
+(function () {
+  document.querySelectorAll('table.roles-table').forEach(function (t) {
+    var ths = t.querySelectorAll('thead th'), tb = t.tBodies[0];
+    function sortBy(i, dir) {
+      var rows = [].slice.call(tb.rows);
+      if (rows.length < 2) return;
+      rows.sort(function (a, b) {
+        var x = a.cells[i].textContent.trim(), y = b.cells[i].textContent.trim();
+        var nx = parseFloat(x), ny = parseFloat(y), r;
+        if (!isNaN(nx) && !isNaN(ny) && nx !== ny) r = nx - ny;
+        else r = x.localeCompare(y, undefined, { numeric: true });
+        return dir * r;
+      });
+      rows.forEach(function (r) { tb.appendChild(r); });
+      [].forEach.call(ths, function (h) { h.removeAttribute('data-sort'); });
+      ths[i].setAttribute('data-sort', dir > 0 ? 'asc' : 'desc');
+    }
+    [].forEach.call(ths, function (th, i) {
+      th.classList.add('sortable');
+      th.addEventListener('click', function () { sortBy(i, th.getAttribute('data-sort') === 'asc' ? -1 : 1); });
+    });
+    sortBy(0, 1);
+  });
+})();
+</script>
