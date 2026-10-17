@@ -1,9 +1,0 @@
-{%- comment -%}
-  Grille des voix additionnelles créditées (page.additional = liste de fiches).
-  À placer dans l'encadré "Additional voices" à la place de <div class="voices-grid">.
-{%- endcomment -%}
-<div class="voices-grid">
-{%- for person in page.additional %}
-      <div>{% include artist-link.html who=person %}</div>
-{%- endfor %}
-    </div>
