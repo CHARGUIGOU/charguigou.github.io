@@ -101,8 +101,26 @@
   .artist-info { flex: 0 0 auto; text-align: center; }
 }
 .artist-bio { margin: 0 auto 30px; max-width: 700px; line-height: 1.6; }
-.roles-table td:nth-child(-n+3) { text-align: center; }
-.roles-table td:first-child { font-family: inherit; font-size: var(--cast-text-size); }
+/* Colonnes : Role(s) | Film | Year | Language. Year et Language = largeur de leur contenu ; Role(s) et Film se partagent le reste. */
+.roles-table td, .roles-table th { text-align: left; }
+.roles-table td:nth-child(n+3), .roles-table th:nth-child(n+3) { text-align: center; width: 1%; white-space: nowrap; }
+.roles-table td:nth-child(-n+2), .roles-table th:nth-child(-n+2) { width: auto; white-space: normal; }
+.roles-table td:nth-child(-n+2) { font-family: inherit; font-size: var(--cast-text-size); }
+/* survol d'une ligne : léger assombrissement */
+.roles-table tbody tr:hover td { background: var(--artist-row-hover, rgba(0, 0, 0, 0.05)); }
+/* lien du film : comme sur les pages de cast (couleur du texte, bleu pâle au survol seulement) */
+.cast-wrap .roles-table a.film-link { color: inherit; font-weight: inherit; text-decoration: none; }
+.cast-wrap .roles-table a.film-link:hover { color: var(--actor-link-hover-color); text-decoration: none; }
+/* photo du personnage doublé (5e champ d'une ligne de cast) */
+.role-line { display: flex; align-items: center; gap: 10px; }
+.role-line + .role-line { margin-top: 6px; }
+.role-img { flex: 0 0 var(--artist-role-img, 44px); width: var(--artist-role-img, 44px); height: var(--artist-role-img, 44px); border-radius: 6px; overflow: hidden; background: rgba(0, 0, 0, 0.06); }
+.role-img:empty { background: rgba(0, 0, 0, 0.05); }
+.role-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+#songs .role-img, #technical-credits .role-img { display: none; }
+.artist-summary { margin-top: 10px; font-size: var(--artist-country-size); color: var(--actor-dates-color); font-family: var(--artist-meta-font); }
+.artist-back { display: inline-block; margin: 0 0 18px; font-size: 14px; color: inherit; text-decoration: none; opacity: .75; }
+.artist-back:hover { color: var(--actor-link-hover-color); opacity: 1; }
 .roles-table th.sortable { cursor: pointer; user-select: none; }
 /* petites flèches haut/bas à droite de chaque titre de colonne ; la flèche active est plus foncée */
 .roles-table th.sortable::after {
@@ -112,11 +130,8 @@
 .roles-table th.sortable:hover::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 12'%3E%3Cpath d='M4 0l4 5H0z' fill='%23888'/%3E%3Cpath d='M4 12L0 7h8z' fill='%23888'/%3E%3C/svg%3E"); }
 .roles-table th[data-sort="asc"]::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 12'%3E%3Cpath d='M4 0l4 5H0z' fill='%23333'/%3E%3Cpath d='M4 12L0 7h8z' fill='%23ccc'/%3E%3C/svg%3E"); }
 .roles-table th[data-sort="desc"]::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 12'%3E%3Cpath d='M4 0l4 5H0z' fill='%23ccc'/%3E%3Cpath d='M4 12L0 7h8z' fill='%23333'/%3E%3C/svg%3E"); }
-.roles-table th:last-child { text-align: left; }
 .artist-info .actor-name .name-main { display: block; }
 .artist-info .actor-name .name-sub { display: block; margin-top: 4px; }
-.roles-table td { text-align: left; }
-.roles-table td:last-child div + div { margin-top: 4px; }
 </style>
 
 {%- assign slug = page.artist -%}
@@ -125,12 +140,15 @@
 
 {%- comment %} ---- Rôles de voix (personnages + voix additionnelles) ---- {% endcomment -%}
 {%- assign total = 0 -%}
+{%- assign n_films = 0 -%}
+{%- assign n_credits = 0 -%}
 {%- capture roles_rows -%}
 {%- for p in cast_pages -%}
   {%- assign roles = "" -%}
   {%- assign found = 0 -%}
   {%- assign cur_n = "" -%}
   {%- assign cur_e = "" -%}
+  {%- assign cur_i = "" -%}
   {%- for row in p.cast -%}
     {%- assign f = row | split: "|" -%}
     {%- assign c0 = f[0] | default: "" | strip -%}
@@ -140,14 +158,17 @@
       {%- if c0 != "" or c1 != "" -%}
         {%- assign cur_n = c0 -%}
         {%- assign cur_e = c1 -%}
+        {%- assign cur_i = f[4] | default: "" | strip -%}
       {%- endif -%}
       {%- if c2 == slug -%}
         {%- assign found = found | plus: 1 -%}
         {%- assign cur_e_txt = cur_e | replace: "<br/>", " " | replace: "<br>", " " | strip_html -%}
-        {%- assign roles = roles | append: "<div>" | append: cur_e_txt -%}
+        {%- assign roles = roles | append: '<div class="role-line"><span class="role-img">' -%}
+        {%- if cur_i != "" -%}{%- assign roles = roles | append: '<img src="' | append: cur_i | append: '" alt="" loading="lazy">' -%}{%- endif -%}
+        {%- assign roles = roles | append: '</span><span class="role-text">' | append: cur_e_txt -%}
         {%- assign c3 = f[3] | default: "" | strip -%}
         {%- if c3 != "" -%}{%- assign roles = roles | append: " " | append: c3 -%}{%- endif -%}
-        {%- assign roles = roles | append: "</div>" -%}
+        {%- assign roles = roles | append: "</span></div>" -%}
       {%- endif -%}
     {%- endif -%}
   {%- endfor -%}
@@ -156,13 +177,13 @@
   {%- for it in p.additional_intl -%}{%- assign it_key = it | split: "=" | first | strip -%}{%- if it_key == slug -%}{%- assign in_add = true -%}{%- endif -%}{%- endfor -%}
   {%- if in_add -%}
     {%- assign found = found | plus: 1 -%}
-    {%- assign roles = roles | append: "<div><i>Additional voice</i></div>" -%}
+    {%- assign roles = roles | append: '<div class="role-line"><span class="role-img"></span><span class="role-text"><i>Additional voice</i></span></div>'  -%}
   {%- endif -%}
   {%- assign in_choir = false -%}
   {%- for it in p.choir -%}{%- assign it_key = it | split: "=" | first | strip -%}{%- if it_key == slug -%}{%- assign in_choir = true -%}{%- endif -%}{%- endfor -%}
   {%- if in_choir -%}
     {%- assign found = found | plus: 1 -%}
-    {%- assign roles = roles | append: "<div><i>Choir</i></div>" -%}
+    {%- assign roles = roles | append: '<div class="role-line"><span class="role-img"></span><span class="role-text"><i>Choir</i></span></div>'  -%}
   {%- endif -%}
   {%- comment %} Chanteur/chanteuse sans rôle dans le cast ce film-là : ligne "Singer" {% endcomment -%}
   {%- if found == 0 -%}
@@ -184,17 +205,19 @@
     {%- endfor -%}
     {%- if sing_found -%}
       {%- assign found = found | plus: 1 -%}
-      {%- assign roles = roles | append: "<div><i>Singer</i>" -%}
+      {%- assign roles = roles | append: '<div class="role-line"><span class="role-img"></span><span class="role-text"><i>Singer</i>'  -%}
       {%- if sing_role != "" -%}{%- assign roles = roles | append: " (" | append: sing_role | append: ")" -%}{%- endif -%}
-      {%- assign roles = roles | append: "</div>" -%}
+      {%- assign roles = roles | append: "</span></div>" -%}
     {%- endif -%}
   {%- endif -%}
-  {%- if found > 0 %}
+  {%- if found > 0 -%}
+    {%- assign total = total | plus: found -%}
+    {%- assign n_films = n_films | plus: 1 -%}
         <tr>
-          <td>{{ p.year }}</td>
-          <td><a href="{{ p.url }}#cast">{{ p.film | default: p.title }}</a></td>
-          <td>{{ p.language }}</td>
           <td>{{ roles }}</td>
+          <td class="c-film"><a class="film-link" href="{{ p.url }}#cast">{{ p.film | default: p.title }}</a></td>
+          <td class="c-year">{{ p.year }}</td>
+          <td class="c-lang">{{ p.language }}</td>
         </tr>
   {%- endif -%}
 {%- endfor -%}
@@ -216,18 +239,18 @@
       {%- if t_key == slug -%}
         {%- assign t_role = pr[1] | default: "" | strip -%}
         {%- assign sfound2 = sfound2 | plus: 1 -%}
-        {%- assign sroles2 = sroles2 | append: "<div>« " | append: s_eng | append: " »" -%}
+        {%- assign sroles2 = sroles2 | append: '<div class="role-line"><span class="role-text">« ' | append: s_eng | append: " »" -%}
         {%- if t_role != "" -%}{%- assign sroles2 = sroles2 | append: " <i>as " | append: t_role | append: "</i>" -%}{%- endif -%}
-        {%- assign sroles2 = sroles2 | append: "</div>" -%}
+        {%- assign sroles2 = sroles2 | append: "</span></div>" -%}
       {%- endif -%}
     {%- endfor -%}
   {%- endfor -%}
   {%- if sfound2 > 0 %}
         <tr>
-          <td>{{ p.year }}</td>
-          <td><a href="{{ p.url }}#songs">{{ p.film | default: p.title }}</a></td>
-          <td>{{ p.language }}</td>
           <td>{{ sroles2 }}</td>
+          <td class="c-film"><a class="film-link" href="{{ p.url }}#songs">{{ p.film | default: p.title }}</a></td>
+          <td class="c-year">{{ p.year }}</td>
+          <td class="c-lang">{{ p.language }}</td>
         </tr>
   {%- endif -%}
 {%- endfor -%}
@@ -245,17 +268,18 @@
       {%- assign person_key = person | split: "=" | first | strip -%}
       {%- if person_key == slug -%}
         {%- assign sfound = sfound | plus: 1 -%}
+        {%- assign n_credits = n_credits | plus: 1 -%}
         {%- assign role_txt = f[1] | strip -%}
-        {%- assign sroles = sroles | append: "<div>" | append: role_txt | append: "</div>" -%}
+        {%- assign sroles = sroles | append: '<div class="role-line"><span class="role-text">' | append: role_txt | append: "</span></div>" -%}
       {%- endif -%}
     {%- endfor -%}
   {%- endfor -%}
   {%- if sfound > 0 %}
         <tr>
-          <td>{{ p.year }}</td>
-          <td><a href="{{ p.url }}#staff">{{ p.film | default: p.title }}</a></td>
-          <td>{{ p.language }}</td>
           <td>{{ sroles }}</td>
+          <td class="c-film"><a class="film-link" href="{{ p.url }}#staff">{{ p.film | default: p.title }}</a></td>
+          <td class="c-year">{{ p.year }}</td>
+          <td class="c-lang">{{ p.language }}</td>
         </tr>
   {%- endif -%}
 {%- endfor -%}
@@ -294,6 +318,8 @@
 
 <div class="cast-wrap">
 
+  <a class="artist-back" href="/artists/">&larr; Voice artists</a>
+
   <div class="artist-card{% if page.kind == "studio" %} studio{% endif %}">
     <div class="voice-card">
       <img src="{% include artist-photo.html a=page %}" alt="{{ official | strip_html | strip }}">
@@ -306,6 +332,15 @@
       {%- assign country = page.country | default: "" | strip -%}
       {%- if country != "" %}
       <div class="artist-country">{{ country }}</div>
+      {%- endif %}
+      {%- capture summary -%}
+        {%- if total > 0 -%}{{ total }} role{% if total > 1 %}s{% endif %} &middot; {{ n_films }} film{% if n_films > 1 %}s{% endif %}
+        {%- elsif n_credits > 0 -%}{{ n_credits }} {% if page.kind == "studio" %}dubbing{% else %}technical credit{% endif %}{% if n_credits > 1 %}s{% endif %}
+        {%- endif -%}
+      {%- endcapture -%}
+      {%- assign summary = summary | strip -%}
+      {%- if summary != "" %}
+      <div class="artist-summary">{{ summary }}</div>
       {%- endif %}
     </div>
   </div>
@@ -320,7 +355,7 @@
     <div class="info-box-title">Roles</div>
     <table class="cast-table roles-table">
       <thead>
-        <tr><th>Year</th><th>Film</th><th>Language</th><th>Role(s)</th></tr>
+        <tr><th>Role(s)</th><th>Film</th><th data-init="1">Year</th><th>Language</th></tr>
       </thead>
       <tbody>
         {%- if roles_rows != "" %}
@@ -338,7 +373,7 @@
     <div class="info-box-title">Songs</div>
     <table class="cast-table roles-table">
       <thead>
-        <tr><th>Year</th><th>Film</th><th>Language</th><th>Song(s)</th></tr>
+        <tr><th>Song(s)</th><th>Film</th><th data-init="1">Year</th><th>Language</th></tr>
       </thead>
       <tbody>
         {{ songs_rows }}
@@ -352,7 +387,7 @@
     <div class="info-box-title">{% if page.kind == "studio" %}Dubbings{% else %}Technical credits{% endif %}</div>
     <table class="cast-table roles-table">
       <thead>
-        <tr><th>Year</th><th>Film</th><th>Language</th><th>{% if page.kind == "studio" %}Role{% else %}Position(s){% endif %}</th></tr>
+        <tr><th>{% if page.kind == "studio" %}Role{% else %}Position(s){% endif %}</th><th>Film</th><th data-init="1">Year</th><th>Language</th></tr>
       </thead>
       <tbody>
         {{ staff_rows }}
@@ -406,7 +441,8 @@
       th.classList.add('sortable');
       th.addEventListener('click', function () { sortBy(i, th.getAttribute('data-sort') === 'asc' ? -1 : 1); });
     });
-    sortBy(0, 1);
+    var ini = 0; [].forEach.call(ths, function (h, i) { if (h.hasAttribute('data-init')) ini = i; });
+    sortBy(ini, 1);
   });
 })();
 </script>
