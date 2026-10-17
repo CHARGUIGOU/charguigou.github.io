@@ -16,6 +16,7 @@
 .artist-card .actor-name { font-size: 22px; line-height: 1.3; }
 .artist-bio { margin: 0 auto 30px; max-width: 700px; line-height: 1.6; }
 .roles-table td:nth-child(-n+3) { text-align: center; }
+.roles-table td:first-child { font-family: inherit; font-size: var(--cast-text-size); }
 .roles-table th.sortable { cursor: pointer; user-select: none; }
 .roles-table th[data-sort="asc"]::after { content: " \25B2"; font-size: 0.7em; }
 .roles-table th[data-sort="desc"]::after { content: " \25BC"; font-size: 0.7em; }
@@ -64,6 +65,22 @@
     {%- assign found = found | plus: 1 -%}
     {%- assign roles = roles | append: "<div><i>Choir</i></div>" -%}
   {%- endif -%}
+  {%- if found > 0 %}
+        <tr>
+          <td>{{ p.year }}</td>
+          <td><a href="{{ p.url }}#cast">{{ p.film | default: p.title }}</a></td>
+          <td>{{ p.language }}</td>
+          <td>{{ roles }}</td>
+        </tr>
+  {%- endif -%}
+{%- endfor -%}
+{%- endcapture -%}
+
+{%- comment %} ---- Chansons (tableau à part) ---- {% endcomment -%}
+{%- capture songs_rows -%}
+{%- for p in cast_pages -%}
+  {%- assign sroles2 = "" -%}
+  {%- assign sfound2 = 0 -%}
   {%- for song in p.songs -%}
     {%- assign sf = song | split: "|" -%}
     {%- assign s_eng = sf[1] | default: "" | strip -%}
@@ -74,19 +91,19 @@
       {%- assign t_key = pr[0] | strip -%}
       {%- if t_key == slug -%}
         {%- assign t_role = pr[1] | default: "" | strip -%}
-        {%- assign found = found | plus: 1 -%}
-        {%- assign roles = roles | append: "<div><i>Song</i> : « " | append: s_eng | append: " »" -%}
-        {%- if t_role != "" -%}{%- assign roles = roles | append: " (" | append: t_role | append: ")" -%}{%- endif -%}
-        {%- assign roles = roles | append: "</div>" -%}
+        {%- assign sfound2 = sfound2 | plus: 1 -%}
+        {%- assign sroles2 = sroles2 | append: "<div>« " | append: s_eng | append: " »" -%}
+        {%- if t_role != "" -%}{%- assign sroles2 = sroles2 | append: " (" | append: t_role | append: ")" -%}{%- endif -%}
+        {%- assign sroles2 = sroles2 | append: "</div>" -%}
       {%- endif -%}
     {%- endfor -%}
   {%- endfor -%}
-  {%- if found > 0 %}
+  {%- if sfound2 > 0 %}
         <tr>
           <td>{{ p.year }}</td>
-          <td><a href="{{ p.url }}#cast">{{ p.film | default: p.title }}</a></td>
+          <td><a href="{{ p.url }}#songs">{{ p.film | default: p.title }}</a></td>
           <td>{{ p.language }}</td>
-          <td>{{ roles }}</td>
+          <td>{{ sroles2 }}</td>
         </tr>
   {%- endif -%}
 {%- endfor -%}
@@ -121,6 +138,7 @@
 {%- endcapture -%}
 {%- assign roles_rows = roles_rows | strip -%}
 {%- assign staff_rows = staff_rows | strip -%}
+{%- assign songs_rows = songs_rows | strip -%}
 
 <div class="cast-wrap">
 
@@ -139,7 +157,7 @@
   <div class="artist-bio">{{ content }}</div>
   {%- endif %}
 
-  {%- if roles_rows != "" or staff_rows == "" %}
+  {%- if roles_rows != "" or staff_rows == "" and songs_rows == "" %}
   <div class="info-box" id="roles">
     <div class="info-box-title">Roles</div>
     <table class="cast-table roles-table">
@@ -152,6 +170,20 @@
         {%- else %}
         <tr><td colspan="4">No role listed yet.</td></tr>
         {%- endif %}
+      </tbody>
+    </table>
+  </div>
+  {%- endif %}
+
+  {%- if songs_rows != "" %}
+  <div class="info-box" id="songs">
+    <div class="info-box-title">Songs</div>
+    <table class="cast-table roles-table">
+      <thead>
+        <tr><th>Year</th><th>Film</th><th>Language</th><th>Song(s)</th></tr>
+      </thead>
+      <tbody>
+        {{ songs_rows }}
       </tbody>
     </table>
   </div>
