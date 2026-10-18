@@ -188,6 +188,7 @@
       {%- endif -%}
     {%- endif -%}
   {%- endfor -%}
+  {%- assign cast_found = found -%}
   {%- assign in_add = false -%}
   {%- for it in p.additional -%}{%- assign it_key = it | split: "=" | first | strip -%}{%- if it_key == slug -%}{%- assign in_add = true -%}{%- endif -%}{%- endfor -%}
   {%- for it in p.additional_intl -%}{%- assign it_key = it | split: "=" | first | strip -%}{%- if it_key == slug -%}{%- assign in_add = true -%}{%- endif -%}{%- endfor -%}
@@ -201,8 +202,8 @@
     {%- assign found = found | plus: 1 -%}
     {%- assign roles = roles | append: '<div class="role-line"><span class="role-img">' | append: img_choir_html | append: '</span><span class="role-text"><i>Choir</i></span></div>'  -%}
   {%- endif -%}
-  {%- comment %} Chanteur/chanteuse sans rôle dans le cast ce film-là : ligne "Singer" {% endcomment -%}
-  {%- if found == 0 -%}
+  {%- comment %} Chanteur/chanteuse sans personnage dans le cast ce film-là (même s'il/elle est en voix additionnelle ou choeur) : ligne "Singer" en plus {% endcomment -%}
+  {%- if cast_found == 0 -%}
     {%- assign sing_found = false -%}
     {%- assign sing_role = "" -%}
     {%- for song in p.songs -%}
@@ -221,9 +222,9 @@
     {%- endfor -%}
     {%- if sing_found -%}
       {%- assign found = found | plus: 1 -%}
-      {%- assign roles = roles | append: '<div class="role-line"><span class="role-img">' | append: img_singer_html | append: '</span><span class="role-text"><i>Singer</i>'  -%}
-      {%- if sing_role != "" -%}{%- assign roles = roles | append: " (" | append: sing_role | append: ")" -%}{%- endif -%}
-      {%- assign roles = roles | append: "</span></div>" -%}
+      {%- assign roles = roles | append: '<div class="role-line"><span class="role-img">' | append: img_singer_html | append: '</span><span class="role-text"><i>'  -%}
+      {%- if sing_role != "" -%}{%- assign roles = roles | append: sing_role -%}{%- else -%}{%- assign roles = roles | append: "Singer" -%}{%- endif -%}
+      {%- assign roles = roles | append: "</i></span></div>" -%}
     {%- endif -%}
   {%- endif -%}
   {%- if found > 0 -%}
