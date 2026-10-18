@@ -1,0 +1,3129 @@
+# ============================================================
+#  BASE DE DONNÉES DES PERSONNAGES (utilisée par Character voices, les pages de cast
+#  et les fiches des artistes). Un seul endroit pour les images.
+#
+#  image_base : début commun des URLs d'images (Cloudinary). Dans "img", tu n'écris que
+#               le nom du fichier ; si tu écris une URL complète (https://...), elle est utilisée telle quelle.
+#
+#  Pour chaque personnage :
+#    id          : clé courte, en minuscules, basée sur le nom original simplifié (ex: nongman, elsa).
+#                  C'est elle qu'on écrit dans les lignes de cast (5e champ).
+#    name        : nom affiché sur la carte
+#    img         : image principale (nom de fichier)
+#    franchise, keywords, link : comme avant
+#    hidden: true : le personnage n'apparaît PAS sur la page Character voices (mais son image sert aux casts et fiches)
+#    appearances : liste des films ; "img" (facultatif) = image DE CE FILM (sert partout : Character voices par film,
+#                  page de cast de ce film, fiche de l'artiste). Le film est reconnu par son titre
+#                  (identique au champ "film" de la page de cast).
+# ============================================================
+image_base: "https://res.cloudinary.com/dofvjifeo/image/upload/c_limit,w_500,q_auto,f_auto/"
+
+list:
+  - id: "mickey-mouse"
+    name: "Mickey Mouse"
+    img: "MickeyMouse1928.png"
+    franchise: "Mickey & Friends"
+    link: "https://disneyinternationalvoices.weebly.com/mickey-mouse.html"
+    appearances:
+      - { film: "Steamboat Wille", year: "1928", keywords: ["Mickey Mouse"] }
+      - { film: "Fantasia", year: "1940" }
+      - { film: "Mickey and the Beanstalk", year: "1947" }
+      - { film: "Mickey's Christmas Carol", year: "1983" }
+      - { film: "The Prince and the Pauper", year: "1990", keywords: ["Mickey Mouse"] }
+      - { film: "Mickey's Once Upon a Christmas", year: "1999", upcoming: true }
+      - { film: "Fantasia 2000", year: "1999" }
+      - { film: "House of Mouse", year: "2001-2003", keywords: ["Mickey Mouse"] }
+      - { film: "Mickey's Magical Christmas: Snowed in at the House of Mouse", year: "2001" }
+      - { film: "Mickey's House of Villains", year: "2002" }
+      - { film: "Mickey, Donald, Goofy: The Three Musketeers", year: "2004" }
+      - { film: "Mickey's Twice Upon a Christmas", year: "2004" }
+      - { film: "Mickey Mouse Clubhouse", year: "2006-2016" }
+      - { film: "Mickey Mouse Shorts", year: "2013-2019" }
+      - { film: "Get a Horse!", year: "2013", keywords: ["Mickey Mouse"] }
+      - { film: "The Wonderful World of Mickey Mouse", year: "2020-2023" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "snow-white"
+    name: "Snow White"
+    img: "SnowWhite1937.png"
+    franchise: "Snow White and the Seven Dwarfs"
+    link: "/characters/snowwhite.html"
+    appearances:
+      - { film: "Snow White and the Seven Dwarfs", year: "1937" }
+      - { film: "Sofia the First: The Enchanted Feast", year: "2014" }
+      - { film: "Ralph Breaks the Internet", year: "2018" }
+      - { film: "LEGO Disney Princess: The Castle Quest", year: "2023" }
+      - { film: "Once Upon a Studio", year: "2023" }
+      - { film: "Snow White (live-action)", year: "2025" }
+      - { film: "LEGO Disney Princess: Villains Unite", year: "2025" }
+      - { film: "LEGO Disney Princess: Magical Mayhem", year: "2026" }
+
+  - id: "evil-queen-hag"
+    name: "Evil Queen / Hag"
+    img: "EvilQueen1937.png"
+    franchise: "Snow White and the Seven Dwarfs"
+    link: "https://disneyinternationalvoices.weebly.com/evil-queen--the-hag.html"
+    appearances:
+      - { film: "Snow White and the Seven Dwarfs", year: "1937" }
+      - { film: "Snow White (live-action)", year: "2025" }
+      - { film: "LEGO Disney Princess: Villains Unite", year: "2025" }
+
+  - id: "prince-charming"
+    name: "Prince Charming"
+    img: "PrinceCharmingSW1937.png"
+    franchise: "Snow White and the Seven Dwarfs"
+    keywords: ["Florian"]
+    link: "https://disneyinternationalvoices.weebly.com/prince-charming.html"
+    appearances:
+      - { film: "Snow White and the Seven Dwarfs", year: "1937" }
+
+  - id: "thedwarfs"
+    name: "TheDwarfs"
+    img: "Dwarfs1937.png"
+    franchise: "Snow White and the Seven Dwarfs"
+    keywords: ["Doc", "Grumpy", "Happy", "Sleepy", "Sneezy", "Bashful", "Dopey"]
+    link: "https://disneyinternationalvoices.weebly.com/the-dwarfs.html"
+    appearances:
+      - { film: "Snow White and the Seven Dwarfs", year: "1937" }
+      - { film: "Ralph Breaks the Internet", year: "2018" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "pinocchio"
+    name: "Pinocchio"
+    img: "Pinocchio1940.png"
+    franchise: "Pinocchio"
+    link: "https://disneyinternationalvoices.weebly.com/pinocchio.html"
+    appearances:
+      - { film: "Pinocchio", year: "1940" }
+      - { film: "Pinocchio (live-action)", year: "2022" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "jiminy-cricket"
+    name: "Jiminy Cricket"
+    img: "JiminyCricket1940.png"
+    franchise: "Pinocchio"
+    link: "https://disneyinternationalvoices.weebly.com/jiminy-cricket.html"
+    appearances:
+      - { film: "Pinocchio", year: "1940" }
+      - { film: "Fun and Fancy Free", year: "1947" }
+      - { film: "Mickey's Christmas Carol", year: "1983", upcoming: true }
+      - { film: "Pinocchio (live-action)", year: "2022" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "geppetto"
+    name: "Geppetto"
+    img: "Geppetto1940.png"
+    franchise: "Pinocchio"
+    link: "https://disneyinternationalvoices.weebly.com/geppetto.html"
+    appearances:
+      - { film: "Pinocchio", year: "1940" }
+      - { film: "Pinocchio (live-action)", year: "2022" }
+
+  - id: "blue-fairy"
+    name: "Blue Fairy"
+    img: "BlueFairy1940.png"
+    franchise: "Pinocchio"
+    link: "https://disneyinternationalvoices.weebly.com/blue-fairy.html"
+    appearances:
+      - { film: "Pinocchio", year: "1940" }
+      - { film: "Pinocchio (live-action)", year: "2022" }
+
+  - id: "stromboli"
+    name: "Stromboli"
+    img: "Stromboli1940.png"
+    franchise: "Pinocchio"
+    link: "https://disneyinternationalvoices.weebly.com/stromboli.html"
+    appearances:
+      - { film: "Pinocchio", year: "1940" }
+      - { film: "Pinocchio (live-action)", year: "2022" }
+
+  - id: "coachman"
+    name: "Coachman"
+    img: "CoachmanPinocchio1940.png"
+    franchise: "Pinocchio"
+    link: "https://disneyinternationalvoices.weebly.com/coachman.html"
+    appearances:
+      - { film: "Pinocchio", year: "1940" }
+      - { film: "Pinocchio (live-action)", year: "2022" }
+
+  - id: "timothy-q-mouse"
+    name: "Timothy Q. Mouse"
+    img: "Timothy1941.png"
+    franchise: "Dumbo"
+    link: "https://disneyinternationalvoices.weebly.com/timothy-mouse.html#"
+    appearances:
+      - { film: "Dumbo", year: "1941" }
+
+  - id: "bambi"
+    name: "Bambi"
+    img: "BambiYoung1942.png"
+    franchise: "Bambi"
+    link: "https://disneyinternationalvoices.weebly.com/bambi.html"
+    appearances:
+      - { film: "Bambi", year: "1942" }
+      - { film: "Bambi II", year: "2006", keywords: ["Bambi 2"] }
+
+  - id: "thumper"
+    name: "Thumper"
+    img: "ThumperYoung1942.png"
+    franchise: "Bambi"
+    appearances:
+      - { film: "Bambi", year: "1942" }
+      - { film: "Bambi II", year: "2006", keywords: ["Bambi 2"] }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "bambis-mother"
+    name: "Bambi's Mother"
+    img: "BambiMother1942.png"
+    franchise: "Bambi"
+    appearances:
+      - { film: "Bambi", year: "1942" }
+      - { film: "Bambi II", year: "2006", keywords: ["Bambi 2"] }
+
+  - id: "edgar-bergen"
+    name: "Edgar Bergen"
+    img: "EdgarBergen1947.png"
+    franchise: "Fun and Fancy Free"
+    appearances:
+      - { film: "Fun and Fancy Free", year: "1947", keywords: ["Fun & Fancy Free"] }
+
+  - id: "luana-patten"
+    name: "Luana Patten"
+    img: "LuanaPatten1947.png"
+    franchise: "Fun and Fancy Free"
+    appearances:
+      - { film: "Fun and Fancy Free", year: "1947", keywords: ["Fun & Fancy Free"] }
+
+  - id: "dinah-shore"
+    name: "Dinah Shore"
+    img: "DinahShoreNarrator1947.png"
+    franchise: "Fun and Fancy Free"
+    keywords: ["Narrator", "Bongo"]
+    appearances:
+      - { film: "Fun and Fancy Free", year: "1947", keywords: ["Fun & Fancy Free"] }
+
+  - id: "singing-harp"
+    name: "Singing Harp"
+    img: "SingingHarp1947.png"
+    franchise: "Fun and Fancy Free"
+    keywords: ["Magic Harp"]
+    link: "https://disneyinternationalvoices.weebly.com/singing-harp.html"
+    appearances:
+      - { film: "Fun and Fancy Free", year: "1947", keywords: ["Fun & Fancy Free"] }
+
+  - id: "willie-the-giant"
+    name: "Willie the Giant"
+    img: "WillietheGiant1947.png"
+    franchise: "Fun and Fancy Free"
+    appearances:
+      - { film: "Fun and Fancy Free", year: "1947", keywords: ["Fun & Fancy Free"] }
+      - { film: "Mickey's Christmas Carol", year: "1983" }
+
+  - id: "cinderella"
+    name: "Cinderella"
+    img: "Cinderella1950.png"
+    franchise: "Cinderella"
+    keywords: ["cenicienta", "cendrillon"]
+    link: "/characters/cinderella.html"
+    appearances:
+      - { film: "Cinderella", year: "1950" }
+      - { film: "Disney's House of Mouse", year: "2001", upcoming: true }
+      - { film: "Cinderella II: Dreams Come True", year: "2002", keywords: ["cinderella 2"] }
+      - { film: "Cinderella III: A Twist in Time", year: "2007", keywords: ["cinderella 3"] }
+      - { film: "Sofia the First: Once Upon a Princess", year: "2012" }
+      - { film: "Cinderella (live-action)", year: "2015", img: "Cinderella2015.png" }
+      - { film: "Ralph Breaks the Internet", year: "2018" }
+      - { film: "Once Upon a Studio", year: "2023" }
+      - { film: "LEGO Disney Princess: Villains Unite", year: "2025" }
+
+  - id: "lady-tremaine"
+    name: "Lady Tremaine"
+    img: "LadyTremaine1950.png"
+    franchise: "Cinderella"
+    keywords: ["stepmother"]
+    link: "https://disneyinternationalvoices.weebly.com/lady-tremaine.html"
+    appearances:
+      - { film: "Cinderella", year: "1950" }
+      - { film: "Cinderella II: Dreams Come True", year: "2002", keywords: ["cinderella 2"] }
+      - { film: "Cinderella III: A Twist in Time", year: "2007", keywords: ["cinderella 3"] }
+      - { film: "Cinderella (live-action)", year: "2015", img: "LadyTremaine2015.png" }
+
+  - id: "prince-charming-cinderella"
+    name: "Prince Charming"
+    img: "PrinceCharming1950.png"
+    franchise: "Cinderella"
+    keywords: ["Henry", "Kit"]
+    link: "https://disneyinternationalvoices.weebly.com/prince-charming-cinderella.html"
+    appearances:
+      - { film: "Cinderella", year: "1950" }
+      - { film: "Cinderella II: Dreams Come True", year: "2002", keywords: ["cinderella 2"] }
+      - { film: "Cinderella III: A Twist in Time", year: "2007", keywords: ["cinderella 3"] }
+      - { film: "Cinderella (live-action)", year: "2015", img: "PrinceKit2015.png" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "jaq"
+    name: "Jaq"
+    img: "Jaq1950.png"
+    franchise: "Cinderella"
+    keywords: ["Jack"]
+    link: "https://disneyinternationalvoices.weebly.com/jaq--gus.html"
+    appearances:
+      - { film: "Cinderella", year: "1950" }
+      - { film: "Cinderella II: Dreams Come True", year: "2002", keywords: ["cinderella 2"] }
+      - { film: "Cinderella III: A Twist in Time", year: "2007", keywords: ["cinderella 3"] }
+
+  - id: "gus"
+    name: "Gus"
+    img: "Gus1950.png"
+    franchise: "Cinderella"
+    link: "https://disneyinternationalvoices.weebly.com/jaq--gus.html"
+    appearances:
+      - { film: "Cinderella", year: "1950" }
+      - { film: "Cinderella II: Dreams Come True", year: "2002", keywords: ["cinderella 2"] }
+      - { film: "Cinderella III: A Twist in Time", year: "2007", keywords: ["cinderella 3"] }
+
+  - id: "king"
+    name: "King"
+    img: "KingCinderella1950.png"
+    franchise: "Cinderella"
+    link: "https://disneyinternationalvoices.weebly.com/king-cinderella.html"
+    appearances:
+      - { film: "Cinderella", year: "1950" }
+      - { film: "Cinderella II: Dreams Come True", year: "2002", keywords: ["cinderella 2"] }
+      - { film: "Cinderella III: A Twist in Time", year: "2007", keywords: ["cinderella 3"] }
+      - { film: "Cinderella (live-action)", year: "2015", img: "King2015.png" }
+
+  - id: "alice"
+    name: "Alice"
+    img: "Alice1951.png"
+    franchise: "Alice in Wonderland"
+    link: "https://disneyinternationalvoices.weebly.com/alice.html"
+    appearances:
+      - { film: "Alice in Wonderland", year: "1951" }
+      - { film: "Alice in Wonderland (live-action)", year: "2010" }
+      - { film: "Alice Through the Looking Glass", year: "2016" }
+
+  - id: "queen-of-hearts"
+    name: "Queen of Hearts"
+    img: "QueenofHearts1951.png"
+    franchise: "Alice in Wonderland"
+    link: "https://disneyinternationalvoices.weebly.com/queen-of-hearts.html"
+    appearances:
+      - { film: "Alice in Wonderland", year: "1951" }
+      - { film: "Alice in Wonderland (live-action)", year: "2010" }
+      - { film: "Alice Through the Looking Glass", year: "2016" }
+
+  - id: "peter-pan"
+    name: "Peter Pan"
+    img: "PeterPan1953.png"
+    franchise: "Peter Pan"
+    link: "https://disneyinternationalvoices.weebly.com/peter-pan.html"
+    appearances:
+      - { film: "Peter Pan", year: "1953" }
+      - { film: "Return to Neverland", year: "2002", keywords: ["peter pan 2 return to neverland"] }
+      - { film: "Peter Pan & Wendy", year: "2023" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "wendy"
+    name: "Wendy"
+    img: "WendyDarling1953.png"
+    franchise: "Peter Pan"
+    link: "https://disneyinternationalvoices.weebly.com/wendy-darling.html"
+    appearances:
+      - { film: "Peter Pan", year: "1953" }
+      - { film: "Return to Neverland", year: "2002", keywords: ["peter pan 2 return to neverland"] }
+      - { film: "Peter Pan & Wendy", year: "2023" }
+
+  - id: "captain-hook"
+    name: "Captain Hook"
+    img: "CaptainHook1953.png"
+    franchise: "Peter Pan"
+    link: "https://disneyinternationalvoices.weebly.com/captain-hook.html"
+    appearances:
+      - { film: "Peter Pan", year: "1953" }
+      - { film: "Return to Neverland", year: "2002", keywords: ["peter pan 2 return to neverland"] }
+      - { film: "The Pirate Fairy", year: "2014", keywords: ["tinker bell the pirate fairy"] }
+      - { film: "Peter Pan & Wendy", year: "2023" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "mr-mrs-darling"
+    name: "Mr. & Mrs. Darling"
+    img: "TheDarlings1953.png"
+    franchise: "Peter Pan"
+    link: "https://disneyinternationalvoices.weebly.com/mr--mrs-darling.html"
+    appearances:
+      - { film: "Peter Pan", year: "1953" }
+      - { film: "Peter Pan & Wendy", year: "2023" }
+
+  - id: "lady"
+    name: "Lady"
+    img: "Lady1955.png"
+    franchise: "Lady and the Tramp"
+    link: "https://disneyinternationalvoices.weebly.com/lady.html"
+    appearances:
+      - { film: "Lady and the Tramp", year: "1955" }
+      - { film: "Lady and the Tramp II: Scamp's Adventure", year: "2001", keywords: ["lady & the tramp 2"] }
+      - { film: "Lady and the Tramp (live-action)", year: "2019" }
+
+  - id: "tramp"
+    name: "Tramp"
+    img: "Tramp1955.png"
+    franchise: "Lady and the Tramp"
+    link: "https://disneyinternationalvoices.weebly.com/tramp.html"
+    appearances:
+      - { film: "Lady and the Tramp", year: "1955" }
+      - { film: "Lady and the Tramp II: Scamp's Adventure", year: "2001", keywords: ["lady & the tramp 2"] }
+      - { film: "Lady and the Tramp (live-action)", year: "2019" }
+
+  - id: "jock"
+    name: "Jock"
+    img: "Jock1955.png"
+    franchise: "Lady and the Tramp"
+    link: "https://disneyinternationalvoices.weebly.com/jock--trusty.html"
+    appearances:
+      - { film: "Lady and the Tramp", year: "1955" }
+      - { film: "Lady and the Tramp II: Scamp's Adventure", year: "2001", keywords: ["lady & the tramp 2"] }
+      - { film: "Lady and the Tramp (live-action)", year: "2019" }
+
+  - id: "trusty"
+    name: "Trusty"
+    img: "Trusty1955.png"
+    franchise: "Lady and the Tramp"
+    link: "https://disneyinternationalvoices.weebly.com/jock--trusty.html"
+    appearances:
+      - { film: "Lady and the Tramp", year: "1955" }
+      - { film: "Lady and the Tramp II: Scamp's Adventure", year: "2001", keywords: ["lady & the tramp 2"] }
+      - { film: "Lady and the Tramp (live-action)", year: "2019" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "peg"
+    name: "Peg"
+    img: "Jock1955.png"
+    franchise: "Lady and the Tramp"
+    keywords: ["Peggy"]
+    link: "https://disneyinternationalvoices.weebly.com/peg.html"
+    appearances:
+      - { film: "Lady and the Tramp", year: "1955" }
+      - { film: "Lady and the Tramp (live-action)", year: "2019" }
+
+  - id: "jim-dear-darling"
+    name: "Jim Dear & Darling"
+    img: "TheDears1955.png"
+    franchise: "Lady and the Tramp"
+    link: "https://disneyinternationalvoices.weebly.com/jim-dear--darling.html"
+    appearances:
+      - { film: "Lady and the Tramp", year: "1955" }
+      - { film: "Lady and the Tramp II: Scamp's Adventure", year: "2001", keywords: ["lady & the tramp 2"] }
+      - { film: "Lady and the Tramp (live-action)", year: "2019" }
+
+  - id: "aurora"
+    name: "Aurora"
+    img: "Aurora1959.png"
+    franchise: "Sleeping Beauty"
+    keywords: ["Briar Rose", "Rose"]
+    link: "/characters/aurora.html"
+    appearances:
+      - { film: "Sleeping Beauty", year: "1959" }
+      - { film: "Disney Princess Enchanted Tales: Follow Your Dreams", year: "2007" }
+      - { film: "Sofia the First: Holiday in Enchancia", year: "2013" }
+      - { film: "Maleficent", year: "2014" }
+      - { film: "Ralph Breaks the Internet", year: "2018" }
+      - { film: "Maleficent: Mistress of Evil", year: "2019" }
+      - { film: "LEGO Disney Princess: Villains Unite", year: "2025" }
+
+  - id: "prince-phillip"
+    name: "Prince Phillip"
+    img: "PrincePhillip1959.png"
+    franchise: "Sleeping Beauty"
+    keywords: ["Philip"]
+    link: "https://disneyinternationalvoices.weebly.com/prince-phillip.html"
+    appearances:
+      - { film: "Sleeping Beauty", year: "1959" }
+      - { film: "Disney Princess Enchanted Tales: Follow Your Dreams", year: "2007" }
+      - { film: "Maleficent", year: "2014" }
+      - { film: "Maleficent: Mistress of Evil", year: "2019" }
+
+  - id: "maleficent"
+    name: "Maleficent"
+    img: "Maleficent1959.png"
+    franchise: "Sleeping Beauty"
+    link: "https://disneyinternationalvoices.weebly.com/maleficent.html"
+    appearances:
+      - { film: "Sleeping Beauty", year: "1959" }
+      - { film: "Maleficent", year: "2014" }
+      - { film: "Maleficent: Mistress of Evil", year: "2019" }
+
+  - id: "flora-fauna-merryweather"
+    name: "Flora, Fauna, Merryweather"
+    img: "Fairies1959.png"
+    franchise: "Sleeping Beauty"
+    link: "https://disneyinternationalvoices.weebly.com/the-three-fairies.html"
+    appearances:
+      - { film: "Sleeping Beauty", year: "1959" }
+      - { film: "Disney Princess Enchanted Tales: Follow Your Dreams", year: "2007" }
+      - { film: "Sofia the First", year: "2012-2018" }
+      - { film: "Maleficent", year: "2014" }
+      - { film: "Maleficent: Mistress of Evil", year: "2019" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "king-stefan"
+    name: "King Stefan"
+    img: "KingStefan1959.png"
+    franchise: "Sleeping Beauty"
+    link: "https://disneyinternationalvoices.weebly.com/king-stefan--king-hubert.html"
+    appearances:
+      - { film: "Sleeping Beauty", year: "1959" }
+      - { film: "Disney Princess Enchanted Tales: Follow Your Dreams", year: "2007" }
+      - { film: "Maleficent", year: "2014" }
+
+  - id: "king-hubert"
+    name: "King Hubert"
+    img: "KingHubert1959.png"
+    franchise: "Sleeping Beauty"
+    link: "https://disneyinternationalvoices.weebly.com/king-stefan--king-hubert.html"
+    appearances:
+      - { film: "Sleeping Beauty", year: "1959" }
+      - { film: "Disney Princess Enchanted Tales: Follow Your Dreams", year: "2007" }
+
+  - id: "roger"
+    name: "Roger"
+    img: "Roger1961.png"
+    franchise: "101 Dalmatians"
+    link: "https://disneyinternationalvoices.weebly.com/roger.html"
+    appearances:
+      - { film: "One Hundred and One Dalmatians", year: "1961", keywords: ["101 Dalmatians"] }
+      - { film: "101 Dalmatians (live-action)", year: "1996" }
+      - { film: "101 Dalmatians: The Series", year: "1997-1998" }
+      - { film: "101 Dalmatians II: Patch's London Adventure", year: "2003", keywords: ["101 Dalmatians 2"] }
+      - { film: "Cruella", year: "2021" }
+
+  - id: "pongo"
+    name: "Pongo"
+    img: "Pongo1961.png"
+    franchise: "101 Dalmatians"
+    link: "https://disneyinternationalvoices.weebly.com/pongo.html"
+    appearances:
+      - { film: "One Hundred and One Dalmatians", year: "1961", keywords: ["101 Dalmatians"] }
+      - { film: "101 Dalmatians: The Series", year: "1997-1998" }
+      - { film: "101 Dalmatians II: Patch's London Adventure", year: "2003", keywords: ["101 Dalmatians 2"] }
+
+  - id: "anita"
+    name: "Anita"
+    img: "Anita1961.png"
+    franchise: "101 Dalmatians"
+    link: "https://disneyinternationalvoices.weebly.com/anita.html"
+    appearances:
+      - { film: "One Hundred and One Dalmatians", year: "1961", keywords: ["101 Dalmatians"] }
+      - { film: "101 Dalmatians (live-action)", year: "1996" }
+      - { film: "101 Dalmatians: The Series", year: "1997-1998" }
+      - { film: "101 Dalmatians II: Patch's London Adventure", year: "2003", keywords: ["101 Dalmatians 2"] }
+      - { film: "Cruella", year: "2021" }
+
+  - id: "perdita"
+    name: "Perdita"
+    img: "Perdita1961.png"
+    franchise: "101 Dalmatians"
+    link: "https://disneyinternationalvoices.weebly.com/perdita.html"
+    appearances:
+      - { film: "One Hundred and One Dalmatians", year: "1961", keywords: ["101 Dalmatians"] }
+      - { film: "101 Dalmatians: The Series", year: "1997-1998" }
+      - { film: "101 Dalmatians II: Patch's London Adventure", year: "2003", keywords: ["101 Dalmatians 2"] }
+
+  - id: "cruella-de-vil"
+    name: "Cruella de Vil"
+    img: "CruelladeVil1961.png"
+    franchise: "101 Dalmatians"
+    keywords: ["Cruella Devil"]
+    link: "https://disneyinternationalvoices.weebly.com/cruella-de-vil.html"
+    appearances:
+      - { film: "One Hundred and One Dalmatians", year: "1961", keywords: ["101 Dalmatians"] }
+      - { film: "101 Dalmatians (live-action)", year: "1996" }
+      - { film: "101 Dalmatians: The Series", year: "1997-1998" }
+      - { film: "102 Dalmatians", year: "2000" }
+      - { film: "101 Dalmatians II: Patch's London Adventure", year: "2003", keywords: ["101 Dalmatians 2"] }
+      - { film: "Cruella", year: "2021" }
+
+  - id: "arthur-wart"
+    name: "Arthur 'Wart'"
+    img: "Arthur1963.png"
+    franchise: "The Sword in the Stone"
+    link: "https://disneyinternationalvoices.weebly.com/arthur-wart.html"
+    appearances:
+      - { film: "The Sword in the Stone", year: "1963" }
+
+  - id: "merlin"
+    name: "Merlin"
+    img: "Merlin1963.png"
+    franchise: "The Sword in the Stone"
+    link: "https://disneyinternationalvoices.weebly.com/merlin.html"
+    appearances:
+      - { film: "The Sword in the Stone", year: "1963" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "madam-mim"
+    name: "Madam Mim"
+    img: "MadamMim1963.png"
+    franchise: "The Sword in the Stone"
+    link: "https://disneyinternationalvoices.weebly.com/madam-mim.html"
+    appearances:
+      - { film: "The Sword in the Stone", year: "1963" }
+
+  - id: "mary-poppins"
+    name: "Mary Poppins"
+    img: "MaryPoppins1964.png"
+    franchise: "Mary Poppins"
+    link: "https://disneyinternationalvoices.weebly.com/mary-poppins.html"
+    appearances:
+      - { film: "Mary Poppins", year: "1964" }
+      - { film: "Mary Poppins Returns", year: "2018" }
+
+  - id: "bert"
+    name: "Bert"
+    img: "Bert1964.png"
+    franchise: "Mary Poppins"
+    link: "https://disneyinternationalvoices.weebly.com/bert.html"
+    appearances:
+      - { film: "Mary Poppins", year: "1964" }
+
+  - id: "mr-mrs-banks"
+    name: "Mr. & Mrs. Banks"
+    img: "TheBanks1964.png"
+    franchise: "Mary Poppins"
+    appearances:
+      - { film: "Mary Poppins", year: "1964" }
+
+  - id: "jack"
+    name: "Jack"
+    img: "Jack2018.png"
+    franchise: "Mary Poppins"
+    link: "https://disneyinternationalvoices.weebly.com/jack.html"
+    appearances:
+      - { film: "Mary Poppins Returns", year: "2018" }
+
+  - id: "mowgli"
+    name: "Mowgli"
+    img: "Mowgli1967.png"
+    franchise: "The Jungle Book"
+    link: "https://disneyinternationalvoices.weebly.com/mowgli.html"
+    appearances:
+      - { film: "The Jungle Book", year: "1967" }
+      - { film: "The Jungle Book 2", year: "2003", img: "Mowgli2003.png" }
+      - { film: "The Jungle Book (live-action)", year: "2016" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "baloo"
+    name: "Baloo"
+    img: "Baloo1967.png"
+    franchise: "The Jungle Book"
+    link: "https://disneyinternationalvoices.weebly.com/baloo.html"
+    appearances:
+      - { film: "The Jungle Book", year: "1967" }
+      - { film: "The Jungle Book 2", year: "2003", img: "Baloo2003.png" }
+      - { film: "The Jungle Book (live-action)", year: "2016" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "shere-khan"
+    name: "Shere Khan"
+    img: "ShereKhan1967.png"
+    franchise: "The Jungle Book"
+    link: "https://disneyinternationalvoices.weebly.com/shere-khan.html"
+    appearances:
+      - { film: "The Jungle Book", year: "1967" }
+      - { film: "The Jungle Book 2", year: "2003", img: "ShereKhan2003.png" }
+      - { film: "The Jungle Book (live-action)", year: "2016" }
+
+  - id: "shanti"
+    name: "Shanti"
+    img: "Shanti1967.png"
+    franchise: "The Jungle Book"
+    keywords: ["The Girl"]
+    link: "https://disneyinternationalvoices.weebly.com/shanti.html"
+    appearances:
+      - { film: "The Jungle Book", year: "1967" }
+      - { film: "The Jungle Book 2", year: "2003", img: "Shanti2003.png" }
+
+  - id: "thomas-omalley"
+    name: "Thomas O'Malley"
+    img: "ThomasOMalley1970.png"
+    franchise: "The Aristocats"
+    link: "https://disneyinternationalvoices.weebly.com/thomas-omalley.html"
+    appearances:
+      - { film: "The Aristocats", year: "1970" }
+
+  - id: "duchess"
+    name: "Duchess"
+    img: "Duchess1970.png"
+    franchise: "The Aristocats"
+    link: "https://disneyinternationalvoices.weebly.com/duchess.html"
+    appearances:
+      - { film: "The Aristocats", year: "1970" }
+
+  - id: "edgar"
+    name: "Edgar"
+    img: "Edgar1970.png"
+    franchise: "The Aristocats"
+    link: "https://disneyinternationalvoices.weebly.com/edgar.html"
+    appearances:
+      - { film: "The Aristocats", year: "1970" }
+
+  - id: "roquerfort"
+    name: "Roquerfort"
+    img: "Roquefort1970.png"
+    franchise: "The Aristocats"
+    link: "https://disneyinternationalvoices.weebly.com/roquefort.html"
+    appearances:
+      - { film: "The Aristocats", year: "1970" }
+
+  - id: "scat-cat"
+    name: "Scat Cat"
+    img: "ScatCat1970.png"
+    franchise: "The Aristocats"
+    link: "https://disneyinternationalvoices.weebly.com/scat-cat.html"
+    appearances:
+      - { film: "The Aristocats", year: "1970" }
+
+  - id: "madame-adelaide-bonfamille"
+    name: "Madame Adelaide Bonfamille"
+    img: "MadameAdelaide1970.png"
+    franchise: "The Aristocats"
+    link: "https://disneyinternationalvoices.weebly.com/adelaide-bonfamille.html"
+    appearances:
+      - { film: "The Aristocats", year: "1970" }
+
+  - id: "robin-hood"
+    name: "Robin Hood"
+    img: "RobinHood1973.png"
+    franchise: "Robin Hood"
+    link: "https://disneyinternationalvoices.weebly.com/robin-hood.html"
+    appearances:
+      - { film: "Robin Hood", year: "1973" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "maid-marian"
+    name: "Maid Marian"
+    img: "Marian1973.png"
+    franchise: "Robin Hood"
+    link: "https://disneyinternationalvoices.weebly.com/maid-marian.html"
+    appearances:
+      - { film: "Robin Hood", year: "1973" }
+
+  - id: "little-john"
+    name: "Little John"
+    img: "LittleJohn1973.png"
+    franchise: "Robin Hood"
+    link: "https://disneyinternationalvoices.weebly.com/little-john.html"
+    appearances:
+      - { film: "Robin Hood", year: "1973" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "prince-john"
+    name: "Prince John"
+    img: "PrinceJohn1973.png"
+    franchise: "Robin Hood"
+    link: "https://disneyinternationalvoices.weebly.com/prince-john.html"
+    appearances:
+      - { film: "Robin Hood", year: "1973" }
+
+  - id: "bernard"
+    name: "Bernard"
+    img: "Bernard1977.png"
+    franchise: "The Rescuers"
+    link: "https://disneyinternationalvoices.weebly.com/bernard.html"
+    appearances:
+      - { film: "The Rescuers", year: "1977" }
+      - { film: "The Rescuers Down Under", year: "1990", img: "Bernard1990.png" }
+
+  - id: "bianca"
+    name: "Bianca"
+    img: "Bianca1977.png"
+    franchise: "The Rescuers"
+    link: "https://disneyinternationalvoices.weebly.com/bianca.html"
+    appearances:
+      - { film: "The Rescuers", year: "1977" }
+      - { film: "The Rescuers Down Under", year: "1990", img: "Bianca1990.png" }
+
+  - id: "medusa"
+    name: "Medusa"
+    img: "Medusa1977.png"
+    franchise: "The Rescuers"
+    link: "https://disneyinternationalvoices.weebly.com/medusa.html"
+    appearances:
+      - { film: "The Rescuers", year: "1977" }
+
+  - id: "penny"
+    name: "Penny"
+    img: "Penny1977.png"
+    franchise: "The Rescuers"
+    link: "https://disneyinternationalvoices.weebly.com/penny.html"
+    appearances:
+      - { film: "The Rescuers", year: "1977" }
+
+  - id: "cody"
+    name: "Cody"
+    img: "Cody1990.png"
+    franchise: "The Rescuers"
+    appearances:
+      - { film: "The Rescuers Down Under", year: "1990" }
+
+  - id: "tod"
+    name: "Tod"
+    img: "TodYoung1981.png"
+    franchise: "The Fox and the Hound"
+    link: "https://disneyinternationalvoices.weebly.com/tod.html"
+    appearances:
+      - { film: "The Fox and the Hound", year: "1981" }
+      - { film: "The Fox and the Hound 2", year: "2006" }
+
+  - id: "copper"
+    name: "Copper"
+    img: "CopperYoung1981.png"
+    franchise: "The Fox and the Hound"
+    link: "https://disneyinternationalvoices.weebly.com/copper.html"
+    appearances:
+      - { film: "The Fox and the Hound", year: "1981" }
+      - { film: "The Fox and the Hound 2", year: "2006" }
+
+  - id: "big-mama"
+    name: "Big Mama"
+    img: "BigMama1981.png"
+    franchise: "The Fox and the Hound"
+    link: "https://disneyinternationalvoices.weebly.com/big-mama.html"
+    appearances:
+      - { film: "The Fox and the Hound", year: "1981" }
+
+  - id: "vixey"
+    name: "Vixey"
+    img: "Vixey1981.png"
+    franchise: "The Fox and the Hound"
+    appearances:
+      - { film: "The Fox and the Hound", year: "1981" }
+
+  - id: "widow-tweed"
+    name: "Widow Tweed"
+    img: "WidowTweed1981.png"
+    franchise: "The Fox and the Hound"
+    appearances:
+      - { film: "The Fox and the Hound", year: "1981" }
+      - { film: "The Fox and the Hound 2", year: "2006" }
+
+  - id: "amos-slade"
+    name: "Amos Slade"
+    img: "AmosSlade1981.png"
+    franchise: "The Fox and the Hound"
+    keywords: ["Hunter"]
+    appearances:
+      - { film: "The Fox and the Hound", year: "1981" }
+      - { film: "The Fox and the Hound 2", year: "2006" }
+
+  - id: "taran"
+    name: "Taran"
+    img: "Taran1985.png"
+    franchise: "The Black Cauldron"
+    link: "https://disneyinternationalvoices.weebly.com/taran.html"
+    appearances:
+      - { film: "The Black Cauldron", year: "1985" }
+
+  - id: "eilonwy"
+    name: "Eilonwy"
+    img: "Eilonwy1985.png"
+    franchise: "The Black Cauldron"
+    link: "https://disneyinternationalvoices.weebly.com/eilonwy.html"
+    appearances:
+      - { film: "The Black Cauldron", year: "1985" }
+
+  - id: "the-horned-king"
+    name: "The Horned King"
+    img: "HornedKing1985.png"
+    franchise: "The Black Cauldron"
+    link: "https://disneyinternationalvoices.weebly.com/the-horned-king.html"
+    appearances:
+      - { film: "The Black Cauldron", year: "1985" }
+
+  - id: "fflewddur-fflam"
+    name: "Fflewddur Fflam"
+    img: "FflewddurFflam1985.png"
+    franchise: "The Black Cauldron"
+    link: "https://disneyinternationalvoices.weebly.com/Fflewddur-Fflam.html"
+    appearances:
+      - { film: "The Black Cauldron", year: "1985" }
+
+  - id: "basil"
+    name: "Basil"
+    img: "Basil1986.png"
+    franchise: "The Great Mouse Detective"
+    link: "https://disneyinternationalvoices.weebly.com/basil.html"
+    appearances:
+      - { film: "The Great Mouse Detective", year: "1986" }
+
+  - id: "dr-dawson"
+    name: "Dr. Dawson"
+    img: "DrDawson1986.png"
+    franchise: "The Great Mouse Detective"
+    link: "https://disneyinternationalvoices.weebly.com/dr-dawson.html"
+    appearances:
+      - { film: "The Great Mouse Detective", year: "1986" }
+
+  - id: "professor-ratigan"
+    name: "Professor Ratigan"
+    img: "ProfessorRatigan1986.png"
+    franchise: "The Great Mouse Detective"
+    link: "https://disneyinternationalvoices.weebly.com/professor-ratigan.html"
+    appearances:
+      - { film: "The Great Mouse Detective", year: "1986" }
+
+  - id: "olivia-flaversham"
+    name: "Olivia Flaversham"
+    img: "OliviaFlaversham1986.png"
+    franchise: "The Great Mouse Detective"
+    appearances:
+      - { film: "The Great Mouse Detective", year: "1986" }
+
+  - id: "oliver"
+    name: "Oliver"
+    img: "Oliver1988.png"
+    franchise: "Oliver & Company"
+    link: "https://disneyinternationalvoices.weebly.com/oliver.html"
+    appearances:
+      - { film: "Oliver & Company", year: "1988" }
+
+  - id: "dodger"
+    name: "Dodger"
+    img: "Dodger1988.png"
+    franchise: "Oliver & Company"
+    link: "https://disneyinternationalvoices.weebly.com/dodger.html"
+    appearances:
+      - { film: "Oliver & Company", year: "1988" }
+
+  - id: "sykes"
+    name: "Sykes"
+    img: "Sykes1988.png"
+    franchise: "Oliver & Company"
+    link: "https://disneyinternationalvoices.weebly.com/bill-sykes.html"
+    appearances:
+      - { film: "Oliver & Company", year: "1988" }
+
+  - id: "rita"
+    name: "Rita"
+    img: "Rita1988.png"
+    franchise: "Oliver & Company"
+    appearances:
+      - { film: "Oliver & Company", year: "1988" }
+
+  - id: "georgette"
+    name: "Georgette"
+    img: "Georgette1988.png"
+    franchise: "Oliver & Company"
+    appearances:
+      - { film: "Oliver & Company", year: "1988" }
+
+  - id: "ariel"
+    name: "Ariel"
+    img: "Ariel1989.png"
+    franchise: "The Little Mermaid"
+    link: "https://disneyinternationalvoices.weebly.com/ariel.html"
+    appearances:
+      - { film: "The Little Mermaid", year: "1989" }
+      - { film: "The Little Mermaid - TV Series", year: "1992-1994" }
+      - { film: "The Little Mermaid II: Return to the Sea", year: "2000", keywords: ["The Little Mermaid 2"] }
+      - { film: "House of Mouse", year: "2001-2003" }
+      - { film: "Mickey's Magical Christmas: Snowed in at the House of Mouse", year: "2001" }
+      - { film: "The Little Mermaid: Ariel's Beginning", year: "2008", keywords: ["The Little Mermaid 3"] }
+      - { film: "Sofia the First: The Floating Palace", year: "2013" }
+      - { film: "Ralph Breaks the Internet", year: "2018" }
+      - { film: "The Little Mermaid (live-action)", year: "2023", img: "Ariel2023.png" }
+      - { film: "LEGO Disney Princess: The Castle Quest", year: "2023" }
+      - { film: "Once Upon a Studio", year: "2023" }
+      - { film: "LEGO Disney Princess: Villains Unite", year: "2025" }
+      - { film: "LEGO Disney Princess: Magical Mayhem", year: "2026" }
+
+  - id: "eric"
+    name: "Eric"
+    img: "Eric1989.png"
+    franchise: "The Little Mermaid"
+    link: "https://disneyinternationalvoices.weebly.com/eric.html"
+    appearances:
+      - { film: "The Little Mermaid", year: "1989" }
+      - { film: "The Little Mermaid - TV Series", year: "1992-1994" }
+      - { film: "The Little Mermaid II: Return to the Sea", year: "2000", keywords: ["The Little Mermaid 2"] }
+      - { film: "The Little Mermaid (live-action)", year: "2023", img: "Eric2023.png" }
+
+  - id: "ursula"
+    name: "Ursula"
+    img: "Ursula1989.png"
+    franchise: "The Little Mermaid"
+    link: "https://disneyinternationalvoices.weebly.com/ursula.html"
+    appearances:
+      - { film: "The Little Mermaid", year: "1989" }
+      - { film: "The Little Mermaid - TV Series", year: "1992-1994" }
+      - { film: "The Wonderful World of Mickey Mouse", year: "2020" }
+      - { film: "The Little Mermaid (live-action)", year: "2023", img: "Ursula2023.png" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "sebastian"
+    name: "Sebastian"
+    img: "Sebastian1989.png"
+    franchise: "The Little Mermaid"
+    link: "https://disneyinternationalvoices.weebly.com/sebastian.html"
+    appearances:
+      - { film: "The Little Mermaid", year: "1989" }
+      - { film: "The Little Mermaid - TV Series", year: "1992-1994" }
+      - { film: "The Little Mermaid II: Return to the Sea", year: "2000", keywords: ["The Little Mermaid 2"] }
+      - { film: "The Little Mermaid: Ariel's Beginning", year: "2008", keywords: ["The Little Mermaid 3"] }
+      - { film: "The Little Mermaid (live-action)", year: "2023", img: "Sebastian2023.png" }
+
+  - id: "flounder"
+    name: "Flounder"
+    img: "Flounder1989.png"
+    franchise: "The Little Mermaid"
+    link: "https://disneyinternationalvoices.weebly.com/flounder.html"
+    appearances:
+      - { film: "The Little Mermaid", year: "1989" }
+      - { film: "The Little Mermaid - TV Series", year: "1992-1994" }
+      - { film: "The Little Mermaid II: Return to the Sea", year: "2000", keywords: ["The Little Mermaid 2"] }
+      - { film: "The Little Mermaid: Ariel's Beginning", year: "2008", keywords: ["The Little Mermaid 3"] }
+      - { film: "The Little Mermaid (live-action)", year: "2023", img: "Flounder2023.png" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "king-triton"
+    name: "King Triton"
+    img: "KingTriton1989.png"
+    franchise: "The Little Mermaid"
+    link: "https://disneyinternationalvoices.weebly.com/king-triton.html"
+    appearances:
+      - { film: "The Little Mermaid", year: "1989" }
+      - { film: "The Little Mermaid - TV Series", year: "1992-1994" }
+      - { film: "The Little Mermaid II: Return to the Sea", year: "2000", keywords: ["The Little Mermaid 2"] }
+      - { film: "The Little Mermaid: Ariel's Beginning", year: "2008", keywords: ["The Little Mermaid 3"] }
+      - { film: "The Little Mermaid (live-action)", year: "2023", img: "KingTriton2023.png" }
+      - { film: "LEGO Disney Princess: The Castle Quest", year: "2023" }
+
+  - id: "melody"
+    name: "Melody"
+    img: "Melody2000.png"
+    franchise: "The Little Mermaid"
+    link: "https://disneyinternationalvoices.weebly.com/melody.html"
+    appearances:
+      - { film: "The Little Mermaid II: Return to the Sea", year: "2000", keywords: ["The Little Mermaid 2"] }
+
+  - id: "morgana"
+    name: "Morgana"
+    img: "Morgana2000.png"
+    franchise: "The Little Mermaid"
+    link: "https://disneyinternationalvoices.weebly.com/morgana.html"
+    appearances:
+      - { film: "The Little Mermaid II: Return to the Sea", year: "2000", keywords: ["The Little Mermaid 2"] }
+
+  - id: "queen-athena"
+    name: "Queen Athena"
+    img: "Athena2008.png"
+    franchise: "The Little Mermaid"
+    link: "https://disneyinternationalvoices.weebly.com/athena.html"
+    appearances:
+      - { film: "The Little Mermaid: Ariel's Beginning", year: "2008", keywords: ["The Little Mermaid 3"] }
+
+  - id: "belle"
+    name: "Belle"
+    img: "Belle1991.png"
+    franchise: "Beauty and the Beast"
+    link: "https://disneyinternationalvoices.weebly.com/belle.html"
+    appearances:
+      - { film: "Beauty and the Beast", year: "1991" }
+      - { film: "Beauty and the Beast: The Enchanted Christmas", year: "1997", keywords: ["Beauty and the Beast 2"], img: "Belle1997.png" }
+      - { film: "Beauty and the Beast: Belle's Magical World", year: "1998", keywords: ["Beauty and the Beast 3"] }
+      - { film: "Sofia the First: The Amulet and the Anthem", year: "2013" }
+      - { film: "Beauty and the Beast (live-action)", year: "2017", img: "Belle2017.png" }
+      - { film: "Ralph Breaks the Internet", year: "2018" }
+      - { film: "Once Upon a Studio", year: "2023" }
+      - { film: "LEGO Disney Princess: Villains Unite", year: "2025" }
+
+  - id: "beast"
+    name: "Beast"
+    img: "Beast1991.png"
+    franchise: "Beauty and the Beast"
+    link: "https://disneyinternationalvoices.weebly.com/beast.html"
+    appearances:
+      - { film: "Beauty and the Beast", year: "1991" }
+      - { film: "Beauty and the Beast: The Enchanted Christmas", year: "1997", keywords: ["Beauty and the Beast 2"], img: "Beast1997.png" }
+      - { film: "Beauty and the Beast: Belle's Magical World", year: "1998", keywords: ["Beauty and the Beast 3"] }
+      - { film: "Beauty and the Beast (live-action)", year: "2017", img: "Beast2017.png" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "gaston"
+    name: "Gaston"
+    img: "Gaston1991.png"
+    franchise: "Beauty and the Beast"
+    link: "https://disneyinternationalvoices.weebly.com/gaston.html"
+    appearances:
+      - { film: "Beauty and the Beast", year: "1991" }
+      - { film: "Beauty and the Beast (live-action)", year: "2017", img: "Gaston2017.png" }
+      - { film: "LEGO Disney Princess: The Castle Quest", year: "2023" }
+      - { film: "Once Upon a Studio", year: "2023" }
+      - { film: "LEGO Disney Princess: Villains Unite", year: "2025" }
+
+  - id: "lumiere"
+    name: "Lumiere"
+    img: "Lumiere1991.png"
+    franchise: "Beauty and the Beast"
+    keywords: ["Lumière"]
+    link: "https://disneyinternationalvoices.weebly.com/lumiere.html"
+    appearances:
+      - { film: "Beauty and the Beast", year: "1991" }
+      - { film: "Beauty and the Beast: The Enchanted Christmas", year: "1997", keywords: ["Beauty and the Beast 2"], img: "Lumiere1997.png" }
+      - { film: "Beauty and the Beast: Belle's Magical World", year: "1998", keywords: ["Beauty and the Beast 3"] }
+      - { film: "Beauty and the Beast (live-action)", year: "2017", img: "Lumiere2017.png" }
+
+  - id: "cogsworth"
+    name: "Cogsworth"
+    img: "Cogsworth1991.png"
+    franchise: "Beauty and the Beast"
+    link: "https://disneyinternationalvoices.weebly.com/cogsworth.html"
+    appearances:
+      - { film: "Beauty and the Beast", year: "1991" }
+      - { film: "Beauty and the Beast: The Enchanted Christmas", year: "1997", keywords: ["Beauty and the Beast 2"], img: "Cogsworth1997.png" }
+      - { film: "Beauty and the Beast: Belle's Magical World", year: "1998", keywords: ["Beauty and the Beast 3"] }
+      - { film: "Beauty and the Beast (live-action)", year: "2017", img: "Cogsworth2017.png" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "mrs-potts"
+    name: "Mrs. Potts"
+    img: "MrsPotts1991.png"
+    franchise: "Beauty and the Beast"
+    link: "https://disneyinternationalvoices.weebly.com/mrs-potts.html"
+    appearances:
+      - { film: "Beauty and the Beast", year: "1991" }
+      - { film: "Beauty and the Beast: The Enchanted Christmas", year: "1997", keywords: ["Beauty and the Beast 2"], img: "MrsPotts1997.png" }
+      - { film: "Beauty and the Beast: Belle's Magical World", year: "1998", keywords: ["Beauty and the Beast 3"] }
+      - { film: "Beauty and the Beast (live-action)", year: "2017", img: "MrsPotts2017.png" }
+
+  - id: "maurice"
+    name: "Maurice"
+    img: "Maurice1991.png"
+    franchise: "Beauty and the Beast"
+    link: "https://disneyinternationalvoices.weebly.com/maurice.html"
+    appearances:
+      - { film: "Beauty and the Beast", year: "1991" }
+      - { film: "Beauty and the Beast (live-action)", year: "2017", img: "Maurice2017.png" }
+
+  - id: "angelique"
+    name: "Angelique"
+    img: "Angelique1997.png"
+    franchise: "Beauty and the Beast"
+    keywords: ["Angélique"]
+    link: "https://disneyinternationalvoices.weebly.com/angelique.html"
+    appearances:
+      - { film: "Beauty and the Beast: The Enchanted Christmas", year: "1997", keywords: ["Beauty and the Beast 2"] }
+
+  - id: "aladdin"
+    name: "Aladdin"
+    img: "Aladdin1992.png"
+    franchise: "Aladdin"
+    link: "https://disneyinternationalvoices.weebly.com/aladdin.html"
+    appearances:
+      - { film: "Aladdin", year: "1992" }
+      - { film: "The Return of Jafar", year: "1994", keywords: ["Aladdin 2"], img: "Aladdin1994.png" }
+      - { film: "Aladdin - TV Series", year: "1994-1995" }
+      - { film: "Aladdin and the King of Thieves", year: "1996", keywords: ["Aladdin 3"], img: "Aladdin1996.png" }
+      - { film: "Aladdin (live-action)", year: "2019" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "jasmine"
+    name: "Jasmine"
+    img: "Jasmine1992.png"
+    franchise: "Aladdin"
+    link: "https://disneyinternationalvoices.weebly.com/jasmine.html"
+    appearances:
+      - { film: "Aladdin", year: "1992" }
+      - { film: "The Return of Jafar", year: "1994", keywords: ["Aladdin 2"], img: "Jasmine1994.png" }
+      - { film: "Aladdin - TV Series", year: "1994-1995" }
+      - { film: "Aladdin and the King of Thieves", year: "1996", keywords: ["Aladdin 3"], img: "Jasmine1996.png" }
+      - { film: "Disney Princess Enchanted Tales: Follow Your Dreams", year: "2007" }
+      - { film: "Sofia the First: Two to Tangu", year: "2013" }
+      - { film: "Ralph Breaks the Internet", year: "2018" }
+      - { film: "Aladdin (live-action)", year: "2019" }
+      - { film: "LEGO Disney Princess: Magical Mayhem", year: "2026" }
+
+  - id: "genie"
+    name: "Genie"
+    img: "Genie1992.png"
+    franchise: "Aladdin"
+    link: "https://disneyinternationalvoices.weebly.com/genie.html"
+    appearances:
+      - { film: "Aladdin", year: "1992" }
+      - { film: "The Return of Jafar", year: "1994", keywords: ["Aladdin 2"], img: "Genie1994.png" }
+      - { film: "Aladdin - TV Series", year: "1994-1995" }
+      - { film: "Aladdin and the King of Thieves", year: "1996", keywords: ["Aladdin 3"], img: "Genie1996.png" }
+      - { film: "Aladdin (live-action)", year: "2019" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "jafar"
+    name: "Jafar"
+    img: "Jafar1992.png"
+    franchise: "Aladdin"
+    link: "https://disneyinternationalvoices.weebly.com/jafar.html"
+    appearances:
+      - { film: "Aladdin", year: "1992" }
+      - { film: "The Return of Jafar", year: "1994", keywords: ["Aladdin 2"], img: "Jafar1994.png" }
+      - { film: "Hercules and the Arabian Night", year: "1999" }
+      - { film: "Aladdin (live-action)", year: "2019" }
+
+  - id: "sultan"
+    name: "Sultan"
+    img: "Sultan1992.png"
+    franchise: "Aladdin"
+    link: "https://disneyinternationalvoices.weebly.com/sultan.html"
+    appearances:
+      - { film: "Aladdin", year: "1992" }
+      - { film: "The Return of Jafar", year: "1994", keywords: ["Aladdin 2"], img: "Sultan1994.png" }
+      - { film: "Aladdin - TV Series", year: "1994-1995" }
+      - { film: "Aladdin and the King of Thieves", year: "1996", keywords: ["Aladdin 3"] }
+      - { film: "Aladdin (live-action)", year: "2019" }
+
+  - id: "robyn-starling"
+    name: "Robyn Starling"
+    img: "RobynStarling1992.png"
+    franchise: "Tom & Jerry"
+    link: "https://disneyinternationalvoices.weebly.com/robyn-starling.html"
+    appearances:
+      - { film: "Tom & Jerry: The Movie", year: "1992" }
+
+  - id: "thumbelina"
+    name: "Thumbelina"
+    img: "Thumbelina1994.png"
+    franchise: "Thumbelina"
+    link: "https://disneyinternationalvoices.weebly.com/thumbelina.html"
+    appearances:
+      - { film: "Thumbelina", year: "1994" }
+
+  - id: "cornelius"
+    name: "Cornelius"
+    img: "Cornelius1994.png"
+    franchise: "Thumbelina"
+    link: "https://disneyinternationalvoices.weebly.com/cornelius.html"
+    appearances:
+      - { film: "Thumbelina", year: "1994" }
+
+  - id: "jacquimo"
+    name: "Jacquimo"
+    img: "Jacquimo1994.png"
+    franchise: "Thumbelina"
+    appearances:
+      - { film: "Thumbelina", year: "1994" }
+
+  - id: "thumbelinas-mother"
+    name: "Thumbelina's Mother"
+    img: "ThumbelinaMother1994.png"
+    franchise: "Thumbelina"
+    link: "https://disneyinternationalvoices.weebly.com/thumbelinas-mother.html"
+    appearances:
+      - { film: "Thumbelina", year: "1994" }
+
+  - id: "simba"
+    name: "Simba"
+    img: "Simba1994.png"
+    franchise: "The Lion King"
+    link: "https://disneyinternationalvoices.weebly.com/simba.html#"
+    appearances:
+      - { film: "The Lion King", year: "1994" }
+      - { film: "Timon & Pumbaa - TV Series", year: "1995-1999" }
+      - { film: "The Lion King II: Simba's Pride", year: "1998", keywords: ["The Lion King 2"], img: "Simba1998.png" }
+      - { film: "The Lion King 3: Hakuna Matata", year: "2004", keywords: ["The Lion King 1½", "The Lion King 1/2"] }
+      - { film: "The Lion Guard", year: "2015-2019" }
+      - { film: "The Lion King (remake)", year: "2019", img: "Simba2019.png" }
+      - { film: "Mufasa: The Lion King", year: "2024" }
+
+  - id: "mufasa"
+    name: "Mufasa"
+    img: "Mufasa1994.png"
+    franchise: "The Lion King"
+    link: "https://disneyinternationalvoices.weebly.com/Mufasa.html"
+    appearances:
+      - { film: "The Lion King", year: "1994" }
+      - { film: "The Lion King II: Simba's Pride", year: "1998", keywords: ["The Lion King 2"], img: "Mufasa1998.png" }
+      - { film: "The Lion Guard", year: "2015-2019" }
+      - { film: "The Lion King (remake)", year: "2019", img: "Mufasa2019.png" }
+      - { film: "Mufasa: The Lion King", year: "2024" }
+
+  - id: "scar"
+    name: "Scar"
+    img: "Scar1994.png"
+    franchise: "The Lion King"
+    link: "https://disneyinternationalvoices.weebly.com/scar.html"
+    appearances:
+      - { film: "The Lion King", year: "1994" }
+      - { film: "The Lion King II: Simba's Pride", year: "1998", keywords: ["The Lion King 2"], img: "Scar1998.png" }
+      - { film: "The Lion Guard", year: "2015-2019" }
+      - { film: "The Lion King (remake)", year: "2019", img: "Scar2019.png" }
+      - { film: "Once Upon a Studio", year: "2023" }
+      - { film: "Mufasa: The Lion King", year: "2024" }
+
+  - id: "nala"
+    name: "Nala"
+    img: "Nala1994.png"
+    franchise: "The Lion King"
+    link: "https://disneyinternationalvoices.weebly.com/nala.html"
+    appearances:
+      - { film: "The Lion King", year: "1994" }
+      - { film: "The Lion King II: Simba's Pride", year: "1998", keywords: ["The Lion King 2"], img: "Nala1998.png" }
+      - { film: "The Lion King 3: Hakuna Matata", year: "2004", keywords: ["The Lion King 1½", "The Lion King 1/2"] }
+      - { film: "The Lion Guard", year: "2015-2019" }
+      - { film: "The Lion King (remake)", year: "2019", img: "Nala2019.png" }
+      - { film: "Mufasa: The Lion King", year: "2024" }
+
+  - id: "timon"
+    name: "Timon"
+    img: "Timon1994.png"
+    franchise: "The Lion King"
+    link: "https://disneyinternationalvoices.weebly.com/timon--pumbaa.html"
+    appearances:
+      - { film: "The Lion King", year: "1994" }
+      - { film: "Timon & Pumbaa - TV Series", year: "1995-1999" }
+      - { film: "The Lion King II: Simba's Pride", year: "1998", keywords: ["The Lion King 2"], img: "Timon1998.png" }
+      - { film: "The Lion King 3: Hakuna Matata", year: "2004", keywords: ["The Lion King 1½", "The Lion King 1/2"] }
+      - { film: "The Lion Guard", year: "2015-2019" }
+      - { film: "The Lion King (remake)", year: "2019", img: "Timon2019.png" }
+      - { film: "Once Upon a Studio", year: "2023" }
+      - { film: "Mufasa: The Lion King", year: "2024" }
+
+  - id: "pumbaa"
+    name: "Pumbaa"
+    img: "Pumbaa1994.png"
+    franchise: "The Lion King"
+    link: "https://disneyinternationalvoices.weebly.com/timon--pumbaa.html"
+    appearances:
+      - { film: "The Lion King", year: "1994" }
+      - { film: "Timon & Pumbaa - TV Series", year: "1995-1999" }
+      - { film: "The Lion King II: Simba's Pride", year: "1998", keywords: ["The Lion King 2"], img: "Pumbaa1998.png" }
+      - { film: "The Lion King 3: Hakuna Matata", year: "2004", keywords: ["The Lion King 1½", "The Lion King 1/2"] }
+      - { film: "The Lion Guard", year: "2015-2019" }
+      - { film: "The Lion King (remake)", year: "2019", img: "Pumbaa2019.png" }
+      - { film: "Mufasa: The Lion King", year: "2024" }
+
+  - id: "sarabi"
+    name: "Sarabi"
+    img: "Sarabi1994.png"
+    franchise: "The Lion King"
+    link: "https://disneyinternationalvoices.weebly.com/sarabi.html"
+    appearances:
+      - { film: "The Lion King", year: "1994" }
+      - { film: "The Lion King (remake)", year: "2019", img: "Sarabi2019.png" }
+      - { film: "Mufasa: The Lion King", year: "2024" }
+
+  - id: "odette"
+    name: "Odette"
+    img: "Odette1994.png"
+    franchise: "The Swan Princess"
+    link: "https://disneyinternationalvoices.weebly.com/odette.html"
+    appearances:
+      - { film: "The Swan Princess", year: "1994" }
+      - { film: "The Swan Princess 2: Escape from Castle Mountain", year: "1997" }
+      - { film: "The Swan Princess 3: Mystery of the Enchanted Treasure", year: "1998" }
+
+  - id: "derek"
+    name: "Derek"
+    img: "Derek1994.png"
+    franchise: "The Swan Princess"
+    link: "https://disneyinternationalvoices.weebly.com/derek.html#"
+    appearances:
+      - { film: "The Swan Princess", year: "1994" }
+      - { film: "The Swan Princess 2: Escape from Castle Mountain", year: "1997" }
+      - { film: "The Swan Princess 3: Mystery of the Enchanted Treasure", year: "1998" }
+
+  - id: "rothbart"
+    name: "Rothbart"
+    img: "Rothbart1994.png"
+    franchise: "The Swan Princess"
+    link: "https://disneyinternationalvoices.weebly.com/rothbart.html#"
+    appearances:
+      - { film: "The Swan Princess", year: "1994" }
+
+  - id: "queen-uberta"
+    name: "Queen Uberta"
+    img: "QueenUberta1994.png"
+    franchise: "The Swan Princess"
+    appearances:
+      - { film: "The Swan Princess", year: "1994" }
+      - { film: "The Swan Princess 2: Escape from Castle Mountain", year: "1997" }
+      - { film: "The Swan Princess 3: Mystery of the Enchanted Treasure", year: "1998" }
+
+  - id: "pocahontas"
+    name: "Pocahontas"
+    img: "Pocahontas1995.png"
+    franchise: "Pocahontas"
+    link: "https://disneyinternationalvoices.weebly.com/pocahontas.html"
+    appearances:
+      - { film: "Pocahontas", year: "1995" }
+      - { film: "Pocahontas II: Journey to a New World", year: "1998", keywords: ["Pocahontas 2"], img: "Pocahontas1998.png" }
+      - { film: "Ralph Breaks the Internet", year: "2018" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "john-smith"
+    name: "John Smith"
+    img: "JohnSmith1995.png"
+    franchise: "Pocahontas"
+    link: "https://disneyinternationalvoices.weebly.com/john-smith.html"
+    appearances:
+      - { film: "Pocahontas", year: "1995" }
+      - { film: "Pocahontas II: Journey to a New World", year: "1998", keywords: ["Pocahontas 2"], img: "JohnSmith1998.png" }
+
+  - id: "governor-ratcliffe"
+    name: "Governor Ratcliffe"
+    img: "Ratcliffe1995.png"
+    franchise: "Pocahontas"
+    link: "https://disneyinternationalvoices.weebly.com/ratcliffe.html"
+    appearances:
+      - { film: "Pocahontas", year: "1995" }
+      - { film: "Pocahontas II: Journey to a New World", year: "1998", keywords: ["Pocahontas 2"], img: "Ratcliffe1998.png" }
+
+  - id: "powhatan"
+    name: "Powhatan"
+    img: "Powhatan1995.png"
+    franchise: "Pocahontas"
+    link: "https://disneyinternationalvoices.weebly.com/Powhatan.html"
+    appearances:
+      - { film: "Pocahontas", year: "1995" }
+      - { film: "Pocahontas II: Journey to a New World", year: "1998", keywords: ["Pocahontas 2"], img: "Powhatan1998.png" }
+
+  - id: "grandmother-willow"
+    name: "Grandmother Willow"
+    img: "GrandmotherWillow1995.png"
+    franchise: "Pocahontas"
+    appearances:
+      - { film: "Pocahontas", year: "1995" }
+      - { film: "Pocahontas II: Journey to a New World", year: "1998", keywords: ["Pocahontas 2"], img: "GrandmotherWillow1998.png" }
+
+  - id: "woody"
+    name: "Woody"
+    img: "Woody1995.png"
+    franchise: "Toy Story"
+    link: "https://disneyinternationalvoices.weebly.com/woody.html"
+    appearances:
+      - { film: "Toy Story", year: "1995" }
+      - { film: "Toy Story 2", year: "1999" }
+      - { film: "Toy Story 3", year: "2010" }
+      - { film: "Toy Story Toons", year: "2011-2012" }
+      - { film: "Toy Story of Terror!", year: "2013" }
+      - { film: "Toy Story That Time Forgot", year: "2014" }
+      - { film: "Toy Story 4", year: "2019" }
+      - { film: "Lamp Life", year: "2020" }
+      - { film: "Toy Story 5", year: "2026", upcoming: true }
+
+  - id: "buzz-lightyear"
+    name: "Buzz Lightyear"
+    img: "BuzzLightyear1995.png"
+    franchise: "Toy Story"
+    link: "https://disneyinternationalvoices.weebly.com/buzz-lightyear.html"
+    appearances:
+      - { film: "Toy Story", year: "1995" }
+      - { film: "Toy Story 2", year: "1999" }
+      - { film: "Buzz Lightyear of Star Command: The Adventure Begins", year: "2000" }
+      - { film: "Buzz Lightyear of Star Command", year: "2000-2001" }
+      - { film: "Toy Story 3", year: "2010" }
+      - { film: "Toy Story Toons", year: "2011-2012" }
+      - { film: "Toy Story of Terror!", year: "2013" }
+      - { film: "Toy Story That Time Forgot", year: "2014" }
+      - { film: "Toy Story 4", year: "2019" }
+      - { film: "Toy Story 5", year: "2026", upcoming: true }
+
+  - id: "jessie"
+    name: "Jessie"
+    img: "Jessie1999.png"
+    franchise: "Toy Story"
+    link: "https://disneyinternationalvoices.weebly.com/jessie.html"
+    appearances:
+      - { film: "Toy Story 2", year: "1999" }
+      - { film: "Toy Story 3", year: "2010" }
+      - { film: "Toy Story Toons", year: "2011-2012" }
+      - { film: "Toy Story of Terror!", year: "2013" }
+      - { film: "Toy Story That Time Forgot", year: "2014" }
+      - { film: "Toy Story 4", year: "2019" }
+      - { film: "Toy Story 5", year: "2026", upcoming: true }
+
+  - id: "mr-potato-head"
+    name: "Mr. Potato Head"
+    img: "MrPotatoHead1995.png"
+    franchise: "Toy Story"
+    appearances:
+      - { film: "Toy Story", year: "1995" }
+      - { film: "Toy Story 2", year: "1999" }
+      - { film: "Toy Story 3", year: "2010" }
+      - { film: "Toy Story Toons", year: "2011-2012" }
+      - { film: "Toy Story of Terror!", year: "2013" }
+      - { film: "Toy Story That Time Forgot", year: "2014" }
+      - { film: "Toy Story 4", year: "2019" }
+      - { film: "Toy Story 5", year: "2026", upcoming: true }
+
+  - id: "slinky-dog"
+    name: "Slinky Dog"
+    img: "Slinky1995.png"
+    franchise: "Toy Story"
+    appearances:
+      - { film: "Toy Story", year: "1995" }
+      - { film: "Toy Story 2", year: "1999" }
+      - { film: "Toy Story 3", year: "2010" }
+      - { film: "Toy Story Toons", year: "2011-2012" }
+      - { film: "Toy Story of Terror!", year: "2013" }
+      - { film: "Toy Story That Time Forgot", year: "2014" }
+      - { film: "Toy Story 4", year: "2019" }
+      - { film: "Toy Story 5", year: "2026", upcoming: true }
+
+  - id: "rex"
+    name: "Rex"
+    img: "Rex1995.png"
+    franchise: "Toy Story"
+    appearances:
+      - { film: "Toy Story", year: "1995" }
+      - { film: "Toy Story 2", year: "1999" }
+      - { film: "Toy Story 3", year: "2010" }
+      - { film: "Toy Story Toons", year: "2011-2012" }
+      - { film: "Toy Story of Terror!", year: "2013" }
+      - { film: "Toy Story That Time Forgot", year: "2014" }
+      - { film: "Toy Story 4", year: "2019" }
+      - { film: "Toy Story 5", year: "2026", upcoming: true }
+
+  - id: "hamm"
+    name: "Hamm"
+    img: "Hamm1995.png"
+    franchise: "Toy Story"
+    appearances:
+      - { film: "Toy Story", year: "1995" }
+      - { film: "Toy Story 2", year: "1999" }
+      - { film: "Toy Story 3", year: "2010" }
+      - { film: "Toy Story Toons", year: "2011-2012" }
+      - { film: "Toy Story of Terror!", year: "2013" }
+      - { film: "Toy Story That Time Forgot", year: "2014" }
+      - { film: "Toy Story 4", year: "2019" }
+      - { film: "Toy Story 5", year: "2026", upcoming: true }
+
+  - id: "bo-peep"
+    name: "Bo Peep"
+    img: "BoPeep1995.png"
+    franchise: "Toy Story"
+    appearances:
+      - { film: "Toy Story", year: "1995" }
+      - { film: "Toy Story 2", year: "1999" }
+      - { film: "Toy Story 4", year: "2019" }
+      - { film: "Lamp Life", year: "2020" }
+      - { film: "Toy Story 5", year: "2026", upcoming: true }
+
+  - id: "quasimodo"
+    name: "Quasimodo"
+    img: "Quasimodo1996.png"
+    franchise: "The Hunchback of Notre Dame"
+    link: "https://disneyinternationalvoices.weebly.com/quasimodo.html#"
+    appearances:
+      - { film: "The Hunchback of Notre Dame", year: "1996" }
+      - { film: "The Hunchback of Notre Dame II", year: "1998", keywords: ["The Hunchback of Notre Dame 2"] }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "esmeralda"
+    name: "Esmeralda"
+    img: "Esmeralda1996.png"
+    franchise: "The Hunchback of Notre Dame"
+    link: "https://disneyinternationalvoices.weebly.com/esmeralda.html"
+    appearances:
+      - { film: "The Hunchback of Notre Dame", year: "1996" }
+      - { film: "The Hunchback of Notre Dame II", year: "1998", keywords: ["The Hunchback of Notre Dame 2"] }
+
+  - id: "judge-claude-frollo"
+    name: "Judge Claude Frollo"
+    img: "Frollo1996.png"
+    franchise: "The Hunchback of Notre Dame"
+    link: "https://disneyinternationalvoices.weebly.com/claude-frollo.html"
+    appearances:
+      - { film: "The Hunchback of Notre Dame", year: "1996" }
+
+  - id: "phoebus"
+    name: "Phoebus"
+    img: "Phoebus1996.png"
+    franchise: "The Hunchback of Notre Dame"
+    link: "https://disneyinternationalvoices.weebly.com/phoebus.html"
+    appearances:
+      - { film: "The Hunchback of Notre Dame", year: "1996" }
+      - { film: "The Hunchback of Notre Dame II", year: "1998", keywords: ["The Hunchback of Notre Dame 2"] }
+
+  - id: "hugo-victor-laverne"
+    name: "Hugo, Victor, Laverne"
+    img: "Gargoyles1996.png"
+    franchise: "The Hunchback of Notre Dame"
+    link: "https://disneyinternationalvoices.weebly.com/hugo-victor--laverne.html"
+    appearances:
+      - { film: "The Hunchback of Notre Dame", year: "1996" }
+      - { film: "The Hunchback of Notre Dame II", year: "1998", keywords: ["The Hunchback of Notre Dame 2"] }
+
+  - id: "clopin"
+    name: "Clopin"
+    img: "Clopin1996.png"
+    franchise: "The Hunchback of Notre Dame"
+    link: "https://disneyinternationalvoices.weebly.com/clopin.html"
+    appearances:
+      - { film: "The Hunchback of Notre Dame", year: "1996" }
+      - { film: "The Hunchback of Notre Dame II", year: "1998", keywords: ["The Hunchback of Notre Dame 2"] }
+
+  - id: "quasimodos-mother"
+    name: "Quasimodo's Mother"
+    img: "QuasimodoMother1996.png"
+    franchise: "The Hunchback of Notre Dame"
+    link: "https://disneyinternationalvoices.weebly.com/quasimodos-mother.html"
+    appearances:
+      - { film: "The Hunchback of Notre Dame", year: "1996" }
+
+  - id: "hercules"
+    name: "Hercules"
+    img: "HerculesAdult1997.png"
+    franchise: "Hercules"
+    link: "https://disneyinternationalvoices.weebly.com/hercules.html"
+    appearances:
+      - { film: "Hercules", year: "1997" }
+      - { film: "Hercules - TV Series", year: "1998-1999" }
+
+  - id: "megara"
+    name: "Megara"
+    img: "Megara1997.png"
+    franchise: "Hercules"
+    link: "https://disneyinternationalvoices.weebly.com/megara.html"
+    appearances:
+      - { film: "Hercules", year: "1997" }
+      - { film: "Hercules - TV Series", year: "1998-1999" }
+
+  - id: "hades"
+    name: "Hades"
+    img: "Hades1997.png"
+    franchise: "Hercules"
+    link: "https://disneyinternationalvoices.weebly.com/hades.html"
+    appearances:
+      - { film: "Hercules", year: "1997" }
+      - { film: "Hercules - TV Series", year: "1998-1999" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "philoctetes"
+    name: "Philoctetes"
+    img: "Philoctetes1997.png"
+    franchise: "Hercules"
+    link: "https://disneyinternationalvoices.weebly.com/philoctetes.html"
+    appearances:
+      - { film: "Hercules", year: "1997" }
+      - { film: "Hercules - TV Series", year: "1998-1999" }
+
+  - id: "the-muses"
+    name: "The Muses"
+    img: "Muses1997.png"
+    franchise: "Hercules"
+    link: "https://disneyinternationalvoices.weebly.com/the-muses.html"
+    appearances:
+      - { film: "Hercules", year: "1997" }
+      - { film: "Hercules - TV Series", year: "1998-1999" }
+
+  - id: "zeus-hera"
+    name: "Zeus & Hera"
+    img: "ZeusHera1997.png"
+    franchise: "Hercules"
+    link: "https://disneyinternationalvoices.weebly.com/zeus--hera.html"
+    appearances:
+      - { film: "Hercules", year: "1997" }
+      - { film: "Hercules - TV Series", year: "1998-1999" }
+
+  - id: "amphitryon-alcmene"
+    name: "Amphitryon & Alcmene"
+    img: "AmphitryonAlcmene1997.png"
+    franchise: "Hercules"
+    link: "https://disneyinternationalvoices.weebly.com/amphitryon--alcmene.html"
+    appearances:
+      - { film: "Hercules", year: "1997" }
+
+  - id: "anastasia"
+    name: "Anastasia"
+    img: "Anastasia1997.png"
+    franchise: "Anastasia"
+    link: "https://disneyinternationalvoices.weebly.com/anastasia.html"
+    appearances:
+      - { film: "Anastasia", year: "1997" }
+
+  - id: "dimitri"
+    name: "Dimitri"
+    img: "Dimitri1997.png"
+    franchise: "Anastasia"
+    link: "https://disneyinternationalvoices.weebly.com/dimitri.html"
+    appearances:
+      - { film: "Anastasia", year: "1997" }
+
+  - id: "rasputin"
+    name: "Rasputin"
+    img: "Rasputin1997.png"
+    franchise: "Anastasia"
+    link: "https://disneyinternationalvoices.weebly.com/rasputin.html"
+    appearances:
+      - { film: "Anastasia", year: "1997" }
+
+  - id: "vladimir"
+    name: "Vladimir"
+    img: "Vladimir1997.png"
+    franchise: "Anastasia"
+    link: "https://disneyinternationalvoices.weebly.com/vladimir.html"
+    appearances:
+      - { film: "Anastasia", year: "1997" }
+
+  - id: "dowager-empress-marie"
+    name: "Dowager Empress Marie"
+    img: "EmpressMarie1997.png"
+    franchise: "Anastasia"
+    link: "https://disneyinternationalvoices.weebly.com/empress-marie.html"
+    appearances:
+      - { film: "Anastasia", year: "1997" }
+
+  - id: "kayley"
+    name: "Kayley"
+    img: "Kayley1998.png"
+    franchise: "Quest for Camelot"
+    link: "https://disneyinternationalvoices.weebly.com/kayley.html"
+    appearances:
+      - { film: "Quest for Camelot", year: "1998" }
+
+  - id: "garrett"
+    name: "Garrett"
+    img: "Garrett1998.png"
+    franchise: "Quest for Camelot"
+    link: "https://disneyinternationalvoices.weebly.com/garrett.html"
+    appearances:
+      - { film: "Quest for Camelot", year: "1998" }
+
+  - id: "ruber"
+    name: "Ruber"
+    img: "Ruber1998.png"
+    franchise: "Quest for Camelot"
+    link: "https://disneyinternationalvoices.weebly.com/ruber.html"
+    appearances:
+      - { film: "Quest for Camelot", year: "1998" }
+
+  - id: "lady-juliana"
+    name: "Lady Juliana"
+    img: "LadyJuliana1998.png"
+    franchise: "Quest for Camelot"
+    link: "https://disneyinternationalvoices.weebly.com/lady-juliana.html"
+    appearances:
+      - { film: "Quest for Camelot", year: "1998" }
+
+  - id: "mulan"
+    name: "Mulan"
+    img: "Mulan1998.png"
+    franchise: "Mulan"
+    link: "https://disneyinternationalvoices.weebly.com/mulan.html"
+    appearances:
+      - { film: "Mulan", year: "1998" }
+      - { film: "Mulan II", year: "2004", keywords: ["Mulan 2"] }
+      - { film: "Sofia the First: Princess to the Rescue!", year: "2014" }
+      - { film: "Ralph Breaks the Internet", year: "2018" }
+      - { film: "Mulan (live-action)", year: "2020", img: "Mulan2020.png" }
+      - { film: "Once Upon a Studio", year: "2023" }
+      - { film: "LEGO Disney Princess: Magical Mayhem", year: "2026" }
+
+  - id: "shang"
+    name: "Shang"
+    img: "Shang1998.png"
+    franchise: "Mulan"
+    link: "https://disneyinternationalvoices.weebly.com/shang.html#"
+    appearances:
+      - { film: "Mulan", year: "1998" }
+      - { film: "Mulan II", year: "2004", keywords: ["Mulan 2"] }
+
+  - id: "shan-yu"
+    name: "Shan Yu"
+    img: "ShanYu1998.png"
+    franchise: "Mulan"
+    link: "https://disneyinternationalvoices.weebly.com/shan-yu.html#"
+    appearances:
+      - { film: "Mulan", year: "1998" }
+
+  - id: "mushu"
+    name: "Mushu"
+    img: "Mushu1998.png"
+    franchise: "Mulan"
+    link: "https://disneyinternationalvoices.weebly.com/mushu.html"
+    appearances:
+      - { film: "Mulan", year: "1998" }
+      - { film: "Mulan II", year: "2004", keywords: ["Mulan 2"] }
+
+  - id: "fa-zhou-fa-li"
+    name: "Fa Zhou & Fa Li"
+    img: "FaZhouLi1998.png"
+    franchise: "Mulan"
+    keywords: ["Hua Zhou", "Hua Li"]
+    link: "https://disneyinternationalvoices.weebly.com/Fa-zhou--fa-li.html"
+    appearances:
+      - { film: "Mulan", year: "1998" }
+      - { film: "Mulan II", year: "2004", keywords: ["Mulan 2"] }
+      - { film: "Mulan (live-action)", year: "2020" }
+
+  - id: "ting-ting-mei-su"
+    name: "Ting Ting, Mei, Su"
+    img: "TingTingMeiSu2004.png"
+    franchise: "Mulan"
+    link: "https://disneyinternationalvoices.weebly.com/ting-ting-mei--su.html"
+    appearances:
+      - { film: "Mulan II", year: "2004" }
+
+  - id: "b-ri-khan"
+    name: "Böri Khan"
+    img: "BoriKhan2020.png"
+    franchise: "Mulan"
+    link: "https://disneyinternationalvoices.weebly.com/bori-khan.html"
+    appearances:
+      - { film: "Mulan (live-action)", year: "2020" }
+
+  - id: "kiara"
+    name: "Kiara"
+    img: "Kiara1998.png"
+    franchise: "The Lion King"
+    link: "https://disneyinternationalvoices.weebly.com/kiara.html"
+    appearances:
+      - { film: "The Lion King II: Simba's Pride", year: "1998", keywords: ["The Lion King 2"] }
+      - { film: "The Lion Guard", year: "2015-2019" }
+
+  - id: "kovu"
+    name: "Kovu"
+    img: "Kovu1998.png"
+    franchise: "The Lion King"
+    link: "https://disneyinternationalvoices.weebly.com/kovu.html"
+    appearances:
+      - { film: "The Lion King II: Simba's Pride", year: "1998", keywords: ["The Lion King 2"] }
+      - { film: "The Lion Guard", year: "2015-2019" }
+
+  - id: "zira"
+    name: "Zira"
+    img: "Zira1998.png"
+    franchise: "The Lion King"
+    link: "https://disneyinternationalvoices.weebly.com/zira.html"
+    appearances:
+      - { film: "The Lion King II: Simba's Pride", year: "1998", keywords: ["The Lion King 2"] }
+      - { film: "The Lion Guard", year: "2015-2019" }
+
+  - id: "moses"
+    name: "Moses"
+    img: "Moses1998.png"
+    franchise: "The Prince of Egypt"
+    link: "https://disneyinternationalvoices.weebly.com/moses.html"
+    appearances:
+      - { film: "The Prince of Egypt", year: "1998" }
+
+  - id: "rameses"
+    name: "Rameses"
+    img: "Rameses1998.png"
+    franchise: "The Prince of Egypt"
+    keywords: ["Ramses"]
+    link: "https://disneyinternationalvoices.weebly.com/rameses.html"
+    appearances:
+      - { film: "The Prince of Egypt", year: "1998" }
+
+  - id: "miriam"
+    name: "Miriam"
+    img: "Miriam1998.png"
+    franchise: "The Prince of Egypt"
+    keywords: ["Myriam"]
+    link: "https://disneyinternationalvoices.weebly.com/miriam.html"
+    appearances:
+      - { film: "The Prince of Egypt", year: "1998" }
+
+  - id: "tzipporah"
+    name: "Tzipporah"
+    img: "Tzipporah1998.png"
+    franchise: "The Prince of Egypt"
+    keywords: ["Zippora"]
+    link: "https://disneyinternationalvoices.weebly.com/tzipporah.html"
+    appearances:
+      - { film: "The Prince of Egypt", year: "1998" }
+
+  - id: "yocheved"
+    name: "Yocheved"
+    img: "Yocheved1998.png"
+    franchise: "The Prince of Egypt"
+    keywords: ["Yokeved", "Jochebed"]
+    link: "https://disneyinternationalvoices.weebly.com/yocheved.html"
+    appearances:
+      - { film: "The Prince of Egypt", year: "1998" }
+
+  - id: "anna-leonowens"
+    name: "Anna Leonowens"
+    img: "AnnaLeonowens1999.png"
+    franchise: "The King and I"
+    link: "https://disneyinternationalvoices.weebly.com/anna-leonowens.html"
+    appearances:
+      - { film: "The King and I", year: "1999" }
+
+  - id: "tuptim"
+    name: "Tuptim"
+    img: "Tuptim1999.png"
+    franchise: "The King and I"
+    link: "https://disneyinternationalvoices.weebly.com/tuptim.html"
+    appearances:
+      - { film: "The King and I", year: "1999" }
+
+  - id: "tarzan"
+    name: "Tarzan"
+    img: "Tarzan1999.png"
+    franchise: "Tarzan"
+    link: "https://disneyinternationalvoices.weebly.com/tarzan.html"
+    appearances:
+      - { film: "Tarzan", year: "1999" }
+      - { film: "The Legend of Tarzan", year: "2001-2003" }
+      - { film: "Tarzan & Jane", year: "2002" }
+      - { film: "Tarzan II", year: "2005", keywords: ["Tarzan 2"] }
+
+  - id: "jane-porter"
+    name: "Jane Porter"
+    img: "Jane1999.png"
+    franchise: "Tarzan"
+    link: "https://disneyinternationalvoices.weebly.com/jane-porter.html"
+    appearances:
+      - { film: "Tarzan", year: "1999" }
+      - { film: "The Legend of Tarzan", year: "2001-2003" }
+      - { film: "Tarzan & Jane", year: "2002" }
+
+  - id: "clayton"
+    name: "Clayton"
+    img: "Clayton1999.png"
+    franchise: "Tarzan"
+    link: "https://disneyinternationalvoices.weebly.com/clayton.html"
+    appearances:
+      - { film: "Tarzan", year: "1999" }
+
+  - id: "terk"
+    name: "Terk"
+    img: "Terk1999.png"
+    franchise: "Tarzan"
+    link: "https://disneyinternationalvoices.weebly.com/terk.html"
+    appearances:
+      - { film: "Tarzan", year: "1999" }
+      - { film: "The Legend of Tarzan", year: "2001-2003" }
+      - { film: "Tarzan & Jane", year: "2002" }
+      - { film: "Tarzan II", year: "2005", keywords: ["Tarzan 2"] }
+
+  - id: "kala-kerchak"
+    name: "Kala & Kerchak"
+    img: "KalaKerchak1999.png"
+    franchise: "Tarzan"
+    link: "https://disneyinternationalvoices.weebly.com/kala--kerchak.html"
+    appearances:
+      - { film: "Tarzan", year: "1999" }
+      - { film: "The Legend of Tarzan", year: "2001-2003" }
+      - { film: "Tarzan II", year: "2005", keywords: ["Tarzan 2"] }
+
+  - id: "professor-porter"
+    name: "Professor Porter"
+    img: "ProfessorPorter1999.png"
+    franchise: "Tarzan"
+    link: "https://disneyinternationalvoices.weebly.com/professor-porter.html"
+    appearances:
+      - { film: "Tarzan", year: "1999" }
+      - { film: "The Legend of Tarzan", year: "2001-2003" }
+      - { film: "Tarzan & Jane", year: "2002" }
+
+  - id: "joseph"
+    name: "Joseph"
+    img: "Joseph2000.png"
+    franchise: "Joseph, King of Dreams"
+    link: "https://disneyinternationalvoices.weebly.com/joseph.html"
+    appearances:
+      - { film: "Joseph, King of Dreams", year: "2000" }
+
+  - id: "asenath"
+    name: "Asenath"
+    img: "Asenath2000.png"
+    franchise: "Joseph, King of Dreams"
+    link: "https://disneyinternationalvoices.weebly.com/asenath.html"
+    appearances:
+      - { film: "Joseph, King of Dreams", year: "2000" }
+
+  - id: "scamp"
+    name: "Scamp"
+    img: "Scamp2000.png"
+    franchise: "Lady and the Tramp"
+    appearances:
+      - { film: "Lady and the Tramp II: Scamp's Adventure", year: "2001", keywords: ["Lady and the Tramp 2"], lead: 1 }
+
+  - id: "angel"
+    name: "Angel"
+    img: "Angel2000.png"
+    franchise: "Lady and the Tramp"
+    link: "https://disneyinternationalvoices.weebly.com/angel.html"
+    appearances:
+      - { film: "Lady and the Tramp II: Scamp's Adventure", year: "2001", keywords: ["Lady and the Tramp 2"], lead: 2 }
+
+  - id: "kuzco"
+    name: "Kuzco"
+    img: "Kuzco2000.png"
+    franchise: "The Emperor's New Groove"
+    link: "https://disneyinternationalvoices.weebly.com/kuzco.html"
+    appearances:
+      - { film: "The Emperor's New Groove", year: "2000" }
+      - { film: "Kronk's New Groove", year: "2005" }
+      - { film: "The Emperor's New School", year: "2006-2008" }
+
+  - id: "pacha"
+    name: "Pacha"
+    img: "Pacha2000.png"
+    franchise: "The Emperor's New Groove"
+    link: "https://disneyinternationalvoices.weebly.com/pacha.html"
+    appearances:
+      - { film: "The Emperor's New Groove", year: "2000" }
+      - { film: "Kronk's New Groove", year: "2005" }
+      - { film: "The Emperor's New School", year: "2006-2008" }
+
+  - id: "yzma"
+    name: "Yzma"
+    img: "Yzma2000.png"
+    franchise: "The Emperor's New Groove"
+    link: "https://disneyinternationalvoices.weebly.com/yzma.html"
+    appearances:
+      - { film: "The Emperor's New Groove", year: "2000" }
+      - { film: "Kronk's New Groove", year: "2005" }
+      - { film: "The Emperor's New School", year: "2006-2008" }
+
+  - id: "kronk"
+    name: "Kronk"
+    img: "Kronk2000.png"
+    franchise: "The Emperor's New Groove"
+    link: "https://disneyinternationalvoices.weebly.com/kronk.html"
+    appearances:
+      - { film: "The Emperor's New Groove", year: "2000" }
+      - { film: "Kronk's New Groove", year: "2005" }
+      - { film: "The Emperor's New School", year: "2006-2008" }
+
+  - id: "milo"
+    name: "Milo"
+    img: "MiloThatch2001.png"
+    franchise: "Atlantis"
+    link: "https://disneyinternationalvoices.weebly.com/milo.html"
+    appearances:
+      - { film: "Atlantis: The Lost Empire", year: "2001" }
+      - { film: "Atlantis: Milo's Return", year: "2003" }
+
+  - id: "kida"
+    name: "Kida"
+    img: "Kida2001.png"
+    franchise: "Atlantis"
+    link: "https://disneyinternationalvoices.weebly.com/kida.html"
+    appearances:
+      - { film: "Atlantis: The Lost Empire", year: "2001" }
+      - { film: "Atlantis: Milo's Return", year: "2003" }
+
+  - id: "commander-rourke"
+    name: "Commander Rourke"
+    img: "Rourke2001.png"
+    franchise: "Atlantis"
+    link: "https://disneyinternationalvoices.weebly.com/rourke.html"
+    appearances:
+      - { film: "Atlantis: The Lost Empire", year: "2001" }
+
+  - id: "king-of-atlantis"
+    name: "King of Atlantis"
+    img: "KingofAtlantis2001.png"
+    franchise: "Atlantis"
+    link: "https://disneyinternationalvoices.weebly.com/king-of-atlantis.html"
+    appearances:
+      - { film: "Atlantis: The Lost Empire", year: "2001" }
+
+  - id: "jane"
+    name: "Jane"
+    img: "Jane2002.png"
+    franchise: "Peter Pan"
+    link: "https://disneyinternationalvoices.weebly.com/jane-darling.html"
+    appearances:
+      - { film: "Return to Neverland", year: "2002", keywords: ["Peter Pan 2"], lead: 1 }
+
+  - id: "lilo"
+    name: "Lilo"
+    img: "Lilo2002.png"
+    franchise: "Lilo & Stitch"
+    link: "https://disneyinternationalvoices.weebly.com/lilo.html"
+    appearances:
+      - { film: "Lilo & Stitch", year: "2002" }
+      - { film: "Stitch: The Movie", year: "2003" }
+      - { film: "Lilo & Stitch: The Series", year: "2003-2006" }
+      - { film: "Lilo & Stitch 2: Stitch Has a Glitch", year: "2005" }
+      - { film: "Leroy & Stitch", year: "2006" }
+      - { film: "Lilo & Stitch (live-action)", year: "2025" }
+
+  - id: "stitch"
+    name: "Stitch"
+    img: "Stitch2002.png"
+    franchise: "Lilo & Stitch"
+    link: "https://disneyinternationalvoices.weebly.com/stitch.html"
+    appearances:
+      - { film: "Lilo & Stitch", year: "2002" }
+      - { film: "Stitch: The Movie", year: "2003" }
+      - { film: "Lilo & Stitch: The Series", year: "2003-2006" }
+      - { film: "Lilo & Stitch 2: Stitch Has a Glitch", year: "2005" }
+      - { film: "Leroy & Stitch", year: "2006" }
+      - { film: "Lilo & Stitch (live-action)", year: "2025" }
+
+  - id: "nani"
+    name: "Nani"
+    img: "Nani2002.png"
+    franchise: "Lilo & Stitch"
+    link: "https://disneyinternationalvoices.weebly.com/nani.html"
+    appearances:
+      - { film: "Lilo & Stitch", year: "2002" }
+      - { film: "Stitch: The Movie", year: "2003" }
+      - { film: "Lilo & Stitch: The Series", year: "2003-2006" }
+      - { film: "Lilo & Stitch 2: Stitch Has a Glitch", year: "2005" }
+      - { film: "Leroy & Stitch", year: "2006" }
+      - { film: "Lilo & Stitch (live-action)", year: "2025" }
+
+  - id: "captain-gantu"
+    name: "Captain Gantu"
+    img: "CaptainGantu2002.png"
+    franchise: "Lilo & Stitch"
+    link: "https://disneyinternationalvoices.weebly.com/gantu.html"
+    appearances:
+      - { film: "Lilo & Stitch", year: "2002" }
+      - { film: "Stitch: The Movie", year: "2003" }
+      - { film: "Lilo & Stitch: The Series", year: "2003-2006" }
+      - { film: "Leroy & Stitch", year: "2006" }
+
+  - id: "jim-hawkins"
+    name: "Jim Hawkins"
+    img: "JimHawkins2002.png"
+    franchise: "Treasure Planet"
+    link: "https://disneyinternationalvoices.weebly.com/jim-hawkins.html"
+    appearances:
+      - { film: "Treasure Planet", year: "2002" }
+
+  - id: "john-silver"
+    name: "John Silver"
+    img: "JohnSilver2002.png"
+    franchise: "Treasure Planet"
+    link: "https://disneyinternationalvoices.weebly.com/john-silver.html"
+    appearances:
+      - { film: "Treasure Planet", year: "2002" }
+
+  - id: "captain-amelia"
+    name: "Captain Amelia"
+    img: "CaptainAmelia2002.png"
+    franchise: "Treasure Planet"
+    link: "https://disneyinternationalvoices.weebly.com/captain-amelia.html"
+    appearances:
+      - { film: "Treasure Planet", year: "2002" }
+
+  - id: "sarah-hawkins"
+    name: "Sarah Hawkins"
+    img: "SarahHawkins2002.png"
+    franchise: "Treasure Planet"
+    link: "https://disneyinternationalvoices.weebly.com/sarah-hawkins.html"
+    appearances:
+      - { film: "Treasure Planet", year: "2002" }
+
+  - id: "daria"
+    name: "Daria"
+    img: "Daria2002.png"
+    franchise: "The Princess and the Pea"
+    link: "https://disneyinternationalvoices.weebly.com/daria.html"
+    appearances:
+      - { film: "The Princess and the Pea", year: "2002" }
+
+  - id: "marlin"
+    name: "Marlin"
+    img: "Marlin2003.png"
+    franchise: "Finding Nemo"
+    appearances:
+      - { film: "Finding Nemo", year: "2003" }
+      - { film: "Finding Dory", year: "2016" }
+
+  - id: "dory"
+    name: "Dory"
+    img: "Dory2003.png"
+    franchise: "Finding Nemo"
+    appearances:
+      - { film: "Finding Nemo", year: "2003" }
+      - { film: "Finding Dory", year: "2016" }
+
+  - id: "nemo"
+    name: "Nemo"
+    img: "Nemo2003.png"
+    franchise: "Finding Nemo"
+    appearances:
+      - { film: "Finding Nemo", year: "2003" }
+      - { film: "Finding Dory", year: "2016" }
+
+  - id: "fairy-godmother"
+    name: "Fairy Godmother"
+    img: "FairyGodmotherShrek2004.png"
+    franchise: "Shrek"
+    link: "https://disneyinternationalvoices.weebly.com/fairy-godmother-shrek.html"
+    appearances:
+      - { film: "Shrek", year: "2004" }
+
+  - id: "mr-incredible"
+    name: "Mr. Incredible"
+    img: "MrIncredible2004.png"
+    franchise: "The Incredibles"
+    keywords: ["Robert Bob Parr"]
+    link: "https://disneyinternationalvoices.weebly.com/mr-incredible.html"
+    appearances:
+      - { film: "The Incredibles", year: "2004" }
+      - { film: "Incredibles 2", year: "2018" }
+
+  - id: "elastigirl"
+    name: "Elastigirl"
+    img: "Elastigirl2004.png"
+    franchise: "The Incredibles"
+    keywords: ["Helen Parr"]
+    link: "https://disneyinternationalvoices.weebly.com/elastigirl.html"
+    appearances:
+      - { film: "The Incredibles", year: "2004" }
+      - { film: "Incredibles 2", year: "2018" }
+
+  - id: "syndrome"
+    name: "Syndrome"
+    img: "Syndrome2004.png"
+    franchise: "The Incredibles"
+    keywords: ["Buddy Pine"]
+    link: "https://disneyinternationalvoices.weebly.com/syndrome.html"
+    appearances:
+      - { film: "The Incredibles", year: "2004" }
+      - { film: "Jack-Jack Attack", year: "2005" }
+
+  - id: "edna-mode"
+    name: "Edna Mode"
+    img: "EdnaMode2004.png"
+    franchise: "The Incredibles"
+    link: "https://disneyinternationalvoices.weebly.com/edna-mode.html"
+    appearances:
+      - { film: "The Incredibles", year: "2004" }
+      - { film: "Incredibles 2", year: "2018" }
+      - { film: "Auntie Edna", year: "2018" }
+
+  - id: "phineas-ferb"
+    name: "Phineas & Ferb"
+    img: "PhineasFerb2007.png"
+    franchise: "Phineas & Ferb"
+    link: "https://disneyinternationalvoices.weebly.com/phineas--ferb.html"
+    appearances:
+      - { film: "Phineas & Ferb", year: "2007-2015" }
+
+  - id: "giselle"
+    name: "Giselle"
+    img: "Giselle2007.png"
+    franchise: "Enchanted"
+    link: "https://disneyinternationalvoices.weebly.com/giselle.html"
+    appearances:
+      - { film: "Enchanted", year: "2007" }
+      - { film: "Disenchanted", year: "2022" }
+
+  - id: "robert-philip"
+    name: "Robert Philip"
+    img: "Robert2007.png"
+    franchise: "Enchanted"
+    link: "https://disneyinternationalvoices.weebly.com/robert.html"
+    appearances:
+      - { film: "Enchanted", year: "2007" }
+      - { film: "Disenchanted", year: "2022" }
+
+  - id: "queen-narissa"
+    name: "Queen Narissa"
+    img: "Narissa2007.png"
+    franchise: "Enchanted"
+    link: "https://disneyinternationalvoices.weebly.com/queen-narissa.html"
+    appearances:
+      - { film: "Enchanted", year: "2007" }
+
+  - id: "prince-edward"
+    name: "Prince Edward"
+    img: "Edward2007.png"
+    franchise: "Enchanted"
+    link: "https://disneyinternationalvoices.weebly.com/edward.html"
+    appearances:
+      - { film: "Enchanted", year: "2007" }
+      - { film: "Disenchanted", year: "2022" }
+
+  - id: "nancy"
+    name: "Nancy"
+    img: "Nancy2007.png"
+    franchise: "Enchanted"
+    link: "https://disneyinternationalvoices.weebly.com/nancy.html"
+    appearances:
+      - { film: "Enchanted", year: "2007" }
+      - { film: "Disenchanted", year: "2022" }
+
+  - id: "morgan-philip"
+    name: "Morgan Philip"
+    img: "Morgan2007.png"
+    franchise: "Enchanted"
+    link: "https://disneyinternationalvoices.weebly.com/morgan.html"
+    appearances:
+      - { film: "Enchanted", year: "2007" }
+      - { film: "Disenchanted", year: "2022" }
+
+  - id: "malvina-monroe"
+    name: "Malvina Monroe"
+    img: "MalvinaMonroe2022.png"
+    franchise: "Enchanted"
+    link: "https://disneyinternationalvoices.weebly.com/malvina-monroe.html"
+    appearances:
+      - { film: "Disenchanted", year: "2022" }
+
+  - id: "tinker-bell"
+    name: "Tinker Bell"
+    img: "TinkerBell2008.png"
+    franchise: "Peter Pan"
+    link: "https://disneyinternationalvoices.weebly.com/tinker-bell.html"
+    appearances:
+      - { film: "Tinker Bell", year: "2008" }
+      - { film: "Tinker Bell and the Lost Treasure", year: "2009" }
+      - { film: "Tinker Bell and the Great Fairy Rescue", year: "2010" }
+      - { film: "Secret of the Wings", year: "2012", keywords: ["Tinker Bell: Secrets of the Wings"] }
+      - { film: "The Pirate Fairy", year: "2014", keywords: ["Tinker Bell: The Pirate Fairy"] }
+      - { film: "Tinker Bell and the Legend of the Neverbeast", year: "2014" }
+
+  - id: "carl-fredricksen"
+    name: "Carl Fredricksen"
+    img: "Carl2009.png"
+    franchise: "Up"
+    link: "https://disneyinternationalvoices.weebly.com/carl--russell.html"
+    appearances:
+      - { film: "Up", year: "2009" }
+
+  - id: "russell"
+    name: "Russell"
+    img: "Russell2009.png"
+    franchise: "Up"
+    link: "https://disneyinternationalvoices.weebly.com/carl--russell.html"
+    appearances:
+      - { film: "Up", year: "2009" }
+
+  - id: "dug"
+    name: "Dug"
+    img: "Dug2009.png"
+    franchise: "Up"
+    appearances:
+      - { film: "Up", year: "2009" }
+
+  - id: "charles-muntz"
+    name: "Charles Muntz"
+    img: "CharlesMuntz2009.png"
+    franchise: "Up"
+    appearances:
+      - { film: "Up", year: "2009" }
+
+  - id: "tiana"
+    name: "Tiana"
+    img: "Tiana2009.png"
+    franchise: "The Princess and the Frog"
+    link: "https://disneyinternationalvoices.weebly.com/tiana.html"
+    appearances:
+      - { film: "The Princess and the Frog", year: "2009" }
+      - { film: "Sofia the First: Winter's Gift", year: "2014" }
+      - { film: "Ralph Breaks the Internet", year: "2018" }
+      - { film: "LEGO Disney Princess: The Castle Quest", year: "2023" }
+      - { film: "Once Upon a Studio", year: "2023" }
+      - { film: "LEGO Disney Princess: Villains Unite", year: "2025" }
+
+  - id: "naveen"
+    name: "Naveen"
+    img: "Naveen2009.png"
+    franchise: "The Princess and the Frog"
+    link: "https://disneyinternationalvoices.weebly.com/naveen.html"
+    appearances:
+      - { film: "The Princess and the Frog", year: "2009" }
+
+  - id: "dr-facilier"
+    name: "Dr. Facilier"
+    img: "Facilier2009.png"
+    franchise: "The Princess and the Frog"
+    link: "https://disneyinternationalvoices.weebly.com/dr-facilier.html"
+    appearances:
+      - { film: "The Princess and the Frog", year: "2009" }
+
+  - id: "louis"
+    name: "Louis"
+    img: "Louis2009.png"
+    franchise: "The Princess and the Frog"
+    link: "https://disneyinternationalvoices.weebly.com/louis.html"
+    appearances:
+      - { film: "The Princess and the Frog", year: "2009" }
+
+  - id: "ray"
+    name: "Ray"
+    img: "Ray2009.png"
+    franchise: "The Princess and the Frog"
+    link: "https://disneyinternationalvoices.weebly.com/ray.html"
+    appearances:
+      - { film: "The Princess and the Frog", year: "2009" }
+
+  - id: "eudora-james"
+    name: "Eudora & James"
+    img: "EudoraJames2009.png"
+    franchise: "The Princess and the Frog"
+    link: "https://disneyinternationalvoices.weebly.com/james--eudora.html"
+    appearances:
+      - { film: "The Princess and the Frog", year: "2009" }
+
+  - id: "rapunzel"
+    name: "Rapunzel"
+    img: "Rapunzel2010.png"
+    franchise: "Tangled"
+    link: "https://disneyinternationalvoices.weebly.com/rapunzel.html"
+    appearances:
+      - { film: "Tangled", year: "2010" }
+      - { film: "Tangled Ever After", year: "2012" }
+      - { film: "Sofia the First: The Curse of Princess Ivy", year: "2014" }
+      - { film: "Tangled: Before Ever After", year: "2017", lead: 1 }
+      - { film: "Tangled: The Series", year: "2017-2020", lead: 1 }
+      - { film: "Ralph Breaks the Internet", year: "2018" }
+      - { film: "LEGO Disney Princess: The Castle Quest", year: "2023" }
+      - { film: "Once Upon a Studio", year: "2023" }
+      - { film: "LEGO Disney Princess: Villains Unite", year: "2025" }
+      - { film: "Sofia the First: Royal Magic", year: "2026-", upcoming: true, lead: 2 }
+      - { film: "LEGO Disney Princess: Magical Mayhem", year: "2026" }
+
+  - id: "flynn-rider"
+    name: "Flynn Rider"
+    img: "FlynnRider2010.png"
+    franchise: "Tangled"
+    keywords: ["Eugene Fitzherbert"]
+    link: "https://disneyinternationalvoices.weebly.com/flynn-rider.html"
+    appearances:
+      - { film: "Tangled", year: "2010" }
+      - { film: "Tangled Ever After", year: "2012" }
+      - { film: "Tangled: Before Ever After", year: "2017", lead: 2 }
+      - { film: "Tangled: The Series", year: "2017-2020", lead: 2 }
+
+  - id: "mother-gothel"
+    name: "Mother Gothel"
+    img: "MotherGothel2010.png"
+    franchise: "Tangled"
+    link: "https://disneyinternationalvoices.weebly.com/mother-gothel.html"
+    appearances:
+      - { film: "Tangled", year: "2010" }
+      - { film: "Tangled: The Series", year: "2017-2020" }
+
+  - id: "frederic-arianna"
+    name: "Frederic & Arianna"
+    img: "FredericArianna2010.png"
+    franchise: "Tangled"
+    link: "https://disneyinternationalvoices.weebly.com/frederic--arianna.html"
+    appearances:
+      - { film: "Tangled Ever After", year: "2012" }
+      - { film: "Tangled: Before Ever After", year: "2017" }
+      - { film: "Tangled: The Series", year: "2017-2020" }
+
+  - id: "cassandra"
+    name: "Cassandra"
+    img: "Cassandra2017.png"
+    franchise: "Tangled"
+    link: "https://disneyinternationalvoices.weebly.com/cassandra.html"
+    appearances:
+      - { film: "Tangled: Before Ever After", year: "2017", lead: 3 }
+      - { film: "Tangled: The Series", year: "2017-2020", lead: 3 }
+
+  - id: "lucille"
+    name: "Lucille"
+    img: "Lucille2011.png"
+    franchise: "Un Monstre à Paris"
+    link: "https://disneyinternationalvoices.weebly.com/lucille.html"
+    appearances:
+      - { film: "Un Monstre à Paris", year: "2011", keywords: ["A Monster in Paris"] }
+
+  - id: "merida"
+    name: "Merida"
+    img: "Merida2012.png"
+    franchise: "Brave"
+    link: "https://disneyinternationalvoices.weebly.com/merida.html"
+    appearances:
+      - { film: "Brave", year: "2012" }
+      - { film: "Sofia the First: The Secret Library", year: "2015" }
+      - { film: "Ralph Breaks the Internet", year: "2018" }
+
+  - id: "queen-elinor"
+    name: "Queen Elinor"
+    img: "Elinor2012.png"
+    franchise: "Brave"
+    link: "https://disneyinternationalvoices.weebly.com/queen-elinor--king-fergus.html"
+    appearances:
+      - { film: "Brave", year: "2012" }
+
+  - id: "king-fergus"
+    name: "King Fergus"
+    img: "Fergus2012.png"
+    franchise: "Brave"
+    link: "https://disneyinternationalvoices.weebly.com/queen-elinor--king-fergus.html"
+    appearances:
+      - { film: "Brave", year: "2012" }
+
+  - id: "jack-frost"
+    name: "Jack Frost"
+    img: "JackFrost2012.png"
+    franchise: "Rise of the Guardians"
+    link: "https://disneyinternationalvoices.weebly.com/jack-frost.html"
+    appearances:
+      - { film: "Rise of the Guardians", year: "2012" }
+
+  - id: "pitch"
+    name: "Pitch"
+    img: "Pitch2012.png"
+    franchise: "Rise of the Guardians"
+    link: "https://disneyinternationalvoices.weebly.com/pitch.html"
+    appearances:
+      - { film: "Rise of the Guardians", year: "2012" }
+
+  - id: "the-guardians"
+    name: "The Guardians"
+    img: "Guardians2012.png"
+    franchise: "Rise of the Guardians"
+    link: "https://disneyinternationalvoices.weebly.com/the-guardians.html"
+    appearances:
+      - { film: "Rise of the Guardians", year: "2012" }
+
+  - id: "ralph"
+    name: "Ralph"
+    img: "Ralph2012.png"
+    franchise: "Wreck-it Ralph"
+    link: "https://disneyinternationalvoices.weebly.com/ralph.html"
+    appearances:
+      - { film: "Wreck-it Ralph", year: "2012" }
+      - { film: "Ralph Breaks the Internet", year: "2018" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "vanellope"
+    name: "Vanellope"
+    img: "Vanellope2012.png"
+    franchise: "Wreck-it Ralph"
+    link: "https://disneyinternationalvoices.weebly.com/vanellope-von-schweetz.html"
+    appearances:
+      - { film: "Wreck-it Ralph", year: "2012" }
+      - { film: "Ralph Breaks the Internet", year: "2018" }
+
+  - id: "king-candy"
+    name: "King Candy"
+    img: "KingCandy2012.png"
+    franchise: "Wreck-it Ralph"
+    appearances:
+      - { film: "Wreck-it Ralph", year: "2012" }
+
+  - id: "fix-it-felix-jr"
+    name: "Fix-it Felix Jr."
+    img: "Felix2012.png"
+    franchise: "Wreck-it Ralph"
+    appearances:
+      - { film: "Wreck-it Ralph", year: "2012" }
+      - { film: "Ralph Breaks the Internet", year: "2018" }
+
+  - id: "sofia"
+    name: "Sofia"
+    img: "Sofia2012.png"
+    franchise: "Sofia the First"
+    link: "https://disneyinternationalvoices.weebly.com/sofia-the-first.html"
+    appearances:
+      - { film: "Sofia the First", year: "2012-2018", lead: true }
+      - { film: "Sofia the First: Royal Magic", year: "2026-", upcoming: true, lead: 1, img: "Sofia2026.png" }
+
+  - id: "dorothy"
+    name: "Dorothy"
+    img: "Dorothy2013.png"
+    franchise: "The Wizard of Oz"
+    link: "https://disneyinternationalvoices.weebly.com/dorothy-gale.html"
+    appearances:
+      - { film: "Legends of Oz: Dorothy's Return", year: "2013" }
+
+  - id: "anna"
+    name: "Anna"
+    img: "Anna2013.png"
+    franchise: "Frozen"
+    link: "https://disneyinternationalvoices.weebly.com/anna.html"
+    appearances:
+      - { film: "Frozen", year: "2013", lead: 1 }
+      - { film: "Frozen Fever", year: "2015", lead: 2 }
+      - { film: "LEGO Frozen: Northern Lights", year: "2016", lead: 1 }
+      - { film: "Olaf's Frozen Adventure", year: "2017", lead: 3, img: "Anna2017.png" }
+      - { film: "Ralph Breaks the Internet", year: "2018" }
+      - { film: "Frozen II", year: "2019", keywords: ["Frozen 2"], lead: 2 }
+      - { film: "Once Upon a Studio", year: "2023" }
+      - { film: "LEGO Frozen: Operation Puffins", year: "2025", upcoming: true, lead: 2 }
+
+  - id: "elsa"
+    name: "Elsa"
+    img: "Elsa2013.png"
+    franchise: "Frozen"
+    link: "https://disneyinternationalvoices.weebly.com/elsa.html"
+    appearances:
+      - { film: "Frozen", year: "2013", lead: 2 }
+      - { film: "Frozen Fever", year: "2015", lead: 1 }
+      - { film: "LEGO Frozen: Northern Lights", year: "2016", lead: 2 }
+      - { film: "Olaf's Frozen Adventure", year: "2017", lead: 2, img: "Elsa2017.png" }
+      - { film: "Ralph Breaks the Internet", year: "2018" }
+      - { film: "Frozen II", year: "2019", keywords: ["Frozen 2"], lead: 1 }
+      - { film: "Once Upon a Studio", year: "2023" }
+      - { film: "LEGO Frozen: Operation Puffins", year: "2025", upcoming: true, lead: 1 }
+
+  - id: "kristoff"
+    name: "Kristoff"
+    img: "Kristoff2013.png"
+    franchise: "Frozen"
+    link: "https://disneyinternationalvoices.weebly.com/kristoff.html"
+    appearances:
+      - { film: "Frozen", year: "2013", lead: 3 }
+      - { film: "Frozen Fever", year: "2015", lead: 3 }
+      - { film: "LEGO Frozen: Northern Lights", year: "2016", lead: 3 }
+      - { film: "Olaf's Frozen Adventure", year: "2017", lead: 4, img: "Kristoff2017.png" }
+      - { film: "Frozen II", year: "2019", keywords: ["Frozen 2"], lead: 3 }
+      - { film: "Once Upon a Studio", year: "2023" }
+      - { film: "LEGO Frozen: Operation Puffins", year: "2025", upcoming: true, lead: 3 }
+
+  - id: "hans"
+    name: "Hans"
+    img: "Hans2013.png"
+    franchise: "Frozen"
+    link: "https://disneyinternationalvoices.weebly.com/hans.html"
+    appearances:
+      - { film: "Frozen", year: "2013", lead: 4 }
+      - { film: "Frozen Fever", year: "2015" }
+      - { film: "Frozen II", year: "2019", keywords: ["Frozen 2"] }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "olaf"
+    name: "Olaf"
+    img: "Olaf2013.png"
+    franchise: "Frozen"
+    link: "https://disneyinternationalvoices.weebly.com/olaf.html"
+    appearances:
+      - { film: "Frozen", year: "2013", lead: 4 }
+      - { film: "Frozen Fever", year: "2015", lead: 4 }
+      - { film: "Sofia the First: The Secret Library", year: "2016" }
+      - { film: "LEGO Frozen: Northern Lights", year: "2016", lead: 4 }
+      - { film: "Olaf's Frozen Adventure", year: "2017", lead: 1, img: "Olaf2017.png" }
+      - { film: "Frozen II", year: "2019", keywords: ["Frozen 2"], lead: 4 }
+      - { film: "Once Upon a Snowman", year: "2020" }
+      - { film: "Olaf Presents", year: "2021" }
+      - { film: "Once Upon a Studio", year: "2023" }
+      - { film: "LEGO Frozen: Operation Puffins", year: "2025", upcoming: true, lead: 4 }
+
+  - id: "iduna"
+    name: "Iduna"
+    img: "Iduna2019.png"
+    franchise: "Frozen"
+    link: "https://disneyinternationalvoices.weebly.com/iduna.html"
+    appearances:
+      - { film: "Frozen", year: "2013" }
+      - { film: "Frozen II", year: "2019", keywords: ["Frozen 2"], lead: 5 }
+
+  - id: "hiro"
+    name: "Hiro"
+    img: "HiroHamada2014.png"
+    franchise: "Big Hero 6"
+    link: "https://disneyinternationalvoices.weebly.com/hiro-hamada.html"
+    appearances:
+      - { film: "Big Hero 6", year: "2014" }
+      - { film: "Big Hero 6: The Series", year: "2017-2021" }
+      - { film: "Baymax!", year: "2022", upcoming: true }
+
+  - id: "baymax"
+    name: "Baymax"
+    img: "Baymax2014.png"
+    franchise: "Big Hero 6"
+    link: "https://disneyinternationalvoices.weebly.com/baymax.html"
+    appearances:
+      - { film: "Big Hero 6", year: "2014" }
+      - { film: "Big Hero 6: The Series", year: "2017-2021" }
+      - { film: "Baymax!", year: "2022", upcoming: true }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "tadashi"
+    name: "Tadashi"
+    img: "TadashiHamada2014.png"
+    franchise: "Big Hero 6"
+    appearances:
+      - { film: "Big Hero 6", year: "2014" }
+
+  - id: "robert-callaghan-br-small-aka-small-yokai"
+    name: "Robert Callaghan<br><small>aka</small> YOKAI"
+    img: "RobertCallaghan2014.png"
+    franchise: "Big Hero 6"
+    link: "https://disneyinternationalvoices.weebly.com/yokai.html"
+    appearances:
+      - { film: "Big Hero 6", year: "2014" }
+
+  - id: "aunt-cass"
+    name: "Aunt Cass"
+    img: "AuntCass2014.png"
+    franchise: "Big Hero 6"
+    link: "https://disneyinternationalvoices.weebly.com/aunt-cass.html"
+    appearances:
+      - { film: "Big Hero 6", year: "2014" }
+      - { film: "Big Hero 6: The Series", year: "2017-2021" }
+      - { film: "Baymax!", year: "2022", upcoming: true }
+
+  - id: "the-emotions"
+    name: "The Emotions"
+    img: "Emotions2015.png"
+    franchise: "Inside Out"
+    link: "https://disneyinternationalvoices.weebly.com/the-emotions.html"
+    appearances:
+      - { film: "Inside Out", year: "2015" }
+      - { film: "Inside Out 2", year: "2024", upcoming: true }
+
+  - id: "riley"
+    name: "Riley"
+    img: "Riley2015.png"
+    franchise: "Inside Out"
+    appearances:
+      - { film: "Inside Out", year: "2015" }
+      - { film: "Inside Out 2", year: "2024" }
+
+  - id: "rileys-parents"
+    name: "Riley's Parents"
+    img: "RileyParents2015.png"
+    franchise: "Inside Out"
+    link: "https://disneyinternationalvoices.weebly.com/rileys-parents.html"
+    appearances:
+      - { film: "Inside Out", year: "2015" }
+      - { film: "Inside Out 2", year: "2024", upcoming: true }
+
+  - id: "judy-hopps"
+    name: "Judy Hopps"
+    img: "Judy2016.png"
+    franchise: "Zootopia"
+    link: "https://disneyinternationalvoices.weebly.com/judy-hopps.html"
+    appearances:
+      - { film: "Zootopia", year: "2016" }
+      - { film: "Once Upon a Studio", year: "2023" }
+      - { film: "Zootopia 2", year: "2025", upcoming: true }
+
+  - id: "nick-wilde"
+    name: "Nick Wilde"
+    img: "Nick2016.png"
+    franchise: "Zootopia"
+    link: "https://disneyinternationalvoices.weebly.com/nick-wilde.html"
+    appearances:
+      - { film: "Zootopia", year: "2016" }
+      - { film: "Once Upon a Studio", year: "2023" }
+      - { film: "Zootopia 2", year: "2025", upcoming: true }
+
+  - id: "dawn-bellwether"
+    name: "Dawn Bellwether"
+    img: "Bellwether2016.png"
+    franchise: "Zootopia"
+    link: "https://disneyinternationalvoices.weebly.com/dawn-bellwether.html"
+    appearances:
+      - { film: "Zootopia", year: "2016" }
+      - { film: "Zootopia 2", year: "2025", upcoming: true }
+
+  - id: "bonnie-stu-hopps"
+    name: "Bonnie & Stu Hopps"
+    img: "TheHopps2016.png"
+    franchise: "Zootopia"
+    appearances:
+      - { film: "Zootopia", year: "2016" }
+      - { film: "Zootopia 2", year: "2025" }
+
+  - id: "elena"
+    name: "Elena"
+    img: "Elena2016.png"
+    franchise: "Elena of Avalor"
+    link: "https://disneyinternationalvoices.weebly.com/elena-castillo-flores.html"
+    appearances:
+      - { film: "Elena of Avalor", year: "2016-2020" }
+      - { film: "Elena and the Secret of Avalor", year: "2016", upcoming: true }
+      - { film: "Sofia the First: Royal Magic", year: "2026-", upcoming: true }
+
+  - id: "naomi-turner"
+    name: "Naomi Turner"
+    img: "NaomiTurner2016.png"
+    franchise: "Elena of Avalor"
+    link: "https://disneyinternationalvoices.weebly.com/naomi-turner.html"
+    appearances:
+      - { film: "Elena of Avalor", year: "2016-2020" }
+      - { film: "Elena and the Secret of Avalor", year: "2016", upcoming: true }
+
+  - id: "poppy"
+    name: "Poppy"
+    img: "Poppy2016.png"
+    franchise: "Trolls"
+    link: "https://disneyinternationalvoices.weebly.com/poppy.html"
+    appearances:
+      - { film: "Trolls", year: "2016" }
+      - { film: "Trolls Holiday", year: "2017" }
+      - { film: "Trolls: The Beat Goes On!", year: "2018-2019" }
+
+  - id: "moana"
+    name: "Moana"
+    img: "Moana2016.png"
+    franchise: "Moana"
+    keywords: ["Vaiana"]
+    link: "https://disneyinternationalvoices.weebly.com/moana--vaiana.html"
+    appearances:
+      - { film: "Moana", year: "2016", keywords: ["Vaiana"] }
+      - { film: "Ralph Breaks the Internet", year: "2018" }
+      - { film: "LEGO Disney Princess: The Castle Quest", year: "2023" }
+      - { film: "Once Upon a Studio", year: "2023" }
+      - { film: "Moana 2", year: "2024", keywords: ["Vaiana 2"], lead: 1, img: "Moana2024.png" }
+      - { film: "LEGO Disney Princess: Villains Unite", year: "2025" }
+      - { film: "Moana (live-action)", year: "2026", keywords: ["Vaiana (live-action)"] }
+      - { film: "LEGO Disney Princess: Magical Mayhem", year: "2026" }
+
+  - id: "maui"
+    name: "Maui"
+    img: "Maui2016.png"
+    franchise: "Moana"
+    link: "https://disneyinternationalvoices.weebly.com/maui.html"
+    appearances:
+      - { film: "Moana", year: "2016", keywords: ["Vaiana"] }
+      - { film: "Once Upon a Studio", year: "2023" }
+      - { film: "Moana 2", year: "2024", keywords: ["Vaiana 2"], lead: 2, img: "Maui2024.png" }
+      - { film: "Moana (live-action)", year: "2026", keywords: ["Vaiana (live-action)"] }
+
+  - id: "gramma-tala"
+    name: "Gramma Tala"
+    img: "Tala2016.png"
+    franchise: "Moana"
+    link: "https://disneyinternationalvoices.weebly.com/gramma-tala.html"
+    appearances:
+      - { film: "Moana", year: "2016", keywords: ["Vaiana"] }
+      - { film: "Moana 2", year: "2024", keywords: ["Vaiana 2"], lead: 5, img: "GrammaTala2024.png" }
+      - { film: "Moana (live-action)", year: "2026", keywords: ["Vaiana (live-action)"] }
+
+  - id: "tamatoa"
+    name: "Tamatoa"
+    img: "Tamatoa2016.png"
+    franchise: "Moana"
+    link: "https://disneyinternationalvoices.weebly.com/tamatoa.html"
+    appearances:
+      - { film: "Moana", year: "2016", keywords: ["Vaiana"] }
+      - { film: "Moana 2", year: "2024", keywords: ["Vaiana 2"], lead: 7, img: "Tamatoa2024.png" }
+      - { film: "Moana (live-action)", year: "2026", keywords: ["Vaiana (live-action)"] }
+
+  - id: "tui-sina"
+    name: "Tui & Sina"
+    img: "TuiSina2016.png"
+    franchise: "Moana"
+    link: "https://disneyinternationalvoices.weebly.com/chief-tui--sina.html"
+    appearances:
+      - { film: "Moana", year: "2016", keywords: ["Vaiana"] }
+      - { film: "Moana 2", year: "2024", keywords: ["Vaiana 2"], lead: 6, img: "TuiSina2024.png" }
+      - { film: "Moana (live-action)", year: "2026", keywords: ["Vaiana (live-action)"] }
+
+  - id: "tautai-vasa"
+    name: "Tautai Vasa"
+    img: "TautaiVasa2016.png"
+    franchise: "Moana"
+    keywords: ["Matai Vasa"]
+    link: "https://disneyinternationalvoices.weebly.com/tautai-vasa.html"
+    appearances:
+      - { film: "Moana", year: "2016", keywords: ["Vaiana"] }
+      - { film: "Moana 2", year: "2024", keywords: ["Vaiana 2"], lead: 4, img: "TautaiVasa2024.png" }
+
+  - id: "matangi"
+    name: "Matangi"
+    img: "Matangi2024.png"
+    franchise: "Moana"
+    keywords: ["Matai Vasa"]
+    link: "https://disneyinternationalvoices.weebly.com/matangi.html"
+    appearances:
+      - { film: "Moana 2", year: "2024", keywords: ["Vaiana 2"], lead: 3 }
+
+  - id: "miguel"
+    name: "Miguel"
+    img: "Miguel2017.png"
+    franchise: "Coco"
+    link: "https://disneyinternationalvoices.weebly.com/miguel.html"
+    appearances:
+      - { film: "Coco", year: "2017" }
+
+  - id: "h-ctor"
+    name: "Héctor"
+    img: "Hector2017.png"
+    franchise: "Coco"
+    link: "https://disneyinternationalvoices.weebly.com/heacutector.html"
+    appearances:
+      - { film: "Coco", year: "2017" }
+
+  - id: "ernesto-de-la-cruz"
+    name: "Ernesto de la Cruz"
+    img: "ErnestodelaCruz2017.png"
+    franchise: "Coco"
+    link: "https://disneyinternationalvoices.weebly.com/ernesto-de-la-cruz.html"
+    appearances:
+      - { film: "Coco", year: "2017" }
+
+  - id: "mam-imelda"
+    name: "Mamá Imelda"
+    img: "MamaImelda2017.png"
+    franchise: "Coco"
+    appearances:
+      - { film: "Coco", year: "2017" }
+
+  - id: "meechee"
+    name: "Meechee"
+    img: "Meechee2018.png"
+    franchise: "Smallfoot"
+    link: "https://disneyinternationalvoices.weebly.com/meechee.html"
+    appearances:
+      - { film: "Smallfoot", year: "2018" }
+
+  - id: "ian-lightfoot"
+    name: "Ian Lightfoot"
+    img: "IanLightfoot2020.png"
+    franchise: "Onward"
+    appearances:
+      - { film: "Onward", year: "2020" }
+
+  - id: "barley-lightfoot"
+    name: "Barley Lightfoot"
+    img: "BarleyLightfoot2020.png"
+    franchise: "Onward"
+    appearances:
+      - { film: "Onward", year: "2020" }
+
+  - id: "fei-fei"
+    name: "Fei Fei"
+    img: "FeiFei2020.png"
+    franchise: "Over the Moon"
+    link: "https://disneyinternationalvoices.weebly.com/fei-fei.html"
+    appearances:
+      - { film: "Over the Moon", year: "2020" }
+
+  - id: "change"
+    name: "Chang'e"
+    img: "Change2020.png"
+    franchise: "Over the Moon"
+    link: "https://disneyinternationalvoices.weebly.com/change.html"
+    appearances:
+      - { film: "Over the Moon", year: "2020" }
+
+  - id: "joe-gardner"
+    name: "Joe Gardner"
+    img: "JoeGardner2020.png"
+    franchise: "Soul"
+    link: "https://disneyinternationalvoices.weebly.com/joe-gardner.html"
+    appearances:
+      - { film: "Soul", year: "2020" }
+
+  - id: "22"
+    name: "22"
+    img: "222020.png"
+    franchise: "Soul"
+    appearances:
+      - { film: "Soul", year: "2020" }
+      - { film: "22 vs. Earth", year: "2021" }
+
+  - id: "raya"
+    name: "Raya"
+    img: "Raya2021.png"
+    franchise: "Raya and the Last Dragon"
+    link: "https://disneyinternationalvoices.weebly.com/raya.html"
+    appearances:
+      - { film: "Raya and the Last Dragon", year: "2021" }
+      - { film: "Once Upon a Studio", year: "2023" }
+
+  - id: "sisu"
+    name: "Sisu"
+    img: "Sisu2021.png"
+    franchise: "Raya and the Last Dragon"
+    link: "https://disneyinternationalvoices.weebly.com/Sisu.html"
+    appearances:
+      - { film: "Raya and the Last Dragon", year: "2021" }
+
+  - id: "cief-benja"
+    name: "Cief Benja"
+    img: "Benja2021.png"
+    franchise: "Raya and the Last Dragon"
+    appearances:
+      - { film: "Raya and the Last Dragon", year: "2021" }
+
+  - id: "namaari"
+    name: "Namaari"
+    img: "Namaari2021.png"
+    franchise: "Raya and the Last Dragon"
+    appearances:
+      - { film: "Raya and the Last Dragon", year: "2021" }
+
+  - id: "luca"
+    name: "Luca"
+    img: "Luca2021.png"
+    franchise: "Luca"
+    appearances:
+      - { film: "Luca", year: "2021" }
+
+  - id: "alberto"
+    name: "Alberto"
+    img: "Alberto2021.png"
+    franchise: "Luca"
+    appearances:
+      - { film: "Luca", year: "2021" }
+
+  - id: "giulia-marcovaldo"
+    name: "Giulia Marcovaldo"
+    img: "GiuliaMarcovaldo2021.png"
+    franchise: "Luca"
+    appearances:
+      - { film: "Luca", year: "2021" }
+
+  - id: "mirabel"
+    name: "Mirabel"
+    img: "Mirabel2021.png"
+    franchise: "Encanto"
+    link: "https://disneyinternationalvoices.weebly.com/mirabel.html"
+    appearances:
+      - { film: "Encanto", year: "2021" }
+
+  - id: "abuela-alma"
+    name: "Abuela Alma"
+    img: "AbuelaAlma2021.png"
+    franchise: "Encanto"
+    link: "https://disneyinternationalvoices.weebly.com/abuela-alma.html"
+    appearances:
+      - { film: "Encanto", year: "2021" }
+
+  - id: "luisa"
+    name: "Luisa"
+    img: "Luisa2021.png"
+    franchise: "Encanto"
+    link: "https://disneyinternationalvoices.weebly.com/luisa.html"
+    appearances:
+      - { film: "Encanto", year: "2021" }
+
+  - id: "isabela"
+    name: "Isabela"
+    img: "Isabela2021.png"
+    franchise: "Encanto"
+    link: "https://disneyinternationalvoices.weebly.com/isabela.html"
+    appearances:
+      - { film: "Encanto", year: "2021" }
+
+  - id: "camilo"
+    name: "Camilo"
+    img: "Camilo2021.png"
+    franchise: "Encanto"
+    link: "https://disneyinternationalvoices.weebly.com/camilo.html"
+    appearances:
+      - { film: "Encanto", year: "2021" }
+
+  - id: "dolores"
+    name: "Dolores"
+    img: "Dolores2021.png"
+    franchise: "Encanto"
+    link: "https://disneyinternationalvoices.weebly.com/dolores.html"
+    appearances:
+      - { film: "Encanto", year: "2021" }
+
+  - id: "meilin"
+    name: "Meilin"
+    img: "Meilin2021.png"
+    franchise: "Turning Red"
+    link: "https://disneyinternationalvoices.weebly.com/meilin-lee.html"
+    appearances:
+      - { film: "Turning Red", year: "2022" }
+
+  - id: "ming"
+    name: "Ming"
+    img: "Ming2021.png"
+    franchise: "Turning Red"
+    link: "https://disneyinternationalvoices.weebly.com/ming-lee.html"
+    appearances:
+      - { film: "Turning Red", year: "2022" }
+
+  - id: "miriam-abby-priya"
+    name: "Miriam, Abby, Priya"
+    img: "MiriamAbbyPriya2021.png"
+    franchise: "Turning Red"
+    link: "https://disneyinternationalvoices.weebly.com/miriam-abby--priya.html.html"
+    appearances:
+      - { film: "Turning Red", year: "2022" }
+
+  - id: "asha"
+    name: "Asha"
+    img: "Asha2023.png"
+    franchise: "Wish"
+    link: "https://disneyinternationalvoices.weebly.com/Asha.html"
+    appearances:
+      - { film: "Once Upon a Studio", year: "2023" }
+      - { film: "Wish", year: "2023" }
+
+  - id: "king-magnifico"
+    name: "King Magnifico"
+    img: "KingMagnifico2023.png"
+    franchise: "Wish"
+    link: "https://disneyinternationalvoices.weebly.com/king-magnifico.html"
+    appearances:
+      - { film: "Wish", year: "2023" }
+
+  - id: "valentino"
+    name: "Valentino"
+    img: "Valentino2023.png"
+    franchise: "Wish"
+    link: "https://disneyinternationalvoices.weebly.com/valentino.html"
+    appearances:
+      - { film: "Wish", year: "2023" }
+
+  - id: "queen-amaya"
+    name: "Queen Amaya"
+    img: "QueenAmaya2023.png"
+    franchise: "Wish"
+    link: "https://disneyinternationalvoices.weebly.com/queen-amaya.html"
+    appearances:
+      - { film: "Wish", year: "2023" }
+
+  - id: "ellian"
+    name: "Ellian"
+    img: "Ellian2024.png"
+    franchise: "Spellbound"
+    link: "https://disneyinternationalvoices.weebly.com/ellian.html"
+    appearances:
+      - { film: "Spellbound", year: "2024" }
+
+  - id: "king-solon-queen-ellsmere"
+    name: "King Solon & Queen Ellsmere"
+    img: "SolonEllsmere2024.png"
+    franchise: "Spellbound"
+    link: "https://disneyinternationalvoices.weebly.com/king-solon--queen-ellsmere.html"
+    appearances:
+      - { film: "Spellbound", year: "2024" }
+
+  - id: "bolinar"
+    name: "Bolinar"
+    img: "Bolinar2024.png"
+    franchise: "Spellbound"
+    link: "https://disneyinternationalvoices.weebly.com/bolinar.html"
+    appearances:
+      - { film: "Spellbound", year: "2024" }
+
+  - id: "nazara"
+    name: "Nazara"
+    img: "Nazara2024.png"
+    franchise: "Spellbound"
+    link: "https://disneyinternationalvoices.weebly.com/nazara.html"
+    appearances:
+      - { film: "Spellbound", year: "2024" }
+
+  - id: "glinda"
+    name: "Glinda"
+    img: "Glinda2024.png"
+    franchise: "The Wizard of Oz"
+    link: "https://disneyinternationalvoices.weebly.com/glinda.html"
+    appearances:
+      - { film: "Wicked", year: "2024" }
+      - { film: "Wicked: For Good", year: "2025", upcoming: true }
+
+  - id: "elphaba"
+    name: "Elphaba"
+    img: "Elphaba2024.png"
+    franchise: "The Wizard of Oz"
+    link: "https://disneyinternationalvoices.weebly.com/elphaba.html"
+    appearances:
+      - { film: "Wicked", year: "2024" }
+      - { film: "Wicked: For Good", year: "2025", upcoming: true }
+
+  - id: "silhouette-singer"
+    name: "(silhouette Singer)"
+    img: ""
+    hidden: true
+    appearances: []
+
+  - id: "silhouette-choir"
+    name: "(silhouette Choir)"
+    img: ""
+    hidden: true
+    appearances: []
+
+  - id: "silhouette-additional"
+    name: "(silhouette Additional voice)"
+    img: ""
+    hidden: true
+    appearances: []

@@ -114,7 +114,7 @@
 /* lien du film : comme sur les pages de cast (couleur du texte, bleu pâle au survol seulement) */
 .cast-wrap .roles-table a.film-link { text-decoration: none; }
 .cast-wrap .roles-table a.film-link:hover { color: var(--actor-link-hover-color); text-decoration: none; }
-/* photo du personnage doublé (5e champ d'une ligne de cast) */
+/* photo du personnage doublé (5e champ d'une ligne de cast = id du personnage dans _data/characters.yml) */
 .role-line { display: flex; align-items: center; gap: 10px; }
 .role-line + .role-line { margin-top: 4px; }
 .role-img { flex: 0 0 var(--artist-role-img, 64px); width: var(--artist-role-img, 64px); height: var(--artist-role-img, 64px); border-radius: 0; border: 1px solid rgba(40, 40, 40, 0.35); overflow: hidden; background: rgba(0, 0, 0, 0.06); }
@@ -141,14 +141,14 @@
 .artist-info .actor-name .name-sub { display: block; margin-top: 4px; }
 </style>
 
-{%- comment %} Images des lignes spéciales (colle ici l'URL de tes silhouettes ; vide = pastille grise) {% endcomment -%}
-{%- assign img_singer = "" -%}
-{%- assign img_choir = "" -%}
-{%- assign img_additional = "" -%}
+{%- comment %} Silhouettes des lignes spéciales : dans _data/characters.yml (ids silhouette-singer, silhouette-choir, silhouette-additional) {% endcomment -%}
+{%- capture u_singer -%}{% include character-image.html key="silhouette-singer" %}{%- endcapture -%}
+{%- capture u_choir -%}{% include character-image.html key="silhouette-choir" %}{%- endcapture -%}
+{%- capture u_additional -%}{% include character-image.html key="silhouette-additional" %}{%- endcapture -%}
 {%- assign img_singer_html = "" -%}{%- assign img_choir_html = "" -%}{%- assign img_additional_html = "" -%}
-{%- if img_singer != "" -%}{%- capture img_singer_html -%}<img src="{{ img_singer }}" alt="">{%- endcapture -%}{%- endif -%}
-{%- if img_choir != "" -%}{%- capture img_choir_html -%}<img src="{{ img_choir }}" alt="">{%- endcapture -%}{%- endif -%}
-{%- if img_additional != "" -%}{%- capture img_additional_html -%}<img src="{{ img_additional }}" alt="">{%- endcapture -%}{%- endif -%}
+{%- if u_singer != "" -%}{%- capture img_singer_html -%}<img src="{{ u_singer }}" alt="">{%- endcapture -%}{%- endif -%}
+{%- if u_choir != "" -%}{%- capture img_choir_html -%}<img src="{{ u_choir }}" alt="">{%- endcapture -%}{%- endif -%}
+{%- if u_additional != "" -%}{%- capture img_additional_html -%}<img src="{{ u_additional }}" alt="">{%- endcapture -%}{%- endif -%}
 {%- assign slug = page.artist -%}
 {%- assign cast_pages = site.pages | where_exp: "p", "p.cast" | sort: "title" -%}
 {%- assign staff_pages = site.pages | where_exp: "p", "p.staff" | sort: "title" -%}
@@ -179,7 +179,8 @@
         {%- assign found = found | plus: 1 -%}
         {%- assign cur_e_txt = cur_e | replace: "<br/>", " " | replace: "<br>", " " | strip_html -%}
         {%- assign roles = roles | append: '<div class="role-line"><span class="role-img">' -%}
-        {%- if cur_i != "" -%}{%- assign roles = roles | append: '<img src="' | append: cur_i | append: '" alt="" loading="lazy">' -%}{%- endif -%}
+        {%- capture cur_url -%}{% include character-image.html key=cur_i film=p.film %}{%- endcapture -%}
+        {%- if cur_url != "" -%}{%- assign roles = roles | append: '<img src="' | append: cur_url | append: '" alt="" loading="lazy">' -%}{%- endif -%}
         {%- assign roles = roles | append: '</span><span class="role-text">' | append: cur_e_txt -%}
         {%- assign c3 = f[3] | default: "" | strip -%}
         {%- if c3 != "" -%}{%- assign roles = roles | append: " " | append: c3 -%}{%- endif -%}

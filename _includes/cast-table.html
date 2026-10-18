@@ -1,6 +1,6 @@
 {%- comment -%}
   TABLEAU CAST construit depuis le front matter (page.cast). Une ligne = une chaîne :
-      natif | nom original | comédien | note | image du personnage (facultatif)
+      natif | nom original | comédien | note | id du personnage (facultatif)
   - comédien = le champ "artist" de sa fiche (artists/xxx.md) ; "?" ou vide = inconnu ;
     un texte libre est affiché tel quel si aucune fiche ne porte ce nom.
   - note (facultatif) = texte ajouté après le nom : (speaking & singing), ?, ...
@@ -9,8 +9,9 @@
   - même comédien sur plusieurs lignes CONSÉCUTIVES → cellule fusionnée (rowspan) automatique.
   - ligne dont natif ET nom original sont vides → voix supplémentaire du personnage au-dessus
     (les deux cellules de noms sont fusionnées automatiquement).
-  - image du personnage (5e champ, facultatif) : si au moins une ligne en a une, une colonne de vignettes
-    s'ajoute à gauche du tableau (et la même image sert sur la fiche du comédien).
+  - id du personnage (5e champ, facultatif ; ex: elsa) : l'image vient de _data/characters.yml (image du film si elle existe).
+    Si au moins une ligne en a un, une colonne de vignettes s'ajoute à gauche du tableau
+    (la même image sert sur la fiche du comédien). Une URL complète est aussi acceptée.
   - bandeau :  banner | Texte | URL de l'image | sparkle glow | id-d-ancrage
   Titres de colonnes : cast_columns: "Cantonese name | Original name | Voices"
 {%- endcomment -%}
@@ -103,8 +104,9 @@
       <tr>
         {%- unless is_cont %}
         {%- if has_img %}
-        {%- assign c4 = f[4] | default: "" | strip %}
-        <td class="cast-thumb"{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}>{% if c4 != "" %}<img src="{{ c4 }}" alt="{{ c1 | strip_html }}" loading="lazy">{% endif %}</td>
+        {%- assign c4 = f[4] | default: "" | strip -%}
+        {%- capture c4_url -%}{% include character-image.html key=c4 film=page.film %}{%- endcapture %}
+        <td class="cast-thumb"{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}>{% if c4_url != "" %}<img src="{{ c4_url }}" alt="{{ c1 | strip_html }}" loading="lazy">{% endif %}</td>
         {%- endif %}
         <td{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}>{{ c0 }}</td>
         <td{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}>{{ c1 }}</td>
