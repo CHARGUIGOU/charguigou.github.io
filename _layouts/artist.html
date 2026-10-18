@@ -237,6 +237,25 @@
         </tr>
   {%- endif -%}
 {%- endfor -%}
+{%- comment %} ---- Rôles ajoutés à la main dans la fiche (extra_roles) : "rôle | film | année | langue | id du personnage | lien du film" ---- {% endcomment -%}
+{%- for er in page.extra_roles -%}
+  {%- assign ef = er | split: "|" -%}
+  {%- assign e_role = ef[0] | default: "" | strip -%}
+  {%- assign e_film = ef[1] | default: "" | strip -%}
+  {%- assign e_year = ef[2] | default: "" | strip -%}
+  {%- assign e_lang = ef[3] | default: "" | strip -%}
+  {%- assign e_char = ef[4] | default: "" | strip -%}
+  {%- assign e_link = ef[5] | default: "" | strip -%}
+  {%- capture e_url -%}{% include character-image.html key=e_char film=e_film %}{%- endcapture -%}
+  {%- assign total = total | plus: 1 -%}
+  {%- assign n_films = n_films | plus: 1 %}
+        <tr>
+          <td><div class="role-line"><span class="role-img">{% if e_url != "" %}<img src="{{ e_url }}" alt="" loading="lazy">{% endif %}</span><span class="role-text">{{ e_role }}</span></div></td>
+          <td class="c-film">{% if e_link != "" %}<a class="film-link" href="{{ e_link }}">{{ e_film }}</a>{% else %}{{ e_film }}{% endif %}</td>
+          <td class="c-year">{{ e_year }}</td>
+          <td class="c-lang">{{ e_lang }}</td>
+        </tr>
+{%- endfor -%}
 {%- endcapture -%}
 
 {%- comment %} ---- Chansons (tableau à part) ---- {% endcomment -%}
