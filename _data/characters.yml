@@ -3112,18 +3112,18 @@ list:
 
   - id: "silhouette-singer"
     name: "(silhouette Singer)"
-    img: ""
+    img: "Singing_performer.png"
     hidden: true
     appearances: []
 
   - id: "silhouette-choir"
     name: "(silhouette Choir)"
-    img: ""
+    img: "Singing_performer.png"
     hidden: true
     appearances: []
 
   - id: "silhouette-additional"
     name: "(silhouette Additional voice)"
-    img: ""
+    img: "Unknown_character.png"
     hidden: true
     appearances: []
