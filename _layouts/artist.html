@@ -70,6 +70,7 @@
 /* EN-TÊTE DE LA FICHE : photo à gauche, infos à droite */
 :root {
   --artist-photo-width: var(--voice-card-max);   /* largeur de la photo */
+  --artist-photo-border: 1px solid rgba(40, 40, 40, 0.75);   /* fine bordure noir doux autour de la photo (mets none pour la retirer) */
   --artist-photo-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);   /* ombre permanente de la photo (mets none pour la retirer) */
   --artist-card-gap: 36px;                       /* espace entre la photo et le texte */
   --artist-nick-size: 16px;                      /* pseudo (1re ligne, en italique, quand il y en a un) */
@@ -82,7 +83,7 @@
 }
 .artist-card { display: flex; align-items: center; justify-content: center; gap: var(--artist-card-gap); flex-wrap: wrap; margin-bottom: var(--voice-space-below); }
 .artist-card .voice-card { flex: 0 0 var(--artist-photo-width); max-width: 100%; }
-.artist-card .voice-card img { border: none; border-radius: 0; box-shadow: var(--artist-photo-shadow); }
+.artist-card .voice-card img { border: var(--artist-photo-border); border-radius: 0; box-shadow: var(--artist-photo-shadow); }
 .artist-info { flex: 0 1 420px; text-align: left; }
 .artist-info .actor-name { margin-top: 0; font-size: var(--artist-name-size); line-height: 1.25; color: var(--actor-name-color); letter-spacing: var(--artist-name-letter-spacing); font-weight: 700; }
 .artist-info .name-main { font-size: var(--artist-nick-size); font-style: italic; font-weight: 400; letter-spacing: var(--actor-name-letter-spacing); }
@@ -106,6 +107,8 @@
 .roles-table td:nth-child(n+3), .roles-table th:nth-child(n+3) { text-align: center; width: 1%; white-space: nowrap; }
 .roles-table td:nth-child(-n+2), .roles-table th:nth-child(-n+2) { width: auto; white-space: normal; }
 .roles-table td:nth-child(-n+2) { font-family: inherit; font-size: var(--cast-text-size); }
+/* espace au-dessus/en dessous du contenu des lignes (même valeur que l'espace entre deux rôles) */
+.roles-table tbody td { padding-top: var(--artist-row-pad, 2px); padding-bottom: var(--artist-row-pad, 2px); }
 /* survol d'une ligne : léger assombrissement */
 .roles-table tbody tr:hover td { background: var(--artist-row-hover, rgba(0, 0, 0, 0.022)); }
 /* lien du film : comme sur les pages de cast (couleur du texte, bleu pâle au survol seulement) */
@@ -119,7 +122,11 @@
 .role-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
 #songs .role-img, #technical-credits .role-img { display: none; }
 .artist-summary { text-align: center; font-weight: 700; margin: 0 0 22px; font-size: var(--artist-country-size); color: var(--actor-dates-color); font-family: var(--artist-meta-font); }
+.cast-wrap { position: relative; }
 .artist-back { display: inline-block; margin: 0 0 18px; font-size: 14px; color: inherit; text-decoration: none; opacity: .75; }
+@media (min-width: 1300px) {   /* grand écran : le lien passe dans la marge à gauche du contenu */
+  .artist-back { position: absolute; top: 60px; right: 100%; margin: 0 -12px 0 0; white-space: nowrap; }
+}
 .artist-back:hover { color: var(--actor-link-hover-color); opacity: 1; }
 .roles-table th.sortable { cursor: pointer; user-select: none; }
 /* petites flèches haut/bas à droite de chaque titre de colonne ; la flèche active est plus foncée */
