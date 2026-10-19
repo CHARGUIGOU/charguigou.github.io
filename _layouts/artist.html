@@ -92,6 +92,7 @@
 .artist-info .name-sub { font-size: var(--artist-name-size); }
 .artist-info .artist-dates { margin-top: 12px; font-size: var(--artist-dates-size); color: var(--actor-dates-color); letter-spacing: var(--actor-dates-letter-spacing); font-family: var(--artist-meta-font); }
 .artist-info .artist-country { margin-top: 4px; font-size: var(--artist-country-size); color: var(--actor-dates-color); font-family: var(--artist-meta-font); }
+.artist-info .artist-address { margin-top: 4px; font-size: var(--artist-country-size); color: var(--actor-dates-color); font-family: var(--artist-meta-font); }
 /* Fiche de STUDIO : photo, nom et pays l'un sous l'autre, centrés */
 .artist-card.studio { flex-direction: column; gap: 20px; }
 .artist-card.studio .voice-card { flex: 0 0 auto; width: var(--artist-photo-width); }
@@ -466,12 +467,19 @@
     </div>
     <div class="artist-info">
       <div class="actor-name">{{ name_html }}</div>
+      {%- comment %} Dates : un artiste affiche "Unknown dates" par défaut ; un studio n'affiche ses dates (création - fermeture) que s'il en a. {% endcomment %}
       {%- if page.kind != "studio" %}
       <div class="artist-dates">{{ page.dates | default: "Unknown dates" | strip }}</div>
+      {%- elsif page.dates %}
+      <div class="artist-dates">{{ page.dates | strip }}</div>
       {%- endif %}
       {%- assign country = page.country | default: "" | strip -%}
       {%- if country != "" %}
       <div class="artist-country">{{ country }}</div>
+      {%- endif %}
+      {%- assign address = page.address | default: "" | strip -%}
+      {%- if address != "" %}
+      <div class="artist-address">{{ address }}</div>
       {%- endif %}
 
     </div>
