@@ -179,7 +179,7 @@
         {%- assign found = found | plus: 1 -%}
         {%- assign cur_e_txt = cur_e | replace: "<br/>", " " | replace: "<br>", " " | strip_html -%}
         {%- assign roles = roles | append: '<div class="role-line"><span class="role-img">' -%}
-        {%- capture cur_url -%}{% include character-image.html key=cur_i film=p.film %}{%- endcapture -%}
+        {%- capture cur_url -%}{% include character-image.html key=cur_i name=cur_e film=p.film %}{%- endcapture -%}
         {%- if cur_url != "" -%}{%- assign roles = roles | append: '<img src="' | append: cur_url | append: '" alt="" loading="lazy">' -%}{%- endif -%}
         {%- assign roles = roles | append: '</span><span class="role-text">' | append: cur_e_txt -%}
         {%- assign c3 = f[3] | default: "" | strip -%}

@@ -1,12 +1,19 @@
 {%- comment -%}
   URL de l'image d'un personnage, lue dans _data/characters.yml.
-  Paramètres :  key  = id du personnage (ex: elsa)  — ou directement une URL complète (https://...)
+  Paramètres :  key  = id du personnage (ex: elsa)  — ou directement une URL complète (https://...) ; "-" = pas d'image
+                name = nom original affiché (ex: Ralph) : sert seulement quand key est vide, l'id est alors déduit du nom
+                       (minuscules, espaces en tirets : "Mr. Litwak" -> mr-litwak)
                 film = titre du film (facultatif) : si le personnage a une image pour CE film, c'est elle qui est prise
                 size = taille de la miniature en pixels (défaut 160 ; carrée, recadrée depuis le haut)
   Renvoie seulement l'URL (vide si le personnage ou son image n'existe pas).
 {%- endcomment -%}
 {%- assign ci_url = "" -%}
 {%- assign ci_key = include.key | default: "" | strip -%}
+{%- if ci_key == "" -%}
+  {%- assign ci_n = include.name | default: "" | split: "<" | first | default: "" | split: "(" | first | default: "" | strip | downcase -%}
+  {%- assign ci_key = ci_n | replace: "’", "" | replace: "'", "" | replace: ".", "" | replace: ",", "" | replace: ":", "" | replace: "&amp;", "" | replace: "&", "" | replace: "#", "" | replace: "!", "" | replace: "?", "" | replace: " ", "-" | replace: "--", "-" -%}
+{%- endif -%}
+{%- if ci_key == "-" -%}{%- assign ci_key = "" -%}{%- endif -%}
 {%- assign ci_k4 = ci_key | slice: 0, 4 -%}
 {%- if ci_k4 == "http" -%}
   {%- assign ci_url = ci_key -%}

@@ -10,6 +10,7 @@
   - ligne dont natif ET nom original sont vides → voix supplémentaire du personnage au-dessus
     (les deux cellules de noms sont fusionnées automatiquement).
   - id du personnage (5e champ, facultatif ; ex: elsa) : l'image vient de _data/characters.yml (image du film si elle existe).
+    "-" = aucune image pour cette ligne. Voir plus bas le réglage de page cast_images.
     Si au moins une ligne en a un, une colonne de vignettes s'ajoute à gauche du tableau
     (la même image sert sur la fiche du comédien). Une URL complète est aussi acceptée.
   - bandeau :  banner | Texte | URL de l'image | sparkle glow | id-d-ancrage
@@ -17,10 +18,29 @@
 {%- endcomment -%}
 {%- assign artist_pages = site.pages | where_exp: "p", "p.artist" -%}
 {%- assign colnames = page.cast_columns | default: "Native name | Original name | Voices" | split: "|" -%}
+{%- comment -%}
+  Vignettes des personnages dans ce tableau (réglage de la page : cast_images) :
+    - non écrit  : seulement les lignes qui ont un id en 5e champ ; si aucune, pas de colonne de vignettes
+    - cast_images: true  : toutes les lignes dont le personnage existe dans _data/characters.yml (id déduit du nom si besoin)
+    - cast_images: false : jamais de vignettes sur cette page
+  (les fiches des artistes, elles, utilisent toujours automatiquement les images)
+{%- endcomment -%}
+{%- assign auto_img = false -%}
+{%- if page.cast_images == true -%}{%- assign auto_img = true -%}{%- endif -%}
 {%- assign has_img = false -%}
 {%- for row in page.cast -%}
-  {%- assign hf = row | split: "|" -%}
-  {%- if hf[0] != "banner" and hf[4] and hf[4] != " " -%}{%- assign hi = hf[4] | strip -%}{%- if hi != "" -%}{%- assign has_img = true -%}{%- endif -%}{%- endif -%}
+  {%- unless has_img or page.cast_images == false -%}
+    {%- assign hf = row | split: "|" -%}
+    {%- assign h0 = hf[0] | default: "" | strip -%}
+    {%- assign h1 = hf[1] | default: "" | strip -%}
+    {%- if h0 != "banner" and h1 != "" -%}
+      {%- assign h4 = hf[4] | default: "" | strip -%}
+      {%- assign h_name = "" -%}
+      {%- if auto_img -%}{%- assign h_name = h1 -%}{%- endif -%}
+      {%- capture h_url -%}{% include character-image.html key=h4 name=h_name film=page.film %}{%- endcapture -%}
+      {%- if h_url != "" -%}{%- assign has_img = true -%}{%- endif -%}
+    {%- endif -%}
+  {%- endunless -%}
 {%- endfor -%}
 {%- if has_img -%}
 <style>
@@ -105,7 +125,9 @@
         {%- unless is_cont %}
         {%- if has_img %}
         {%- assign c4 = f[4] | default: "" | strip -%}
-        {%- capture c4_url -%}{% include character-image.html key=c4 film=page.film %}{%- endcapture %}
+        {%- assign c4_name = "" -%}
+        {%- if auto_img -%}{%- assign c4_name = c1 -%}{%- endif -%}
+        {%- capture c4_url -%}{% include character-image.html key=c4 name=c4_name film=page.film %}{%- endcapture %}
         <td class="cast-thumb"{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}>{% if c4_url != "" %}<img src="{{ c4_url }}" alt="{{ c1 | strip_html }}" loading="lazy">{% endif %}</td>
         {%- endif %}
         <td{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}>{{ c0 }}</td>
