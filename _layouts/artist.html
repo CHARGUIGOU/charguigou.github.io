@@ -124,8 +124,8 @@
 .artist-summary { text-align: center; font-weight: 700; margin: 0 0 22px; font-size: var(--artist-country-size); color: var(--actor-dates-color); font-family: var(--artist-meta-font); }
 .cast-wrap { position: relative; }
 .artist-back { display: inline-block; margin: 0 0 18px; font-size: 14px; color: inherit; text-decoration: none; opacity: .75; }
-@media (min-width: 1300px) {   /* grand écran : le lien passe dans la marge à gauche du contenu */
-  .artist-back { position: absolute; top: 60px; right: 100%; margin: 0 -12px 0 0; white-space: nowrap; }
+@media (min-width: 1300px) {   /* grand écran : le lien se place sur le bord gauche de la PAGE (et non à côté du contenu) */
+  .artist-back { position: absolute; top: 60px; left: calc(50% - 50vw + var(--artist-back-offset, 48px)); margin: 0; white-space: nowrap; }  /* 48px = distance au bord gauche de l'écran : change-la ici */
 }
 .artist-back:hover { color: var(--actor-link-hover-color); opacity: 1; }
 .roles-table th.sortable { cursor: pointer; user-select: none; }
