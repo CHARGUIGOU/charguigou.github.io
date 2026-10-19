@@ -15,9 +15,13 @@
     (la même image sert sur la fiche du comédien). Une URL complète est aussi acceptée.
   - bandeau :  banner | Texte | URL de l'image | sparkle glow | id-d-ancrage
   Titres de colonnes : cast_columns: "Cantonese name | Original name | Voices"
+  Page à onglets : passe src=tab (l'onglet) pour lire ses données au lieu de celles de la page (sinon : la page elle-même).
+  Page à onglets : passe aussi sfx="-v1" (suffixe de l'id du tableau : id="cast-v1").
 {%- endcomment -%}
+{%- assign cs_src = include.src -%}{%- unless cs_src -%}{%- assign cs_src = page -%}{%- endunless -%}
+{%- assign cs_film = cs_src.film | default: page.film -%}
 {%- assign artist_pages = site.pages | where_exp: "p", "p.artist" -%}
-{%- assign colnames = page.cast_columns | default: "Native name | Original name | Voices" | split: "|" -%}
+{%- assign colnames = cs_src.cast_columns | default: page.cast_columns | default: "Native name | Original name | Voices" | split: "|" -%}
 {%- comment -%}
   Vignettes des personnages dans ce tableau (réglage de la page : cast_images) :
     - non écrit  : seulement les lignes qui ont un id en 5e champ ; si aucune, pas de colonne de vignettes
@@ -28,7 +32,7 @@
 {%- assign auto_img = false -%}
 {%- if page.cast_images == true -%}{%- assign auto_img = true -%}{%- endif -%}
 {%- assign has_img = false -%}
-{%- for row in page.cast -%}
+{%- for row in cs_src.cast -%}
   {%- unless has_img or page.cast_images == false -%}
     {%- assign hf = row | split: "|" -%}
     {%- assign h0 = hf[0] | default: "" | strip -%}
@@ -38,7 +42,7 @@
       {%- assign h_name = "" -%}
       {%- if auto_img -%}{%- assign h_name = h1 -%}{%- endif -%}
       {%- capture cf_url -%}{% include character-image.html key="silhouette-additional" %}{%- endcapture -%}
-      {%- capture h_url -%}{% include character-image.html key=h4 name=h_name film=page.film %}{%- endcapture -%}
+      {%- capture h_url -%}{% include character-image.html key=h4 name=h_name film=cs_film %}{%- endcapture -%}
       {%- if h_url != "" -%}{%- assign has_img = true -%}{%- endif -%}
     {%- endif -%}
   {%- endunless -%}
@@ -52,7 +56,7 @@
 .cast-table td.cast-thumb img { display: block; margin: 0 auto; width: var(--cast-char-img, 56px); height: var(--cast-char-img, 56px); object-fit: cover; object-position: top; border-radius: 0; border: 1px solid rgba(40, 40, 40, 0.35); }
 </style>
 {%- endif -%}
-<div class="info-box" id="cast">
+<div class="info-box" id="cast{{ include.sfx }}">
   <div class="info-box-title">Cast</div>
   <table class="cast-table{% if has_img %} has-img{% endif %}">
     <thead>
@@ -65,7 +69,7 @@
     </thead>
     <tbody>
 {%- assign prev_actor = "" -%}
-{%- for row in page.cast -%}
+{%- for row in cs_src.cast -%}
   {%- assign nxt = forloop.index -%}
   {%- assign f = row | split: "|" -%}
   {%- assign c0 = f[0] | default: "" | strip -%}
@@ -97,7 +101,7 @@
     {%- comment %} rowspan des noms : nombre de lignes "voix supplémentaire" qui suivent {% endcomment -%}
     {%- assign name_span = 1 -%}
     {%- unless is_cont -%}
-      {%- for r2 in page.cast offset: nxt -%}
+      {%- for r2 in cs_src.cast offset: nxt -%}
         {%- assign g = r2 | split: "|" -%}
         {%- assign g0 = g[0] | default: "" | strip -%}
         {%- assign g1 = g[1] | default: "" | strip -%}
@@ -113,7 +117,7 @@
     {%- if real -%}
       {%- if c2 == prev_actor -%}{%- assign skip_actor = true -%}
       {%- else -%}
-        {%- for r2 in page.cast offset: nxt -%}
+        {%- for r2 in cs_src.cast offset: nxt -%}
           {%- assign g = r2 | split: "|" -%}
           {%- assign g2 = g[2] | default: "" | split: "=" | first | default: "" | strip -%}
           {%- if g2 == c2 -%}{%- assign actor_span = actor_span | plus: 1 -%}
@@ -128,7 +132,7 @@
         {%- assign c4 = f[4] | default: "" | strip -%}
         {%- assign c4_name = "" -%}
         {%- if auto_img -%}{%- assign c4_name = c1 -%}{%- endif -%}
-        {%- capture c4_url -%}{% include character-image.html key=c4 name=c4_name film=page.film %}{%- endcapture %}
+        {%- capture c4_url -%}{% include character-image.html key=c4 name=c4_name film=cs_film %}{%- endcapture %}
         <td class="cast-thumb"{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}>{% if c4_url != "" %}<img src="{{ c4_url }}" alt="{{ c1 | strip_html }}" loading="lazy"{% if cf_url != "" %} onerror="this.onerror=null;this.src='{{ cf_url }}'"{% endif %}>{% endif %}</td>
         {%- endif %}
         <td{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}>{{ c0 }}</td>

@@ -35,9 +35,11 @@
     var crossing = Math.min(num('--banner-wave-crossing', 3.4), period * 0.9);
 
     document.querySelectorAll('.cast-banner.sparkle').forEach(function (cell) {
+      if (cell.getAttribute('data-fx')) return;   // déjà animé
       var inner = cell.querySelector('.banner-inner');
       var w = inner.clientWidth, h = inner.clientHeight;
-      if (!w || !h) return;
+      if (!w || !h) return;   // bandeau dans un onglet caché : il sera animé à l'ouverture de l'onglet
+      cell.setAttribute('data-fx', '1');
 
       // Trajet ondulé de la "tête" : u va de 0 (gauche) à 1 (droite)
       var ph1 = Math.random() * 6.28, ph2 = Math.random() * 6.28;
@@ -107,9 +109,12 @@
     var size     = num('--banner-glow-size', 18);
 
     document.querySelectorAll('.cast-banner.glow').forEach(function (cell) {
+      if (cell.getAttribute('data-glow')) return;
       var inner = cell.querySelector('.banner-inner');
       var text = cell.querySelector('.banner-text');
       if (!inner || !text || !text.firstChild) return;
+      if (!inner.clientWidth) return;   // onglet caché : voir ci-dessus
+      cell.setAttribute('data-glow', '1');
       var r = document.createRange();
       r.selectNodeContents(text);
       var rect = r.getBoundingClientRect(), box = inner.getBoundingClientRect();
@@ -131,6 +136,7 @@
   }
 
   function start() { init(); initGlow(); }
+  window.castBannerFx = start;   // rappelé à l'ouverture d'un onglet (script des onglets plus bas)
   if (document.readyState === 'complete') start();
   else window.addEventListener('load', start);
 })();
@@ -146,6 +152,7 @@
     tabs.forEach(function (t) { var on = t.dataset.version === v; t.classList.toggle('active', on); if (on) found = true; });
     if (!found) return;
     groups.forEach(function (g) { g.classList.toggle('active', g.dataset.version === v); });
+    if (window.castBannerFx) window.castBannerFx();   // anime les bandeaux de l'onglet qui vient d'apparaître
     if (updateHash) { try { history.replaceState(null, '', '#version-' + v); } catch (e) {} }
   }
   tabs.forEach(function (t) {

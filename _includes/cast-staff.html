@@ -2,9 +2,11 @@
   Tableau Technical Staff depuis page.staff. Une ligne = "personne(s) | poste".
   Plusieurs personnes : sépare par ; (elles s'affichent l'une sous l'autre).
   Une personne sans fiche, un studio : texte affiché tel quel, sans lien.
+  Page à onglets : passe src=tab (l'onglet) pour lire ses données au lieu de celles de la page (sinon : la page elle-même).
 {%- endcomment -%}
 <table class="staff-table">
-{%- for row in page.staff %}
+{%- assign cs_src = include.src -%}{%- unless cs_src -%}{%- assign cs_src = page -%}{%- endunless -%}
+{%- for row in cs_src.staff %}
   {%- assign f = row | split: "|" -%}
   {%- assign people = f[0] | split: ";" %}
       <tr><td class="staff-name{% if people.size > 1 %} staff-multi{% endif %}">

@@ -2,8 +2,10 @@
   Liste des chansons depuis page.songs. Une chanson = "titre natif | titre anglais | interprètes | note".
   Interprètes séparés par ; : "fiche @ Personnage". Un interprète qui commence par & est
   précédé de "&" au lieu de ";" (ex : &Choir). Titre natif vide : titre anglais seul, en gras.
+  Page à onglets : passe src=tab (l'onglet) pour lire ses données au lieu de celles de la page (sinon : la page elle-même).
 {%- endcomment -%}
-{%- for song in page.songs %}
+{%- assign cs_src = include.src -%}{%- unless cs_src -%}{%- assign cs_src = page -%}{%- endunless -%}
+{%- for song in cs_src.songs %}
       {%- assign f = song | split: "|" -%}
       {%- assign s_nat = f[0] | default: "" | strip -%}
       {%- assign s_eng = f[1] | default: "" | strip -%}

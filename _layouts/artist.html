@@ -151,15 +151,22 @@
 {%- if u_choir != "" -%}{%- capture img_choir_html -%}<img src="{{ u_choir }}" alt="">{%- endcapture -%}{%- endif -%}
 {%- if u_additional != "" -%}{%- capture img_additional_html -%}<img src="{{ u_additional }}" alt="">{%- endcapture -%}{%- endif -%}
 {%- assign slug = page.artist -%}
-{%- assign cast_pages = site.pages | where_exp: "p", "p.cast" | sort: "title" -%}
-{%- assign staff_pages = site.pages | where_exp: "p", "p.staff" | sort: "title" -%}
+{%- assign cast_pages = site.pages | where_exp: "p", "p.cast or p.tabs" | sort: "title" -%}
+{%- assign staff_pages = site.pages | where_exp: "p", "p.staff or p.tabs" | sort: "title" -%}
 
 {%- comment %} ---- Rôles de voix (personnages + voix additionnelles) ---- {% endcomment -%}
 {%- assign total = 0 -%}
 {%- assign n_films = 0 -%}
 {%- assign n_credits = 0 -%}
 {%- capture roles_rows -%}
-{%- for p in cast_pages -%}
+{%- for pg in cast_pages -%}
+  {%- comment %} page à onglets : chaque onglet (tabs:) compte comme un doublage ; sinon la page elle-même {% endcomment -%}
+  {%- if pg.tabs -%}{%- assign units = pg.tabs -%}{%- else -%}{%- assign units = site.pages | where: "url", pg.url -%}{%- endif -%}
+  {%- for p in units -%}
+  {%- assign p_film = p.film | default: pg.film | default: pg.title -%}
+  {%- assign p_year = p.year | default: pg.year -%}
+  {%- assign p_lang = p.language | default: pg.language -%}
+  {%- assign p_sfx = "" -%}{%- if pg.tabs -%}{%- assign p_sfx = "-" | append: p.id -%}{%- endif -%}
   {%- assign roles = "" -%}
   {%- assign found = 0 -%}
   {%- assign cur_n = "" -%}
@@ -180,7 +187,7 @@
         {%- assign found = found | plus: 1 -%}
         {%- assign cur_e_txt = cur_e | replace: "<br/>", " " | replace: "<br>", " " | strip_html -%}
         {%- assign roles = roles | append: '<div class="role-line"><span class="role-img">' -%}
-        {%- capture cur_url -%}{% include character-image.html key=cur_i name=cur_e film=p.film %}{%- endcapture -%}
+        {%- capture cur_url -%}{% include character-image.html key=cur_i name=cur_e film=p_film %}{%- endcapture -%}
         {%- if cur_url != "" -%}{%- assign roles = roles | append: '<img src="' | append: cur_url | append: '" alt="" loading="lazy" ' | append: img_fb | append: '>' -%}{%- endif -%}
         {%- assign roles = roles | append: '</span><span class="role-text">' | append: cur_e_txt -%}
         {%- assign c3 = f[3] | default: "" | strip -%}
@@ -233,11 +240,12 @@
     {%- assign n_films = n_films | plus: 1 -%}
         <tr>
           <td>{{ roles }}</td>
-          <td class="c-film"><a class="film-link" href="{{ p.url }}#cast">{{ p.film | default: p.title }}</a></td>
-          <td class="c-year">{{ p.year }}</td>
-          <td class="c-lang">{{ p.language }}</td>
+          <td class="c-film"><a class="film-link" href="{{ pg.url }}#cast{{ p_sfx }}">{{ p_film }}</a></td>
+          <td class="c-year">{{ p_year }}</td>
+          <td class="c-lang">{{ p_lang }}</td>
         </tr>
   {%- endif -%}
+  {%- endfor -%}
 {%- endfor -%}
 {%- comment %} ---- Rôles ajoutés à la main dans la fiche (extra_roles) : "rôle | film | année | langue | id du personnage".
      Les lignes qui ont le même film + année + langue sont regroupées en une seule ligne du tableau. {% endcomment -%}
@@ -279,7 +287,14 @@
 
 {%- comment %} ---- Chansons (tableau à part) ---- {% endcomment -%}
 {%- capture songs_rows -%}
-{%- for p in cast_pages -%}
+{%- for pg in cast_pages -%}
+  {%- comment %} page à onglets : chaque onglet (tabs:) compte comme un doublage ; sinon la page elle-même {% endcomment -%}
+  {%- if pg.tabs -%}{%- assign units = pg.tabs -%}{%- else -%}{%- assign units = site.pages | where: "url", pg.url -%}{%- endif -%}
+  {%- for p in units -%}
+  {%- assign p_film = p.film | default: pg.film | default: pg.title -%}
+  {%- assign p_year = p.year | default: pg.year -%}
+  {%- assign p_lang = p.language | default: pg.language -%}
+  {%- assign p_sfx = "" -%}{%- if pg.tabs -%}{%- assign p_sfx = "-" | append: p.id -%}{%- endif -%}
   {%- assign sroles2 = "" -%}
   {%- assign sfound2 = 0 -%}
   {%- for song in p.songs -%}
@@ -302,11 +317,12 @@
   {%- if sfound2 > 0 %}
         <tr>
           <td>{{ sroles2 }}</td>
-          <td class="c-film"><a class="film-link" href="{{ p.url }}#songs">{{ p.film | default: p.title }}</a></td>
-          <td class="c-year">{{ p.year }}</td>
-          <td class="c-lang">{{ p.language }}</td>
+          <td class="c-film"><a class="film-link" href="{{ pg.url }}#songs{{ p_sfx }}">{{ p_film }}</a></td>
+          <td class="c-year">{{ p_year }}</td>
+          <td class="c-lang">{{ p_lang }}</td>
         </tr>
   {%- endif -%}
+  {%- endfor -%}
 {%- endfor -%}
 {%- assign seen = "" -%}
 {%- for er in page.extra_songs -%}
@@ -343,7 +359,14 @@
 
 {%- comment %} ---- Postes techniques (staff) ---- {% endcomment -%}
 {%- capture staff_rows -%}
-{%- for p in staff_pages -%}
+{%- for pg in staff_pages -%}
+  {%- comment %} page à onglets : chaque onglet (tabs:) compte comme un doublage ; sinon la page elle-même {% endcomment -%}
+  {%- if pg.tabs -%}{%- assign units = pg.tabs -%}{%- else -%}{%- assign units = site.pages | where: "url", pg.url -%}{%- endif -%}
+  {%- for p in units -%}
+  {%- assign p_film = p.film | default: pg.film | default: pg.title -%}
+  {%- assign p_year = p.year | default: pg.year -%}
+  {%- assign p_lang = p.language | default: pg.language -%}
+  {%- assign p_sfx = "" -%}{%- if pg.tabs -%}{%- assign p_sfx = "-" | append: p.id -%}{%- endif -%}
   {%- assign sroles = "" -%}
   {%- assign sfound = 0 -%}
   {%- for row in p.staff -%}
@@ -362,11 +385,12 @@
   {%- if sfound > 0 %}
         <tr>
           <td>{{ sroles }}</td>
-          <td class="c-film"><a class="film-link" href="{{ p.url }}#staff">{{ p.film | default: p.title }}</a></td>
-          <td class="c-year">{{ p.year }}</td>
-          <td class="c-lang">{{ p.language }}</td>
+          <td class="c-film"><a class="film-link" href="{{ pg.url }}#staff{{ p_sfx }}">{{ p_film }}</a></td>
+          <td class="c-year">{{ p_year }}</td>
+          <td class="c-lang">{{ p_lang }}</td>
         </tr>
   {%- endif -%}
+  {%- endfor -%}
 {%- endfor -%}
 {%- assign seen = "" -%}
 {%- for er in page.extra_credits -%}
