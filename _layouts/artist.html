@@ -473,13 +473,14 @@
       {%- elsif page.dates %}
       <div class="artist-dates">{{ page.dates | strip }}</div>
       {%- endif %}
-      {%- assign country = page.country | default: "" | strip -%}
-      {%- if country != "" %}
-      <div class="artist-country">{{ country }}</div>
-      {%- endif %}
+      {%- comment %} Ordre : dates, adresse, puis pays (sous l'adresse). {% endcomment %}
       {%- assign address = page.address | default: "" | strip -%}
       {%- if address != "" %}
       <div class="artist-address">{{ address }}</div>
+      {%- endif %}
+      {%- assign country = page.country | default: "" | strip -%}
+      {%- if country != "" %}
+      <div class="artist-country">{{ country }}</div>
       {%- endif %}
 
     </div>
