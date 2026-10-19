@@ -32,7 +32,7 @@ title: Voice artists
   {%- if pg.tabs -%}{%- assign units = pg.tabs -%}{%- else -%}{%- assign units = site.pages | where: "url", pg.url -%}{%- endif -%}
   {%- for p in units -%}
     {%- assign u_lang = p.language | default: pg.language | default: "" | strip -%}
-    {%- if u_lang != "" -%}
+    {%- if u_lang != "" and u_lang != "Language" -%}
       {%- assign lk = "|" | append: u_lang | append: "|" -%}
       {%- unless lang_all contains lk -%}{%- assign lang_all = lang_all | append: u_lang | append: "|" -%}{%- endunless -%}
       {%- assign pre = "|" | append: u_lang | append: "::" -%}
@@ -97,9 +97,10 @@ title: Voice artists
     {%- if lang_txt == "" -%}{%- assign lang_txt = l -%}{%- else -%}{%- assign lang_txt = lang_txt | append: ", " | append: l -%}{%- endif -%}
   {%- endif -%}{%- endfor -%}
   {%- assign a_country = a.country | default: "" | strip -%}
+  {%- assign a_ckey = a_country | downcase -%}
   {%- if a_country != "" -%}
-    {%- assign ck = "|" | append: a_country | append: "|" -%}
-    {%- unless country_all contains ck -%}{%- assign country_all = country_all | append: a_country | append: "|" -%}{%- endunless -%}
+    {%- assign ck = "|" | append: a_ckey | append: "~" -%}
+    {%- unless country_all contains ck -%}{%- assign country_all = country_all | append: a_ckey | append: "~" | append: a_country | append: "|" -%}{%- endunless -%}
   {%- endif -%}
 
   {%- comment %} photo : miniature Cloudinary légère si possible {% endcomment -%}
@@ -115,9 +116,13 @@ title: Voice artists
      data-name="{{ nm | strip_html | escape }}"
      data-search="{{ search_txt | strip_html | escape }}"
      data-langs="|{{ a_langs | escape }}"
-     data-country="{{ a_country | escape }}">
+     data-country="{{ a_ckey | escape }}">
     <span class="vi-thumb"><img src="{{ ph }}" alt="" loading="lazy"></span>
     <span class="vi-name">{{ nm }}</span>
+    {%- assign sub_rom = a.romanization | default: "" | strip -%}
+    {%- if sub_rom != "" and sub_rom != nm %}<span class="vi-sub">{{ sub_rom }}</span>{% endif -%}
+    {%- assign sub_nat = a.native | default: "" | strip -%}
+    {%- if sub_nat != "" %}<span class="vi-sub vi-native">{% if a.native_nick %}&ldquo;{{ a.native_nick }}&rdquo; {% endif %}{{ sub_nat }}</span>{% endif -%}
     {%- if a_country != "" or lang_txt != "" %}
     <span class="vi-meta">{{ a_country }}{% if a_country != "" and lang_txt != "" %} &middot; {% endif %}{{ lang_txt }}</span>
     {%- endif %}
@@ -162,6 +167,13 @@ body, .search-input { font-family: 'Open Sans', sans-serif; margin: 0; padding: 
 .page-title .title-rest { font-size: 0.85em; }
 .page-title small { display: block; margin-top: 4px; font-size: 0.5em; letter-spacing: 3px; color: #777; }
 
+/* ---- Onglets Voice Artists / Studios (même style que les onglets des pages de cast) ---- */
+.vi-tabs { display: flex; justify-content: center; margin: 34px auto 0; border-bottom: 1px solid #ddd; max-width: 420px; }
+.vi-tab { font: inherit; font-size: 14px; font-weight: 700; padding: 14px 34px; background: #f5f5f5; color: #000; border: none; border-bottom: 1px solid transparent; margin-bottom: -1px; cursor: pointer; transition: background .2s ease; }
+.vi-tab:hover { background: #ececec; }
+.vi-tab.active { background: transparent; border-bottom: 1px solid #000; }
+.search-box[hidden] { display: none; }
+
 /* ---- Barres de recherche / filtres : même style que Character Voices ---- */
 .search-row { display: flex; justify-content: center; align-items: flex-start; gap: 16px; flex-wrap: wrap; margin: 35px auto 30px; padding: 0 20px; }
 .search-box { display: flex; flex-direction: column; align-items: center; }
@@ -204,7 +216,7 @@ select.search-input { width: 200px; cursor: pointer; }
 }
 
 /* ---- Grille compacte ---- */
-.vi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(calc(var(--vi-thumb-size) + 24px), 1fr)); gap: var(--vi-gap); justify-items: center; padding: 0 var(--page-margin); }
+.vi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(calc(var(--vi-thumb-size) + 24px), 1fr)); gap: var(--vi-gap); justify-items: center; align-items: start; padding: 0 var(--page-margin); }
 .vi-letter { grid-column: 1 / -1; justify-self: stretch; margin: 14px 0 0; padding-bottom: 4px; border-bottom: 1px solid #e3e8ef; font-family: 'IM Fell English', serif; font-size: 22px; font-weight: 500; color: var(--vi-blue); scroll-margin-top: 20px; }
 .vi-letter:first-child { margin-top: 0; }
 a.vi-card { display: flex; flex-direction: column; align-items: center; width: calc(var(--vi-thumb-size) + 24px); text-decoration: none; color: #333; text-align: center; }
@@ -214,7 +226,9 @@ a.vi-card { display: flex; flex-direction: column; align-items: center; width: c
 .vi-card.studio .vi-thumb img { object-fit: contain; }
 a.vi-card:hover .vi-thumb { box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3); transform: translateY(-2px); }
 .vi-name { margin-top: 8px; font-size: var(--vi-name-size); font-weight: 700; line-height: 1.25; letter-spacing: 0.4px; color: #555; }
-.vi-meta { margin-top: 2px; font-size: var(--vi-meta-size); line-height: 1.3; color: #888; }
+.vi-sub { margin-top: 2px; font-size: 11.5px; line-height: 1.3; color: #777; }
+.vi-native { font-size: 12px; }
+.vi-meta { margin-top: 3px; font-size: var(--vi-meta-size); line-height: 1.3; color: #888; }
 a.vi-card:hover .vi-name { color: var(--vi-blue); }
 .vi-empty { display: none; text-align: center; color: #999; margin: 40px 0; font-size: 14px; }
 #backToTop { position: fixed; right: 24px; bottom: 24px; width: 48px; height: 48px; border-radius: 50%; background: #fff; border: 2px solid var(--vi-blue); box-shadow: 0 4px 14px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; pointer-events: none; transform: translateY(10px); transition: opacity .3s ease, transform .3s ease; z-index: 50; }
@@ -225,12 +239,17 @@ a.vi-card:hover .vi-name { color: var(--vi-blue); }
 
 <div class="page-title"><span class="title-accent">V</span><span class="title-rest">OICE ARTISTS</span><small>(&amp; Studios)</small></div>
 
+<div class="vi-tabs" role="tablist">
+  <button type="button" class="vi-tab active" data-tab="artists" role="tab">Voice Artists</button>
+  <button type="button" class="vi-tab" data-tab="studios" role="tab">Studios</button>
+</div>
+
 <div class="search-row">
   <div class="search-box">
     <label for="viSearch">By name</label>
     <input type="text" id="viSearch" class="search-input" placeholder="Nickname, name, native name..." autocomplete="off" />
   </div>
-  <div class="search-box">
+  <div class="search-box" id="viLangBox">
     <label for="viLang">Language</label>
     <select id="viLang" class="search-input">
       <option value="">All languages</option>
@@ -239,12 +258,12 @@ a.vi-card:hover .vi-name { color: var(--vi-blue); }
       {%- endif %}{% endfor %}
     </select>
   </div>
-  <div class="search-box">
+  <div class="search-box" id="viCountryBox" hidden>
     <label for="viCountry">Country</label>
     <select id="viCountry" class="search-input">
       <option value="">All countries</option>
-      {%- for c in country_list %}{% if c != "" %}
-      <option value="{{ c | escape }}">{{ c }}</option>
+      {%- for c in country_list %}{% if c != "" %}{% assign cp = c | split: "~" %}
+      <option value="{{ cp[0] | escape }}">{{ cp[1] }}</option>
       {%- endif %}{% endfor %}
     </select>
   </div>
@@ -253,22 +272,12 @@ a.vi-card:hover .vi-name { color: var(--vi-blue); }
 <nav class="vi-letters" id="viLetters" aria-label="Jump to letter"></nav>
 
 <section class="vi-section" id="vi-sec-artists">
-  <div class="film-group-title-wrap">
-    <span class="title-line title-line-left"></span><span class="title-star" aria-hidden="true">&#10022;</span>
-    <h2 class="film-group-title">Voice artists</h2>
-    <span class="title-star title-star-right" aria-hidden="true">&#10022;</span><span class="title-line title-line-right"></span>
-  </div>
   <div class="vi-grid" id="vi-grid-artists">
 {{ cards_artists }}
   </div>
 </section>
 
-<section class="vi-section" id="vi-sec-studios">
-  <div class="film-group-title-wrap">
-    <span class="title-line title-line-left"></span><span class="title-star" aria-hidden="true">&#10022;</span>
-    <h2 class="film-group-title">Studios</h2>
-    <span class="title-star title-star-right" aria-hidden="true">&#10022;</span><span class="title-line title-line-right"></span>
-  </div>
+<section class="vi-section" id="vi-sec-studios" hidden>
   <div class="vi-grid" id="vi-grid-studios">
 {{ cards_studios }}
   </div>
@@ -285,8 +294,10 @@ a.vi-card:hover .vi-name { color: var(--vi-blue); }
   var secA = document.getElementById('vi-sec-artists'), secS = document.getElementById('vi-sec-studios');
   var gridA = document.getElementById('vi-grid-artists'), gridS = document.getElementById('vi-grid-studios');
   var qEl = document.getElementById('viSearch'), lEl = document.getElementById('viLang'), cEl = document.getElementById('viCountry');
+  var langBox = document.getElementById('viLangBox'), countryBox = document.getElementById('viCountryBox');
   var countEl = document.getElementById('resultCount'), lettersEl = document.getElementById('viLetters'), emptyEl = document.getElementById('viEmpty');
-  function norm(s) { return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+  var tab = 'artists';
+  function norm(s) { return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
   function prep(grid) {
     var arr = Array.prototype.slice.call(grid.querySelectorAll('.vi-card'));
     arr.forEach(function (c) { c.__s = norm(c.dataset.search); c.__n = norm(c.dataset.name); });
@@ -318,23 +329,34 @@ a.vi-card:hover .vi-name { color: var(--vi-blue); }
     return { n: n, letters: letters };
   }
   function apply() {
-    var q = norm(qEl.value).trim().split(/\s+/).filter(Boolean), lang = lEl.value, country = cEl.value;
-    var ra = show(artists, gridA, true, q, lang, country), rs = show(studios, gridS, false, q, lang, country);
-    secA.hidden = ra.n === 0; secS.hidden = rs.n === 0;
-    emptyEl.style.display = (ra.n + rs.n) ? 'none' : 'block';
-    var txt = ra.n + ' voice artist' + (ra.n === 1 ? '' : 's');
-    countEl.innerHTML = txt + (rs.n ? ' &middot; <a href="#vi-sec-studios">' + rs.n + ' studio' + (rs.n === 1 ? '' : 's') + '</a>' : '');
+    var q = norm(qEl.value).trim().split(/\s+/).filter(Boolean);
+    var isA = tab === 'artists';
+    secA.hidden = !isA; secS.hidden = isA;
+    langBox.hidden = !isA; countryBox.hidden = isA;
+    var r = isA ? show(artists, gridA, true, q, lEl.value, '') : show(studios, gridS, false, q, '', cEl.value);
+    emptyEl.style.display = r.n ? 'none' : 'block';
+    countEl.textContent = r.n + (isA ? ' voice artist' : ' studio') + (r.n === 1 ? '' : 's');
     lettersEl.innerHTML = '';
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split('').forEach(function (L) {
-      var b = document.createElement('button'); b.type = 'button'; b.textContent = L;
-      if (!ra.letters[L]) b.disabled = true;
-      else b.addEventListener('click', function () { var t = document.getElementById('vi-letter-' + (L === '#' ? 'other' : L)); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-      lettersEl.appendChild(b);
-    });
-    lettersEl.style.display = ra.n ? '' : 'none';
+    if (isA && r.n) {
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split('').forEach(function (L) {
+        var b = document.createElement('button'); b.type = 'button'; b.textContent = L;
+        if (!r.letters[L]) b.disabled = true;
+        else b.addEventListener('click', function () { var t = document.getElementById('vi-letter-' + (L === '#' ? 'other' : L)); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+        lettersEl.appendChild(b);
+      });
+    }
+    lettersEl.style.display = (isA && r.n) ? '' : 'none';
   }
+  function setTab(t) {
+    tab = t;
+    Array.prototype.forEach.call(document.querySelectorAll('.vi-tab'), function (b) { b.classList.toggle('active', b.dataset.tab === t); });
+    apply();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.vi-tab'), function (b) {
+    b.addEventListener('click', function () { setTab(b.dataset.tab); if (history.replaceState) history.replaceState(null, '', b.dataset.tab === 'studios' ? '#studios' : location.pathname); });
+  });
   qEl.addEventListener('input', apply); lEl.addEventListener('change', apply); cEl.addEventListener('change', apply);
-  apply();
+  setTab(location.hash === '#studios' ? 'studios' : 'artists');
   var btt = document.getElementById('backToTop');
   window.addEventListener('scroll', function () { btt.classList.toggle('visible', window.scrollY > 400); });
   btt.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
