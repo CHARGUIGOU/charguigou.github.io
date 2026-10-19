@@ -1,0 +1,12 @@
+{%- comment -%}
+  Cellule « Year » des tableaux des fiches d'artistes. Paramètre : y = le « year » du cast (ou du doublage / de la ligne manuelle).
+  Formats acceptés :  2011   |   2011-02   |   2011-02-01  (date complète)
+  - affichage : toujours les 4 premiers chiffres (l'année) ;
+  - tri : la date complète (2011-02-01) si elle est donnée, sinon le 1er janvier de l'année (2011 -> 2011-01-01).
+{%- endcomment -%}
+{%- assign yc_s = include.y | append: "" | strip -%}
+{%- assign yc_show = yc_s | slice: 0, 4 -%}
+{%- assign yc_key = yc_s | slice: 0, 10 -%}
+{%- assign yc_n = yc_key | size -%}
+{%- if yc_n == 4 -%}{%- assign yc_key = yc_key | append: "-01-01" -%}{%- elsif yc_n == 7 -%}{%- assign yc_key = yc_key | append: "-01" -%}{%- endif -%}
+<td class="c-year" data-sortkey="{{ yc_key }}">{{ yc_show }}</td>

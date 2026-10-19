@@ -244,7 +244,7 @@
         <tr>
           <td>{{ roles }}</td>
           <td class="c-film"><a class="film-link" href="{{ pg.url }}#cast{{ p_sfx }}">{{ p_film }}</a></td>
-          <td class="c-year">{{ p_year }}</td>
+          {% include year-cell.html y=p_year %}
           <td class="c-lang">{{ p_lang }}</td>
         </tr>
   {%- endif -%}
@@ -281,7 +281,7 @@
         <tr>
           <td>{{ e_lines }}</td>
           <td class="c-film">{{ e_film }}</td>
-          <td class="c-year">{{ e_year }}</td>
+          {% include year-cell.html y=e_year %}
           <td class="c-lang">{{ e_lang }}</td>
         </tr>
   {%- endunless -%}
@@ -321,7 +321,7 @@
         <tr>
           <td>{{ sroles2 }}</td>
           <td class="c-film"><a class="film-link" href="{{ pg.url }}#songs{{ p_sfx }}">{{ p_film }}</a></td>
-          <td class="c-year">{{ p_year }}</td>
+          {% include year-cell.html y=p_year %}
           <td class="c-lang">{{ p_lang }}</td>
         </tr>
   {%- endif -%}
@@ -353,7 +353,7 @@
         <tr>
           <td>{{ e_lines }}</td>
           <td class="c-film">{{ e_film }}</td>
-          <td class="c-year">{{ e_year }}</td>
+          {% include year-cell.html y=e_year %}
           <td class="c-lang">{{ e_lang }}</td>
         </tr>
   {%- endunless -%}
@@ -389,7 +389,7 @@
         <tr>
           <td>{{ sroles }}</td>
           <td class="c-film"><a class="film-link" href="{{ pg.url }}#staff{{ p_sfx }}">{{ p_film }}</a></td>
-          <td class="c-year">{{ p_year }}</td>
+          {% include year-cell.html y=p_year %}
           <td class="c-lang">{{ p_lang }}</td>
         </tr>
   {%- endif -%}
@@ -418,7 +418,7 @@
         <tr>
           <td>{{ e_lines }}</td>
           <td class="c-film">{{ e_film }}</td>
-          <td class="c-year">{{ e_year }}</td>
+          {% include year-cell.html y=e_year %}
           <td class="c-lang">{{ e_lang }}</td>
         </tr>
   {%- endunless -%}
@@ -569,6 +569,8 @@
       var rows = [].slice.call(tb.rows);
       if (rows.length < 2) return;
       rows.sort(function (a, b) {
+        var kx = a.cells[i].getAttribute('data-sortkey'), ky = b.cells[i].getAttribute('data-sortkey');
+        if (kx !== null && ky !== null) return dir * (kx < ky ? -1 : kx > ky ? 1 : 0);   /* colonne Year : tri sur la date complète (data-sortkey) */
         var x = a.cells[i].textContent.trim(), y = b.cells[i].textContent.trim();
         var nx = parseFloat(x), ny = parseFloat(y), r;
         if (!isNaN(nx) && !isNaN(ny) && nx !== ny) r = nx - ny;
