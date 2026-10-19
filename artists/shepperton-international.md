@@ -8,4 +8,4 @@ country: "England, UNITED KINGDOM"
 address: "Studios Road, Shepperton, Surrey (<i>ex Middlesex</i>), TW17 0QD"
 dates: ""
 ---
-Shepperton International is the specialized global audio-mixing division of the historic <b>Shepperton Studios</b> (operating under the current legal entity since 1994, on grounds dating back to 1932), which has been wholly owned by the <i>Pinewood Group</i> since 2001 as a premier facility for international Disney, Pixar, and Marvel foreign-language theatrical dubs.
+Shepperton International is the specialized global audio-mixing division of the historic <b>Shepperton Studios</b> (operating under the current legal entity since 1994, on grounds dating back to 1932), which has been wholly owned by the <i>Pinewood Group</i> since 2001 as a premier facility for international Disney, Pixar, and Marvel foreign-language theatrical dubs.<br><small>Sources :<br>1. <a href="https://www.thestudiotour.com/wp/studios/shepperton-studios/" target="_blank" rel="noopener">The Studio Tour</a><br>2. <a href="https://find-and-update.company-information.service.gov.uk/company/02974333" target="_blank" rel="noopener">GOV.UK</a>
