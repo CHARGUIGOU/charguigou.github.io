@@ -1,2 +1,2 @@
 # charguigou.github.io
-Animated &amp; Remakes international dubbing archive
+Animated &amp; Remakes films international dubbing archive
