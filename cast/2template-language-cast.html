@@ -24,6 +24,8 @@ title: "Film Title (YEAR) - Language cast"
 # ============================================================
 
 # Valeurs par défaut, reprises par chaque onglet qui n'a pas les siennes
+# year accepte : 2011  |  2011-02  |  2011-02-01 (date complète). Sur les fiches des artistes seule l'ANNÉE s'affiche,
+# mais le tri se fait sur la date complète (sans mois/jour : 1er janvier). Un onglet peut avoir sa propre date.
 year: 2011
 film: "Film Title"      # exactement le titre de l'apparition dans _data/characters.yml (majuscules ignorées)
 language: "Language"
@@ -38,7 +40,7 @@ tabs:
   # ------------------------------------------------------------
   - id: v1                  # nom court, sans espace : sert aux liens (ma-page.html#version-v1) et aux ancres (cast-v1, songs-v1...)
     label: "Version 2011"   # texte du bouton de l'onglet
-    year: 2011              # facultatif : année de CE doublage (sinon celle de la page)
+    year: 2011-02-01        # facultatif : date de CE doublage, ex : 2011 ou 2011-02-01 (sinon celle de la page)
     # film: "Autre titre"   # facultatif : titre du film pour CE doublage (sinon celui de la page)
     # language: "Autre"     # facultatif : langue de CE doublage (sinon celle de la page)
 
