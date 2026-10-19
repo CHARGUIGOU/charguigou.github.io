@@ -1,21 +1,107 @@
 ---
 layout: null
-title: "Title of film"
+title: "Film Title (YEAR) - Language cast"
 # ============================================================
-# INTERRUPTEURS — MODIFIE ICI à chaque nouvelle page.
-# true  = l'encadré s'affiche
-# false = il disparaît complètement de la page
-# (pas besoin de supprimer le code HTML plus bas)
+# PAGE À ONGLETS : plusieurs doublages du même film dans la même langue.
+# Le titre, les anecdotes, la galerie et les films liés sont COMMUNS (dans le HTML plus bas).
+# Chaque doublage = un élément de « tabs: » plus bas (son cast, ses chansons, son staff, ses sources).
+# Pour un 3e doublage : copie un bloc de « tabs: » en entier et change son « id ».
+# Chaque onglet compte comme un doublage à part sur les fiches des artistes.
 # ============================================================
-# Un interrupteur par version : _v1 = 1er onglet, _v2 = 2e onglet
-# (pour une 3e version, ajoute show_..._v3 ici et dans son panneau).
-# "Cast" et "Technical Staff" sont toujours affichés.
-show_additional_voices_v1: true
-show_choir_v1: true
-show_songs_v1: true
-show_additional_voices_v2: true
-show_choir_v2: true
-show_songs_v2: true
+
+# Valeurs par défaut, reprises par chaque onglet qui n'a pas les siennes
+year: 2011
+film: "Film Title"      # exactement le titre de l'apparition dans _data/characters.yml (majuscules ignorées)
+language: "Language"
+
+# VIGNETTES DES PERSONNAGES dans les tableaux Cast (false = jamais ; true = pour tous les personnages
+# trouvés dans _data/characters.yml ; ligne supprimée = seulement les lignes qui ont un id en 5e champ)
+cast_images: false
+
+tabs:
+  # ------------------------------------------------------------
+  # ONGLET 1
+  # ------------------------------------------------------------
+  - id: v1                  # nom court, sans espace : sert aux liens (ma-page.html#version-v1) et aux ancres (cast-v1, songs-v1...)
+    label: "Version 2011"   # texte du bouton de l'onglet
+    year: 2011              # facultatif : année de CE doublage (sinon celle de la page)
+    # film: "Autre titre"   # facultatif : titre du film pour CE doublage (sinon celui de la page)
+    # language: "Autre"     # facultatif : langue de CE doublage (sinon celle de la page)
+
+    # Interrupteurs : true = l'encadré s'affiche, false = il disparaît ("Cast" et "Technical Staff" toujours affichés)
+    show_additional_voices: true
+    show_choir: true
+    show_songs: true
+
+    # Cartes photo des comédiens : le "artist" de chaque fiche (dossier artists/)
+    cards: [artist-slug-1, artist-slug-2, artist-slug-3]
+
+    # Voix additionnelles / choeur : le "artist" de leurs fiches (ou un texte libre sans fiche)
+    additional:
+      - "artist-slug-4"
+      - "artist-slug-5"
+    additional_intl:
+      - "Nom Prénom (texte simple, sans fiche)"
+    choir:
+      - "artist-slug-6"
+
+    # Chansons : "titre natif | titre anglais | interprètes | note"
+    #  - titre natif vide = pas de ligne native (le titre anglais passe en gras ; la note s'affiche à côté)
+    #  - interprètes séparés par ; : "fiche @ Personnage" (le personnage est facultatif)
+    #  - un interprète qui commence par & est précédé de "&" au lieu de ";" (ex : &Choir)
+    songs:
+      - "titre natif | English title | artist-slug-1 @ Personnage; artist-slug-2 @ Personnage; &Choir"
+      - " | English title (sans titre natif) | artist-slug-1 @ Personnage | Performed in English"
+
+    # Technical staff : "personne(s) | poste" (plusieurs personnes séparées par ; ; un studio s'affiche tel quel s'il n'a pas de fiche)
+    staff:
+      - "artist-slug-1 | Dubbing director"
+      - "artist-slug-2 | Musical director"
+      - "artist-slug-3; artist-slug-4 | Production coordinators"
+      - "studio-slug | Dubbing studio"
+
+    # Sources de CET onglet : "texte" ou "texte | boîte" ; la boîte ajoute la petite flèche ↑ qui remonte vers
+    # elle : cast, additional-voices, choir, songs ou staff.
+    sources:
+      - "Dubbing director"
+      - "Lyrics (song titles) | songs"
+      - "Another source without arrow"
+
+    # Cast : une ligne par personnage, "nom natif | nom original | comédien | note | id du personnage"
+    # Les règles complètes (fusions, « fiche = Texte », « ? », bandeaux, id) sont décrites dans la page de cast
+    # simple (template-cast-simple.html), c'est exactement le même format.
+    cast_columns: "Language name | Original name | Voices"
+    cast:
+      - "nom natif | Original name | artist-slug-1 | (speaking &amp; singing)"
+      - "nom natif | Original name | artist-slug-2"
+      - "nom natif | Original name | ?"
+      - "nom natif | Original name | artist-slug-3 | | id-du-personnage"
+      - "nom natif 2 | Original name 2 | artist-slug-4 = Texte affiché à la place du nom officiel"
+      - " |  | artist-slug-5"
+      - "banner | Titre du bandeau | https://res.cloudinary.com/dofvjifeo/image/upload/IMAGE-DU-BANDEAU.png | sparkle glow"
+      - "nom natif | Original name | artist-slug-6"
+
+  # ------------------------------------------------------------
+  # ONGLET 2 (même structure ; supprime ce bloc s'il n'y a qu'un doublage)
+  # ------------------------------------------------------------
+  - id: v2
+    label: "Version 2020"
+    year: 2020
+    show_additional_voices: false
+    show_choir: false
+    show_songs: true
+    cards: [artist-slug-7]
+    additional: []
+    choir: []
+    songs:
+      - " | English title | artist-slug-7 @ Personnage"
+    staff:
+      - "artist-slug-8 | Dubbing director"
+    sources:
+      - "Source for this version | cast"
+    cast_columns: "Language name | Original name | Voices"
+    cast:
+      - "nom natif | Original name | artist-slug-7"
 ---
 {% include header.html %}
 <title>{{ page.title }}</title>
@@ -108,10 +194,10 @@ show_songs_v2: true
        → 'Sriracha'   (poids : 400 seulement)
      ============================================================ -->
 
-{% include cast-style.html %}
+{% include cast-style-v2.html %}
 <style>
 /* RÉGLAGES PROPRES À CETTE PAGE : ces valeurs écrasent les valeurs par défaut de
-   _includes/cast-style.html (liste complète des réglages dans ce fichier). Ajoute ici
+   _includes/cast-style-v2.html (liste complète des réglages dans ce fichier). Ajoute ici
    toute autre variable à changer sur cette page seulement. */
 :root {
 
@@ -137,366 +223,85 @@ show_songs_v2: true
        TITRE — MODIFIE ICI à chaque nouvelle page
        ============================================================ -->
   <div class="cast-title-native">
-    <span class="native-text">पिनोक्कियो</span><span class="native-year">(2011)</span>
+    <span class="native-text">Titre localisé</span><span class="native-year">(YEAR)</span>
   </div>
-  <div class="cast-title-english">Pinocchio</div>
+  <div class="cast-title-english">Film Title</div>
   <hr class="cast-hr">
 
   <!-- ============================================================
-       ONGLETS — pour un film avec PLUSIEURS DOUBLAGES dans la même langue.
-       Un bouton par version : data-version="..." doit être identique à
-       celui du bloc <div class="version-panel"> correspondant plus bas
-       ET du bloc <div class="version-sources"> tout en bas.
-       Le 1er onglet (et son panneau) a class="... active".
-       Un SEUL doublage ? Supprime tout ce bloc .version-tabs : la page
-       s'affiche normalement (garde quand même le panneau, avec "active").
+       ONGLETS — un bouton par élément de « tabs: » (front matter tout en haut).
+       Une page avec UN SEUL onglet n'affiche pas ces boutons.
        Lien direct vers un onglet : ma-page.html#version-v2
+       (un lien vers une boîte, ex : ma-page.html#songs-v2, ouvre aussi le bon onglet).
        ============================================================ -->
+  {% if page.tabs.size > 1 %}
   <div class="version-tabs">
-    <button class="version-tab active" type="button" data-version="v1">Version 2011</button>
-    <button class="version-tab" type="button" data-version="v2">Version 2020</button>
-  </div>
-
-  <!-- ============================================================
-       PANNEAU DE LA VERSION 1 — contient les photos des comédiens et
-       tous les encadrés de CETTE version (jusqu'à la fin de "Technical
-       Staff"). Pour une autre version : copie tout le panneau
-       (de <div class="version-panel"> à son </div> fermant) et change
-       data-version + le contenu. Les id des ancres se terminent par
-       -v1 (1re version), -v2, -v3... : cast-v1, songs-v1, staff-v1...
-       Ils sont toujours les mêmes d'une page à l'autre, rien à renommer.
-       ============================================================ -->
-  <div class="version-panel active" data-version="v1">
-
-  <!-- ============================================================
-       COMÉDIENS DE DOUBLAGE — un .voice-card par comédien.
-       MODIFIE ICI : copie/colle un bloc .voice-card pour en ajouter.
-       Mets "(Unknown dates)" si tu n'as pas l'info, sinon le format
-       "(1960? - April 2021?)".
-       Les images grises ci-dessous sont des espaces réservés : remplace
-       chaque src="..." par l'URL de la vraie photo (Cloudinary).
-       ============================================================ -->
-  <div class="voice-cast">
-    <div class="voice-card">
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="Pradeep Shukla">
-      <div class="actor-name">Pradeep Shukla</div>
-      <div class="actor-dates">(Unknown dates)</div>
-    </div>
-    <div class="voice-card">
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="Hema Nikam">
-      <div class="actor-name">Hema Nikam</div>
-      <div class="actor-dates">(Unknown dates)</div>
-    </div>
-    <div class="voice-card">
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="Sandeep Karnik">
-      <div class="actor-name">Sandeep Karnik</div>
-      <div class="actor-dates">(196? - April 2021?)</div>
-    </div>
-  </div>
-
-  <!-- ============================================================
-       ENCADRÉ "CAST" — un <tr> par personnage.
-       MODIFIE ICI : "?" quand tu n'as pas l'info (nom natif, ou
-       acteur). Les noms de comédiens restent en texte simple pour
-       l'instant (pas de lien) : plus tard, tu pourras les transformer
-       en <a href="/artists/nom.html">...</a> vers leur propre fiche.
-       L'id="cast-v1" est un point d'ancrage invisible : une source en bas
-       de page peut y faire remonter avec <a href="#cast-v1">.
-
-       CAS PARTICULIERS — on fusionne des cellules avec rowspan="N"
-       (la cellule s'étire sur N lignes). Les 3 exemples à copier :
-
-       1) UNE VOIX POUR PLUSIEURS PERSONNAGES (même acteur sur 2 lignes) :
-          la cellule "Voices" est écrite une seule fois, dans la 1re ligne,
-          avec rowspan="2". La 2e ligne n'a donc que 2 <td> (pas de 3e).
-          <tr>
-            <td>Oafish</td><td>Oafish Guard</td>
-            <td rowspan="2">Johan Hedenberg</td>
-          </tr>
-          <tr>
-            <td>Fången</td><td>The Old Heretic</td>
-          </tr>
-
-       2) UN PERSONNAGE (OU GROUPE) AVEC PLUSIEURS VOIX :
-          cette fois ce sont les 2 premières cellules (noms) qui sont
-          fusionnées, avec rowspan="3" (= nombre de voix). Chaque voix a sa
-          propre ligne ; seule la 1re ligne contient aussi les noms.
-          <tr>
-            <td rowspan="3">Vakter och Zigenare</td>
-            <td rowspan="3">Guards &amp; Gypsies</td>
-            <td>Anders Öjebo</td>
-          </tr>
-          <tr><td>Roger Storm</td></tr>
-          <tr><td>Monica Forsberg</td></tr>
-
-       3) LES DEUX À LA FOIS : combine les deux (une cellule peut avoir
-          un rowspan, et la ligne d'à côté un autre).
-
-       Règle simple : le nombre de <td> par ligne = 3 moins les cellules
-       déjà "prises" par un rowspan des lignes du dessus.
-       ============================================================ -->
-  <div class="info-box" id="cast-v1">
-    <div class="info-box-title">Cast</div>
-    <table class="cast-table">
-      <thead>
-        <tr>
-          <th>Hindi name</th>
-          <th>Original name</th>
-          <th>Voices</th>
-        </tr>
-      </thead>
-      <tbody>
-
-        <tr>
-          <td>TBD</td> <td>Pinocchio</td>
-          <td>Arth Vidyarth (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Jiminy Cricket</td>
-          <td>Pradeep Shukla / प्रदीप शुक्ला (speaking) &amp; ? (singing)</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Geppetto</td>
-          <td>?</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Blue Fairy</td>
-          <td>Hema Nikam</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Honest John</td>
-          <td>Sandeep Karnik / संदीप कर्णिक (speaking) &amp; ? (singing)</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Stromboli</td>
-          <td>Prabhakar</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Coachman</td>
-          <td>?</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Lampwick</td>
-          <td>Kaustubh Bhogi</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Alexander</td>
-          <td>?</td>
-        </tr>
-        <!-- EXEMPLE 1 : une même voix pour 2 personnages (rowspan="2" sur la cellule voix) -->
-        <tr>
-          <td>?</td> <td>Oafish Guard</td>
-          <td rowspan="2">Johan Hedenberg</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>The Old Heretic</td>
-        </tr>
-        <!-- EXEMPLE 2 : un groupe avec plusieurs voix (rowspan="5" sur les 2 cellules de noms,
-             puis une ligne par voix supplémentaire contenant UNIQUEMENT la cellule voix) -->
-        <tr>
-          <td rowspan="5">?</td> <td rowspan="5">Guards &amp; Gypsies</td>
-          <td>Anders Öjebo</td>
-        </tr>
-        <tr><td>Roger Storm</td></tr>
-        <tr><td>Monica Forsberg</td></tr>
-        <tr><td>Daniel Bergfalk</td></tr>
-        <tr><td>Thomas Banestål</td></tr>
-
-      </tbody>
-    </table>
-  </div>
-
-  <!-- ============================================================
-       ENCADRÉS OPTIONNELS "ADDITIONAL VOICES" / "CHOIR"
-       Ils s'affichent ou non selon les interrupteurs tout en haut du
-       fichier (show_additional_voices_v1 / show_choir_v1 / show_songs_v1, et _v2 pour la 2e version).
-       MODIFIE ICI : un <div> par personne, "Nom / Nom natif". Ils se
-       rangent ligne par ligne (Nom 1 à gauche, Nom 2 à droite, Nom 3
-       à gauche...), colonne de gauche alignée à droite, colonne de
-       droite alignée à gauche.
-       ============================================================ -->
-  {% if page.show_additional_voices_v1 %}
-  <div class="info-box" id="additional-voices-v1">
-    <div class="info-box-title">Additional voices</div>
-    <div class="voices-grid">
-      <div>Name 1 / Native name 1</div>
-      <div>Name 2 / Native name 2</div>
-      <div>Name 3 / Native name 3</div>
-      <div>Name 4 / Native name 4</div>
-    </div>
-  </div>
-  {% endif %}
-
-  {% if page.show_choir_v1 %}
-  <div class="info-box" id="choir-v1">
-    <div class="info-box-title">Choir</div>
-    <div class="voices-grid">
-      <div>Name 1 / Native name 1</div>
-      <div>Name 2 / Native name 2</div>
-      <div>Name 3 / Native name 3</div>
-      <div>Name 4 / Native name 4</div>
-      <div>?</div>
-    </div>
+    {%- for tab in page.tabs %}
+    <button class="version-tab{% if forloop.first %} active{% endif %}" type="button" data-version="{{ tab.id }}">{{ tab.label }}</button>
+    {%- endfor %}
   </div>
   {% endif %}
 
   <!-- ============================================================
-       ENCADRÉ "SONGS" — un .song-item par chanson.
-       Film sans chansons ? Mets show_songs_v1: false tout en haut du fichier.
-       MODIFIE ICI : titre natif en texte simple (il reste en gras
-       même avec un "? »" quand tu ne le connais pas) ; si tu as un
-       vrai lien (vidéo/source), entoure-le d'un <a href="..."> pour
-       qu'il devienne bleu avec soulignement au survol. Titre anglais
-       entre parenthèses, puis la ligne "performed by" avec un acteur
-       par personnage, séparés par " ; ", et "& Choir" à la fin si
-       besoin. Italique : uniquement "performed by :" et le nom du
-       personnage, via <i>...</i> (tout le reste est en texte normal).
+       PANNEAUX — un par onglet, construits automatiquement depuis « tabs: » :
+       cartes photo, tableau Cast, Additional voices, Choir, Songs, Technical Staff.
+       Rien à copier ici : pour une 3e version, ajoute un bloc dans « tabs: ».
+       Les ancres sont cast-v1, additional-voices-v1, choir-v1, songs-v1, staff-v1 (v2, v3... pour les autres).
        ============================================================ -->
-  {% if page.show_songs_v1 %}
-  <div class="info-box" id="songs-v1">
-    <div class="info-box-title">Songs</div>
-    <ul class="song-list">
+  {%- for tab in page.tabs %}
+  {%- assign sfx = "-" | append: tab.id %}
+  <div class="version-panel{% if forloop.first %} active{% endif %}" data-version="{{ tab.id }}">
 
-      <li class="song-item">
-        <span class="song-title-native">सच्चे मन से माँगो जो</span>
-        <span class="song-title-english">(« When You Wish Upon a Star (Opening credits) »)</span>
-        <span class="performed-by"><i>performed by</i> : ? (<i>Jiminy Cricket</i>) &amp; Choir</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">?</span>
-        <span class="song-title-english">(« Little Wooden Head »)</span>
-        <span class="performed-by"><i>performed by</i> : ? (<i>Geppetto</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">बजाओ सीटी</span>
-        <span class="song-title-english">(« Give A Little Whistle »)</span>
-        <span class="performed-by"><i>performed by</i> : ? (<i>Jiminy Cricket</i>) ; Arth Vidyarth (<i>Pinocchio</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">?</span>
-        <span class="song-title-english">(« Hi-Diddle-Dee-Dee (An Actor's Life for Me) »)</span>
-        <span class="performed-by"><i>performed by</i> : ? (<i>Honest John</i>) ; Arth Vidyarth (<i>Pinocchio</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">?</span>
-        <span class="song-title-english">(« I've Got No Strings »)</span>
-        <span class="performed-by"><i>performed by</i> : Arth Vidyarth (<i>Pinocchio</i>) ; ? (<i>Dutch Marionette</i>) ; ? (<i>French Marionette</i>) ; ? (<i>Russian Marionette</i>) &amp; Choir</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">सच्चे मन से माँगो जो (Finale)</span>
-        <span class="song-title-english">(« When You Wish Upon a Star (Finale) »)</span>
-        <span class="performed-by"><i>performed by</i> : ? (<i>Jiminy Cricket</i>) &amp; Choir</span>
-      </li>
+    {% include cast-cards.html src=tab %}
 
-    </ul>
-  </div>
-  {% endif %}
+    {% include cast-table.html src=tab sfx=sfx %}
 
-  <!-- ============================================================
-       ENCADRÉ "TECHNICAL STAFF" — une ligne par poste.
-       MODIFIE ICI : "?" si tu ne connais pas le nom. Le studio tout
-       en bas reste en italique, centré, tout en MAJUSCULES.
-       ============================================================ -->
-  <div class="info-box" id="staff-v1">
-    <div class="info-box-title">Technical Staff</div>
-    <table class="staff-table">
-      <tr><td class="staff-name">Ashwin Saxena</td><td class="staff-role">Dubbing director</td></tr>
-      <tr><td class="staff-name">?</td><td class="staff-role">Musical director</td></tr>
-      <tr><td class="staff-name">Baba Khan</td><td class="staff-role">Translator</td></tr>
-      <tr><td class="staff-name">?</td><td class="staff-role">Lyricist</td></tr>
-      <tr><td class="staff-name">Paddy ?</td><td class="staff-role">Creative Supervisor</td></tr>
-      <tr><td class="staff-name">?</td><td class="staff-role">Dubbing studio</td></tr>
-    </table>
-    <div class="studio-line">DISNEY CHARACTER VOICES INTERNATIONAL, INC.</div>
-  </div>
-
-  </div><!-- /version-panel v1 -->
-
-  <!-- ============================================================
-       PANNEAU DE LA VERSION 2 — mêmes 5 encadrés que la version 1, avec
-       des valeurs d'exemple (copie-colle, puis complète). Les id se
-       terminent par -v2 (et -v3 pour une 3e version) : ce sont toujours
-       les mêmes d'une page à l'autre, rien à renommer.
-       ============================================================ -->
-  <div class="version-panel" data-version="v2">
-    <div class="voice-cast">
-      <div class="voice-card">
-        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="Actor name">
-        <div class="actor-name">Actor name</div>
-        <div class="actor-dates">(Unknown dates)</div>
-      </div>
-    </div>
-
-    <div class="info-box" id="cast-v2">
-      <div class="info-box-title">Cast</div>
-      <table class="cast-table">
-        <thead>
-          <tr><th>Language name</th><th>Original name</th><th class="col-voices">Voices</th></tr>
-        </thead>
-        <tbody>
-
-          <tr>
-            <td>?</td> <td>Pinocchio</td>
-            <td>Actor name</td>
-          </tr>
-
-        </tbody>
-      </table>
-    </div>
-
-    {% if page.show_additional_voices_v2 %}
-    <div class="info-box" id="additional-voices-v2">
+    {% if tab.show_additional_voices %}
+    <div class="info-box" id="additional-voices{{ sfx }}">
       <div class="info-box-title">Additional voices</div>
-      <div class="voices-grid">
-        <div>Name 1 / Native name 1</div>
-        <div>Name 2 / Native name 2</div>
-      </div>
+      {% include cast-names.html names=tab.additional %}
+      {% if tab.additional_intl %}
+      <div class="voices-subtitle">International Additional Voices</div>
+      {% include cast-names.html names=tab.additional_intl %}
+      {% endif %}
     </div>
     {% endif %}
 
-    {% if page.show_choir_v2 %}
-    <div class="info-box" id="choir-v2">
+    {% if tab.show_choir %}
+    <div class="info-box" id="choir{{ sfx }}">
       <div class="info-box-title">Choir</div>
-      <div class="voices-grid">
-        <div>Name 1 / Native name 1</div>
-        <div>Name 2 / Native name 2</div>
-      </div>
+      {% include cast-names.html names=tab.choir %}
     </div>
     {% endif %}
 
-    {% if page.show_songs_v2 %}
-    <div class="info-box" id="songs-v2">
+    {% if tab.show_songs %}
+    <div class="info-box" id="songs{{ sfx }}">
       <div class="info-box-title">Songs</div>
       <ul class="song-list">
-        <li class="song-item">
-          <span class="song-title-native">?</span>
-          <span class="song-title-english">(« When You Wish Upon a Star »)</span>
-          <span class="performed-by"><i>performed by</i> : ? (<i>Jiminy Cricket</i>) &amp; Choir</span>
-        </li>
+        {% include cast-songs.html src=tab %}
       </ul>
     </div>
     {% endif %}
 
-    <div class="info-box" id="staff-v2">
+    <div class="info-box" id="staff{{ sfx }}">
       <div class="info-box-title">Technical Staff</div>
-      <table class="staff-table">
-        <tr><td class="staff-name">?</td><td class="staff-role">Dubbing director</td></tr>
-        <tr><td class="staff-name">?</td><td class="staff-role">Translator</td></tr>
-      </table>
+      {% include cast-staff.html src=tab %}
       <div class="studio-line">DISNEY CHARACTER VOICES INTERNATIONAL, INC.</div>
     </div>
-  </div><!-- /version-panel v2 -->
+
+  </div>
+  {%- endfor %}
 
   <hr class="cast-hr" style="margin-top:30px;">
 
   <!-- ============================================================
-       TRIVIA — une <li> par anecdote (supprime le bloc entier s'il
-       n'y en a aucune pour cette page).
+       TRIVIA — une <li> par anecdote (communes à tous les onglets ;
+       supprime le bloc entier s'il n'y en a aucune).
        ============================================================ -->
   <ul class="cast-trivia">
     <li>Release date :<br>
-    France - <b>2 September 2001</b> <small>(VHS)</small></li>
-    <li>Sandeep Karnik (संदीप कर्णिक), the speaking voice of <b>Honest John</b>, also tried out for the singing, but the result was rejected.</li>
+    Pays - <b>1 January YEAR</b> <small>(Cinemas)</small></li>
+    <li>Une anecdote. Utilise <b>gras</b> et <i>italique</i> au besoin.</li>
   </ul>
 
   <!-- ============================================================
@@ -538,7 +343,7 @@ show_songs_v2: true
        LIENS VERS LES PAGES SIMILAIRES (optionnel)
        - .related-prev : film(s) qui viennent AVANT celui-ci (à gauche,
          flèche vers la gauche). Ex : sur la page du live-action 2022,
-         un lien vers Pinocchio (2011).
+         un lien vers le film de 2011.
        - .related-next : film(s) qui viennent APRÈS (à droite, flèche
          vers la droite).
        Plusieurs films dans un bloc ? Ajoute simplement un <a> par ligne.
@@ -550,44 +355,31 @@ show_songs_v2: true
       <a href="#"><span class="related-arrow">➤</span>Previous film (year)</a>
     </div>
     <div class="related-next">
-      <a href="#">Pinocchio (Live-action) (2022)<span class="related-arrow">➤</span></a>
+      <a href="#">Film suivant (YEAR)<span class="related-arrow">➤</span></a>
     </div>
   </div>
 
   <!-- ============================================================
-       SOURCES + CONTACT — tout en bas de la page.
-       Un bloc .version-sources par version (data-version identique à
-       l'onglet) : seul celui de l'onglet affiché est visible. Une seule
-       version ? Garde un seul bloc, avec class="version-sources active".
-       La ligne "If someone has more information..." (.cast-note) est
-       DANS chaque bloc : elle suit donc l'onglet affiché. Supprime-la
-       dans le bloc des versions pour lesquelles tu ne la veux pas.
-       Le titre "Sources" : mets "Source" au singulier s'il n'y en a qu'une.
-       MODIFIE ICI : une <li> par source (numérotées automatiquement).
-       La petite flèche ↑ est OPTIONNELLE : ajoute-la seulement si tu
-       veux qu'une source fasse remonter vers une boîte précise, avec
-       href="#cast-v1", "#additional-voices-v1", "#choir-v1", "#songs-v1"
-       ou "#staff-v1" (ou -v2 pour la 2e version). Sans flèche, la source reste simple.
+       SOURCES + CONTACT — construits depuis « sources: » de chaque onglet ; seul le bloc de l'onglet
+       affiché est visible. Le titre "Sources" : mets "Source" au singulier s'il n'y en a qu'une
+       (modifie le mot ci-dessous). La ligne « If someone has more information... » suit l'onglet
+       affiché ; supprime-la ci-dessous si tu ne la veux pas.
        ============================================================ -->
-  <div class="version-sources active" data-version="v1">
+  {%- for tab in page.tabs %}
+  {%- assign sfx = "-" | append: tab.id %}
+  <div class="version-sources{% if forloop.first %} active{% endif %}" data-version="{{ tab.id }}">
     <div class="sources-title">Sources</div>
     <ol class="sources-list">
-      <li>Dubbing director</li>
-      <li>Lyrics (song titles) <a href="#songs-v1" class="back-ref" title="Back to Songs">↑</a></li>
-      <li>Another source without arrow</li>
+      {%- for src_row in tab.sources %}
+      {%- assign sf = src_row | split: "|" %}
+      {%- assign s_to = sf[1] | default: "" | strip %}
+      <li>{{ sf[0] | strip }}{% if s_to != "" %} <a href="#{{ s_to }}{{ sfx }}" class="back-ref" title="Back to {{ s_to | replace: '-', ' ' | capitalize }}">↑</a>{% endif %}</li>
+      {%- endfor %}
     </ol>
     <div class="cast-note">If someone has more information about this dub, please <a href="/contact.html" target="_blank" rel="noopener">contact me</a></div>
   </div>
-
-  <div class="version-sources" data-version="v2">
-    <div class="sources-title">Sources</div>
-    <ol class="sources-list">
-      <li>Source for this version <a href="#cast-v2" class="back-ref" title="Back to Cast">↑</a></li>
-    </ol>
-    <div class="cast-note">If someone has more information about this dub, please <span style="font-style:normal;"><a href="/contact.html" target="_blank" rel="noopener">contact me</a></span></div>
-  </div>
-
+  {%- endfor %}
 
 </div>
 
-{% include cast-scripts.html %}
+{% include cast-scripts-v2.html %}
