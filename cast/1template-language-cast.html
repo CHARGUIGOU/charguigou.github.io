@@ -1,6 +1,6 @@
 ---
 layout: null
-title: "Title of film"
+title: "Film Title (YEAR) - Language cast"
 # ============================================================
 # INTERRUPTEURS — MODIFIE ICI à chaque nouvelle page.
 # true  = l'encadré s'affiche
@@ -8,15 +8,106 @@ title: "Title of film"
 # (pas besoin de supprimer le code HTML plus bas)
 # ============================================================
 show_additional_voices: true
-show_choir: true
+show_choir: false   # passe à true + remplis « choir: » plus bas
 show_songs: true
+
+# ============================================================
+# COMÉDIENS (cartes photo du haut) : le "artist" de chaque fiche (dossier artists/)
+# ============================================================
+cards: [artist-slug-1, artist-slug-2, artist-slug-3]
+
+# ============================================================
+# INFOS DE LA PAGE, reprises sur les fiches des artistes (tableau "Roles")
+# year = année du film/doublage (sert au tri) ; film = titre court ; language = langue du doublage
+# IMPORTANT : "film" doit être écrit EXACTEMENT comme le titre de l'apparition dans _data/characters.yml
+# (majuscules/minuscules ignorées, mais pas "II" vs "2"). C'est ce titre qui permet de prendre l'image du
+# personnage DANS CE FILM (sur cette page et sur les fiches des artistes).
+# ============================================================
+year: 2018
+film: "Film Title"          # exactement le titre de l'apparition dans _data/characters.yml (majuscules ignorées)
+language: "Language"
+
+# ============================================================
+# VOIX ADDITIONNELLES CRÉDITÉES : les "artist" de leurs fiches, dans l'ordre d'affichage
+# (une fiche par personne ; elles apparaissent sur la page de la personne avec "Additional voice")
+# ============================================================
+additional:
+  - "artist-slug-1"
+  - "artist-slug-2"
+  - "artist-slug-3"
+
+# Voix additionnelles internationales : une fiche si le texte est l'identifiant d'une fiche, sinon texte simple.
+additional_intl:
+  - "Nom Prénom (texte simple, sans fiche)"
+
+# CHOEUR (affiché si show_choir: true) : mêmes règles que additional.
+choir: []
+
+# ============================================================
+# CHANSONS : "titre natif | titre anglais | interprètes | note"
+# - titre natif vide = pas de ligne native (le titre anglais passe en gras ; la note s'affiche à côté)
+# - interprètes séparés par ; : "fiche @ Personnage" (le personnage est facultatif)
+# - un interprète qui commence par & est précédé de "&" au lieu de ";" (ex : &Choir)
+# - plusieurs voix pour un même personnage : répète le "@ Personnage" pour chacune
+# ============================================================
+songs:
+  - "titre natif | English title | artist-slug-1 @ Personnage; artist-slug-2 @ Personnage; &Choir"
+  - " | English title (sans titre natif) | artist-slug-1 @ Personnage | Performed in English"
+
+# ============================================================
+# TECHNICAL STAFF : "personne(s) | poste". Plusieurs personnes : sépare-les par ;
+# Un studio (ou tout texte qui n'est pas une fiche) s'affiche tel quel, sans lien.
+# ============================================================
+staff:
+  - "artist-slug-1 | Dubbing director"
+  - "artist-slug-2 | Musical director"
+  - "artist-slug-3; artist-slug-4 | Production coordinators"
+  - "studio-slug | Dubbing studio"
+
+# ============================================================
+# TABLEAU CAST : une ligne par personnage, au format
+#     "nom natif | nom original | comédien | note | id du personnage"
+# - comédien = le "artist" de sa fiche ; "?" = inconnu
+#     "fiche = Texte" : affiche "Texte" à la place du nom officiel, sur cette page seulement (le lien reste).
+#     Pour un groupe fusionné, écris-le sur la PREMIÈRE ligne du groupe.
+# - même comédien sur plusieurs lignes qui se suivent = fusion automatique (rowspan)
+# - ligne avec natif et nom vides = autre voix du même personnage (fusion automatique)
+# - note (facultatif) : texte ajouté après le nom, ex : (speaking &amp; singing) ou ?
+#     Sans note mais avec un id, laisse le champ vide : "… | tommy-chu | | ralph"
+# - id du personnage (facultatif, 5e champ) : l'id de ce personnage dans _data/characters.yml (ex : ralph, elsa).
+#     Il sert à la vignette du personnage (voir cast_images plus bas) ; la fiche de l'artiste, elle, retrouve
+#     toute seule l'image du personnage d'après son nom original, sans qu'il soit nécessaire de mettre un id ici.
+#     Mets l'id quand le nom original ne suffit pas à retrouver le personnage (ex : "Hey Nongman…" -> nongman).
+#     "-" à cet endroit = aucune image pour cette ligne.
+# - bandeau : "banner | Texte | URL image | sparkle glow | id"
+# ============================================================
+cast_columns: "Language name | Original name | Voices"
+
+# VIGNETTES DES PERSONNAGES dans ce tableau (une colonne de petites images à gauche) :
+#   cast_images: false  = jamais de vignettes sur cette page
+#   cast_images: true   = vignettes pour tous les personnages trouvés dans _data/characters.yml
+#                         (id déduit du nom original si le 5e champ est vide ; "-" pour exclure une ligne)
+#   (ligne supprimée)   = vignettes seulement pour les lignes où tu as écrit un id en 5e champ
+# Les fiches des artistes affichent toujours les images, quel que soit ce réglage.
+cast_images: false
+cast:
+  - "nom natif | Original name | artist-slug"
+  - "nom natif | Original name | artist-slug | (speaking &amp; singing)"
+  - "nom natif | Original name | artist-slug | | id-du-personnage"
+  - "nom natif | Original name | ?"
+  - "nom natif 2 | Original name 2 | artist-slug-2 = Texte affiché à la place du nom officiel"
+  - " |  | artist-slug-3"
+  - "banner | Titre du bandeau | https://res.cloudinary.com/dofvjifeo/image/upload/IMAGE-DU-BANDEAU.png | sparkle glow"
+  - "nom natif | Original name | artist-slug"
 ---
 {% include header.html %}
 <title>{{ page.title }}</title>
 <!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap" rel="stylesheet">   <!-- police des bandeaux (Cinzel) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&display=swap" rel="stylesheet">
 <!-- ============================================================
      POLICE DU TITRE LOCALISÉ (optionnel) — seulement pour les pages dont
      le titre est dans une écriture non latine. Étapes :
@@ -102,15 +193,15 @@ show_songs: true
        → 'Sriracha'   (poids : 400 seulement)
      ============================================================ -->
 
-{% include cast-style.html %}
+{% include cast-style-v2.html %}
 <style>
 /* RÉGLAGES PROPRES À CETTE PAGE : ces valeurs écrasent les valeurs par défaut de
-   _includes/cast-style.html (liste complète des réglages dans ce fichier). Ajoute ici
+   _includes/cast-style-v2.html (liste complète des réglages dans ce fichier). Ajoute ici
    toute autre variable à changer sur cette page seulement. */
 :root {
 
   /* ---------- TITRE DU FILM ---------- */
-  --title-native-font: var(--cast-font);   /* police du titre localisé (voir la liste des polices plus haut) */
+  --title-native-font: 'Noto Serif HK', var(--cast-font);   /* police du titre localisé (voir la liste des polices plus haut) */
   --title-native-size: 24px;
   --title-native-weight: 700;   /* graisse du titre localisé : 400 = normal, 700 = gras (mets 400 pour les polices « 400 seulement ») */
 
@@ -131,146 +222,16 @@ show_songs: true
        TITRE — MODIFIE ICI à chaque nouvelle page
        ============================================================ -->
   <div class="cast-title-native">
-    <span class="native-text">पिनोक्कियो</span><span class="native-year">(2011)</span>
+    <span class="native-text">Titre localisé</span><span class="native-year">(YEAR)</span>
   </div>
-  <div class="cast-title-english">Pinocchio</div>
+  <div class="cast-title-english">Film Title</div>
   <hr class="cast-hr">
 
-  <!-- ============================================================
-       COMÉDIENS DE DOUBLAGE — un .voice-card par comédien.
-       MODIFIE ICI : copie/colle un bloc .voice-card pour en ajouter.
-       Mets "(Unknown dates)" si tu n'as pas l'info, sinon le format
-       "(1960? - April 2021?)".
-       Les images grises ci-dessous sont des espaces réservés : remplace
-       chaque src="..." par l'URL de la vraie photo (Cloudinary).
-       ============================================================ -->
-  <div class="voice-cast">
-    <div class="voice-card">
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="Pradeep Shukla">
-      <div class="actor-name">Pradeep Shukla</div>
-      <div class="actor-dates">(Unknown dates)</div>
-    </div>
-    <div class="voice-card">
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="Hema Nikam">
-      <div class="actor-name">Hema Nikam</div>
-      <div class="actor-dates">(Unknown dates)</div>
-    </div>
-    <div class="voice-card">
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='100%25' height='100%25' fill='%23ddd'/></svg>" alt="Sandeep Karnik">
-      <div class="actor-name">Sandeep Karnik</div>
-      <div class="actor-dates">(196? - April 2021?)</div>
-    </div>
-  </div>
+  <!-- COMÉDIENS (cartes photo) et TABLEAU CAST : générés depuis le front matter tout en haut
+       (cards: et cast:) et depuis les fiches du dossier artists/. -->
+  {% include cast-cards.html %}
 
-  <!-- ============================================================
-       ENCADRÉ "CAST" — un <tr> par personnage.
-       MODIFIE ICI : "?" quand tu n'as pas l'info (nom natif, ou
-       acteur). Les noms de comédiens restent en texte simple pour
-       l'instant (pas de lien) : plus tard, tu pourras les transformer
-       en <a href="/artists/nom.html">...</a> vers leur propre fiche.
-       L'id="cast" est un point d'ancrage invisible : une source en bas
-       de page peut y faire remonter avec <a href="#cast">.
-
-       CAS PARTICULIERS — on fusionne des cellules avec rowspan="N"
-       (la cellule s'étire sur N lignes). Les 3 exemples à copier :
-
-       1) UNE VOIX POUR PLUSIEURS PERSONNAGES (même acteur sur 2 lignes) :
-          la cellule "Voices" est écrite une seule fois, dans la 1re ligne,
-          avec rowspan="2". La 2e ligne n'a donc que 2 <td> (pas de 3e).
-          <tr>
-            <td>Oafish</td><td>Oafish Guard</td>
-            <td rowspan="2">Johan Hedenberg</td>
-          </tr>
-          <tr>
-            <td>Fången</td><td>The Old Heretic</td>
-          </tr>
-
-       2) UN PERSONNAGE (OU GROUPE) AVEC PLUSIEURS VOIX :
-          cette fois ce sont les 2 premières cellules (noms) qui sont
-          fusionnées, avec rowspan="3" (= nombre de voix). Chaque voix a sa
-          propre ligne ; seule la 1re ligne contient aussi les noms.
-          <tr>
-            <td rowspan="3">Vakter och Zigenare</td>
-            <td rowspan="3">Guards &amp; Gypsies</td>
-            <td>Anders Öjebo</td>
-          </tr>
-          <tr><td>Roger Storm</td></tr>
-          <tr><td>Monica Forsberg</td></tr>
-
-       3) LES DEUX À LA FOIS : combine les deux (une cellule peut avoir
-          un rowspan, et la ligne d'à côté un autre).
-
-       Règle simple : le nombre de <td> par ligne = 3 moins les cellules
-       déjà "prises" par un rowspan des lignes du dessus.
-       ============================================================ -->
-  <div class="info-box" id="cast">
-    <div class="info-box-title">Cast</div>
-    <table class="cast-table">
-      <thead>
-        <tr>
-          <th>Hindi name</th>
-          <th>Original name</th>
-          <th>Voices</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>पिनोक्कियो</td> <td>Pinocchio</td>
-          <td>Arth Vidyarth (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Jiminy Cricket</td>
-          <td>Pradeep Shukla / प्रदीप शुक्ला (speaking) &amp; ? (singing)</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Geppetto</td>
-          <td>?</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Blue Fairy</td>
-          <td>Hema Nikam</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Honest John</td>
-          <td>Sandeep Karnik / संदीप कर्णिक (speaking) &amp; ? (singing)</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Stromboli</td>
-          <td>Prabhakar</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Coachman</td>
-          <td>?</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Lampwick</td>
-          <td>Kaustubh Bhogi</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Alexander</td>
-          <td>?</td>
-        </tr>
-        <!-- EXEMPLE 1 : une même voix pour 2 personnages (rowspan="2" sur la cellule voix) -->
-        <tr>
-          <td>?</td> <td>Oafish Guard</td>
-          <td rowspan="2">Johan Hedenberg</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>The Old Heretic</td>
-        </tr>
-        <!-- EXEMPLE 2 : un groupe avec plusieurs voix (rowspan="5" sur les 2 cellules de noms,
-             puis une ligne par voix supplémentaire contenant UNIQUEMENT la cellule voix) -->
-        <tr>
-          <td rowspan="5">?</td> <td rowspan="5">Guards &amp; Gypsies</td>
-          <td>Anders Öjebo</td>
-        </tr>
-        <tr><td>Roger Storm</td></tr>
-        <tr><td>Monica Forsberg</td></tr>
-        <tr><td>Daniel Bergfalk</td></tr>
-        <tr><td>Thomas Banestål</td></tr>
-      </tbody>
-    </table>
-  </div>
+  {% include cast-table.html %}
 
   <!-- ============================================================
        ENCADRÉS OPTIONNELS "ADDITIONAL VOICES" / "CHOIR"
@@ -283,26 +244,21 @@ show_songs: true
        ============================================================ -->
   {% if page.show_additional_voices %}
   <div class="info-box" id="additional-voices">
-    <div class="info-box-title">Additional voices</div>
-    <div class="voices-grid">
-      <div>Name 1 / Native name 1</div>
-      <div>Name 2 / Native name 2</div>
-      <div>Name 3 / Native name 3</div>
-      <div>Name 4 / Native name 4</div>
-    </div>
+    <div class="info-box-title">Additional voices/Choir</div>
+    {% include cast-names.html names=page.additional %}
+
+  {% if page.additional_intl %}
+  <div class="voices-subtitle">International Additional Voices</div>
+
+    {% include cast-names.html names=page.additional_intl %}
+  {% endif %}
   </div>
   {% endif %}
 
   {% if page.show_choir %}
   <div class="info-box" id="choir">
     <div class="info-box-title">Choir</div>
-    <div class="voices-grid">
-      <div>Name 1 / Native name 1</div>
-      <div>Name 2 / Native name 2</div>
-      <div>Name 3 / Native name 3</div>
-      <div>Name 4 / Native name 4</div>
-      <div>?</div>
-    </div>
+    {% include cast-names.html names=page.choir %}
   </div>
   {% endif %}
 
@@ -322,39 +278,11 @@ show_songs: true
   <div class="info-box" id="songs">
     <div class="info-box-title">Songs</div>
     <ul class="song-list">
-      <li class="song-item">
-        <span class="song-title-native">सच्चे मन से माँगो जो</span>
-        <span class="song-title-english">(« When You Wish Upon a Star (Opening credits) »)</span>
-        <span class="performed-by"><i>performed by</i> : ? (<i>Jiminy Cricket</i>) &amp; Choir</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">?</span>
-        <span class="song-title-english">(« Little Wooden Head »)</span>
-        <span class="performed-by"><i>performed by</i> : ? (<i>Geppetto</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">बजाओ सीटी</span>
-        <span class="song-title-english">(« Give A Little Whistle »)</span>
-        <span class="performed-by"><i>performed by</i> : ? (<i>Jiminy Cricket</i>) ; Arth Vidyarth (<i>Pinocchio</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">?</span>
-        <span class="song-title-english">(« Hi-Diddle-Dee-Dee (An Actor's Life for Me) »)</span>
-        <span class="performed-by"><i>performed by</i> : ? (<i>Honest John</i>) ; Arth Vidyarth (<i>Pinocchio</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">?</span>
-        <span class="song-title-english">(« I've Got No Strings »)</span>
-        <span class="performed-by"><i>performed by</i> : Arth Vidyarth (<i>Pinocchio</i>) ; ? (<i>Dutch Marionette</i>) ; ? (<i>French Marionette</i>) ; ? (<i>Russian Marionette</i>) &amp; Choir</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">सच्चे मन से माँगो जो (Finale)</span>
-        <span class="song-title-english">(« When You Wish Upon a Star (Finale) »)</span>
-        <span class="performed-by"><i>performed by</i> : ? (<i>Jiminy Cricket</i>) &amp; Choir</span>
-      </li>
+      {% include cast-songs.html %}
     </ul>
   </div>
   {% endif %}
+
 
   <!-- ============================================================
        ENCADRÉ "TECHNICAL STAFF" — une ligne par poste.
@@ -363,14 +291,7 @@ show_songs: true
        ============================================================ -->
   <div class="info-box" id="staff">
     <div class="info-box-title">Technical Staff</div>
-    <table class="staff-table">
-      <tr><td class="staff-name">Ashwin Saxena</td><td class="staff-role">Dubbing director</td></tr>
-      <tr><td class="staff-name">?</td><td class="staff-role">Musical director</td></tr>
-      <tr><td class="staff-name">Baba Khan</td><td class="staff-role">Translator</td></tr>
-      <tr><td class="staff-name">?</td><td class="staff-role">Lyricist</td></tr>
-      <tr><td class="staff-name">Paddy ?</td><td class="staff-role">Creative Supervisor</td></tr>
-      <tr><td class="staff-name">?</td><td class="staff-role">Dubbing studio</td></tr>
-    </table>
+    {% include cast-staff.html %}
     <div class="studio-line">DISNEY CHARACTER VOICES INTERNATIONAL, INC.</div>
   </div>
 
@@ -382,8 +303,14 @@ show_songs: true
        ============================================================ -->
   <ul class="cast-trivia">
     <li>Release date :<br>
-    India - <b>15 September 2005</b> <small>(Cinemas)</small></li>
-    <li>Sandeep Karnik (संदीप कर्णिक), the speaking voice of <b>Honest John</b>, also tried out for the singing, but the result was rejected.</li>
+    Pays - <b>1 January YEAR</b> <small>(Cinemas)</small></li>
+    <li>Une anecdote. Utilise <b>gras</b> et <i>italique</i> au besoin.</li>
+    <li>Anecdote avec une liste :
+      <ul>
+        <li>premier point</li>
+        <li>second point</li>
+      </ul>
+    </li>
   </ul>
 
   <!-- ============================================================
@@ -395,27 +322,19 @@ show_songs: true
        - data-caption="..." (optionnel) : légende affichée au survol
          de la miniature (voile bleu) et sous l'image ouverte. Sans
          data-caption, pas de voile ni de légende pour cette image.
-       - - Les carrés gris numérotés sont des espaces réservés : remplace
-  chaque src par l'URL de la vraie image.
-- IMAGES TRÈS GRANDES ou avec une trame fine (affiches, motifs...) :
-  une image redimensionnée par le navigateur peut paraître granuleuse
-  ou « moirée ». Solution : faire redimensionner l'image par Cloudinary,
-  en ajoutant des réglages juste après /upload/ dans l'URL.
-    src       = miniature : .../upload/w_450,h_450,c_fill,g_north,q_auto:best/NOM.png
-                (carré 450px, recadré sur le haut ; g_center = au centre, g_south = en bas)
-    data-full = affichage plein écran : .../upload/w_1600,q_auto:best/NOM.png
-                (le navigateur l'utilise à l'ouverture ; sans data-full, c'est le src)
-  Exemple :
-    <img src="https://res.cloudinary.com/dofvjifeo/image/upload/w_450,h_450,c_fill,g_north,q_auto:best/NOM.png"
-         data-full="https://res.cloudinary.com/dofvjifeo/image/upload/w_1600,q_auto:best/NOM.png" alt="...">
+       - Les carrés gris numérotés sont des espaces réservés : remplace
+         chaque src par l'URL de la vraie image (la même image sert à
+         la miniature et à l'affichage en grand).
+       Change "Gallery" en "Media" si tu préfères.
        ============================================================ -->
   <div class="gallery-title">Gallery</div>
   <div class="gallery-carousel" id="galleryCarousel">
     <button class="gallery-arrow prev" type="button" aria-label="Previous images">&#8249;</button>
     <div class="gallery-track" id="galleryTrack">
-       <img src="https://res.cloudinary.com/dofvjifeo/image/upload/w_450,h_450,c_fill,g_north,q_auto:best/NOM_IMAGE.jpg"
-            data-full="https://res.cloudinary.com/dofvjifeo/image/upload/NOM_IMAGE.jpg"
-            alt="poster" data-caption="">
+      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/w_450,h_450,c_fill,g_north,q_auto:best/IMAGE-1.jpg"
+           data-full="https://res.cloudinary.com/dofvjifeo/image/upload/IMAGE-1.jpg" alt="Film Title Language poster">
+      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/w_450,h_450,c_fill,g_north,q_auto:best/IMAGE-2.png"
+           data-full="https://res.cloudinary.com/dofvjifeo/image/upload/IMAGE-2.png" alt="Film Title Language Disney+" data-caption="Disney+">
     </div>
     <button class="gallery-arrow next" type="button" aria-label="Next images">&#8250;</button>
   </div>
@@ -433,10 +352,7 @@ show_songs: true
        ============================================================ -->
   <div class="cast-related">
     <div class="related-prev">
-      <a href="#"><span class="related-arrow">➤</span>Previous film (year)</a>
-    </div>
-    <div class="related-next">
-      <a href="#">Pinocchio (Live-action) (2022)<span class="related-arrow">➤</span></a>
+      <a href="/cast/page-du-film-precedent.html"><span class="related-arrow">➤</span>Film précédent (YEAR)</a>
     </div>
   </div>
 
@@ -451,12 +367,10 @@ show_songs: true
        ============================================================ -->
   <div class="sources-title">Sources</div>
   <ol class="sources-list">
-    <li>Dubbing director</li>
-    <li>Lyrics (song titles) <a href="#songs" class="back-ref" title="Back to Songs">↑</a></li>
-    <li>Another source without arrow</li>
+    <li>BLU-RAY credits</li>
+    <li>Disney+</li>
   </ol>
-  <div class="cast-note">If someone has more information about this dub, please <span style="font-style:normal;"><a href="/contact.html" target="_blank" rel="noopener">contact me</a></span></div>
 
 </div>
 
-{% include cast-scripts.html %}
+{% include cast-scripts-v2.html %}
