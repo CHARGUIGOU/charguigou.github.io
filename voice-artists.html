@@ -4,11 +4,10 @@ permalink: /voice-artists.html
 title: Voice artists
 ---
 {% include header.html %}
-<title>Voice artists &amp; studios</title>
+<title>Voice Artists</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
-{% include cast-style-v2.html %}
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
 
 {%- comment %}
   ============================================================
@@ -68,17 +67,17 @@ title: Voice artists
 
 {%- assign fiches = site.pages | where_exp: "p", "p.artist" | sort: "artist" -%}
 {%- assign n_art = 0 -%}{%- assign n_stu = 0 -%}
+{%- assign country_all = "|" -%}
 
-{%- capture cards -%}
+{%- capture cards_artists -%}{%- endcapture -%}
+{%- capture cards_studios -%}{%- endcapture -%}
 {%- for a in fiches -%}
   {%- assign a_slug = a.artist | strip -%}
   {%- assign is_studio = false -%}{%- if a.kind == "studio" -%}{%- assign is_studio = true -%}{%- endif -%}
-  {%- if is_studio -%}{%- assign n_stu = n_stu | plus: 1 -%}{%- else -%}{%- assign n_art = n_art | plus: 1 -%}{%- endif -%}
 
   {%- comment %} nom court affiché {% endcomment -%}
   {%- assign nm = a.short_name | default: a.nickname | default: a.romanization | default: a.display | default: a.native | default: a_slug -%}
   {%- assign nm = nm | strip -%}
-  {%- comment %} tout ce qui peut être cherché {% endcomment -%}
   {%- capture search_txt -%}{{ a_slug }} {{ a.nickname }} {{ a.romanization }} {{ a.native_nick }} {{ a.native }} {{ a.display }} {{ a.short_name }} {{ a.prefix }} {{ a.page_name }}{%- endcapture -%}
 
   {%- comment %} langues de la fiche {% endcomment -%}
@@ -89,29 +88,33 @@ title: Voice artists
       {%- if lang_idx contains probe -%}{%- assign a_langs = a_langs | append: l | append: "|" -%}{%- endif -%}
     {%- endif -%}
   {%- endfor -%}
-  {%- for er in a.extra_roles -%}{%- assign ef = er | split: "|" -%}{%- assign l = ef[3] | default: "" | strip -%}{%- if l != "" -%}{%- assign lk = "|" | append: l | append: "|" -%}{%- assign cur = "|" | append: a_langs -%}{%- unless cur contains lk -%}{%- assign a_langs = a_langs | append: l | append: "|" -%}{%- endunless -%}{%- endif -%}{%- endfor -%}
-  {%- for er in a.extra_songs -%}{%- assign ef = er | split: "|" -%}{%- assign l = ef[3] | default: "" | strip -%}{%- if l != "" -%}{%- assign lk = "|" | append: l | append: "|" -%}{%- assign cur = "|" | append: a_langs -%}{%- unless cur contains lk -%}{%- assign a_langs = a_langs | append: l | append: "|" -%}{%- endunless -%}{%- endif -%}{%- endfor -%}
-  {%- for er in a.extra_credits -%}{%- assign ef = er | split: "|" -%}{%- assign l = ef[3] | default: "" | strip -%}{%- if l != "" -%}{%- assign lk = "|" | append: l | append: "|" -%}{%- assign cur = "|" | append: a_langs -%}{%- unless cur contains lk -%}{%- assign a_langs = a_langs | append: l | append: "|" -%}{%- endunless -%}{%- endif -%}{%- endfor -%}
+  {%- for er in a.extra_roles -%}{%- assign ef = er | split: "|" -%}{%- assign l = ef[3] | default: "" | strip -%}{%- if l != "" -%}{%- assign lk = "|" | append: l | append: "|" -%}{%- assign cur = "|" | append: a_langs -%}{%- unless cur contains lk -%}{%- assign a_langs = a_langs | append: l | append: "|" -%}{%- endunless -%}{%- unless lang_all contains lk -%}{%- assign lang_all = lang_all | append: l | append: "|" -%}{%- endunless -%}{%- endif -%}{%- endfor -%}
+  {%- for er in a.extra_songs -%}{%- assign ef = er | split: "|" -%}{%- assign l = ef[3] | default: "" | strip -%}{%- if l != "" -%}{%- assign lk = "|" | append: l | append: "|" -%}{%- assign cur = "|" | append: a_langs -%}{%- unless cur contains lk -%}{%- assign a_langs = a_langs | append: l | append: "|" -%}{%- endunless -%}{%- unless lang_all contains lk -%}{%- assign lang_all = lang_all | append: l | append: "|" -%}{%- endunless -%}{%- endif -%}{%- endfor -%}
+  {%- for er in a.extra_credits -%}{%- assign ef = er | split: "|" -%}{%- assign l = ef[3] | default: "" | strip -%}{%- if l != "" -%}{%- assign lk = "|" | append: l | append: "|" -%}{%- assign cur = "|" | append: a_langs -%}{%- unless cur contains lk -%}{%- assign a_langs = a_langs | append: l | append: "|" -%}{%- endunless -%}{%- unless lang_all contains lk -%}{%- assign lang_all = lang_all | append: l | append: "|" -%}{%- endunless -%}{%- endif -%}{%- endfor -%}
   {%- assign lang_arr = a_langs | split: "|" | sort -%}
-  {%- assign lang_txt = "" -%}{%- assign lang_first = "" -%}
+  {%- assign lang_txt = "" -%}
   {%- for l in lang_arr -%}{%- if l != "" -%}
-    {%- if lang_txt == "" -%}{%- assign lang_txt = l -%}{%- assign lang_first = l -%}{%- else -%}{%- assign lang_txt = lang_txt | append: ", " | append: l -%}{%- endif -%}
+    {%- if lang_txt == "" -%}{%- assign lang_txt = l -%}{%- else -%}{%- assign lang_txt = lang_txt | append: ", " | append: l -%}{%- endif -%}
   {%- endif -%}{%- endfor -%}
   {%- assign a_country = a.country | default: "" | strip -%}
+  {%- if a_country != "" -%}
+    {%- assign ck = "|" | append: a_country | append: "|" -%}
+    {%- unless country_all contains ck -%}{%- assign country_all = country_all | append: a_country | append: "|" -%}{%- endunless -%}
+  {%- endif -%}
 
   {%- comment %} photo : miniature Cloudinary légère si possible {% endcomment -%}
   {%- capture ph_full -%}{% include artist-photo.html a=a %}{%- endcapture -%}
   {%- assign ph = ph_full | strip -%}
   {%- if ph contains "res.cloudinary.com" and ph contains "/image/upload/" and a.photo -%}
-    {%- if is_studio -%}{%- assign tr = "/image/upload/c_fit,w_400,h_400,q_auto,f_auto/" -%}{%- else -%}{%- assign tr = "/image/upload/c_fill,g_auto,w_400,h_400,q_auto,f_auto/" -%}{%- endif -%}
+    {%- if is_studio -%}{%- assign tr = "/image/upload/c_fit,w_300,h_300,q_auto,f_auto/" -%}{%- else -%}{%- assign tr = "/image/upload/c_fill,g_auto,w_300,h_300,q_auto,f_auto/" -%}{%- endif -%}
     {%- assign ph = ph | replace_first: "/image/upload/", tr -%}
   {%- endif -%}
 
+  {%- capture card -%}
   <a class="vi-card{% if is_studio %} studio{% endif %}" href="{{ a.url }}"
-     data-kind="{% if is_studio %}studio{% else %}artist{% endif %}"
      data-name="{{ nm | strip_html | escape }}"
      data-search="{{ search_txt | strip_html | escape }}"
-     data-lang="{{ lang_first | escape }}"
+     data-langs="|{{ a_langs | escape }}"
      data-country="{{ a_country | escape }}">
     <span class="vi-thumb"><img src="{{ ph }}" alt="" loading="lazy"></span>
     <span class="vi-name">{{ nm }}</span>
@@ -119,114 +122,221 @@ title: Voice artists
     <span class="vi-meta">{{ a_country }}{% if a_country != "" and lang_txt != "" %} &middot; {% endif %}{{ lang_txt }}</span>
     {%- endif %}
   </a>
+  {%- endcapture -%}
+  {%- if is_studio -%}
+    {%- assign n_stu = n_stu | plus: 1 -%}{%- capture cards_studios -%}{{ cards_studios }}{{ card }}{%- endcapture -%}
+  {%- else -%}
+    {%- assign n_art = n_art | plus: 1 -%}{%- capture cards_artists -%}{{ cards_artists }}{{ card }}{%- endcapture -%}
+  {%- endif -%}
 {%- endfor -%}
-{%- endcapture -%}
+{%- assign country_list = country_all | split: "|" | sort -%}
+{%- assign lang_menu = lang_all | split: "|" | sort -%}
 
 <style>
 /* ============================================================
-   PAGE VOICE ARTISTS — MODIFIE ICI les tailles et couleurs
+   PAGE VOICE ARTISTS — MODIFIE ICI les tailles, marges et couleurs
    ============================================================ */
 :root {
-  --vi-thumb-size: 150px;          /* largeur (= hauteur) des vignettes */
-  --vi-gap: 26px 22px;             /* espace vertical / horizontal entre les cartes */
-  --vi-name-size: 14px;            /* nom sous la photo */
-  --vi-meta-size: 12px;            /* pays · langues sous le nom */
+  --page-margin: 8%;               /* marges gauche/droite de la page (plus petit = liste plus large) */
+  --vi-thumb-size: 112px;          /* largeur (= hauteur) des vignettes */
+  --vi-gap: 22px 16px;             /* espace vertical / horizontal entre les cartes */
+  --vi-name-size: 13px;            /* nom sous la photo */
+  --vi-meta-size: 11px;            /* pays · langues sous le nom */
   --vi-photo-border: 1px solid rgba(40, 40, 40, 0.75);
-  --vi-photo-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+  --vi-photo-shadow: 0 3px 9px rgba(0, 0, 0, 0.2);
+  --vi-blue: #2a5da0;
 }
-.vi-title { text-align: center; font-size: 26px; font-weight: 700; color: var(--cast-accent); margin: 0 0 24px; }
-.vi-bar { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center; justify-content: center; margin: 0 auto 10px; max-width: 760px; }
-.vi-search { flex: 1 1 280px; min-width: 200px; padding: 9px 14px; font: inherit; font-size: 14px; color: var(--cast-text-color); border: 1px solid #ccc; border-radius: 20px; background: #fff; outline: none; }
-.vi-search:focus { border-color: var(--cast-accent); }
-.vi-select { padding: 8px 12px; font: inherit; font-size: 14px; color: var(--cast-text-color); border: 1px solid #ccc; border-radius: 20px; background: #fff; }
-.vi-chips { display: flex; gap: 8px; justify-content: center; margin: 0 auto 14px; flex-wrap: wrap; }
-.vi-chip { cursor: pointer; font: inherit; font-size: 13px; padding: 5px 16px; border: 1px solid #ccc; border-radius: 16px; background: #fff; color: var(--cast-text-color); }
-.vi-chip.active { background: var(--cast-accent); border-color: var(--cast-accent); color: #fff; }
-.vi-count { text-align: center; font-weight: 700; font-size: 13px; color: var(--actor-dates-color); margin: 0 0 28px; }
-.vi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--vi-thumb-size), 1fr)); gap: var(--vi-gap); justify-items: center; }
-.cast-wrap a.vi-card { display: flex; flex-direction: column; align-items: center; width: var(--vi-thumb-size); max-width: 100%; text-decoration: none; color: var(--cast-text-color); text-align: center; }
-.vi-thumb { display: block; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border: var(--vi-photo-border); box-shadow: var(--vi-photo-shadow); background: #ececec; transition: box-shadow .2s ease, transform .2s ease; }
+body, .search-input { font-family: 'Open Sans', sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ---- Titre de page : même style que Character Voices ---- */
+:root {
+  --page-title-font: 'IM Fell English', serif;
+  --page-title-size: 30px;
+  --page-title-weight: 500;
+  --page-title-spacing: 2px;
+  --page-title-align: center;
+  --page-title-color: #222;
+}
+.page-title { font-family: var(--page-title-font); font-size: var(--page-title-size); font-weight: var(--page-title-weight); letter-spacing: var(--page-title-spacing); text-align: var(--page-title-align); color: var(--page-title-color); padding-top: 60px; }
+.page-title .title-accent { color: #2a5da0; }
+.page-title .title-rest { font-size: 0.85em; }
+.page-title small { display: block; margin-top: 4px; font-size: 0.5em; letter-spacing: 3px; color: #777; }
+
+/* ---- Barres de recherche / filtres : même style que Character Voices ---- */
+.search-row { display: flex; justify-content: center; align-items: flex-start; gap: 16px; flex-wrap: wrap; margin: 35px auto 30px; padding: 0 20px; }
+.search-box { display: flex; flex-direction: column; align-items: center; }
+.search-box label { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.search-input { width: 260px; padding: 9px 14px; font-size: 13px; border-radius: 10px; border: 1px solid #ccc; box-sizing: border-box; transition: all 0.3s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.1); background: #fff; color: #333; }
+.search-input:focus { outline: none; border-color: #7da1c9; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+select.search-input { width: 200px; cursor: pointer; }
+#resultCount { text-align: center; font-size: 12px; color: #999; margin-bottom: 14px; }
+#resultCount a { color: inherit; text-decoration: underline; }
+#resultCount a:hover { color: var(--vi-blue); }
+
+/* ---- Barre des lettres (accès rapide) ---- */
+.vi-letters { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 4px; margin: 0 auto 34px; padding: 0 var(--page-margin); }
+.vi-letters button { font: inherit; font-size: 12px; font-weight: 600; min-width: 24px; padding: 3px 4px; border: none; background: none; color: var(--vi-blue); cursor: pointer; border-radius: 4px; }
+.vi-letters button:hover { background: rgba(42, 93, 160, 0.1); }
+.vi-letters button:disabled { color: #ccc; cursor: default; background: none; }
+
+/* ---- Titre de section : même effet lumineux que les titres de saga de Character Voices ---- */
+:root { --title-line-width: 120px; --title-line-color: #2a5da0; --title-star-color-dim: #4a7bb5; --title-star-color-bright: #a9cdf0; --title-star-glow: rgba(126, 166, 216, 0.9); --title-star-size: 13px; }
+.vi-section { margin-bottom: 70px; }
+.vi-section[hidden] { display: none; }
+.film-group-title-wrap { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 0 0 22px; padding: 0 var(--page-margin); }
+.film-group-title { font-size: 18px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin: 0; background: radial-gradient(circle, #2a5da0 0%, #0d2c54 70%); background-size: 250% 250%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: filmTitleGlow 4s ease-in-out infinite, filmTitleDrift 6s ease-in-out infinite; }
+@keyframes filmTitleGlow { 0%, 100% { filter: brightness(0.85); } 50% { filter: brightness(1.3); } }
+@keyframes filmTitleDrift { 0% { background-position: 30% 40%; } 25% { background-position: 65% 30%; } 50% { background-position: 70% 65%; } 75% { background-position: 35% 70%; } 100% { background-position: 30% 40%; } }
+.title-line { flex: 1 1 auto; max-width: var(--title-line-width); height: 1px; }
+.title-line-left { background: linear-gradient(to right, #fff 0%, var(--title-line-color) 100%); }
+.title-line-right { background: linear-gradient(to right, var(--title-line-color) 0%, #fff 100%); }
+.title-star { font-size: var(--title-star-size); animation: starFlicker 4.5s ease-in-out infinite; }
+.title-star-right { animation-delay: -2.2s; }
+@keyframes starFlicker {
+  0%, 100% { opacity: 0.75; color: var(--title-star-color-dim); text-shadow: 0 0 4px var(--title-star-glow); }
+  8% { opacity: 0.55; color: var(--title-star-color-dim); text-shadow: 0 0 2px var(--title-star-glow); }
+  20% { opacity: 1; color: var(--title-star-color-bright); text-shadow: 0 0 10px var(--title-star-glow); }
+  35% { opacity: 0.65; color: var(--title-star-color-dim); text-shadow: 0 0 3px var(--title-star-glow); }
+  50% { opacity: 0.9; color: var(--title-star-color-bright); text-shadow: 0 0 8px var(--title-star-glow); }
+  63% { opacity: 0.6; color: var(--title-star-color-dim); text-shadow: 0 0 3px var(--title-star-glow); }
+  78% { opacity: 1; color: var(--title-star-color-bright); text-shadow: 0 0 12px var(--title-star-glow); }
+  90% { opacity: 0.7; color: var(--title-star-color-dim); text-shadow: 0 0 5px var(--title-star-glow); }
+}
+
+/* ---- Grille compacte ---- */
+.vi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(calc(var(--vi-thumb-size) + 24px), 1fr)); gap: var(--vi-gap); justify-items: center; padding: 0 var(--page-margin); }
+.vi-letter { grid-column: 1 / -1; justify-self: stretch; margin: 14px 0 0; padding-bottom: 4px; border-bottom: 1px solid #e3e8ef; font-family: 'IM Fell English', serif; font-size: 22px; font-weight: 500; color: var(--vi-blue); scroll-margin-top: 20px; }
+.vi-letter:first-child { margin-top: 0; }
+a.vi-card { display: flex; flex-direction: column; align-items: center; width: calc(var(--vi-thumb-size) + 24px); text-decoration: none; color: #333; text-align: center; }
+.vi-thumb { display: block; width: var(--vi-thumb-size); height: var(--vi-thumb-size); overflow: hidden; border: var(--vi-photo-border); box-shadow: var(--vi-photo-shadow); background: #ececec; transition: box-shadow .2s ease, transform .2s ease; }
 .vi-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .vi-card.studio .vi-thumb { background: #fff; }
 .vi-card.studio .vi-thumb img { object-fit: contain; }
-.vi-card:hover .vi-thumb { box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3); transform: translateY(-2px); }
-.vi-name { margin-top: 10px; font-size: var(--vi-name-size); font-weight: 700; line-height: 1.25; letter-spacing: 0.5px; color: var(--actor-name-color); }
-.vi-meta { margin-top: 3px; font-size: var(--vi-meta-size); line-height: 1.3; color: var(--actor-dates-color); }
-.vi-card:hover .vi-name { color: var(--actor-link-hover-color, var(--cast-accent)); }
-.vi-empty { display: none; text-align: center; color: var(--actor-dates-color); margin: 30px 0; }
-@media (max-width: 520px) { :root { --vi-thumb-size: 130px; } }
+a.vi-card:hover .vi-thumb { box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3); transform: translateY(-2px); }
+.vi-name { margin-top: 8px; font-size: var(--vi-name-size); font-weight: 700; line-height: 1.25; letter-spacing: 0.4px; color: #555; }
+.vi-meta { margin-top: 2px; font-size: var(--vi-meta-size); line-height: 1.3; color: #888; }
+a.vi-card:hover .vi-name { color: var(--vi-blue); }
+.vi-empty { display: none; text-align: center; color: #999; margin: 40px 0; font-size: 14px; }
+#backToTop { position: fixed; right: 24px; bottom: 24px; width: 48px; height: 48px; border-radius: 50%; background: #fff; border: 2px solid var(--vi-blue); box-shadow: 0 4px 14px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; pointer-events: none; transform: translateY(10px); transition: opacity .3s ease, transform .3s ease; z-index: 50; }
+#backToTop.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+#backToTop svg { width: 26px; height: 26px; }
+@media (max-width: 600px) { :root { --page-margin: 4%; --vi-thumb-size: 96px; } .search-input, select.search-input { width: 220px; } }
 </style>
 
-<div class="cast-wrap">
-  <h2 class="vi-title">Voice artists &amp; studios</h2>
+<div class="page-title"><span class="title-accent">V</span><span class="title-rest">OICE ARTISTS</span><small>(&amp; Studios)</small></div>
 
-  <div class="vi-bar">
-    <input class="vi-search" id="vi-search" type="search" placeholder="Search a name (nickname, romanization, native name)…" autocomplete="off" aria-label="Search">
-    <select class="vi-select" id="vi-sort" aria-label="Sort by">
-      <option value="name">Sort: Name (A–Z)</option>
-      <option value="name-desc">Sort: Name (Z–A)</option>
-      <option value="lang">Sort: Language</option>
-      <option value="country">Sort: Country</option>
+<div class="search-row">
+  <div class="search-box">
+    <label for="viSearch">By name</label>
+    <input type="text" id="viSearch" class="search-input" placeholder="Nickname, name, native name..." autocomplete="off" />
+  </div>
+  <div class="search-box">
+    <label for="viLang">Language</label>
+    <select id="viLang" class="search-input">
+      <option value="">All languages</option>
+      {%- for l in lang_menu %}{% if l != "" %}
+      <option value="{{ l | escape }}">{{ l }}</option>
+      {%- endif %}{% endfor %}
     </select>
   </div>
-  <div class="vi-chips">
-    <button type="button" class="vi-chip active" data-kind="all">All</button>
-    <button type="button" class="vi-chip" data-kind="artist">Artists</button>
-    <button type="button" class="vi-chip" data-kind="studio">Studios</button>
+  <div class="search-box">
+    <label for="viCountry">Country</label>
+    <select id="viCountry" class="search-input">
+      <option value="">All countries</option>
+      {%- for c in country_list %}{% if c != "" %}
+      <option value="{{ c | escape }}">{{ c }}</option>
+      {%- endif %}{% endfor %}
+    </select>
   </div>
-  <p class="vi-count" id="vi-count">{{ n_art }} voice artist{% if n_art != 1 %}s{% endif %} &middot; {{ n_stu }} studio{% if n_stu != 1 %}s{% endif %}</p>
-
-  <div class="vi-grid" id="vi-grid">
-{{ cards }}
-  </div>
-  <p class="vi-empty" id="vi-empty">No result.</p>
 </div>
+<div id="resultCount"></div>
+<nav class="vi-letters" id="viLetters" aria-label="Jump to letter"></nav>
+
+<section class="vi-section" id="vi-sec-artists">
+  <div class="film-group-title-wrap">
+    <span class="title-line title-line-left"></span><span class="title-star" aria-hidden="true">&#10022;</span>
+    <h2 class="film-group-title">Voice artists</h2>
+    <span class="title-star title-star-right" aria-hidden="true">&#10022;</span><span class="title-line title-line-right"></span>
+  </div>
+  <div class="vi-grid" id="vi-grid-artists">
+{{ cards_artists }}
+  </div>
+</section>
+
+<section class="vi-section" id="vi-sec-studios">
+  <div class="film-group-title-wrap">
+    <span class="title-line title-line-left"></span><span class="title-star" aria-hidden="true">&#10022;</span>
+    <h2 class="film-group-title">Studios</h2>
+    <span class="title-star title-star-right" aria-hidden="true">&#10022;</span><span class="title-line title-line-right"></span>
+  </div>
+  <div class="vi-grid" id="vi-grid-studios">
+{{ cards_studios }}
+  </div>
+</section>
+
+<p class="vi-empty" id="viEmpty">No result.</p>
+
+<button id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3c-1 0-1.8.8-1.8 1.8v6.4L8.6 9.6a1.6 1.6 0 0 0-2.3 2.2l4.2 4.4c.8.8 2.1.8 2.9 0l4.2-4.4a1.6 1.6 0 0 0-2.3-2.2l-1.6 1.6V4.8C13.8 3.8 13 3 12 3z" fill="#2a5da0" transform="rotate(180 12 12)"/></svg>
+</button>
 
 <script>
 (function () {
-  var grid = document.getElementById('vi-grid');
-  if (!grid) return;
-  var cards = Array.prototype.slice.call(grid.querySelectorAll('.vi-card'));
-  var qEl = document.getElementById('vi-search'), sEl = document.getElementById('vi-sort');
-  var cEl = document.getElementById('vi-count'), eEl = document.getElementById('vi-empty');
-  var kind = 'all';
+  var secA = document.getElementById('vi-sec-artists'), secS = document.getElementById('vi-sec-studios');
+  var gridA = document.getElementById('vi-grid-artists'), gridS = document.getElementById('vi-grid-studios');
+  var qEl = document.getElementById('viSearch'), lEl = document.getElementById('viLang'), cEl = document.getElementById('viCountry');
+  var countEl = document.getElementById('resultCount'), lettersEl = document.getElementById('viLetters'), emptyEl = document.getElementById('viEmpty');
   function norm(s) { return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
-  cards.forEach(function (c) { c.__s = norm(c.dataset.search); c.__n = norm(c.dataset.name); c.__l = norm(c.dataset.lang); c.__c = norm(c.dataset.country); });
-  /* tri : les valeurs vides passent à la fin ; à valeur égale, ordre alphabétique des noms */
-  function cmp(key, dir) {
-    return function (a, b) {
-      var x = a[key], y = b[key];
-      if (key !== '__n') { if (!x && y) return 1; if (x && !y) return -1; }
-      var r = x < y ? -1 : x > y ? 1 : 0;
-      if (r === 0) r = a.__n < b.__n ? -1 : a.__n > b.__n ? 1 : 0;
-      return r * dir;
-    };
+  function prep(grid) {
+    var arr = Array.prototype.slice.call(grid.querySelectorAll('.vi-card'));
+    arr.forEach(function (c) { c.__s = norm(c.dataset.search); c.__n = norm(c.dataset.name); });
+    arr.sort(function (a, b) { return a.__n < b.__n ? -1 : a.__n > b.__n ? 1 : 0; });   /* ordre alphabétique (fixe) */
+    return arr;
+  }
+  var artists = prep(gridA), studios = prep(gridS);
+  function letterOf(c) { var ch = (c.__n.charAt(0) || '#').toUpperCase(); return /[A-Z]/.test(ch) ? ch : '#'; }
+
+  function show(list, grid, withLetters, q, lang, country) {
+    Array.prototype.forEach.call(grid.querySelectorAll('.vi-letter'), function (h) { h.remove(); });
+    var n = 0, last = null, letters = {};
+    var frag = document.createDocumentFragment();
+    list.forEach(function (c) {
+      var ok = q.every(function (w) { return c.__s.indexOf(w) !== -1; })
+        && (!lang || c.dataset.langs.indexOf('|' + lang + '|') !== -1)
+        && (!country || c.dataset.country === country);
+      c.style.display = ok ? '' : 'none';
+      if (ok) {
+        n++;
+        if (withLetters) {
+          var L = letterOf(c);
+          if (L !== last) { var h = document.createElement('h3'); h.className = 'vi-letter'; h.id = 'vi-letter-' + (L === '#' ? 'other' : L); h.textContent = L; frag.appendChild(h); last = L; letters[L] = true; }
+        }
+      }
+      frag.appendChild(c);
+    });
+    grid.appendChild(frag);
+    return { n: n, letters: letters };
   }
   function apply() {
-    var q = norm(qEl.value).trim().split(/\s+/).filter(Boolean);
-    var s = sEl.value, na = 0, ns = 0;
-    var order = cards.slice().sort(s === 'name-desc' ? cmp('__n', -1) : s === 'lang' ? cmp('__l', 1) : s === 'country' ? cmp('__c', 1) : cmp('__n', 1));
-    order.forEach(function (c) {
-      var ok = (kind === 'all' || c.dataset.kind === kind) && q.every(function (w) { return c.__s.indexOf(w) !== -1; });
-      c.style.display = ok ? '' : 'none';
-      if (ok) { if (c.dataset.kind === 'studio') ns++; else na++; }
-      grid.appendChild(c);
+    var q = norm(qEl.value).trim().split(/\s+/).filter(Boolean), lang = lEl.value, country = cEl.value;
+    var ra = show(artists, gridA, true, q, lang, country), rs = show(studios, gridS, false, q, lang, country);
+    secA.hidden = ra.n === 0; secS.hidden = rs.n === 0;
+    emptyEl.style.display = (ra.n + rs.n) ? 'none' : 'block';
+    var txt = ra.n + ' voice artist' + (ra.n === 1 ? '' : 's');
+    countEl.innerHTML = txt + (rs.n ? ' &middot; <a href="#vi-sec-studios">' + rs.n + ' studio' + (rs.n === 1 ? '' : 's') + '</a>' : '');
+    lettersEl.innerHTML = '';
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split('').forEach(function (L) {
+      var b = document.createElement('button'); b.type = 'button'; b.textContent = L;
+      if (!ra.letters[L]) b.disabled = true;
+      else b.addEventListener('click', function () { var t = document.getElementById('vi-letter-' + (L === '#' ? 'other' : L)); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+      lettersEl.appendChild(b);
     });
-    var parts = [];
-    if (kind !== 'studio') parts.push(na + ' voice artist' + (na === 1 ? '' : 's'));
-    if (kind !== 'artist') parts.push(ns + ' studio' + (ns === 1 ? '' : 's'));
-    cEl.textContent = parts.join(' · ');
-    eEl.style.display = (na + ns) ? 'none' : 'block';
+    lettersEl.style.display = ra.n ? '' : 'none';
   }
-  qEl.addEventListener('input', apply);
-  sEl.addEventListener('change', apply);
-  Array.prototype.forEach.call(document.querySelectorAll('.vi-chip'), function (b) {
-    b.addEventListener('click', function () {
-      kind = b.dataset.kind;
-      Array.prototype.forEach.call(document.querySelectorAll('.vi-chip'), function (x) { x.classList.toggle('active', x === b); });
-      apply();
-    });
-  });
+  qEl.addEventListener('input', apply); lEl.addEventListener('change', apply); cEl.addEventListener('change', apply);
   apply();
+  var btt = document.getElementById('backToTop');
+  window.addEventListener('scroll', function () { btt.classList.toggle('visible', window.scrollY > 400); });
+  btt.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 })();
 </script>
