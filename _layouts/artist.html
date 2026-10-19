@@ -151,8 +151,11 @@
 {%- if u_choir != "" -%}{%- capture img_choir_html -%}<img src="{{ u_choir }}" alt="">{%- endcapture -%}{%- endif -%}
 {%- if u_additional != "" -%}{%- capture img_additional_html -%}<img src="{{ u_additional }}" alt="">{%- endcapture -%}{%- endif -%}
 {%- assign slug = page.artist -%}
-{%- assign cast_pages = site.pages | where_exp: "p", "p.cast or p.tabs" | sort: "title" -%}
-{%- assign staff_pages = site.pages | where_exp: "p", "p.staff or p.tabs" | sort: "title" -%}
+{%- assign cp_a = site.pages | where_exp: "p", "p.cast" -%}
+{%- assign cp_b = site.pages | where_exp: "p", "p.tabs" -%}
+{%- assign cast_pages = cp_a | concat: cp_b | sort: "title" -%}
+{%- assign sp_a = site.pages | where_exp: "p", "p.staff" -%}
+{%- assign staff_pages = sp_a | concat: cp_b | sort: "title" -%}
 
 {%- comment %} ---- Rôles de voix (personnages + voix additionnelles) ---- {% endcomment -%}
 {%- assign total = 0 -%}
