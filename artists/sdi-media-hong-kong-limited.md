@@ -1,6 +1,6 @@
 ---
 layout: artist
-artist: "sdi-media-hong-kong-limited"
+artist: "sdi-media-hk"
 kind: "studio"
 display: "SDI Media Hong Kong Limited"
 photo: "https://res.cloudinary.com/dofvjifeo/image/upload/SDI-Media.png"
