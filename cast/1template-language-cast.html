@@ -32,7 +32,11 @@ cards: [artist-slug-1, artist-slug-2, artist-slug-3]
 
 # ============================================================
 # INFOS DE LA PAGE, reprises sur les fiches des artistes (tableau "Roles")
-# year = année du film/doublage (sert au tri) ; film = titre court ; language = langue du doublage
+# year = date du film/doublage ; film = titre court ; language = langue du doublage
+# year accepte : 2011  |  2011-02  |  2011-02-01 (date complète, de préférence celle de sortie du doublage).
+#   Sur les fiches des artistes, seule l'ANNÉE (les 4 premiers chiffres) s'affiche, mais le tableau est trié sur
+#   la date complète : deux doublages de la même année se rangent donc dans l'ordre de leur date.
+#   Sans mois/jour, l'année compte comme le 1er janvier.
 # IMPORTANT : "film" doit être écrit EXACTEMENT comme le titre de l'apparition dans _data/characters.yml
 # (majuscules/minuscules ignorées, mais pas "II" vs "2"). C'est ce titre qui permet de prendre l'image du
 # personnage DANS CE FILM (sur cette page et sur les fiches des artistes).
