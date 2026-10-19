@@ -2,6 +2,20 @@
 layout: null
 title: "Film Title (YEAR) - Language cast"
 # ============================================================
+# NOMS D'ARTISTES (cast, cartes, voix additionnelles, choeur, chansons, staff)
+# Partout où un nom de personne ou de studio est attendu, écris le « artist » de sa fiche (dossier artists/),
+# exactement comme dans la fiche, lettre pour lettre : tommy-chu (et pas "Tommy Chu").
+#  - Une fiche existe : le nom officiel s'affiche avec un lien vers la fiche, et ce doublage apparaît
+#    automatiquement sur la fiche de l'artiste.
+#  - Aucune fiche ne porte ce nom : le texte est affiché tel quel, SANS lien (ni page créée). C'est aussi le
+#    moyen d'écrire un nom sans fiche (ex : « Pauline Brunner ») ; un slug mal orthographié se repère car il
+#    s'affiche en minuscules avec des tirets.
+#  - Les « artist-slug-1, artist-slug-2... » de ce template sont des noms FACTICES : remplace-les par de vrais slugs.
+#  - « ? » (ou champ vide dans le cast) = inconnu.
+#  - Pour créer une fiche : ajoute un fichier dans artists/ (voir _modele.md). Tu peux écrire le cast d'abord
+#    et créer les fiches ensuite : les liens apparaissent tout seuls.
+# ============================================================
+# ============================================================
 # INTERRUPTEURS — MODIFIE ICI à chaque nouvelle page.
 # true  = l'encadré s'affiche
 # false = il disparaît complètement de la page
@@ -44,19 +58,25 @@ additional_intl:
 choir: []
 
 # ============================================================
-# CHANSONS : "titre natif | titre anglais | interprètes | note"
-# - titre natif vide = pas de ligne native (le titre anglais passe en gras ; la note s'affiche à côté)
-# - interprètes séparés par ; : "fiche @ Personnage" (le personnage est facultatif)
-# - un interprète qui commence par & est précédé de "&" au lieu de ";" (ex : &Choir)
-# - plusieurs voix pour un même personnage : répète le "@ Personnage" pour chacune
+# CHANSONS : une ligne par chanson, 4 colonnes séparées par « | » :
+#     "titre natif | titre anglais | interprètes | note"
+#   COLONNE 1 — titre natif : le titre dans la langue du doublage. VIDE = pas de ligne native : le titre anglais passe en gras.
+#   COLONNE 2 — titre anglais : le titre original, affiché entre guillemets (ex : Let it Go).
+#   COLONNE 3 — interprètes, séparés par « ; » : "fiche @ Personnage" (le « @ Personnage » est facultatif).
+#               Un interprète qui commence par « & » est précédé de « & » au lieu de « ; » (ex : &Choir).
+#               Plusieurs voix pour un même personnage : répète le « @ Personnage » pour chacune.
+#   COLONNE 4 — note (facultatif) : affichée à côté du titre quand il n'y a pas de titre natif (ex : Performed in English).
 # ============================================================
 songs:
   - "titre natif | English title | artist-slug-1 @ Personnage; artist-slug-2 @ Personnage; &Choir"
   - " | English title (sans titre natif) | artist-slug-1 @ Personnage | Performed in English"
 
 # ============================================================
-# TECHNICAL STAFF : "personne(s) | poste". Plusieurs personnes : sépare-les par ;
-# Un studio (ou tout texte qui n'est pas une fiche) s'affiche tel quel, sans lien.
+# TECHNICAL STAFF : une ligne par poste, 2 colonnes séparées par « | » :
+#     "personne(s) | poste"
+#   COLONNE 1 — personne(s) : le « artist » d'une fiche. Plusieurs personnes pour le même poste : sépare-les par « ; ».
+#               Un studio (ou tout texte qui n'est pas une fiche) s'affiche tel quel, sans lien. "?" = inconnu.
+#   COLONNE 2 — poste : le texte affiché à droite (ex : Dubbing director, Musical director, Translation, Lyrics...).
 # ============================================================
 staff:
   - "artist-slug-1 | Dubbing director"
@@ -65,21 +85,34 @@ staff:
   - "studio-slug | Dubbing studio"
 
 # ============================================================
-# TABLEAU CAST : une ligne par personnage, au format
+# TABLEAU CAST : une ligne par personnage, 5 colonnes séparées par « | » :
 #     "nom natif | nom original | comédien | note | id du personnage"
-# - comédien = le "artist" de sa fiche ; "?" = inconnu
-#     "fiche = Texte" : affiche "Texte" à la place du nom officiel, sur cette page seulement (le lien reste).
-#     Pour un groupe fusionné, écris-le sur la PREMIÈRE ligne du groupe.
-# - même comédien sur plusieurs lignes qui se suivent = fusion automatique (rowspan)
-# - ligne avec natif et nom vides = autre voix du même personnage (fusion automatique)
-# - note (facultatif) : texte ajouté après le nom, ex : (speaking &amp; singing) ou ?
-#     Sans note mais avec un id, laisse le champ vide : "… | tommy-chu | | ralph"
-# - id du personnage (facultatif, 5e champ) : l'id de ce personnage dans _data/characters.yml (ex : ralph, elsa).
-#     Il sert à la vignette du personnage (voir cast_images plus bas) ; la fiche de l'artiste, elle, retrouve
-#     toute seule l'image du personnage d'après son nom original, sans qu'il soit nécessaire de mettre un id ici.
-#     Mets l'id quand le nom original ne suffit pas à retrouver le personnage (ex : "Hey Nongman…" -> nongman).
-#     "-" à cet endroit = aucune image pour cette ligne.
-# - bandeau : "banner | Texte | URL image | sparkle glow | id"
+#
+#   COLONNE 1 — nom natif : le nom du personnage dans la langue du doublage (ex : 無敵破壞王). "?" si tu ne le connais pas.
+#   COLONNE 2 — nom original : le nom du personnage dans la version originale (ex : Ralph). C'est lui qui sert à retrouver l'image
+#               du personnage (voir cast_images) : écris-le comme dans _data/characters.yml.
+#               Du HTML simple est accepté (ex : Hey Nongman<br/><small>(Marvel Q&amp;A Player 1)</small>) ; pour l'image,
+#               seul le texte avant « < » ou « ( » sert à retrouver le personnage.
+#   COLONNE 3 — comédien : le « artist » de sa fiche (artists/), ex : tommy-chu. "?" = inconnu.
+#               "fiche = Texte" affiche "Texte" à la place du nom officiel, sur cette page seulement (le lien reste).
+#               Pour un groupe fusionné, écris-le sur la PREMIÈRE ligne du groupe.
+#   COLONNE 4 — note (facultatif) : texte ajouté juste après le nom du comédien, ex : (speaking &amp; singing) ou ?
+#               Sans note mais avec un id (colonne 5), laisse ce champ vide : "… | tommy-chu | | ralph"
+#   COLONNE 5 — id du personnage (facultatif) : l'id du personnage dans _data/characters.yml (ex : ralph, elsa).
+#               Il sert à la petite image du personnage dans ce tableau (voir cast_images). La fiche de l'artiste retrouve
+#               toute seule l'image d'après le nom original (colonne 2) : l'id n'est utile ici que quand le nom ne suffit pas
+#               (ex : "Hey Nongman…" -> nongman). "-" = aucune image pour cette ligne.
+#
+#   CAS PARTICULIERS
+#   - même comédien sur plusieurs lignes qui se suivent = cellule du comédien fusionnée automatiquement ;
+#   - ligne dont les colonnes 1 ET 2 sont vides (" |  | artist-slug") = AUTRE VOIX du même personnage : ses noms sont fusionnés ;
+#   - bandeau de catégorie (image + texte, sur toute la largeur) : "banner | Texte | URL de l'image | sparkle glow | id-d-ancrage"
+#       · Texte = le titre affiché sur le bandeau ; URL = l'image de fond (laisse vide pour un bandeau sans image) ;
+#       · effets (facultatif) : sparkle (poussière de fée), glow (halo derrière le texte), ou les deux ;
+#       · id-d-ancrage (facultatif) : permet un lien direct vers ce bandeau (page.html#mon-id).
+#
+#   cast_columns = les titres des 3 colonnes affichées dans l'en-tête du tableau (nom natif | nom original | comédien),
+#   ex : "Cantonese name | Original name | Voices".
 # ============================================================
 cast_columns: "Language name | Original name | Voices"
 
