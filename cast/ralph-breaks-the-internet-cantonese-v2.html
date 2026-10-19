@@ -19,6 +19,9 @@ cards: [tommy-chu, melodee-mak, gu-wing-syut]
 # ============================================================
 # INFOS DE LA PAGE, reprises sur les fiches des artistes (tableau "Roles")
 # year = année du film/doublage (sert au tri) ; film = titre court ; language = langue du doublage
+# IMPORTANT : "film" doit être écrit EXACTEMENT comme le titre de l'apparition dans _data/characters.yml
+# (majuscules/minuscules ignorées, mais pas "II" vs "2"). C'est ce titre qui permet de prendre l'image du
+# personnage DANS CE FILM (sur cette page et sur les fiches des artistes).
 # ============================================================
 year: 2018
 film: "Ralph Breaks the Internet"
@@ -113,14 +116,30 @@ staff:
 
 # ============================================================
 # TABLEAU CAST : une ligne par personnage, au format
-#     "nom natif | nom original | comédien | note"
+#     "nom natif | nom original | comédien | note | id du personnage"
 # - comédien = le "artist" de sa fiche ; "?" = inconnu
+#     "fiche = Texte" : affiche "Texte" à la place du nom officiel, sur cette page seulement (le lien reste).
+#     Pour un groupe fusionné, écris-le sur la PREMIÈRE ligne du groupe.
 # - même comédien sur plusieurs lignes qui se suivent = fusion automatique (rowspan)
 # - ligne avec natif et nom vides = autre voix du même personnage (fusion automatique)
 # - note (facultatif) : texte ajouté après le nom, ex : (speaking &amp; singing) ou ?
+#     Sans note mais avec un id, laisse le champ vide : "… | tommy-chu | | ralph"
+# - id du personnage (facultatif, 5e champ) : l'id de ce personnage dans _data/characters.yml (ex : ralph, elsa).
+#     Il sert à la vignette du personnage (voir cast_images plus bas) ; la fiche de l'artiste, elle, retrouve
+#     toute seule l'image du personnage d'après son nom original, sans qu'il soit nécessaire de mettre un id ici.
+#     Mets l'id quand le nom original ne suffit pas à retrouver le personnage (ex : "Hey Nongman…" -> nongman).
+#     "-" à cet endroit = aucune image pour cette ligne.
 # - bandeau : "banner | Texte | URL image | sparkle glow | id"
 # ============================================================
 cast_columns: "Cantonese name | Original name | Voices"
+
+# VIGNETTES DES PERSONNAGES dans ce tableau (une colonne de petites images à gauche) :
+#   cast_images: false  = jamais de vignettes sur cette page
+#   cast_images: true   = vignettes pour tous les personnages trouvés dans _data/characters.yml
+#                         (id déduit du nom original si le 5e champ est vide ; "-" pour exclure une ligne)
+#   (ligne supprimée)   = vignettes seulement pour les lignes où tu as écrit un id en 5e champ
+# Les fiches des artistes affichent toujours les images, quel que soit ce réglage.
+cast_images: false
 cast:
   - "無敵破壞王 | Ralph | tommy-chu"
   - "雲妮露 凡 史威茲 | Vanellope | melodee-mak | (speaking &amp; singing)"
@@ -442,7 +461,7 @@ cast:
       <img src="https://res.cloudinary.com/dofvjifeo/image/upload/w_450,h_450,c_fill,g_north,q_auto:best/Ralph_Breaks_the_Internet_Cantonese_1.jpg"
            data-full="https://res.cloudinary.com/dofvjifeo/image/upload/Ralph_Breaks_the_Internet_Cantonese_1.jpg" alt="Ralph Breaks the Internet Cantonese poster">
       <img src="https://res.cloudinary.com/dofvjifeo/image/upload/w_450,h_450,c_fill,g_north,q_auto:best/Ralph_Breaks_the_Internet_Cantonese_Disney.png"
-           data-full="https://res.cloudinary.com/dofvjifeo/image/upload/Ralph_Breaks_the_Internet_Cantonese_Disney.png" alt="Ralph Breaks the Internet Cantonese Disney+", data-caption="Disney+">
+           data-full="https://res.cloudinary.com/dofvjifeo/image/upload/Ralph_Breaks_the_Internet_Cantonese_Disney.png" alt="Ralph Breaks the Internet Cantonese Disney+" data-caption="Disney+">
     </div>
     <button class="gallery-arrow next" type="button" aria-label="Next images">&#8250;</button>
   </div>
