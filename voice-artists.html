@@ -17,7 +17,8 @@ title: Voice artists
   - Nom sous la photo = short_name, sinon nickname, sinon romanization, sinon display, sinon native.
   - Langues = déduites des pages de cast (cast, voix additionnelles, chœur, chansons, staff) + extra_roles/extra_songs/extra_credits de la fiche.
   - Pays = "country:" de la fiche.
-  - Studios = fiches avec "kind: studio".
+  - Studios = fiches avec "kind: studio". Leur vignette montre l'image ENTIÈRE (logos) ; pour une photo à recadrer en carré,
+    ajoute  thumb_fit: cover  dans la fiche.
   ============================================================
 {% endcomment -%}
 
@@ -107,12 +108,12 @@ title: Voice artists
   {%- capture ph_full -%}{% include artist-photo.html a=a %}{%- endcapture -%}
   {%- assign ph = ph_full | strip -%}
   {%- if ph contains "res.cloudinary.com" and ph contains "/image/upload/" and a.photo -%}
-    {%- if is_studio -%}{%- assign tr = "/image/upload/c_fit,w_300,h_300,q_auto,f_auto/" -%}{%- else -%}{%- assign tr = "/image/upload/c_fill,g_auto,w_300,h_300,q_auto,f_auto/" -%}{%- endif -%}
+    {%- if is_studio and a.thumb_fit != "cover" -%}{%- assign tr = "/image/upload/c_fit,w_300,h_300,q_auto,f_auto/" -%}{%- else -%}{%- assign tr = "/image/upload/c_fill,g_auto,w_300,h_300,q_auto,f_auto/" -%}{%- endif -%}
     {%- assign ph = ph | replace_first: "/image/upload/", tr -%}
   {%- endif -%}
 
   {%- capture card -%}
-  <a class="vi-card{% if is_studio %} studio{% endif %}" href="{{ a.url }}"
+  <a class="vi-card{% if is_studio and a.thumb_fit != "cover" %} studio{% endif %}" href="{{ a.url }}"
      data-name="{{ nm | strip_html | escape }}"
      data-search="{{ search_txt | strip_html | escape }}"
      data-langs="|{{ a_langs | escape }}"
