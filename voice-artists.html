@@ -1,0 +1,232 @@
+---
+layout: null
+permalink: /voice-artists.html
+title: Voice artists
+---
+{% include header.html %}
+<title>Voice artists &amp; studios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
+{% include cast-style-v2.html %}
+
+{%- comment %}
+  ============================================================
+  PAGE « VOICE ARTISTS » (/artists/) — liste de toutes les fiches du dossier artists/
+  Rien à modifier à la main : chaque fiche (artists/xxx.md avec "artist:") apparaît toute seule.
+  - Photo carrée = "photo:" de la fiche (silhouette si absente). Studios : logo entier (non rogné).
+  - Nom sous la photo = short_name, sinon nickname, sinon romanization, sinon display, sinon native.
+  - Langues = déduites des pages de cast (cast, voix additionnelles, chœur, chansons, staff) + extra_roles/extra_songs/extra_credits de la fiche.
+  - Pays = "country:" de la fiche.
+  - Studios = fiches avec "kind: studio".
+  ============================================================
+{% endcomment -%}
+
+{%- comment %} ---- 1) Index des langues : pour chaque slug, dans quelles langues apparaît-il ? ---- {% endcomment -%}
+{%- assign ix_a = site.pages | where_exp: "p", "p.cast" -%}
+{%- assign ix_b = site.pages | where_exp: "p", "p.tabs" -%}
+{%- assign ix_c = site.pages | where_exp: "p", "p.staff" -%}
+{%- assign ix_pages = ix_a | concat: ix_b | concat: ix_c -%}
+{%- assign lang_idx = "|" -%}
+{%- assign lang_all = "|" -%}
+{%- for pg in ix_pages -%}
+  {%- if pg.tabs -%}{%- assign units = pg.tabs -%}{%- else -%}{%- assign units = site.pages | where: "url", pg.url -%}{%- endif -%}
+  {%- for p in units -%}
+    {%- assign u_lang = p.language | default: pg.language | default: "" | strip -%}
+    {%- if u_lang != "" -%}
+      {%- assign lk = "|" | append: u_lang | append: "|" -%}
+      {%- unless lang_all contains lk -%}{%- assign lang_all = lang_all | append: u_lang | append: "|" -%}{%- endunless -%}
+      {%- assign pre = "|" | append: u_lang | append: "::" -%}
+      {%- for row in p.cast -%}
+        {%- assign f = row | split: "|" -%}
+        {%- assign k = f[2] | default: "" | split: "=" | first | default: "" | strip -%}
+        {%- if k != "" and k != "?" and f[0] != "banner" -%}{%- assign lang_idx = lang_idx | append: pre | append: k | append: "|" -%}{%- endif -%}
+      {%- endfor -%}
+      {%- for it in p.additional -%}{%- assign k = it | split: "=" | first | strip -%}{%- assign lang_idx = lang_idx | append: pre | append: k | append: "|" -%}{%- endfor -%}
+      {%- for it in p.additional_intl -%}{%- assign k = it | split: "=" | first | strip -%}{%- assign lang_idx = lang_idx | append: pre | append: k | append: "|" -%}{%- endfor -%}
+      {%- for it in p.choir -%}{%- assign k = it | split: "=" | first | strip -%}{%- assign lang_idx = lang_idx | append: pre | append: k | append: "|" -%}{%- endfor -%}
+      {%- for song in p.songs -%}
+        {%- assign sf = song | split: "|" -%}
+        {%- assign s_tokens = sf[2] | default: "" | split: ";" -%}
+        {%- for tok in s_tokens -%}
+          {%- assign t = tok | strip | replace_first: "&", "" | strip -%}
+          {%- assign k = t | split: "@" | first | split: "=" | first | strip -%}
+          {%- assign lang_idx = lang_idx | append: pre | append: k | append: "|" -%}
+        {%- endfor -%}
+      {%- endfor -%}
+      {%- for st in p.staff -%}
+        {%- assign st_names = st | split: "|" | first | split: ";" -%}
+        {%- for tok in st_names -%}
+          {%- assign k = tok | split: "=" | first | strip -%}
+          {%- assign lang_idx = lang_idx | append: pre | append: k | append: "|" -%}
+        {%- endfor -%}
+      {%- endfor -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- assign lang_list = lang_all | split: "|" | sort -%}
+
+{%- assign fiches = site.pages | where_exp: "p", "p.artist" | sort: "artist" -%}
+{%- assign n_art = 0 -%}{%- assign n_stu = 0 -%}
+
+{%- capture cards -%}
+{%- for a in fiches -%}
+  {%- assign a_slug = a.artist | strip -%}
+  {%- assign is_studio = false -%}{%- if a.kind == "studio" -%}{%- assign is_studio = true -%}{%- endif -%}
+  {%- if is_studio -%}{%- assign n_stu = n_stu | plus: 1 -%}{%- else -%}{%- assign n_art = n_art | plus: 1 -%}{%- endif -%}
+
+  {%- comment %} nom court affiché {% endcomment -%}
+  {%- assign nm = a.short_name | default: a.nickname | default: a.romanization | default: a.display | default: a.native | default: a_slug -%}
+  {%- assign nm = nm | strip -%}
+  {%- comment %} tout ce qui peut être cherché {% endcomment -%}
+  {%- capture search_txt -%}{{ a_slug }} {{ a.nickname }} {{ a.romanization }} {{ a.native_nick }} {{ a.native }} {{ a.display }} {{ a.short_name }} {{ a.prefix }} {{ a.page_name }}{%- endcapture -%}
+
+  {%- comment %} langues de la fiche {% endcomment -%}
+  {%- assign a_langs = "" -%}
+  {%- for l in lang_list -%}
+    {%- if l != "" -%}
+      {%- assign probe = "|" | append: l | append: "::" | append: a_slug | append: "|" -%}
+      {%- if lang_idx contains probe -%}{%- assign a_langs = a_langs | append: l | append: "|" -%}{%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- for er in a.extra_roles -%}{%- assign ef = er | split: "|" -%}{%- assign l = ef[3] | default: "" | strip -%}{%- if l != "" -%}{%- assign lk = "|" | append: l | append: "|" -%}{%- assign cur = "|" | append: a_langs -%}{%- unless cur contains lk -%}{%- assign a_langs = a_langs | append: l | append: "|" -%}{%- endunless -%}{%- endif -%}{%- endfor -%}
+  {%- for er in a.extra_songs -%}{%- assign ef = er | split: "|" -%}{%- assign l = ef[3] | default: "" | strip -%}{%- if l != "" -%}{%- assign lk = "|" | append: l | append: "|" -%}{%- assign cur = "|" | append: a_langs -%}{%- unless cur contains lk -%}{%- assign a_langs = a_langs | append: l | append: "|" -%}{%- endunless -%}{%- endif -%}{%- endfor -%}
+  {%- for er in a.extra_credits -%}{%- assign ef = er | split: "|" -%}{%- assign l = ef[3] | default: "" | strip -%}{%- if l != "" -%}{%- assign lk = "|" | append: l | append: "|" -%}{%- assign cur = "|" | append: a_langs -%}{%- unless cur contains lk -%}{%- assign a_langs = a_langs | append: l | append: "|" -%}{%- endunless -%}{%- endif -%}{%- endfor -%}
+  {%- assign lang_arr = a_langs | split: "|" | sort -%}
+  {%- assign lang_txt = "" -%}{%- assign lang_first = "" -%}
+  {%- for l in lang_arr -%}{%- if l != "" -%}
+    {%- if lang_txt == "" -%}{%- assign lang_txt = l -%}{%- assign lang_first = l -%}{%- else -%}{%- assign lang_txt = lang_txt | append: ", " | append: l -%}{%- endif -%}
+  {%- endif -%}{%- endfor -%}
+  {%- assign a_country = a.country | default: "" | strip -%}
+
+  {%- comment %} photo : miniature Cloudinary légère si possible {% endcomment -%}
+  {%- capture ph_full -%}{% include artist-photo.html a=a %}{%- endcapture -%}
+  {%- assign ph = ph_full | strip -%}
+  {%- if ph contains "res.cloudinary.com" and ph contains "/image/upload/" and a.photo -%}
+    {%- if is_studio -%}{%- assign tr = "/image/upload/c_fit,w_400,h_400,q_auto,f_auto/" -%}{%- else -%}{%- assign tr = "/image/upload/c_fill,g_auto,w_400,h_400,q_auto,f_auto/" -%}{%- endif -%}
+    {%- assign ph = ph | replace_first: "/image/upload/", tr -%}
+  {%- endif -%}
+
+  <a class="vi-card{% if is_studio %} studio{% endif %}" href="{{ a.url }}"
+     data-kind="{% if is_studio %}studio{% else %}artist{% endif %}"
+     data-name="{{ nm | strip_html | escape }}"
+     data-search="{{ search_txt | strip_html | escape }}"
+     data-lang="{{ lang_first | escape }}"
+     data-country="{{ a_country | escape }}">
+    <span class="vi-thumb"><img src="{{ ph }}" alt="" loading="lazy"></span>
+    <span class="vi-name">{{ nm }}</span>
+    {%- if a_country != "" or lang_txt != "" %}
+    <span class="vi-meta">{{ a_country }}{% if a_country != "" and lang_txt != "" %} &middot; {% endif %}{{ lang_txt }}</span>
+    {%- endif %}
+  </a>
+{%- endfor -%}
+{%- endcapture -%}
+
+<style>
+/* ============================================================
+   PAGE VOICE ARTISTS — MODIFIE ICI les tailles et couleurs
+   ============================================================ */
+:root {
+  --vi-thumb-size: 150px;          /* largeur (= hauteur) des vignettes */
+  --vi-gap: 26px 22px;             /* espace vertical / horizontal entre les cartes */
+  --vi-name-size: 14px;            /* nom sous la photo */
+  --vi-meta-size: 12px;            /* pays · langues sous le nom */
+  --vi-photo-border: 1px solid rgba(40, 40, 40, 0.75);
+  --vi-photo-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+}
+.vi-title { text-align: center; font-size: 26px; font-weight: 700; color: var(--cast-accent); margin: 0 0 24px; }
+.vi-bar { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center; justify-content: center; margin: 0 auto 10px; max-width: 760px; }
+.vi-search { flex: 1 1 280px; min-width: 200px; padding: 9px 14px; font: inherit; font-size: 14px; color: var(--cast-text-color); border: 1px solid #ccc; border-radius: 20px; background: #fff; outline: none; }
+.vi-search:focus { border-color: var(--cast-accent); }
+.vi-select { padding: 8px 12px; font: inherit; font-size: 14px; color: var(--cast-text-color); border: 1px solid #ccc; border-radius: 20px; background: #fff; }
+.vi-chips { display: flex; gap: 8px; justify-content: center; margin: 0 auto 14px; flex-wrap: wrap; }
+.vi-chip { cursor: pointer; font: inherit; font-size: 13px; padding: 5px 16px; border: 1px solid #ccc; border-radius: 16px; background: #fff; color: var(--cast-text-color); }
+.vi-chip.active { background: var(--cast-accent); border-color: var(--cast-accent); color: #fff; }
+.vi-count { text-align: center; font-weight: 700; font-size: 13px; color: var(--actor-dates-color); margin: 0 0 28px; }
+.vi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--vi-thumb-size), 1fr)); gap: var(--vi-gap); justify-items: center; }
+.cast-wrap a.vi-card { display: flex; flex-direction: column; align-items: center; width: var(--vi-thumb-size); max-width: 100%; text-decoration: none; color: var(--cast-text-color); text-align: center; }
+.vi-thumb { display: block; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border: var(--vi-photo-border); box-shadow: var(--vi-photo-shadow); background: #ececec; transition: box-shadow .2s ease, transform .2s ease; }
+.vi-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.vi-card.studio .vi-thumb { background: #fff; }
+.vi-card.studio .vi-thumb img { object-fit: contain; }
+.vi-card:hover .vi-thumb { box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3); transform: translateY(-2px); }
+.vi-name { margin-top: 10px; font-size: var(--vi-name-size); font-weight: 700; line-height: 1.25; letter-spacing: 0.5px; color: var(--actor-name-color); }
+.vi-meta { margin-top: 3px; font-size: var(--vi-meta-size); line-height: 1.3; color: var(--actor-dates-color); }
+.vi-card:hover .vi-name { color: var(--actor-link-hover-color, var(--cast-accent)); }
+.vi-empty { display: none; text-align: center; color: var(--actor-dates-color); margin: 30px 0; }
+@media (max-width: 520px) { :root { --vi-thumb-size: 130px; } }
+</style>
+
+<div class="cast-wrap">
+  <h2 class="vi-title">Voice artists &amp; studios</h2>
+
+  <div class="vi-bar">
+    <input class="vi-search" id="vi-search" type="search" placeholder="Search a name (nickname, romanization, native name)…" autocomplete="off" aria-label="Search">
+    <select class="vi-select" id="vi-sort" aria-label="Sort by">
+      <option value="name">Sort: Name (A–Z)</option>
+      <option value="name-desc">Sort: Name (Z–A)</option>
+      <option value="lang">Sort: Language</option>
+      <option value="country">Sort: Country</option>
+    </select>
+  </div>
+  <div class="vi-chips">
+    <button type="button" class="vi-chip active" data-kind="all">All</button>
+    <button type="button" class="vi-chip" data-kind="artist">Artists</button>
+    <button type="button" class="vi-chip" data-kind="studio">Studios</button>
+  </div>
+  <p class="vi-count" id="vi-count">{{ n_art }} voice artist{% if n_art != 1 %}s{% endif %} &middot; {{ n_stu }} studio{% if n_stu != 1 %}s{% endif %}</p>
+
+  <div class="vi-grid" id="vi-grid">
+{{ cards }}
+  </div>
+  <p class="vi-empty" id="vi-empty">No result.</p>
+</div>
+
+<script>
+(function () {
+  var grid = document.getElementById('vi-grid');
+  if (!grid) return;
+  var cards = Array.prototype.slice.call(grid.querySelectorAll('.vi-card'));
+  var qEl = document.getElementById('vi-search'), sEl = document.getElementById('vi-sort');
+  var cEl = document.getElementById('vi-count'), eEl = document.getElementById('vi-empty');
+  var kind = 'all';
+  function norm(s) { return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+  cards.forEach(function (c) { c.__s = norm(c.dataset.search); c.__n = norm(c.dataset.name); c.__l = norm(c.dataset.lang); c.__c = norm(c.dataset.country); });
+  /* tri : les valeurs vides passent à la fin ; à valeur égale, ordre alphabétique des noms */
+  function cmp(key, dir) {
+    return function (a, b) {
+      var x = a[key], y = b[key];
+      if (key !== '__n') { if (!x && y) return 1; if (x && !y) return -1; }
+      var r = x < y ? -1 : x > y ? 1 : 0;
+      if (r === 0) r = a.__n < b.__n ? -1 : a.__n > b.__n ? 1 : 0;
+      return r * dir;
+    };
+  }
+  function apply() {
+    var q = norm(qEl.value).trim().split(/\s+/).filter(Boolean);
+    var s = sEl.value, na = 0, ns = 0;
+    var order = cards.slice().sort(s === 'name-desc' ? cmp('__n', -1) : s === 'lang' ? cmp('__l', 1) : s === 'country' ? cmp('__c', 1) : cmp('__n', 1));
+    order.forEach(function (c) {
+      var ok = (kind === 'all' || c.dataset.kind === kind) && q.every(function (w) { return c.__s.indexOf(w) !== -1; });
+      c.style.display = ok ? '' : 'none';
+      if (ok) { if (c.dataset.kind === 'studio') ns++; else na++; }
+      grid.appendChild(c);
+    });
+    var parts = [];
+    if (kind !== 'studio') parts.push(na + ' voice artist' + (na === 1 ? '' : 's'));
+    if (kind !== 'artist') parts.push(ns + ' studio' + (ns === 1 ? '' : 's'));
+    cEl.textContent = parts.join(' · ');
+    eEl.style.display = (na + ns) ? 'none' : 'block';
+  }
+  qEl.addEventListener('input', apply);
+  sEl.addEventListener('change', apply);
+  Array.prototype.forEach.call(document.querySelectorAll('.vi-chip'), function (b) {
+    b.addEventListener('click', function () {
+      kind = b.dataset.kind;
+      Array.prototype.forEach.call(document.querySelectorAll('.vi-chip'), function (x) { x.classList.toggle('active', x === b); });
+      apply();
+    });
+  });
+  apply();
+})();
+</script>
