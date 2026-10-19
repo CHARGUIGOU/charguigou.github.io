@@ -4,7 +4,7 @@
                 name = nom original affiché (ex: Ralph) : sert seulement quand key est vide, l'id est alors déduit du nom
                        (minuscules, espaces en tirets : "Mr. Litwak" -> mr-litwak)
                 film = titre du film (facultatif) : si le personnage a une image pour CE film, c'est elle qui est prise
-                size = taille de la miniature en pixels (défaut 160 ; carrée, recadrée depuis le haut)
+                px = taille de la miniature en pixels (défaut 160 ; carrée, recadrée depuis le haut)
   Renvoie seulement l'URL (vide si le personnage ou son image n'existe pas).
 {%- endcomment -%}
 {%- assign ci_url = "" -%}
@@ -33,7 +33,7 @@
 {%- if ci_url != "" -%}
   {%- assign ci_u4 = ci_url | slice: 0, 4 -%}
   {%- if ci_u4 != "http" -%}{%- assign ci_url = site.data.characters.image_base | append: ci_url -%}{%- endif -%}
-  {%- assign ci_size = include.size | default: 160 -%}
+  {%- assign ci_size = include.px | default: 160 -%}
   {%- assign ci_repl = "c_fill,w_" | append: ci_size | append: ",h_" | append: ci_size | append: ",g_north" -%}
   {%- assign ci_url = ci_url | replace: "c_limit,w_500", ci_repl -%}
   {{- ci_url -}}

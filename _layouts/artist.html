@@ -145,6 +145,7 @@
 {%- capture u_singer -%}{% include character-image.html key="silhouette-singer" %}{%- endcapture -%}
 {%- capture u_choir -%}{% include character-image.html key="silhouette-choir" %}{%- endcapture -%}
 {%- capture u_additional -%}{% include character-image.html key="silhouette-additional" %}{%- endcapture -%}
+{%- capture img_fb -%} onerror="this.onerror=null;this.src='{{ u_additional }}'"{%- endcapture -%}
 {%- assign img_singer_html = "" -%}{%- assign img_choir_html = "" -%}{%- assign img_additional_html = "" -%}
 {%- if u_singer != "" -%}{%- capture img_singer_html -%}<img src="{{ u_singer }}" alt="">{%- endcapture -%}{%- endif -%}
 {%- if u_choir != "" -%}{%- capture img_choir_html -%}<img src="{{ u_choir }}" alt="">{%- endcapture -%}{%- endif -%}
@@ -180,7 +181,7 @@
         {%- assign cur_e_txt = cur_e | replace: "<br/>", " " | replace: "<br>", " " | strip_html -%}
         {%- assign roles = roles | append: '<div class="role-line"><span class="role-img">' -%}
         {%- capture cur_url -%}{% include character-image.html key=cur_i name=cur_e film=p.film %}{%- endcapture -%}
-        {%- if cur_url != "" -%}{%- assign roles = roles | append: '<img src="' | append: cur_url | append: '" alt="" loading="lazy">' -%}{%- endif -%}
+        {%- if cur_url != "" -%}{%- assign roles = roles | append: '<img src="' | append: cur_url | append: '" alt="" loading="lazy" ' | append: img_fb | append: '>' -%}{%- endif -%}
         {%- assign roles = roles | append: '</span><span class="role-text">' | append: cur_e_txt -%}
         {%- assign c3 = f[3] | default: "" | strip -%}
         {%- if c3 != "" -%}{%- assign roles = roles | append: " " | append: c3 -%}{%- endif -%}
@@ -260,7 +261,7 @@
         {%- assign e_char = ef2[4] | default: "" | strip -%}
         {%- capture e_url -%}{% include character-image.html key=e_char film=e_film %}{%- endcapture -%}
         {%- assign e_lines = e_lines | append: '<div class="role-line"><span class="role-img">' -%}
-        {%- if e_url != "" -%}{%- assign e_lines = e_lines | append: '<img src="' | append: e_url | append: '" alt="" loading="lazy">' -%}{%- endif -%}
+        {%- if e_url != "" -%}{%- assign e_lines = e_lines | append: '<img src="' | append: e_url | append: '" alt="" loading="lazy" ' | append: img_fb | append: '>' -%}{%- endif -%}
         {%- assign e_lines = e_lines | append: '</span><span class="role-text">' | append: ef2[0] | strip | append: '</span></div>' -%}
         {%- assign total = total | plus: 1 -%}
       {%- endif -%}

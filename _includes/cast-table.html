@@ -37,6 +37,7 @@
       {%- assign h4 = hf[4] | default: "" | strip -%}
       {%- assign h_name = "" -%}
       {%- if auto_img -%}{%- assign h_name = h1 -%}{%- endif -%}
+      {%- capture cf_url -%}{% include character-image.html key="silhouette-additional" %}{%- endcapture -%}
       {%- capture h_url -%}{% include character-image.html key=h4 name=h_name film=page.film %}{%- endcapture -%}
       {%- if h_url != "" -%}{%- assign has_img = true -%}{%- endif -%}
     {%- endif -%}
@@ -128,7 +129,7 @@
         {%- assign c4_name = "" -%}
         {%- if auto_img -%}{%- assign c4_name = c1 -%}{%- endif -%}
         {%- capture c4_url -%}{% include character-image.html key=c4 name=c4_name film=page.film %}{%- endcapture %}
-        <td class="cast-thumb"{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}>{% if c4_url != "" %}<img src="{{ c4_url }}" alt="{{ c1 | strip_html }}" loading="lazy">{% endif %}</td>
+        <td class="cast-thumb"{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}>{% if c4_url != "" %}<img src="{{ c4_url }}" alt="{{ c1 | strip_html }}" loading="lazy"{% if cf_url != "" %} onerror="this.onerror=null;this.src='{{ cf_url }}'"{% endif %}>{% endif %}</td>
         {%- endif %}
         <td{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}>{{ c0 }}</td>
         <td{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}>{{ c1 }}</td>
