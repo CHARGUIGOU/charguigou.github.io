@@ -4,7 +4,8 @@ artist: "sdi-media-hk"
 kind: "studio"
 display: "SDI Media Hong Kong Limited"
 photo: "https://res.cloudinary.com/dofvjifeo/image/upload/SDI-Media.png"
-country: "Hong Kong"
-address: "Room 1208, 12/F, Paramount Building, 12 Ka Yip Street, Chai Wan, Hong Kong"
+country: "HONG KONG"
+address: "Room 1208, 12/F, Paramount Building, 12 Ka Yip Street, Chai Wan"
 dates: ""
 ---
+SDI Media Hong Kong is the Hong Kong subsidiary of SDI Media, specializing in dubbing and subtitling.
