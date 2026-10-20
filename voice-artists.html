@@ -16,7 +16,7 @@ title: Voice artists
   - Photo carrée = "photo:" de la fiche (silhouette si absente). Studios : logo entier (non rogné).
   - Nom sous la photo (mode annuaire "Nom, Prénom") : short_name tel quel, sinon pseudo retourné ("Jason Chau" → "Chau, Jason"),
     sinon family_name + first_name, sinon (ancien système) romanization, sinon display / nom natif.
-    Le classement alphabétique suit ce nom affiché.
+    Le classement alphabétique suit ce nom affiché. La recherche trouve aussi full_name et other_names.
   - Langues = déduites des pages de cast (cast, voix additionnelles, chœur, chansons, staff) + extra_roles/extra_songs/extra_credits de la fiche.
   - Pays = "country:" de la fiche.
   - Studios = fiches avec "kind: studio". Leur vignette montre l'image ENTIÈRE (logos) ; pour une photo à recadrer en carré,
@@ -105,7 +105,7 @@ title: Voice artists
     {%- assign nm = a.display | default: af_native | default: a_slug -%}
   {%- endif -%}
   {%- assign nm = nm | strip -%}
-  {%- capture search_txt -%}{{ a_slug }} {{ af_nick }} {{ af_rom }} {{ af_family }} {{ af_first }} {{ af_nnick }} {{ af_native }} {{ a.display }} {{ a.short_name }} {{ a.prefix }} {{ a.page_name }}{%- endcapture -%}
+  {%- capture search_txt -%}{{ a_slug }} {{ af_nick }} {{ af_rom }} {{ af_family }} {{ af_first }} {{ af_nnick }} {{ af_native }} {{ a.display }} {{ a.short_name }} {{ a.prefix }} {{ a.page_name }} {{ a.full_name }} {{ a.other_names | join: " " }}{%- endcapture -%}
 
   {%- comment %} langues de la fiche {% endcomment -%}
   {%- assign a_langs = "" -%}
