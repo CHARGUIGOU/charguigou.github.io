@@ -434,10 +434,11 @@
      sans pseudo : une seule ligne = nom romanisé (nom natif) {% endcomment -%}
 {%- assign d_display = page.page_name | default: page.display | default: "" -%}
 {%- assign d_prefix = page.prefix | default: "" -%}
-{%- assign d_nick = page.nickname | default: "" -%}
-{%- assign d_rom = page.romanization | default: "" -%}
-{%- assign d_nnick = page.native_nick | default: "" -%}
-{%- assign d_native = page.native | default: "" -%}
+{%- include artist-fields.html a=page -%}
+{%- assign d_nick = af_nick -%}
+{%- assign d_rom = af_rom -%}
+{%- assign d_nnick = af_nnick -%}
+{%- assign d_native = af_native -%}
 {%- capture native_html -%}
   {%- if d_native != "" -%}<span class="native">{% if d_nnick != "" %}"{{ d_nnick }}" {% endif %}{{ d_native }}</span>{%- endif -%}
 {%- endcapture -%}

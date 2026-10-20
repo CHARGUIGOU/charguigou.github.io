@@ -14,7 +14,9 @@ title: Voice artists
   PAGE « VOICE ARTISTS » (/artists/) — liste de toutes les fiches du dossier artists/
   Rien à modifier à la main : chaque fiche (artists/xxx.md avec "artist:") apparaît toute seule.
   - Photo carrée = "photo:" de la fiche (silhouette si absente). Studios : logo entier (non rogné).
-  - Nom sous la photo = short_name, sinon nickname, sinon romanization, sinon display, sinon native.
+  - Nom sous la photo (mode annuaire "Nom, Prénom") : short_name tel quel, sinon pseudo retourné ("Jason Chau" → "Chau, Jason"),
+    sinon family_name + first_name, sinon (ancien système) romanization, sinon display / nom natif.
+    Le classement alphabétique suit ce nom affiché.
   - Langues = déduites des pages de cast (cast, voix additionnelles, chœur, chansons, staff) + extra_roles/extra_songs/extra_credits de la fiche.
   - Pays = "country:" de la fiche.
   - Studios = fiches avec "kind: studio". Leur vignette montre l'image ENTIÈRE (logos) ; pour une photo à recadrer en carré,
@@ -77,9 +79,32 @@ title: Voice artists
   {%- assign is_studio = false -%}{%- if a.kind == "studio" -%}{%- assign is_studio = true -%}{%- endif -%}
 
   {%- comment %} nom court affiché {% endcomment -%}
-  {%- assign nm = a.short_name | default: a.nickname | default: a.romanization | default: a.display | default: a.native | default: a_slug -%}
+  {%- include artist-fields.html a=a -%}
+  {%- comment %} Nom affiché en mode ANNUAIRE : "Nom, Prénom" (le nom de la fiche garde son ordre habituel partout ailleurs).
+       1) short_name (tel quel)  2) pseudo retourné ("Jason Chau" → "Chau, Jason" : dernier mot = nom de famille ; pseudo d'un seul mot = tel quel)
+       3) family_name, first_name  4) ancien système : romanization  5) display, puis nom natif, puis slug {% endcomment -%}
+  {%- assign short_set = a.short_name | default: "" | strip -%}
+  {%- assign nm = "" -%}
+  {%- if short_set != "" -%}
+    {%- assign nm = short_set -%}
+  {%- elsif af_nick != "" -%}
+    {%- assign np = af_nick | split: " " -%}
+    {%- if np.size > 1 -%}
+      {%- assign nfam = np | last -%}
+      {%- assign ngiv = af_nick | remove_last: nfam | strip -%}
+      {%- assign nm = nfam | append: ", " | append: ngiv -%}
+    {%- else -%}
+      {%- assign nm = af_nick -%}
+    {%- endif -%}
+  {%- elsif af_family != "" -%}
+    {%- if af_first != "" -%}{%- assign nm = af_family | append: ", " | append: af_first -%}{%- else -%}{%- assign nm = af_family -%}{%- endif -%}
+  {%- elsif af_rom != "" -%}
+    {%- assign nm = af_rom -%}
+  {%- else -%}
+    {%- assign nm = a.display | default: af_native | default: a_slug -%}
+  {%- endif -%}
   {%- assign nm = nm | strip -%}
-  {%- capture search_txt -%}{{ a_slug }} {{ a.nickname }} {{ a.romanization }} {{ a.native_nick }} {{ a.native }} {{ a.display }} {{ a.short_name }} {{ a.prefix }} {{ a.page_name }}{%- endcapture -%}
+  {%- capture search_txt -%}{{ a_slug }} {{ af_nick }} {{ af_rom }} {{ af_family }} {{ af_first }} {{ af_nnick }} {{ af_native }} {{ a.display }} {{ a.short_name }} {{ a.prefix }} {{ a.page_name }}{%- endcapture -%}
 
   {%- comment %} langues de la fiche {% endcomment -%}
   {%- assign a_langs = "" -%}
@@ -120,10 +145,9 @@ title: Voice artists
      data-country="{{ a_ckey | escape }}">
     <span class="vi-thumb"><img src="{{ ph }}" alt="" loading="lazy"></span>
     <span class="vi-name">{{ nm }}</span>
-    {%- assign sub_rom = a.romanization | default: "" | strip -%}
-    {%- if sub_rom != "" and sub_rom != nm %}<span class="vi-sub">{{ sub_rom }}</span>{% endif -%}
-    {%- assign sub_nat = a.native | default: "" | strip -%}
-    {%- if sub_nat != "" %}<span class="vi-sub vi-native">{% if a.native_nick %}&ldquo;{{ a.native_nick }}&rdquo; {% endif %}{{ sub_nat }}</span>{% endif -%}
+    {%- comment %} Sous le nom : nom romanisé (seulement s'il y a un pseudo ou un short_name : sinon c'est déjà la ligne du haut) puis nom natif {% endcomment -%}
+    {%- if af_nick != "" or short_set != "" -%}{%- if af_rom != "" and af_rom != nm %}<span class="vi-sub">{{ af_rom }}</span>{% endif -%}{%- endif -%}
+    {%- if af_native != "" %}<span class="vi-sub vi-native">{% if af_nnick != "" %}&ldquo;{{ af_nnick }}&rdquo; {% endif %}{{ af_native }}</span>{% endif -%}
     {%- comment %} Studios : pays seulement (pas de langues) {% endcomment -%}
     {%- if is_studio %}{% assign lang_txt = "" %}{% endif -%}
     {%- if a_country != "" or lang_txt != "" %}

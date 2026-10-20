@@ -2,17 +2,16 @@
   Cartes photo des comédiens (haut de page). Dans le front matter de la page :
     cards: [tommy-chu, melodee-mak, gu-wing-syut]
   (chaque mot = le champ "artist" d'une fiche dans /artists/)
-  Page à onglets : passe src=tab (l'onglet) pour lire ses données au lieu de celles de la page (sinon : la page elle-même).
 {%- endcomment -%}
-{%- assign cs_src = include.src -%}{%- unless cs_src -%}{%- assign cs_src = page -%}{%- endunless -%}
 {%- assign artist_pages = site.pages | where_exp: "p", "p.artist" -%}
 <div class="voice-cast">
-{%- for slug in cs_src.cards -%}
+{%- for slug in page.cards -%}
   {%- assign a = artist_pages | where: "artist", slug | first -%}
   {%- if a -%}
+  {%- include artist-fields.html a=a -%}
   <div class="voice-card">
-    <img src="{% include artist-photo.html a=a %}" alt="{{ a.short_name | default: a.nickname | default: a.romanization }}">
-    <div class="actor-name">{{ a.short_name | default: a.nickname | default: a.romanization }}</div>
+    <img src="{% include artist-photo.html a=a %}" alt="{{ af_short }}">
+    <div class="actor-name">{{ af_short }}</div>
     <div class="actor-dates">({{ a.dates | default: "Unknown dates" }})</div>
   </div>
   {%- else -%}

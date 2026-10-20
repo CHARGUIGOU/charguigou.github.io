@@ -4,19 +4,21 @@
     display      = texte complet à afficher tel quel (remplace tout le reste)
     prefix       = texte avant le nom (ex : Slime's wife)
     nickname     = pseudo entre guillemets, version latine   → "Jason Chau"
-    romanization = nom romanisé                               → Zau Sai-hang
-    native_nick  = pseudo entre guillemets, version native    → "大J"
-    native       = nom natif                                  → 周世鏗
+    family_name + first_name (+ name_order) = nom en lettres latines (voir artist-fields.html)
+        ou, ancien système : romanization = nom romanisé      → Zau Sai-hang
+    native_nickname (ancien : native_nick) = pseudo natif entre guillemets → "大J"
+    native_name (ancien : native)          = nom natif        → 周世鏗
   Résultat : "Jason Chau" Zau Sai-hang / "大J" 周世鏗
   (un champ laissé vide est ignoré)
   fmt="paren" (staff) : "Peggy Kwok" Gwok Bik-zan (郭碧珍)
 {%- endcomment -%}
+{%- include artist-fields.html a=include.a -%}
 {%- assign n_display = include.a.display | default: "" -%}
 {%- assign n_prefix = include.a.prefix | default: "" -%}
-{%- assign n_nick = include.a.nickname | default: "" -%}
-{%- assign n_rom = include.a.romanization | default: "" -%}
-{%- assign n_nnick = include.a.native_nick | default: "" -%}
-{%- assign n_native = include.a.native | default: "" -%}
+{%- assign n_nick = af_nick -%}
+{%- assign n_rom = af_rom -%}
+{%- assign n_nnick = af_nnick -%}
+{%- assign n_native = af_native -%}
 {%- if n_display != "" -%}{{ n_display }}
 {%- else -%}
 {%- if n_prefix != "" -%}{{ n_prefix }} {% endif -%}

@@ -1,0 +1,31 @@
+{%- comment -%}
+  Champs de NOM d'une fiche, normalisés (ancien ET nouveau système). Utilisation :
+    {% include artist-fields.html a=page %}      (ou a=une fiche)
+  Après l'include, ces variables sont disponibles :
+    af_nick    = pseudo / nom d'usage (nickname)
+    af_nnick   = pseudo natif (native_nickname, ou l'ancien native_nick)
+    af_native  = nom natif (native_name, ou l'ancien native)
+    af_family  = family_name        af_first = first_name
+    af_rom     = nom "officiel" en lettres latines :
+                 - l'ancien champ romanization s'il est rempli (rien ne change pour les fiches existantes)
+                 - sinon composé de first_name + family_name, dans l'ordre de name_order :
+                   name_order: family  →  "Zau Sai-hang"  (nom de famille d'abord)
+                   (absent)            →  "Pedro Pérez"   (prénom d'abord)
+    af_short   = nom court : short_name, sinon pseudo, sinon af_rom
+{%- endcomment -%}
+{%- assign af_nick = include.a.nickname | default: "" | strip -%}
+{%- assign af_nnick = include.a.native_nickname | default: include.a.native_nick | default: "" | strip -%}
+{%- assign af_native = include.a.native_name | default: include.a.native | default: "" | strip -%}
+{%- assign af_family = include.a.family_name | default: "" | strip -%}
+{%- assign af_first = include.a.first_name | default: "" | strip -%}
+{%- assign af_rom = include.a.romanization | default: "" | strip -%}
+{%- if af_rom == "" -%}
+  {%- if af_family != "" or af_first != "" -%}
+    {%- if include.a.name_order == "family" -%}
+      {%- assign af_rom = af_family | append: " " | append: af_first | strip -%}
+    {%- else -%}
+      {%- assign af_rom = af_first | append: " " | append: af_family | strip -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}
+{%- assign af_short = include.a.short_name | default: af_nick | default: af_rom -%}
