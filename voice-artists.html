@@ -91,8 +91,9 @@ title: Voice artists
     {%- assign np = af_nick | split: " " -%}
     {%- if np.size > 1 -%}
       {%- assign nfam = np | last -%}
-      {%- assign ngiv = af_nick | remove_last: nfam | strip -%}
-      {%- assign nm = nfam | append: ", " | append: ngiv -%}
+      {%- assign ngiv = "" -%}
+      {%- for w in np -%}{%- unless forloop.last -%}{%- assign ngiv = ngiv | append: w | append: " " -%}{%- endunless -%}{%- endfor -%}
+      {%- assign nm = nfam | append: ", " | append: ngiv | strip -%}
     {%- else -%}
       {%- assign nm = af_nick -%}
     {%- endif -%}
@@ -148,10 +149,11 @@ title: Voice artists
     {%- comment %} Sous le nom : nom romanisé (seulement s'il y a un pseudo ou un short_name : sinon c'est déjà la ligne du haut) puis nom natif {% endcomment -%}
     {%- if af_nick != "" or short_set != "" -%}{%- if af_rom != "" and af_rom != nm %}<span class="vi-sub">{{ af_rom }}</span>{% endif -%}{%- endif -%}
     {%- if af_native != "" %}<span class="vi-sub vi-native">{% if af_nnick != "" %}&ldquo;{{ af_nnick }}&rdquo; {% endif %}{{ af_native }}</span>{% endif -%}
-    {%- comment %} Studios : pays seulement (pas de langues) {% endcomment -%}
-    {%- if is_studio %}{% assign lang_txt = "" %}{% endif -%}
-    {%- if a_country != "" or lang_txt != "" %}
-    <span class="vi-meta">{{ a_country }}{% if a_country != "" and lang_txt != "" %} &middot; {% endif %}{{ lang_txt }}</span>
+    {%- comment %} Studios : pays seulement (pas de langues). Artistes : langues seulement (le pays n'apparaît que sur leur fiche). {% endcomment -%}
+    {%- assign meta_country = "" -%}
+    {%- if is_studio %}{% assign lang_txt = "" %}{% assign meta_country = a_country %}{% endif -%}
+    {%- if meta_country != "" or lang_txt != "" %}
+    <span class="vi-meta">{{ meta_country }}{% if meta_country != "" and lang_txt != "" %} &middot; {% endif %}{{ lang_txt }}</span>
     {%- endif %}
   </a>
   {%- endcapture -%}
