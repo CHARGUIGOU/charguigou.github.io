@@ -11,7 +11,7 @@ layout: artist
 # Pour le désactiver à nouveau, remets-les autour du texte. Un "#" ne désactive rien dans cette zone :
 # il transforme la ligne en gros titre. HTML et Markdown fonctionnent (le Markdown n'est pas interprété à l'intérieur d'une balise HTML).
 # ============================================================
-artist: jason-chau            # l'identifiant utilisé dans les pages de cast (sans espaces ni majuscules)
+artist: ada-to            # l'identifiant utilisé dans les pages de cast (sans espaces ni majuscules)
 # ------------------------------------------------------------
 # NOMS
 #   Nom d'usage (pseudo) :   nickname + native_nickname      → "Jason Chau" / "大J"        (facultatifs)
