@@ -37,7 +37,7 @@ name_order: family              # "family" = nom de famille d'abord à l'afficha
 photo: "https://res.cloudinary.com/dofvjifeo/image/upload/Ada_To.png"   # sans cette ligne : silhouette grise
 script: cantonese               # police du nom natif (une seule est chargée). Valeurs : arabic, armenian, bengali, cantonese, chinese-simplified, chinese-traditional, cyrillic, georgian, greek, hebrew, hindi, marathi, japanese, kannada, korean, malayalam, tamil, telugu, thai
 # address: "Rue, ville"          # ligne d'adresse (surtout pour les studios), affichée sous les dates et au-dessus du pays
-# country: "Hong Kong"          # pays d'origine, affiché sous l'adresse (sans cette ligne : rien). Sert au filtre Country des studios
+country: "Hong Kong"          # pays d'origine, affiché sous l'adresse (sans cette ligne : rien). Sert au filtre Country des studios
 dates: "10 September 1969 -  "   # artiste : sans cette ligne, « Unknown dates » ; studio : rien ne s'affiche si la ligne est absente
 # kind: studio                    # fiche d'un STUDIO : icône de bâtiment, dates facultatives ; mets le nom complet dans display: (nickname/family_name/first_name inutiles). photo, address, country et texte libre fonctionnent comme pour un artiste
 # thumb_fit: cover                # studios seulement : recadre la vignette de la page Voice Artists en carré (sans cette ligne : image entière, pour les logos)
