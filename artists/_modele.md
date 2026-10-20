@@ -16,6 +16,7 @@ layout: artist
 #                                       (absent)            = prénom d'abord          (Pedro Pérez)
 #   Affiché dans les casts et les fiches :  "Jason Chau" Zau Sai-hang / "大J" 周世鏗
 #   Sans pseudo (ex : cast espagnol) :  family_name: "Pérez" + first_name: "Pedro"  →  Pedro Pérez
+#   Noms en plus (fiche seulement) : full_name = nom complet ; other_names = autres noms connus (« Also known as : ») ; tous deux cherchables sur la page Voice Artists
 #   Sur la page Voice Artists seulement : annuaire "Nom, Prénom" → "Chau, Jason" (pseudo retourné : son dernier mot = nom de famille ;
 #   pseudo d'un seul mot = tel quel), ou "Zau, Sai-hang" / "Pérez, Pedro" sans pseudo. Le classement alphabétique suit ce nom.
 # ------------------------------------------------------------
@@ -26,6 +27,10 @@ family_name: "Zau"            # nom de famille (lettres latines)
 first_name: "Sai-hang"        # prénom (lettres latines)
 native_name: "周世鏗"          # nom natif
 name_order: family            # "family" = nom de famille d'abord à l'affichage ; supprime cette ligne pour « Prénom Nom »
+# full_name: "Pedro Luis Pérez García"   # nom complet, affiché en petit sous le nom sur la fiche (casts et liste : inchangés). Texte libre : tu peux y mettre le nom natif à la suite, ex : "Zau Sai-hang Wai / 周世鏗"
+# other_names:                  # autres noms connus : affichés « Also known as : … » sous le nom, sur la fiche. Une liste, ou un seul texte
+#   - "Jason Chow"
+#   - "Jason Zau"
 # prefix: "Slime's wife"      # texte avant le nom (rare)
 # display: "Texte libre"      # texte complet affiché tel quel PARTOUT (cast, staff, chansons, fiche) à la place du nom composé
 # page_name: "Texte libre"    # nom affiché SOUS LA PHOTO de la fiche uniquement (une ligne, texte libre) ; les pages de cast gardent le nom normal
@@ -34,7 +39,7 @@ name_order: family            # "family" = nom de famille d'abord à l'affichage
 
 # photo: "https://res.cloudinary.com/dofvjifeo/image/upload/Jason_Chau.png"   # sans cette ligne : silhouette grise
 # address: "Rue, ville"          # ligne d'adresse (surtout pour les studios), affichée sous les dates et au-dessus du pays
-country: "Hong Kong"             # pays d’origine, affiché sous l’adresse sur la fiche ; pour un studio, sert aussi au filtre Country de la page Voice Artists
+country: "Hong Kong"             # pays d'origine, affiché sous l'adresse sur la fiche (sans cette ligne : rien) ; pour un studio, sert aussi au filtre Country de la page Voice Artists
 # dates: "4 November 1982 -  "   # artiste : sans cette ligne, « Unknown dates » ; studio : rien ne s'affiche si la ligne est absente
 # kind: studio                   # fiche d'un STUDIO : icône de bâtiment, dates facultatives ; nom complet dans display. photo, address, country et texte libre fonctionnent comme pour un artiste
 # thumb_fit: cover               # studios seulement : recadre la vignette de la page Voice Artists en carré (sans cette ligne : image entière, pour les logos)
