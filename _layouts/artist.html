@@ -90,6 +90,9 @@
 .artist-info .accent { color: var(--artist-accent-color); }
 .artist-info .native { font-family: var(--artist-native-font, inherit); }
 .artist-info .name-sub { font-size: var(--artist-name-size); }
+.artist-info .artist-fullname, .artist-info .artist-aka { margin-top: 6px; font-size: var(--artist-country-size); color: var(--actor-dates-color); font-family: var(--artist-meta-font); line-height: 1.4; }
+.artist-info .artist-fullname + .artist-aka { margin-top: 2px; }
+.artist-info .artist-label { font-style: italic; }
 .artist-info .artist-dates { margin-top: 12px; font-size: var(--artist-dates-size); color: var(--actor-dates-color); letter-spacing: var(--actor-dates-letter-spacing); font-family: var(--artist-meta-font); }
 .artist-info .artist-country { margin-top: 4px; font-size: var(--artist-country-size); color: var(--actor-dates-color); font-family: var(--artist-meta-font); }
 .artist-info .artist-address { margin-top: 4px; font-size: var(--artist-country-size); color: var(--actor-dates-color); font-family: var(--artist-meta-font); }
@@ -468,6 +471,15 @@
     </div>
     <div class="artist-info">
       <div class="actor-name">{{ name_html }}</div>
+      {%- comment %} Nom complet (full_name) puis autres noms (other_names : liste ou texte), en petit sous le nom. Change les mots "Full name" / "Also known as" ici si tu veux. {% endcomment %}
+      {%- assign fi_full = page.full_name | default: "" | strip -%}
+      {%- if fi_full != "" %}
+      <div class="artist-fullname"><span class="artist-label">Full name:</span> {{ fi_full }}</div>
+      {%- endif %}
+      {%- assign fi_aka = page.other_names | join: ", " | strip -%}
+      {%- if fi_aka != "" %}
+      <div class="artist-aka"><span class="artist-label">Also known as:</span> {{ fi_aka }}</div>
+      {%- endif %}
       {%- comment %} Dates : un artiste affiche "Unknown dates" par défaut ; un studio n'affiche ses dates (création - fermeture) que s'il en a. {% endcomment %}
       {%- if page.kind != "studio" %}
       <div class="artist-dates">{{ page.dates | default: "Unknown dates" | strip }}</div>
