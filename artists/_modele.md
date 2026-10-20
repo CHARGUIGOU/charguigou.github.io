@@ -34,7 +34,7 @@ name_order: family            # "family" = nom de famille d'abord à l'affichage
 
 # photo: "https://res.cloudinary.com/dofvjifeo/image/upload/Jason_Chau.png"   # sans cette ligne : silhouette grise
 # address: "Rue, ville"          # ligne d'adresse (surtout pour les studios), affichée sous les dates et au-dessus du pays
-country: "Hong Kong"             # pays d'origine, affiché sous l'adresse (sans cette ligne : rien). Sert au filtre Country des studios
+country: "Hong Kong"             # pays d’origine, affiché sous l’adresse sur la fiche ; pour un studio, sert aussi au filtre Country de la page Voice Artists
 # dates: "4 November 1982 -  "   # artiste : sans cette ligne, « Unknown dates » ; studio : rien ne s'affiche si la ligne est absente
 # kind: studio                   # fiche d'un STUDIO : icône de bâtiment, dates facultatives ; nom complet dans display. photo, address, country et texte libre fonctionnent comme pour un artiste
 # thumb_fit: cover               # studios seulement : recadre la vignette de la page Voice Artists en carré (sans cette ligne : image entière, pour les logos)
