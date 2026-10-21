@@ -282,11 +282,12 @@
       '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200"><rect width="300" height="200" fill="#ececec"/>' + inner + '</svg>');
   }
   var PERSON  = svg('<circle cx="150" cy="82" r="30" fill="#c9c9c9"/><path d="M90 178c0-34 27-52 60-52s60 18 60 52z" fill="#c9c9c9"/>');
+  var BUILDING = svg('<rect x="105" y="40" width="90" height="140" fill="#c9c9c9"/><g fill="#ececec"><rect x="119" y="56" width="16" height="16"/><rect x="142" y="56" width="16" height="16"/><rect x="165" y="56" width="16" height="16"/><rect x="119" y="84" width="16" height="16"/><rect x="142" y="84" width="16" height="16"/><rect x="165" y="84" width="16" height="16"/><rect x="119" y="112" width="16" height="16"/><rect x="142" y="112" width="16" height="16"/><rect x="165" y="112" width="16" height="16"/><rect x="140" y="146" width="20" height="34"/></g>');
   var PICTURE = svg('<rect x="95" y="62" width="110" height="76" rx="6" fill="none" stroke="#c9c9c9" stroke-width="8"/><circle cx="127" cy="88" r="9" fill="#c9c9c9"/><path d="M100 132l32-30 22 20 16-14 30 24z" fill="#c9c9c9"/>');
 
   function fix(img) {
     if (img.getAttribute('data-broken')) return;
-    var fb = img.closest('.voice-card') ? PERSON : (img.closest('.gallery-track') ? PICTURE : null);
+    var fb = img.closest('.voice-card') ? ((img.getAttribute('src') || '').slice(-6) === 'STUDIO' ? BUILDING : PERSON) : (img.closest('.gallery-track') ? PICTURE : null);
     if (!fb) return;
     img.setAttribute('data-broken', '1');
     img.src = fb;
