@@ -1,0 +1,6 @@
+# Adresse de base des photos de comédiens et de studios.
+# Dans une fiche, tu peux écrire seulement le nom du fichier :
+#     photo: "Jason_Chau.png"
+# et le site ajoute cette adresse devant. Une adresse complète (https://...) reste acceptée telle quelle.
+# Si un jour les photos changent d'hébergeur, c'est la SEULE ligne à modifier.
+base: "https://res.cloudinary.com/dofvjifeo/image/upload/"
