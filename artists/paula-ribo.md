@@ -24,7 +24,7 @@ family_name: "Ribó"            # nom de famille (lettres latines)
 first_name: "Paula"        # prénom (lettres latines)
 # full_name: "Emilio Javier Moreno Santa Cruz"   # nom complet, affiché en petit sous le nom sur la fiche (casts et liste : inchangés). Texte libre : tu peux y mettre le nom natif à la suite, ex : "Zau Sai-hang Wai / 周世鏗"
 # other_names:                  # autres noms connus : affichés « Also known as : … » sous le nom, sur la fiche. Une liste, ou un seul texte
-   - "Anuska Alborg"
+#    - "Anuska Alborg"
 # prefix: "Slime's wife"      # texte avant le nom (rare)
 # display: "Texte libre"      # texte complet affiché tel quel PARTOUT (cast, staff, chansons, fiche) à la place du nom composé
 # page_name: "Texte libre"    # nom affiché SOUS LA PHOTO de la fiche uniquement (une ligne, texte libre) ; les pages de cast gardent le nom normal
