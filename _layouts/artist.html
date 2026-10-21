@@ -584,6 +584,8 @@
       {%- for item in page.gallery %}
       {%- assign g = item | split: "|" -%}
       {%- assign g_full = g[0] | strip -%}
+      {%- assign g_k = g_full | slice: 0, 4 -%}{%- assign g_s = g_full | slice: 0, 1 -%}
+      {%- if g_k != "http" and g_s != "/" -%}{%- assign g_full = site.data.photos.base | append: g_full -%}{%- endif -%}
       {%- assign g_cap = g[1] | default: "" | strip -%}
       {%- assign g_thumb = g_full | replace: "/upload/", "/upload/w_450,h_450,c_fill,g_north,q_auto:best/" %}
       <img src="{{ g_thumb }}" data-full="{{ g_full }}" alt="{{ g_cap | default: official | strip_html }}"{% if g_cap != "" %} data-caption="{{ g_cap }}"{% endif %}>
