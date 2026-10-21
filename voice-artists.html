@@ -134,7 +134,7 @@ title: Voice artists
   {%- capture ph_full -%}{% include artist-photo.html a=a %}{%- endcapture -%}
   {%- assign ph = ph_full | strip -%}
   {%- if ph contains "res.cloudinary.com" and ph contains "/image/upload/" and a.photo -%}
-    {%- if is_studio and a.thumb_fit != "cover" -%}{%- assign tr = "/image/upload/c_fit,w_300,h_300,q_auto,f_auto/" -%}{%- else -%}{%- assign tr = "/image/upload/c_fill,g_auto,w_300,h_300,q_auto,f_auto/" -%}{%- endif -%}
+    {%- if is_studio and a.thumb_fit != "cover" -%}{%- assign tr = "/image/upload/c_fit,w_160,h_160,q_auto,f_auto/" -%}{%- else -%}{%- assign tr = "/image/upload/c_fill,g_auto,w_160,h_160,q_auto,f_auto/" -%}{%- endif -%}
     {%- assign ph = ph | replace_first: "/image/upload/", tr -%}
   {%- endif -%}
 
