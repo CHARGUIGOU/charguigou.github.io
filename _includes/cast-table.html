@@ -80,6 +80,15 @@
   {%- assign c2_custom = c2 | remove_first: c2_key | remove_first: "=" | strip -%}
   {%- assign c2 = c2_key -%}
   {%- assign c3 = f[3] | default: "" | strip -%}
+  {%- comment %} voix unique avec sa note dans le 3e champ : "fiche (note)" -> fiche + note ; plusieurs voix : "fiche (note) + fiche (note)" (traité plus bas) {% endcomment -%}
+  {%- if c2 != "" and c2_custom == "" and c2 contains " (" -%}
+    {%- unless c2 contains " + " -%}
+      {%- assign c2_pp = c2 | split: " (" -%}
+      {%- assign c2_n = c2 | remove_first: c2_pp[0] | strip -%}
+      {%- assign c3 = c2_n | append: " " | append: c3 | strip -%}
+      {%- assign c2 = c2_pp[0] | strip -%}
+    {%- endunless -%}
+  {%- endif -%}
   {%- if c0 == "banner" -%}
     {%- assign prev_actor = "" -%}
     {%- assign b_fx = f[3] | default: "sparkle glow" | strip -%}
@@ -120,6 +129,7 @@
         {%- for r2 in cs_src.cast offset: nxt -%}
           {%- assign g = r2 | split: "|" -%}
           {%- assign g2 = g[2] | default: "" | split: "=" | first | default: "" | strip -%}
+          {%- unless g2 contains " + " -%}{%- assign g2 = g2 | split: " (" | first | strip -%}{%- endunless -%}
           {%- if g2 == c2 -%}{%- assign actor_span = actor_span | plus: 1 -%}
           {%- else -%}{%- break -%}{%- endif -%}
         {%- endfor -%}
@@ -141,12 +151,12 @@
         {%- unless skip_actor %}
         <td{% if actor_span > 1 %} rowspan="{{ actor_span }}"{% endif %}>
           {%- if real and c2 contains " + " -%}
-            {%- comment %} plusieurs voix sur la même ligne : "fiche-1 (note) + fiche-2 (note)" {% endcomment -%}
             {%- assign mv_parts = c2 | split: " + " -%}
             {%- for mv in mv_parts -%}
               {%- assign mv_t = mv | strip -%}
-              {%- assign mv_key = mv_t | split: " " | first -%}
-              {%- assign mv_note = mv_t | remove_first: mv_key | strip -%}
+              {%- assign mv_pp = mv_t | split: " (" -%}
+              {%- assign mv_key = mv_pp[0] | strip -%}
+              {%- assign mv_note = mv_t | remove_first: mv_pp[0] | strip -%}
               {%- unless forloop.first %} &amp; {% endunless -%}
               {%- if mv_key == "?" -%}?{%- else -%}
                 {%- assign mv_fiche = artist_pages | where: "artist", mv_key | first -%}
