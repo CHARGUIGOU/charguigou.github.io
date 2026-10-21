@@ -14,7 +14,10 @@
       <li class="song-item">
         {%- if s_nat != "" %}
         <span class="song-title-native">{{ s_nat }}</span>
+        {%- if s_eng != "" %}
         <span class="song-title-english">(« {{ s_eng }} »)</span>
+        {%- endif %}
+        {%- if s_note != "" %} <small>({{ s_note }})</small>{% endif %}
         {%- else %}
         <span class="song-title-english"><b>« {{ s_eng }} »{% if s_note != "" %} <small>({{ s_note }})</small>{% endif %}</b></span>
         {%- endif %}
