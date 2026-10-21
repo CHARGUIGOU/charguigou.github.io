@@ -2,8 +2,7 @@
 layout: artist
 # ============================================================
 # MODÈLE DE FICHE COMÉDIEN / STUDIO — copie ce fichier dans artists/ sous le nom du comédien (ex : artists/jason-chau.md), retire le "_" au début du nom et remplis ce que tu connais. Tout est facultatif sauf "artist".
-# Les lignes qui commencent par "#" sont désactivées : enlève le "#" pour les utiliser.
-# Sans "photo" : silhouette grise ; sans "dates" : Unknown dates (artistes seulement).
+# Les lignes qui commencent par "#" sont désactivées : enlève le "#" pour les utiliser. Sans "photo" : silhouette grise ; sans "dates" : Unknown dates (artistes seulement).
 # TEXTE LIBRE (bio) : il se met EN BAS du fichier, sous le second "---". Pour l'afficher, écris ton texte ENTRE les deux lignes "comment" et "endcomment" puis supprime ces deux lignes (celles avec les accolades).
 # Pour le désactiver à nouveau, remets-les autour du texte. Un "#" ne désactive rien dans cette zone : il transforme la ligne en gros titre. HTML et Markdown fonctionnent (le Markdown n'est pas interprété à l'intérieur d'une balise HTML).
 # ============================================================
