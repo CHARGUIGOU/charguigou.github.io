@@ -1,11 +1,8 @@
 ---
 layout: artist
 # ============================================================
-# MODÈLE DE FICHE COMÉDIEN / STUDIO — copie ce fichier dans artists/ sous le nom du comédien (ex : artists/jason-chau.md), retire le "_" au début du nom et remplis ce que tu connais. Tout est facultatif sauf "artist".
-# Les lignes qui commencent par "#" sont désactivées : enlève le "#" pour les utiliser.
-# Sans "photo" : silhouette grise ; sans "dates" : Unknown dates (artistes seulement).
-# TEXTE LIBRE (bio) : il se met EN BAS du fichier, sous le second "---". Pour l'afficher, écris ton texte ENTRE les deux lignes "comment" et "endcomment" puis supprime ces deux lignes (celles avec les accolades).
-# Pour le désactiver à nouveau, remets-les autour du texte. Un "#" ne désactive rien dans cette zone : il transforme la ligne en gros titre. HTML et Markdown fonctionnent (le Markdown n'est pas interprété à l'intérieur d'une balise HTML).
+# MODÈLE DE FICHE COMÉDIEN / STUDIO — retire le "_" au début du nom et remplis ce que tu connais. Tout est facultatif sauf "artist". Les lignes qui commencent par "#" sont désactivées : enlève le "#" pour les utiliser.
+# Sans "photo" : silhouette grise ; sans "dates" : Unknown dates (artistes seulement). TEXTE LIBRE (bio) : il se met EN BAS du fichier, sous le second "---". Pour l'afficher, ssupprime les deux lignes "comment" et "endcomment"
 # ============================================================
 # ------------------------------------------------------------
 # NOMS
@@ -14,11 +11,9 @@ layout: artist
 #                            native_name                       → 周世鏗
 #   Ordre d'affichage (casts, fiches) : name_order: family  = nom de famille d'abord (Zau Sai-hang, Kovács Béla)
 #                                       (absent)            = prénom d'abord          (Pedro Pérez)
-#   Affiché dans les casts et les fiches :  "Jason Chau" Zau Sai-hang / "大J" 周世鏗
-#   Sans pseudo (ex : cast espagnol) :  family_name: "Pérez" + first_name: "Pedro"  →  Pedro Pérez
+#   Affiché dans les casts et les fiches :  "Jason Chau" Zau Sai-hang / "大J" 周世鏗 / Sans pseudo (ex : cast espagnol) :  family_name: "Pérez" + first_name: "Pedro"  →  Pedro Pérez
 #   Noms en plus (fiche seulement) : full_name = nom complet ; other_names = autres noms connus (« Also known as : ») ; tous deux cherchables sur la page Voice Artists
-#   Sur la page Voice Artists seulement : annuaire "Nom, Prénom" → "Chau, Jason" (pseudo retourné : son dernier mot = nom de famille ;
-#   pseudo d'un seul mot = tel quel), ou "Zau, Sai-hang" / "Pérez, Pedro" sans pseudo. Le classement alphabétique suit ce nom.
+#   Sur la page Voice Artists seulement : annuaire "Nom, Prénom" → "Chau, Jason" (pseudo retourné : son dernier mot = nom de famille ; pseudo d'un seul mot = tel quel), ou "Zau, Sai-hang" / "Pérez, Pedro" sans pseudo.
 # ------------------------------------------------------------
 artist: jason-chau            # l'identifiant utilisé dans les pages de cast (sans espaces ni majuscules)
 nickname: "Jason Chau"        # pseudo / nom d'usage entre guillemets (version latine)
