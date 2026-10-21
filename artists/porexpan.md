@@ -19,8 +19,8 @@ layout: artist
 #   Sur la page Voice Artists seulement : annuaire "Nom, Prénom" → "Chau, Jason" (pseudo retourné : son dernier mot = nom de famille ;
 #   pseudo d'un seul mot = tel quel), ou "Zau, Sai-hang" / "Pérez, Pedro" sans pseudo. Le classement alphabétique suit ce nom.
 # ------------------------------------------------------------
-artist: Porexpan            # l'identifiant utilisé dans les pages de cast (sans espaces ni majuscules)
-# nickname: "Porexpan"        # pseudo / nom d'usage entre guillemets (version latine)
+artist: porexpan            # l'identifiant utilisé dans les pages de cast (sans espaces ni majuscules)
+nickname: "Porexpan"        # pseudo / nom d'usage entre guillemets (version latine)
 # native_nickname: "大J"      # pseudo natif entre guillemets
 # family_name: "Sarmentera"            # nom de famille (lettres latines)
 # first_name: "Daniela Gómez"        # prénom (lettres latines)
