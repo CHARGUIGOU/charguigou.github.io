@@ -43,7 +43,7 @@ title: Voice artists
         {%- assign f = row | split: "|" -%}
         {%- assign k_parts = f[2] | default: "" | split: " + " -%}
         {%- for k_p in k_parts -%}
-          {%- assign k = k_p | split: "=" | first | default: "" | strip | split: " " | first | default: "" -%}
+          {%- assign k = k_p | split: "=" | first | default: "" | split: " (" | first | default: "" | strip -%}
           {%- if k != "" and k != "?" and f[0] != "banner" -%}{%- assign lang_idx = lang_idx | append: pre | append: k | append: "|" -%}{%- endif -%}
         {%- endfor -%}
       {%- endfor -%}
