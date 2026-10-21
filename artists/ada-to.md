@@ -34,7 +34,7 @@ name_order: family              # "family" = nom de famille d'abord à l'afficha
 # display: "Texte libre"        # texte complet affiché tel quel PARTOUT (cast, staff, chansons, fiche) à la place du nom composé
 # page_name: "Texte libre"      # nom affiché SOUS LA PHOTO de la fiche uniquement (une ligne, texte libre) ; les pages de cast gardent le nom normal
 # short_name: "Chau, Jason"    # nom sous la photo dans les cartes (défaut : pseudo, sinon nom composé) ET nom affiché tel quel sur la page Voice Artists
-photo: "https://res.cloudinary.com/dofvjifeo/image/upload/Ada_To.png"   # sans cette ligne : silhouette grise
+photo: "Ada_To.png"           # sans cette ligne : silhouette grise
 script: cantonese               # police du nom natif (une seule est chargée). Valeurs : arabic, armenian, bengali, cantonese, chinese-simplified, chinese-traditional, cyrillic, georgian, greek, hebrew, hindi, marathi, japanese, kannada, korean, malayalam, tamil, telugu, thai
 # address: "Rue, ville"          # ligne d'adresse (surtout pour les studios), affichée sous les dates et au-dessus du pays
 country: "Hong Kong"          # pays d'origine, affiché sous l'adresse (sans cette ligne : rien). Sert au filtre Country des studios
