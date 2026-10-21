@@ -207,14 +207,17 @@
         {%- assign cur_i = f[4] | default: "" | strip -%}
       {%- endif -%}
       {%- assign c2_hit = false -%}{%- assign c2_note = "" -%}
-      {%- if c2 == slug -%}{%- assign c2_hit = true -%}
-      {%- elsif c2 contains " + " -%}
+      {%- if c2 contains " + " -%}
         {%- assign c2_ps = c2 | split: " + " -%}
         {%- for c2_p in c2_ps -%}
           {%- assign c2_pt = c2_p | strip -%}
-          {%- assign c2_pk = c2_pt | split: " " | first -%}
-          {%- if c2_pk == slug -%}{%- assign c2_hit = true -%}{%- assign c2_note = c2_pt | remove_first: c2_pk | strip -%}{%- endif -%}
+          {%- assign c2_pp = c2_pt | split: " (" -%}
+          {%- if c2_pp[0] == slug -%}{%- assign c2_hit = true -%}{%- assign c2_note = c2_pt | remove_first: c2_pp[0] | strip -%}{%- endif -%}
         {%- endfor -%}
+      {%- else -%}
+        {%- assign c2_pp = c2 | split: " (" -%}
+        {%- assign c2_pk = c2_pp[0] | strip -%}
+        {%- if c2_pk == slug -%}{%- assign c2_hit = true -%}{%- assign c2_note = c2 | remove_first: c2_pp[0] | strip -%}{%- endif -%}
       {%- endif -%}
       {%- if c2_hit -%}
         {%- assign found = found | plus: 1 -%}
