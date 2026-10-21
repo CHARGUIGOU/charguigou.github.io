@@ -140,7 +140,23 @@
         {%- endunless -%}
         {%- unless skip_actor %}
         <td{% if actor_span > 1 %} rowspan="{{ actor_span }}"{% endif %}>
-          {%- if real -%}
+          {%- if real and c2 contains " + " -%}
+            {%- comment %} plusieurs voix sur la même ligne : "fiche-1 (note) + fiche-2 (note)" {% endcomment -%}
+            {%- assign mv_parts = c2 | split: " + " -%}
+            {%- for mv in mv_parts -%}
+              {%- assign mv_t = mv | strip -%}
+              {%- assign mv_key = mv_t | split: " " | first -%}
+              {%- assign mv_note = mv_t | remove_first: mv_key | strip -%}
+              {%- unless forloop.first %} &amp; {% endunless -%}
+              {%- if mv_key == "?" -%}?{%- else -%}
+                {%- assign mv_fiche = artist_pages | where: "artist", mv_key | first -%}
+                {%- if mv_fiche -%}<a class="actor-link" href="{{ mv_fiche.url }}">{% include artist-name.html a=mv_fiche %}</a>
+                {%- else -%}{{ mv_key }}{%- endif -%}
+              {%- endif -%}
+              {%- if mv_note != "" %} {{ mv_note }}{% endif -%}
+            {%- endfor -%}
+            {%- if c3 != "" %} {{ c3 }}{% endif -%}
+          {%- elsif real -%}
             {%- assign fiche = artist_pages | where: "artist", c2 | first -%}
             {%- if fiche -%}<a class="actor-link" href="{{ fiche.url }}">{% if c2_custom != "" %}{{ c2_custom }}{% else %}{% include artist-name.html a=fiche %}{% endif %}</a>
             {%- else -%}{{ c2 }}{%- endif -%}
