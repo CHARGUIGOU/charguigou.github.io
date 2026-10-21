@@ -206,7 +206,17 @@
         {%- assign cur_e = c1 -%}
         {%- assign cur_i = f[4] | default: "" | strip -%}
       {%- endif -%}
-      {%- if c2 == slug -%}
+      {%- assign c2_hit = false -%}{%- assign c2_note = "" -%}
+      {%- if c2 == slug -%}{%- assign c2_hit = true -%}
+      {%- elsif c2 contains " + " -%}
+        {%- assign c2_ps = c2 | split: " + " -%}
+        {%- for c2_p in c2_ps -%}
+          {%- assign c2_pt = c2_p | strip -%}
+          {%- assign c2_pk = c2_pt | split: " " | first -%}
+          {%- if c2_pk == slug -%}{%- assign c2_hit = true -%}{%- assign c2_note = c2_pt | remove_first: c2_pk | strip -%}{%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+      {%- if c2_hit -%}
         {%- assign found = found | plus: 1 -%}
         {%- assign cur_e_txt = cur_e | replace: "<br/>", " " | replace: "<br>", " " | strip_html -%}
         {%- assign roles = roles | append: '<div class="role-line"><span class="role-img">' -%}
@@ -214,6 +224,7 @@
         {%- if cur_url != "" -%}{%- assign roles = roles | append: '<img src="' | append: cur_url | append: '" alt="" loading="lazy" ' | append: img_fb | append: '>' -%}{%- endif -%}
         {%- assign roles = roles | append: '</span><span class="role-text">' | append: cur_e_txt -%}
         {%- assign c3 = f[3] | default: "" | strip -%}
+        {%- if c2_note != "" -%}{%- assign c3 = c2_note | append: " " | append: c3 | strip -%}{%- endif -%}
         {%- if c3 != "" -%}{%- assign roles = roles | append: " " | append: c3 -%}{%- endif -%}
         {%- assign roles = roles | append: "</span></div>" -%}
       {%- endif -%}
