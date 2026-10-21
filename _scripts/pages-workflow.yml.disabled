@@ -1,0 +1,54 @@
+# Workflow de remplacement du build GitHub Pages par défaut.
+# INACTIF tant que ce fichier n'est pas placé dans .github/workflows/pages.yml
+# (voir _scripts/LISEZMOI.md). Il fait exactement le même build Jekyll que
+# GitHub Pages, avec une étape de pré-calcul en plus.
+name: Build et déploiement (avec pré-calcul)
+
+on:
+  push:
+    branches: ["main"]      # <- remplace par "master" si c'est le nom de ta branche
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Pré-calcul des apparitions (artistes -> pages de doublage)
+        run: |
+          pip install pyyaml
+          python _scripts/build_appearances.py
+
+      - uses: actions/configure-pages@v5
+
+      - name: Build Jekyll (identique à GitHub Pages)
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - uses: actions/upload-pages-artifact@v3
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
