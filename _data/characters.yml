@@ -16,7 +16,7 @@
 #                  page de cast de ce film, fiche de l'artiste). Le film est reconnu par son titre
 #                  (identique au champ "film" de la page de cast).
 # ============================================================
-image_base: "https://res.cloudinary.com/dofvjifeo/image/upload/c_limit,w_500,q_auto,f_auto/"
+image_base: "https://res.cloudinary.com/dofvjifeo/image/upload/c_limit,w_320,q_auto,f_auto/"
 
 list:
   - id: "mickey-mouse"
