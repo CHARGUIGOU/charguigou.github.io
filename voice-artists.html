@@ -324,10 +324,15 @@ a.vi-card:hover .vi-name { color: var(--vi-blue); }
   var PERSON = 'data:image/svg+xml;utf8,' + encodeURIComponent(
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200"><rect width="300" height="200" fill="#ececec"/>' +
     '<circle cx="150" cy="82" r="30" fill="#c9c9c9"/><path d="M90 178c0-34 27-52 60-52s60 18 60 52z" fill="#c9c9c9"/></svg>');
+  var BUILDING = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200"><rect width="300" height="200" fill="#ececec"/>' +
+    '<rect x="105" y="40" width="90" height="140" fill="#c9c9c9"/>' +
+    '<g fill="#ececec"><rect x="119" y="56" width="16" height="16"/><rect x="142" y="56" width="16" height="16"/><rect x="165" y="56" width="16" height="16"/><rect x="119" y="84" width="16" height="16"/><rect x="142" y="84" width="16" height="16"/><rect x="165" y="84" width="16" height="16"/><rect x="119" y="112" width="16" height="16"/><rect x="142" y="112" width="16" height="16"/><rect x="165" y="112" width="16" height="16"/><rect x="140" y="146" width="20" height="34"/></g></svg>');
   function fix(img) {
     if (img.getAttribute('data-broken')) return;
+    var studio = (img.getAttribute('src') || '').slice(-6) === 'STUDIO';   /* fiche studio sans photo */
     img.setAttribute('data-broken', '1');
-    img.src = PERSON;
+    img.src = studio ? BUILDING : PERSON;
   }
   document.addEventListener('error', function (e) {
     if (e.target && e.target.tagName === 'IMG' && e.target.closest('.vi-thumb')) fix(e.target);
