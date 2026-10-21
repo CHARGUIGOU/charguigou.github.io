@@ -2,7 +2,7 @@
 layout: artist
 # ============================================================
 # MODÈLE DE FICHE COMÉDIEN / STUDIO — retire le "_" au début du nom et remplis ce que tu connais. Tout est facultatif sauf "artist". Les lignes qui commencent par "#" sont désactivées : enlève le "#" pour les utiliser.
-# Sans "photo" : silhouette grise ; sans "dates" : Unknown dates (artistes seulement). TEXTE LIBRE (bio) : il se met EN BAS du fichier, sous le second "---". Pour l'afficher, ssupprime les deux lignes "comment" et "endcomment"
+# Sans "photo" : silhouette grise ; sans "dates" : Unknown dates (artistes seulement). TEXTE LIBRE (bio) : il se met EN BAS du fichier, sous le second "---". Pour l'afficher, supprime les deux lignes "comment" et "endcomment"
 # ============================================================
 # ------------------------------------------------------------
 # NOMS
