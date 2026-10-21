@@ -145,7 +145,7 @@
             {%- if fiche -%}<a class="actor-link" href="{{ fiche.url }}">{% if c2_custom != "" %}{{ c2_custom }}{% else %}{% include artist-name.html a=fiche %}{% endif %}</a>
             {%- else -%}{{ c2 }}{%- endif -%}
             {%- if c3 != "" %} {{ c3 }}{% endif -%}
-          {%- else -%}?{%- endif -%}
+          {%- else -%}?{%- if c3 != "" %} {{ c3 }}{% endif -%}{%- endif -%}
         </td>
         {%- endunless %}
       </tr>
