@@ -63,6 +63,4 @@ extra_roles:        # "rôle | film | année | langue | id du personnage (facult
 #   - "Dialogue director | Zootopia | 2016 | Cantonese"
 # ------------------------------------------------------------
 ---
-{% comment %}
 Not to be confused with Hong Kong actress "Amy Kwok" Gwok Oi-ming (郭藹明), who voiced Elastigirl in the Cantonese dub of <i>The Incredibles</i>.
-{% endcomment %}
