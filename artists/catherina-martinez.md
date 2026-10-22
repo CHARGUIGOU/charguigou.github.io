@@ -39,7 +39,7 @@ first_name: "Catherina"        # prénom (lettres latines)
 # photo: "Catherina_Martinez.png"      # NOM DU FICHIER Cloudinary seulement (l'adresse de base est dans _data/photos.yml ; les dossiers Cloudinary ne comptent pas). Sans cette ligne : silhouette grise
 # address: "Rue, ville"          # ligne d'adresse (surtout pour les studios), affichée sous les dates et au-dessus du pays
 country: "Spain"             # pays d'origine, affiché sous l'adresse sur la fiche (sans cette ligne : rien) ; pour un studio, sert aussi au filtre Country de la page Voice Artists
-# dates: "4 November 1982 -  "   # artiste : sans cette ligne, « Unknown dates » ; studio : rien ne s'affiche si la ligne est absente
+dates: "19 September 1978 -  "   # artiste : sans cette ligne, « Unknown dates » ; studio : rien ne s'affiche si la ligne est absente
 # kind: studio                   # fiche d'un STUDIO : icône de bâtiment, dates facultatives ; nom complet dans display. photo, address, country et texte libre fonctionnent comme pour un artiste
 # thumb_fit: cover               # studios seulement : recadre la vignette de la page Voice Artists en carré (sans cette ligne : image entière, pour les logos)
 # gallery:                       # photos supplémentaires : seulement le nom du fichier Cloudinary (la miniature allégée est calculée toute seule)
