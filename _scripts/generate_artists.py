@@ -215,7 +215,7 @@ def main():
             skipped_hand.append(slug)
             continue
         fm = build_front(row)
-        if not any(k in fm for k in ("nickname", "family_name", "first_name", "display", "native_name", "full_name")):
+        if not any(k in fm for k in ("nickname", "family_name", "first_name", "display", "native_name", "full_name", "romanization")):
             problems.append("ligne %d (%s) : aucun nom renseigné, la fiche s'affichera avec son identifiant" % (n, slug))
         made.append((slug, fm, row.get("bio", "")))
 
