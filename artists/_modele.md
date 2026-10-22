@@ -39,7 +39,9 @@ name_order: family            # "family" = nom de famille d'abord à l'affichage
 # photo: "Jason_Chau.png"      # NOM DU FICHIER Cloudinary seulement (l'adresse de base est dans _data/photos.yml ; les dossiers Cloudinary ne comptent pas). Sans cette ligne : silhouette grise
 # address: "Rue, ville"          # ligne d'adresse (surtout pour les studios), affichée sous les dates et au-dessus du pays
 country: "Hong Kong"             # pays d'origine, affiché sous l'adresse sur la fiche (sans cette ligne : rien) ; pour un studio, sert aussi au filtre Country de la page Voice Artists
-# dates: "4 November 1982 -  "   # artiste : sans cette ligne, « Unknown dates » ; studio : rien ne s'affiche si la ligne est absente
+# birth_date: "1982-11-04"      # artiste : naissance AAAA-MM-JJ (ou AAAA-MM, ou AAAA). Affiche "4 November 1982 (age 43)", âge calculé à chaque visite
+# death_date: "2020-03-03"      # décès (même format) : affiche "… – 3 March 2020 († aged 50)". Sans birth_date : pas d'âge
+# dates: "4 November 1982 -  "   # studio (création - fermeture) ou date partielle : texte libre, sans calcul d'âge ; un artiste utilise plutôt birth_date. Sans rien : « Unknown dates »
 # kind: studio                   # fiche d'un STUDIO : icône de bâtiment, dates facultatives ; nom complet dans display. photo, address, country et texte libre fonctionnent comme pour un artiste
 # thumb_fit: cover               # studios seulement : recadre la vignette de la page Voice Artists en carré (sans cette ligne : image entière, pour les logos)
 # gallery:                       # photos supplémentaires : seulement le nom du fichier Cloudinary (la miniature allégée est calculée toute seule)

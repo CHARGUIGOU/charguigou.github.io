@@ -1,0 +1,45 @@
+{%- comment %}
+  Ligne de dates d'une fiche D'ARTISTE (pas les studios) : birth_date / death_date + âge calculé à chaque visite.
+  Formats acceptés : 1960-04-28 (jour connu), 1960-04 (mois connu), 1960 (année seule).
+  Résultat : "28 April 1960 (age 66)"   ou   "10 September 1969 – 3 March 2020 († aged 50)".
+  Date incomplète : l'âge peut être donné en fourchette, ex. "(age 43–44)". L'âge est écrit par le petit script de la fiche (artist-age).
+  Sans birth_date : on affiche "dates" tel quel (ou "Unknown dates"). Variables internes préfixées ad_.
+{% endcomment -%}
+{%- assign ad_months = "January,February,March,April,May,June,July,August,September,October,November,December" | split: "," -%}
+{%- assign ad_b = include.a.birth_date | append: "" | strip | truncate: 10, "" -%}
+{%- assign ad_d = include.a.death_date | append: "" | strip | truncate: 10, "" -%}
+{%- assign ad_txt = "" -%}
+{%- if ad_b != "" -%}
+  {%- assign ad_p = ad_b | split: "-" -%}
+  {%- assign ad_y = ad_p[0] -%}
+  {%- if ad_p.size > 1 -%}{%- assign ad_mi = ad_p[1] | plus: 0 | minus: 1 -%}{%- assign ad_mn = ad_months[ad_mi] -%}{%- endif -%}
+  {%- if ad_p.size > 2 -%}{%- assign ad_dn = ad_p[2] | plus: 0 -%}{%- endif -%}
+  {%- if ad_p.size > 2 -%}{%- assign ad_bt = ad_dn | append: " " | append: ad_mn | append: " " | append: ad_y -%}
+  {%- elsif ad_p.size > 1 -%}{%- assign ad_bt = ad_mn | append: " " | append: ad_y -%}
+  {%- else -%}{%- assign ad_bt = ad_y -%}{%- endif -%}
+  {%- assign ad_txt = ad_bt -%}
+  {%- if ad_d != "" -%}
+    {%- assign ad_p = ad_d | split: "-" -%}
+    {%- assign ad_y = ad_p[0] -%}
+    {%- if ad_p.size > 1 -%}{%- assign ad_mi = ad_p[1] | plus: 0 | minus: 1 -%}{%- assign ad_mn = ad_months[ad_mi] -%}{%- endif -%}
+    {%- if ad_p.size > 2 -%}{%- assign ad_dn = ad_p[2] | plus: 0 -%}{%- endif -%}
+    {%- if ad_p.size > 2 -%}{%- assign ad_dt = ad_dn | append: " " | append: ad_mn | append: " " | append: ad_y -%}
+    {%- elsif ad_p.size > 1 -%}{%- assign ad_dt = ad_mn | append: " " | append: ad_y -%}
+    {%- else -%}{%- assign ad_dt = ad_y -%}{%- endif -%}
+    {%- assign ad_txt = ad_txt | append: " – " | append: ad_dt -%}
+  {%- endif -%}
+{%- elsif ad_d != "" -%}
+  {%- assign ad_p = ad_d | split: "-" -%}
+  {%- assign ad_y = ad_p[0] -%}
+  {%- if ad_p.size > 1 -%}{%- assign ad_mi = ad_p[1] | plus: 0 | minus: 1 -%}{%- assign ad_mn = ad_months[ad_mi] -%}{%- endif -%}
+  {%- if ad_p.size > 2 -%}{%- assign ad_dn = ad_p[2] | plus: 0 -%}{%- endif -%}
+  {%- if ad_p.size > 2 -%}{%- assign ad_dt = ad_dn | append: " " | append: ad_mn | append: " " | append: ad_y -%}
+  {%- elsif ad_p.size > 1 -%}{%- assign ad_dt = ad_mn | append: " " | append: ad_y -%}
+  {%- else -%}{%- assign ad_dt = ad_y -%}{%- endif -%}
+  {%- assign ad_txt = "† " | append: ad_dt -%}
+{%- endif -%}
+{%- if ad_txt == "" -%}
+  {{- include.a.dates | default: "Unknown dates" | strip -}}
+{%- else -%}
+  {{- ad_txt -}}{%- if ad_b != "" %} <span class="artist-age" data-birth="{{ ad_b }}" data-death="{{ ad_d }}"></span>{%- endif -%}
+{%- endif -%}

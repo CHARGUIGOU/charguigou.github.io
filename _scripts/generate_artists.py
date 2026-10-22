@@ -22,7 +22,7 @@ except ImportError:
 
 COLUMNS = ["artist", "nickname", "native_nickname", "family_name", "first_name", "native_name",
            "name_order", "full_name", "other_names", "prefix", "display", "page_name", "short_name",
-           "script", "photo", "address", "country", "dates", "kind", "thumb_fit", "gallery", "bio"]
+           "script", "photo", "address", "country", "dates", "birth_date", "death_date", "kind", "thumb_fit", "gallery", "bio", "romanization"]
 LIST_COLS = {"other_names", "gallery"}
 SLUG = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 MARK = "generated: true"
@@ -41,6 +41,34 @@ def cell_text(v):
     if isinstance(v, float) and v.is_integer():
         v = int(v)
     return str(v).strip()
+
+
+DATE_COLS = ("birth_date", "death_date")
+DATE_OK = re.compile(r"^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$")
+
+
+def date_text(v):
+    """birth_date / death_date : 1960-04-28, 1960-04 ou 1960 (une vraie date Excel est convertie en AAAA-MM-JJ)."""
+    if isinstance(v, datetime.datetime):
+        v = v.date()
+    if isinstance(v, datetime.date):
+        return v.isoformat()
+    t = cell_text(v)
+    return t.replace("/", "-").replace(".", "-") if t else ""
+
+
+def date_valid(t):
+    m = DATE_OK.match(t)
+    if not m:
+        return False
+    y, mo, d = int(m.group(1)), m.group(2), m.group(3)
+    if mo is None:
+        return True
+    try:
+        datetime.date(y, int(mo), int(d) if d else 1)
+    except ValueError:
+        return False
+    return True
 
 
 def read_xlsx(path):
@@ -85,6 +113,13 @@ def split_items(text):
     return [x.strip() for x in parts if x.strip()]
 
 
+class Quoted(str):
+    """Texte écrit entre apostrophes dans le YAML (les dates restent du texte pour Jekyll)."""
+
+
+yaml.SafeDumper.add_representer(Quoted, lambda d, v: d.represent_scalar("tag:yaml.org,2002:str", str(v), style="'"))
+
+
 def build_front(row):
     fm = {"layout": "artist", "generated": True}
     fm["artist"] = row["artist"]
@@ -111,6 +146,10 @@ def build_front(row):
             v = "cover"
         elif col == "script":
             v = v.lower()
+        elif col in DATE_COLS:
+            if row.get("kind", "").lower() == "studio":
+                continue
+            v = Quoted(v)
         if v != "" and v != []:
             fm[col] = v
     return fm
@@ -149,7 +188,8 @@ def main():
     hand = existing_hand_slugs(artists_dir) if os.path.isdir(artists_dir) else {}
     made, skipped_hand, problems, seen = [], [], [], set()
     for n, r in enumerate(rows[1:], start=2):
-        row = {h: cell_text(r[i]) if i < len(r) else "" for i, h in enumerate(headers) if h in COLUMNS}
+        row = {h: (date_text(r[i]) if h in DATE_COLS else cell_text(r[i])) if i < len(r) else ""
+               for i, h in enumerate(headers) if h in COLUMNS}
         slug = row.get("artist", "")
         if not any(row.values()) or slug.startswith("#"):
             continue
@@ -163,6 +203,14 @@ def main():
             problems.append("ligne %d : identifiant « %s » en double, ligne ignorée" % (n, slug))
             continue
         seen.add(slug)
+        for dc in DATE_COLS:
+            if row.get(dc) and not date_valid(row[dc]):
+                problems.append("ligne %d (%s) : %s « %s » invalide (écris 1960-04-28, 1960-04 ou 1960), date ignorée" % (n, slug, dc, row[dc]))
+                row[dc] = ""
+        if row.get("birth_date") and row.get("death_date") and row["death_date"] < row["birth_date"]:
+            problems.append("ligne %d (%s) : death_date avant birth_date, l'âge ne sera pas affiché" % (n, slug))
+        if row.get("kind", "").lower() == "studio" and (row.get("birth_date") or row.get("death_date")):
+            problems.append("ligne %d (%s) : un studio n'utilise pas birth_date / death_date (utilise « dates »), ignorées" % (n, slug))
         if slug in hand:
             skipped_hand.append(slug)
             continue
