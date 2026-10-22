@@ -12,7 +12,7 @@
   <div class="voice-card">
     <img src="{% include artist-photo.html a=a %}" alt="{{ af_short }}">
     <div class="actor-name">{{ af_short }}</div>
-    <div class="actor-dates">({{ a.dates | default: "Unknown dates" }})</div>
+    <div class="actor-dates">({% if a.birth_date or a.death_date %}{% include artist-dates.html a=a plain=true %}{% else %}{{ a.dates | default: "Unknown dates" }}{% endif %})</div>
   </div>
   {%- else -%}
   <div class="voice-card">

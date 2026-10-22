@@ -3,7 +3,8 @@
   Formats acceptés : 1960-04-28 (jour connu), 1960-04 (mois connu), 1960 (année seule).
   Résultat : "28 April 1960 (age 66)"   ou   "10 September 1969 – 3 March 2020 († aged 50)".
   Date incomplète : l'âge peut être donné en fourchette, ex. "(age 43–44)". L'âge est écrit par le petit script de la fiche (artist-age).
-  Sans birth_date : on affiche "dates" tel quel (ou "Unknown dates"). Variables internes préfixées ad_.
+  Sans birth_date : on affiche "dates" tel quel (ou "Unknown dates").
+  plain=true (cartes des pages de cast) : texte seul, sans âge : "19 September 1978 –" (vivant) ou "10 September 1969 – 3 March 2020". Variables internes préfixées ad_.
 {% endcomment -%}
 {%- assign ad_months = "January,February,March,April,May,June,July,August,September,October,November,December" | split: "," -%}
 {%- assign ad_b = include.a.birth_date | append: "" | strip | truncate: 10, "" -%}
@@ -41,5 +42,9 @@
 {%- if ad_txt == "" -%}
   {{- include.a.dates | default: "Unknown dates" | strip -}}
 {%- else -%}
-  {{- ad_txt -}}{%- if ad_b != "" %} <span class="artist-age" data-birth="{{ ad_b }}" data-death="{{ ad_d }}"></span>{%- endif -%}
+  {{- ad_txt -}}
+  {%- if include.plain -%}
+    {%- if ad_b != "" and ad_d == "" %} –{%- endif -%}
+  {%- elsif ad_b != "" %} <span class="artist-age" data-birth="{{ ad_b }}" data-death="{{ ad_d }}"></span>
+  {%- endif -%}
 {%- endif -%}
