@@ -1,26 +1,40 @@
-# Pré-calcul des apparitions (optionnel, à activer plus tard)
+# Dossier _scripts : outils lancés à la construction du site
 
-## Où on en est
-- `_layouts/artist.html` (nouvelle version) fonctionne dans les DEUX cas :
-  - sans `_data/appearances.json` : comportement actuel, rien ne change ;
-  - avec `_data/appearances.json` : chaque fiche ne lit que les pages où l'artiste apparaît.
-- Le fichier `_data/appearances.json` n'est PAS à committer : il est créé à chaque build par le script.
-- Ce dossier commence par `_` : Jekyll ne le publie pas sur le site.
+Ces fichiers ne sont pas publiés (le nom du dossier commence par `_`). Ils ne servent que
+quand le workflow GitHub personnalisé est activé (voir « Activer » plus bas).
 
-## Quand l'activer
-Quand l'étape « Build with Jekyll » dépasse ~60 à 90 secondes, ou quand il y a plusieurs centaines de fiches.
+## 1. Le tableau unique des artistes (`_data/artists.xlsx`)
+Une ligne = une fiche. Au moment de la construction, `generate_artists.py` crée
+automatiquement `artists/<identifiant>.md` pour chaque ligne. Plus de fichiers à écrire à la main,
+plus d'erreurs de guillemets : le script écrit la fiche correctement.
 
-## Comment l'activer (5 minutes)
+- Le fichier `artists.xlsx` contient une feuille « Artistes » (le tableau) et une feuille « Aide »
+  (explication de chaque colonne).
+- Les lignes dont l'identifiant commence par `#` sont ignorées (les 3 exemples en gris).
+- Les fiches écrites à la main dans `artists/` restent PRIORITAIRES : si le même identifiant existe
+  en .md, la ligne du tableau est ignorée. À garder en .md : les fiches avec rôles ajoutés à la main
+  (`extra_roles`), ou un champ ancien (`romanization`, `native`).
+- Pour modifier : ouvre `artists.xlsx` dans Excel, change ou ajoute des lignes, enregistre,
+  puis sur GitHub : dossier `_data` > Add file > Upload files > commit (il remplace l'ancien).
+- Un fichier `artists.csv` fonctionne aussi (séparateur virgule ou point-virgule, UTF-8).
+
+## 2. Le pré-calcul (`build_appearances.py`)
+Accélère le build quand il y a beaucoup de fiches (chaque fiche ne lit que les pages de cast où
+l'artiste apparaît). Le fichier `_data/appearances.json` est créé à chaque build : ne pas le committer.
+
+## Activer (une seule fois, environ 5 minutes)
 1. Crée `.github/workflows/pages.yml` avec le contenu de `_scripts/pages-workflow.yml.disabled`
    (vérifie le nom de ta branche, `main` ou `master`, ligne `branches`).
 2. Sur GitHub : Settings > Pages > Build and deployment > Source : choisis « GitHub Actions ».
-3. Fais un commit. Le premier run affiche « fiches artistes : N | pages de doublage : M ... ».
-4. Compare une fiche avant/après : les rôles doivent être identiques.
+3. Fais un commit. Le run affiche dans le journal les lignes « fiches à générer : N ... »
+   et « fiches artistes : N | pages de doublage : M ... ».
+4. Ouvre une fiche et une page de cast pour vérifier.
 
-## Pour revenir en arrière
+## Revenir en arrière
 Settings > Pages > Source : « Deploy from a branch », et supprime `.github/workflows/pages.yml`.
-Rien d'autre à changer, aucun contenu n'est touché.
+Aucun contenu n'est touché (le tableau et tes fiches .md restent là, mais les fiches du tableau
+ne seront plus créées).
 
-## Tester le script à la main (facultatif)
-    pip install pyyaml
-    python _scripts/build_appearances.py --check
+## Tester à la main (facultatif)
+    pip install pyyaml openpyxl
+    python _scripts/generate_artists.py --check     # vérifie le tableau
