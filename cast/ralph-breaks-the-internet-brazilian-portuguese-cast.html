@@ -10,6 +10,197 @@ title: "Ralph Breaks the Internet (2018) - Brazilian Portuguese cast"
 show_additional_voices: true
 show_choir: false
 show_songs: true
+
+# ============================================================
+# COMÉDIENS (cartes photo du haut) : le "artist" de chaque fiche (dossier artists/)
+# ============================================================
+cards: [giovanna-lancellotti, fernanda-keller, marcelo-salsicha-caodaglio]
+
+# ============================================================
+# INFOS DE LA PAGE, reprises sur les fiches des artistes (tableau "Roles")
+# year = date du film/doublage ; film = titre court ; language = langue du doublage
+# year accepte : 2011  |  2011-02  |  2011-02-01 (date complète, de préférence celle de sortie du doublage).
+#   Sur les fiches des artistes, seule l'ANNÉE (les 4 premiers chiffres) s'affiche, mais le tableau est trié sur
+#   la date complète : deux doublages de la même année se rangent donc dans l'ordre de leur date.
+#   Sans mois/jour, l'année compte comme le 1er janvier.
+# IMPORTANT : "film" doit être écrit EXACTEMENT comme le titre de l'apparition dans _data/characters.yml
+# (majuscules/minuscules ignorées, mais pas "II" vs "2"). C'est ce titre qui permet de prendre l'image du
+# personnage DANS CE FILM (sur cette page et sur les fiches des artistes).
+# ============================================================
+year: 2019-01-03
+film: "Ralph Breaks the Internet"
+language: "Brazilian Portuguese"
+
+# ============================================================
+# VOIX ADDITIONNELLES CRÉDITÉES : les "artist" de leurs fiches, dans l'ordre d'affichage
+# (une fiche par personne ; elles apparaissent sur la page de la personne avec "Additional voice")
+# ============================================================
+additional:
+  - "adriana-pissardini"
+  - "camila-castellani"
+  - "davi-barbosa"
+  - "denia-campos"
+  - "fernanda-bullara"
+  - "fred-silveira"
+  - "gigi-patta"
+  - "gustavo-baroli"
+  - "lina-mendes"
+  - "marcia-fernandes"
+  - "nandu-valverde"
+  - "ramon-campos"
+  - "tania-viana"
+  - "thayana-roverso"
+  - "thiago-machado"
+
+# Voix additionnelles internationales : une fiche si le texte est l'identifiant d'une fiche, sinon texte simple.
+additional_intl:
+  - "Pauline Brunner"
+  - "Sam Salhi"
+  - "Christian Peythieu"
+  - "Marion Lécrivain"
+  - "Richard Leroussel"
+  - "Olivier Bénard"
+  - "Guillaume Bourboulon"
+  - "Iván González"
+  - "Alexis Rangheard"
+  - "Marie-Christine Robert"
+  - "Carole Gioan"
+  - "Mathilde Martin"
+  - "Emmanuel Daumas"
+
+# CHOEUR (affiché si show_choir: true) : mêmes règles que additional.
+choir: []
+
+# ============================================================
+# CHANSONS : "titre natif | titre anglais | interprètes | note"
+# - titre natif vide = pas de ligne native (le titre anglais passe en gras ; la note s'affiche à côté)
+# - interprètes séparés par ; : "fiche @ Personnage" (le personnage est facultatif)
+# - un interprète qui commence par & est précédé de "&" au lieu de ";" (ex : &Choir)
+# - plusieurs voix pour un même personnage : répète le "@ Personnage" pour chacune
+# ============================================================
+songs:
+  - "A Corrida do Caos | A Place Called Slaughter Race | marimoon @ Vanellope; giovanna-lancellotti @ Shank; bruno-sigrist @ Fridge-thief man; saulo-vasconcelos @ Butcher Boy; marya-bravo @ Little Debbie; rodrigo-andreatto @ Clown; vania-canto @ Felony; lina-mendes @ Shark; fred-silveira @ Tattoo Guy; davi-barbosa; ricardo-fabio"
+  - " | Never Gonna Give You Up | tiago-abravanel @ Ralph | Performed in English"
+  - '<a href="https://www.youtube.com/watch?v=DX77wuv871A" target="_blank" rel="noopener noreferrer">Esse é o Lugar</a> | In This Place | luisa-sonza'
+
+# ============================================================
+# TECHNICAL STAFF : "personne(s) | poste". Plusieurs personnes : sépare-les par ;
+# Un studio (ou tout texte qui n'est pas une fiche) s'affiche tel quel, sans lien.
+# ============================================================
+staff:
+  - "rodrigo-andreatto | Dubbing director"
+  - "nandu-valverde | Musical director"
+  - "andre-bighinzoli | Translation"
+  - "fernando-mendonca | Adaptation"
+  - "mariana-elisabetsky | Lyrics"
+  - "ana-lucia-lima | Creative executive"
+  - "tv-group-digital-brasil | Dubbing studio"
+  - "tv-group-digital-brasil | Editing studio"
+  - "shepperton-international | Mixing studio"
+
+# ============================================================
+# TABLEAU CAST : une ligne par personnage, au format
+#     "nom natif | nom original | comédien | note | id du personnage"
+# - comédien = le "artist" de sa fiche ; "?" = inconnu
+#     "fiche = Texte" : affiche "Texte" à la place du nom officiel, sur cette page seulement (le lien reste).
+#     Pour un groupe fusionné, écris-le sur la PREMIÈRE ligne du groupe.
+# - même comédien sur plusieurs lignes qui se suivent = fusion automatique (rowspan)
+# - ligne avec natif et nom vides = autre voix du même personnage (fusion automatique)
+# - note (facultatif) : texte ajouté après le nom, ex : (speaking &amp; singing) ou ?
+#     Sans note mais avec un id, laisse le champ vide : "… | tommy-chu | | ralph"
+# - id du personnage (facultatif, 5e champ) : l'id de ce personnage dans _data/characters.yml (ex : ralph, elsa).
+#     Il sert à la vignette du personnage (voir cast_images plus bas) ; la fiche de l'artiste, elle, retrouve
+#     toute seule l'image du personnage d'après son nom original, sans qu'il soit nécessaire de mettre un id ici.
+#     Mets l'id quand le nom original ne suffit pas à retrouver le personnage (ex : "Hey Nongman…" -> nongman).
+#     "-" à cet endroit = aucune image pour cette ligne.
+# - bandeau : "banner | Texte | URL image | sparkle glow | id"
+# ============================================================
+cast_columns: "BR Portuguese name | Original name | Voices"
+
+# VIGNETTES DES PERSONNAGES dans ce tableau (une colonne de petites images à gauche) :
+#   cast_images: false  = jamais de vignettes sur cette page
+#   cast_images: true   = vignettes pour tous les personnages trouvés dans _data/characters.yml
+#                         (id déduit du nom original si le 5e champ est vide ; "-" pour exclure une ligne)
+#   (ligne supprimée)   = vignettes seulement pour les lignes où tu as écrit un id en 5e champ
+# Les fiches des artistes affichent toujours les images, quel que soit ce réglage.
+cast_images: false
+cast:
+  - "Ralph | Ralph | tiago-abravanel"
+  - "Vanellope | Vanellope | marimoon | (speaking &amp; singing)"
+  - "Shank | Shank | giovanna-lancellotti | (speaking &amp; singing)"
+  - "Yesss | Yesss | fernanda-keller"
+  - "Spamley | J.P. Spamley | marcelo-salsicha-caodaglio"
+  - "Tudo Sabe | KnowsMore | cassius-romero"
+  - "Dois Berto | Double Dan | zeca-rodrigues"
+  - "Sr. Litwak | Mr. Litwak | luiz-carlos-de-moraes"
+  - "eBoy | eBoy | diego-marques"
+  - "Quem Sabe | Maybe | marco-aurelio-campos"
+  - "Ben | Ben | marco-aurelio-campos"
+  - "Bombadão | Butcher Boy | saulo-vasconcelos | (speaking &amp; singing)"
+  - "Falsiane | Felony | vania-canto | (speaking &amp; singing)"
+  - "Pedrão | Pyro | fabio-lucindo"
+  - "Debbie | Little Debbie | marya-bravo | (speaking &amp; singing)"
+  - "Ebay Elaine | eBay Elayne | isabel-de-sa"
+  - "Avó do Gilsinho | Jimmy's Grandma | isabel-de-sa"
+  - "Lee o Nerd | Lee the Office Nerd | vanderlan-mendes"
+  - "Macedo | McNeely | italo-luiz"
+  - "Gilsinho | Jimmy | italo-luiz"
+  - "Suzete | Swati | raquel-carlotti"
+  - "Nafisa | Nafisa | gabriela-milani"
+  - "Arthur | Arthur | rodrigo-araujo"
+  - "Colleen | Colleen Ballinger | sylvia-salusti"
+  - "Mãe do Ballet | Ballet Mom | sylvia-salusti"
+  - "Apresentadora | Show Host | tati-keplmair"
+  - "Repórter | News Anchor | tati-keplmair"
+  - "Tiffany | Tiffany Herrera | jussara-marques"
+  - "Instagram Pop-Up | Instagram Pop-Up | jussara-marques"
+  - "Hey Nongman | Hey Nongman | fabio-moura"
+  - "Wayne | Wayne | fabio-moura"
+  - "Leiloeiros | Auctioneers | fabio-moura"
+  - " |  | rodrigo-andreatto"
+  - " |  | ricardo-fabio"
+  - "Mãe da Mo | Mo's Mom | marya-bravo"
+  - "Pequena Mo | Baby Mo | rafaela-goncalves"
+  - "Cabra | Goat | Olivier Bénard | <small>[International version]</small>"
+  - "Daniel | Daniel | marco-antonio-abreu"
+  - "Dan | Dan | ricardo-fabio"
+  - "banner | Arcade characters | https://res.cloudinary.com/dofvjifeo/image/upload/ralph-arcade-characters.png | sparkle glow"
+  - "Felix | Felix | rafael-cortez"
+  - "Calhoun | Calhoun | lucia-helena"
+  - "Tapper | Tapper | luiz-antonio-lobue"
+  - "Taffyta | Taffyta Muttonfudge | bianca-alencar"
+  - "Velusca | Candlehead | tati-keplmair"
+  - "Rancis | Rancis Fluggerbutter | diego-marques"
+  - "Duncan | Duncan | zeca-rodrigues"
+  - "Filtro de Linha | Surge Protector | ricardo-sawaya"
+  - "Bill Azedo | Sour Bill | tata-guarnieri"
+  - "Zangief | Zangief | marco-antonio-abreu"
+  - "Gene | Gene | ricardo-fabio"
+  - "Sonic | Sonic | fabio-lucindo"
+  - "banner | Movie characters | https://res.cloudinary.com/dofvjifeo/image/upload/ralph-movie-characters.png | sparkle glow"
+  - "Buzz Lightyear | Buzz Lightyear | guilherme-briggs"
+  - "Ió | Eeyore | vanderlan-mendes"
+  - "C-3PO | C-3PO | sergio-stern"
+  - "Zangado | Grumpy | saulo-javan"
+  - "Baby Groot | Baby Groot | duda-ribeiro"
+  - "FN-3181 | FN-3181 | marco-aurelio-campos"
+  - "Stormtroopers | Stormtroopers | luiz-antonio-lobue"
+  - " |  | rodrigo-andreatto"
+  - "banner | Disney Princesses | https://res.cloudinary.com/dofvjifeo/image/upload/ralph-princesses.png | sparkle glow | ralph-princesses"
+  - "Branca de Neve | Snow White | andressa-andreatto | (speaking &amp; vocalizations)"
+  - "Cinderela | Cinderella | luisa-viotti"
+  - "Aurora | Aurora | gabriela-milani"
+  - "Ariel | Ariel | marisa-leal | (speaking &amp; singing)"
+  - "Bela | Belle | giulia-nadruz"
+  - "Jasmine | Jasmine | luiza-cesar"
+  - "Pocahontas | Pocahontas | andrea-murucci"
+  - "Mulan | Mulan | kacau-gomes"
+  - "Tiana | Tiana | natali-pazete"
+  - "Rapunzel | Rapunzel | sylvia-salusti"
+  - "Merida | Merida | luisa-palomanes"
+  - "Anna | Anna | erika-menezes"
+  - "Elsa | Elsa | taryn-szpilman"
+  - "Moana | Moana | any-gabrielly"
 ---
 {% include header.html %}
 <title>{{ page.title }}</title>
@@ -103,10 +294,10 @@ show_songs: true
        → 'Sriracha'   (poids : 400 seulement)
      ============================================================ -->
 
-{% include cast-style.html %}
+{% include cast-style-v2.html %}
 <style>
 /* RÉGLAGES PROPRES À CETTE PAGE : ces valeurs écrasent les valeurs par défaut de
-   _includes/cast-style.html (liste complète des réglages dans ce fichier). Ajoute ici
+   _includes/cast-style-v2.html (liste complète des réglages dans ce fichier). Ajoute ici
    toute autre variable à changer sur cette page seulement. */
 :root {
 
@@ -137,414 +328,11 @@ show_songs: true
   <div class="cast-title-english">Ralph Breaks the Internet</div>
   <hr class="cast-hr">
 
-  <!-- ============================================================
-       COMÉDIENS DE DOUBLAGE — un .voice-card par comédien.
-       MODIFIE ICI : copie/colle un bloc .voice-card pour en ajouter.
-       Mets "(Unknown dates)" si tu n'as pas l'info, sinon le format
-       "(1960? - April 2021?)".
-       Les images grises ci-dessous sont des espaces réservés : remplace
-       chaque src="..." par l'URL de la vraie photo (Cloudinary).
-       ============================================================ -->
-  <div class="voice-cast">
-    <div class="voice-card">
-      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Giovanna_Lancellotti.png" alt="Giovanna Lancellotti">
-      <div class="actor-name">Giovanna Lancellotti</div>
-      <div class="actor-dates">(21 May 1993 -  )</div>
-    </div>
-    <div class="voice-card">
-      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Fernanda_Keller.png" alt="Fernanda Keller">
-      <div class="actor-name">Fernanda Keller</div>
-      <div class="actor-dates">(31 July 19?? -  )</div>
-    </div>
-    <div class="voice-card">
-      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Marcelo_Salsicha_Caodaglio.png" alt="Marcelo Salsicha">
-      <div class="actor-name">Marcelo Salsicha</div>
-      <div class="actor-dates">(16 January 1980 -  )</div>
-    </div>
-  </div>
+  <!-- COMÉDIENS (cartes photo) et TABLEAU CAST : générés depuis le front matter tout en haut
+       (cards: et cast:) et depuis les fiches du dossier artists/. -->
+  {% include cast-cards.html %}
 
-  <!-- ============================================================
-       ENCADRÉ "CAST" — un <tr> par personnage.
-       MODIFIE ICI : "?" quand tu n'as pas l'info (nom natif, ou
-       acteur). Les noms de comédiens restent en texte simple pour
-       l'instant (pas de lien) : plus tard, tu pourras les transformer
-       en <a href="/artists/nom.html">...</a> vers leur propre fiche.
-       L'id="cast" est un point d'ancrage invisible : une source en bas
-       de page peut y faire remonter avec <a href="#cast">.
-
-       CAS PARTICULIERS — on fusionne des cellules avec rowspan="N"
-       (la cellule s'étire sur N lignes). Les 3 exemples à copier :
-
-       1) UNE VOIX POUR PLUSIEURS PERSONNAGES (même acteur sur 2 lignes) :
-          la cellule "Voices" est écrite une seule fois, dans la 1re ligne,
-          avec rowspan="2". La 2e ligne n'a donc que 2 <td> (pas de 3e).
-          <tr>
-            <td>Oafish</td><td>Oafish Guard</td>
-            <td rowspan="2">Johan Hedenberg</td>
-          </tr>
-          <tr>
-            <td>Fången</td><td>The Old Heretic</td>
-          </tr>
-
-       2) UN PERSONNAGE (OU GROUPE) AVEC PLUSIEURS VOIX :
-          cette fois ce sont les 2 premières cellules (noms) qui sont
-          fusionnées, avec rowspan="3" (= nombre de voix). Chaque voix a sa
-          propre ligne ; seule la 1re ligne contient aussi les noms.
-          <tr>
-            <td rowspan="3">Vakter och Zigenare</td>
-            <td rowspan="3">Guards &amp; Gypsies</td>
-            <td>Anders Öjebo</td>
-          </tr>
-          <tr><td>Roger Storm</td></tr>
-          <tr><td>Monica Forsberg</td></tr>
-
-       3) LES DEUX À LA FOIS : combine les deux (une cellule peut avoir
-          un rowspan, et la ligne d'à côté un autre).
-
-       4) BANDEAU DE CATÉGORIE (image et/ou texte, pleine largeur) :
-          une ligne avec UN SEUL <td class="cast-banner" colspan="3">.
-          Les 4 variantes sont dans l'exemple tout en bas du tableau.
-          Réglages (hauteur, couleur, alignement...) : bloc BANDEAUX dans :root.
-          Évite de placer un bandeau au milieu d'un rowspan : mets-le juste
-          avant ou juste après.
-
-       Règle simple : le nombre de <td> par ligne = 3 moins les cellules
-       déjà "prises" par un rowspan des lignes du dessus.
-       ============================================================ -->
-  <div class="info-box" id="cast">
-    <div class="info-box-title">Cast</div>
-    <table class="cast-table">
-      <thead>
-        <tr>
-          <th>BR Portuguese name</th>
-          <th>Original name</th>
-          <th>Voices</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Ralph</td> <td>Ralph</td>
-          <td>Tiago Abravanel</td>
-        </tr>
-        <tr>
-          <td>Vanellope</td> <td>Vanellope</td>
-          <td>MariMoon (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>Shank</td> <td>Shank</td>
-          <td>Giovanna Lancellotti (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>Yesss</td> <td>Yesss</td>
-          <td>Fernanda Keller</td>
-        </tr>
-        <tr>
-          <td>Spamley</td> <td>J.P. Spamley</td>
-          <td>Marcelo "Salsicha" Caodaglio</td>
-        </tr>
-        <tr>
-          <td>Tudo Sabe</td> <td>KnowsMore</td>
-          <td>Cassius Romero</td>
-        </tr>
-        <tr>
-          <td>Dois Berto</td> <td>Double Dan</td>
-          <td>Zeca Rodrigues</td>
-        </tr>
-        <tr>
-          <td>Sr. Litwak</td> <td>Mr. Litwak</td>
-          <td>Luiz Carlos de Moraes</td>
-        </tr>
-        <tr>
-          <td>eBoy</td> <td>eBoy</td>
-          <td>Diego Marques</td>
-        </tr>
-        <tr>
-          <td>Quem Sabe</td> <td>Maybe</td>
-          <td rowspan="2">Marco Aurélio Campos</td>
-        </tr>
-        <tr>
-          <td>Ben</td> <td>Ben</td>
-        </tr>
-        <tr>
-          <td>Bombadão</td> <td>Butcher Boy</td>
-          <td>Saulo Vasconcelos (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>Falsiane</td> <td>Felony</td>
-          <td>Vânia Canto (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>Pedrão</td> <td>Pyro</td>
-          <td>Fábio Lucindo</td>
-        </tr>
-        <tr>
-          <td>Debbie</td> <td>Little Debbie</td>
-          <td>Marya Bravo (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>Ebay Elaine</td> <td>eBay Elayne</td>
-          <td rowspan="2">Isabel de Sá</td>
-        </tr>
-        <tr>
-          <td>Avó do Gilsinho</td> <td>Jimmy's Grandma</td>
-        </tr>
-        <tr>
-          <td>Lee o Nerd</td> <td>Lee the Office Nerd</td>
-          <td>Vanderlan Mendes</td>
-        </tr>
-        <tr>
-          <td>Macedo</td> <td>McNeely</td>
-          <td rowspan="2">Ítalo Luiz</td>
-        </tr>
-        <tr>
-          <td>Gilsinho</td> <td>Jimmy</td>
-        </tr>
-        <tr>
-          <td>Suzete</td> <td>Swati</td>
-          <td>Raquel Carlotti</td>
-        </tr>
-        <tr>
-          <td>Nafisa</td> <td>Nafisa</td>
-          <td>Gabriela Milani</td>
-        </tr>
-        <tr>
-          <td>Arthur</td> <td>Arthur</td>
-          <td>Rodrigo Araújo</td>
-        </tr>
-        <tr>
-          <td>Colleen</td> <td>Colleen Ballinger</td>
-          <td rowspan="2">Sylvia Salusti</td>
-        </tr>
-        <tr>
-          <td>Mãe do Ballet</td> <td>Ballet Mom</td>
-        </tr>
-        <tr>
-          <td>Apresentadora</td> <td>Show Host</td>
-          <td rowspan="2">Tati Keplmair</td>
-        </tr>
-        <tr>
-          <td>Repórter</td> <td>News Anchor</td>
-        </tr>
-        <tr>
-          <td>Tiffany</td> <td>Tiffany Herrera</td>
-          <td rowspan="2">Jussara Marques</td>
-        </tr>
-        <tr>
-          <td>Instagram Pop-Up</td> <td>Instagram Pop-Up</td>
-        </tr>
-        <tr>
-          <td>Hey Nongman</td> <td>Hey Nongman</td>
-          <td rowspan="2">Fábio Moura</td>
-        </tr>
-        <tr>
-          <td>Wayne</td> <td>Wayne</td>
-        </tr>
-          <tr>
-            <td rowspan="3">Leiloeiros</td>
-            <td rowspan="3">Auctioneers</td>
-            <td>Fábio Moura</td>
-          </tr>
-          <tr><td>Rodrigo Andreatto</td></tr>
-          <tr><td>Ricardo Fábio</td></tr>
-        <tr>
-          <td>Mãe da Mo</td> <td>Mo's Mom</td>
-          <td>Marya Bravo</td>
-        </tr>
-        <tr>
-          <td>Pequena Mo</td> <td>Baby Mo</td>
-          <td>Rafaela Gonçalves</td>
-        </tr>
-        <tr>
-          <td>Cabra</td> <td>Goat</td>
-          <td>Olivier Bénard <small>[International version]</small></td>
-        </tr>
-        <tr>
-          <td>Daniel</td> <td>Daniel</td>
-          <td>Marco Antônio Abreu</td>
-        </tr>
-        <tr>
-          <td>Dan</td> <td>Dan</td>
-          <td>Ricardo Fábio</td>
-        </tr>
-
-        <!-- ============================================================
-             BANDEAUX DE CATÉGORIE — exemple (copie/colle pour en ajouter).
-             Effets (à mettre dans class="cast-banner ...") :
-               sparkle = traînée de poussière de fée qui traverse le bandeau
-               glow    = halo lumineux derrière le texte (calé sur le passage de la poussière si "sparkle" aussi)
-               (les deux ensemble : class="cast-banner sparkle glow" ; aucun = bandeau simple)
-             Variantes :
-               - image de fond : ajoute <img src="..." alt=""> avant le <span> ; le texte
-                 blanc à ombre noire reste lisible dessus
-               - couleur propre à ce bandeau : style="background:#fde8f0;" sur le <td>
-               - texte centré : style="justify-content:center;" sur le <span class="banner-text">
-               - image seule : supprime le <span class="banner-text">
-             ============================================================ -->
-        <tr>
-          <td class="cast-banner sparkle glow" colspan="3">
-            <div class="banner-inner">
-              <img src="https://res.cloudinary.com/dofvjifeo/image/upload/ralph-arcade-characters.png" alt="">
-              <span class="banner-text">Arcade characters</span>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>Felix</td> <td>Felix</td>
-          <td>Rafael Cortez</td>
-        </tr>
-        <tr>
-          <td>Calhoun</td> <td>Calhoun</td>
-          <td>Lúcia Helena</td>
-        </tr>
-        <tr>
-          <td>Tapper</td> <td>Tapper</td>
-          <td>Luiz Antônio Lobue</td>
-        </tr>
-        <tr>
-          <td>Taffyta</td> <td>Taffyta Muttonfudge</td>
-          <td>Bianca Alencar</td>
-        </tr>
-        <tr>
-          <td>Velusca</td> <td>Candlehead</td>
-          <td>Tati Keplmair</td>
-        </tr>
-        <tr>
-          <td>Rancis</td> <td>Rancis Fluggerbutter</td>
-          <td>Diego Marques</td>
-        </tr>
-        <tr>
-          <td>Duncan</td> <td>Duncan</td>
-          <td>Zeca Rodrigues</td>
-        </tr>
-        <tr>
-          <td>Filtro de Linha</td> <td>Surge Protector</td>
-          <td>Ricardo Sawaya</td>
-        </tr>
-        <tr>
-          <td>Bill Azedo</td> <td>Sour Bill</td>
-          <td>Tatá Guarnieri</td>
-        </tr>
-        <tr>
-          <td>Zangief</td> <td>Zangief</td>
-          <td>Marco Antônio Abreu</td>
-        </tr>
-        <tr>
-          <td>Gene</td> <td>Gene</td>
-          <td>Ricardo Fábio</td>
-        </tr>
-        <tr>
-          <td>Sonic</td> <td>Sonic</td>
-          <td>Fábio Lucindo</td>
-        </tr>
-
-        <tr>
-          <td class="cast-banner sparkle glow" colspan="3">
-            <div class="banner-inner">
-              <img src="https://res.cloudinary.com/dofvjifeo/image/upload/ralph-movie-characters.png" alt="">
-              <span class="banner-text">Movie characters</span>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>Buzz Lightyear</td> <td>Buzz Lightyear</td>
-          <td>Guilherme Briggs</td>
-        </tr>
-        <tr>
-          <td>Ió</td> <td>Eeyore</td>
-          <td>Vanderlan Mendes</td>
-        </tr>
-        <tr>
-          <td>C-3PO</td> <td>C-3PO</td>
-          <td>Sérgio Stern</td>
-        </tr>
-        <tr>
-          <td>Zangado</td> <td>Grumpy</td>
-          <td>Saulo Javan</td>
-        </tr>
-        <tr>
-          <td>Baby Groot</td> <td>Baby Groot</td>
-          <td>Duda Ribeiro</td>
-        </tr>
-        <tr>
-          <td>FN-3181</td> <td>FN-3181</td>
-          <td>Marco Aurélio Campos</td>
-        </tr>
-        <tr>
-          <td rowspan="2">Stormtroopers</td>
-          <td rowspan="2">Stormtroopers</td>
-        <td>Luiz Antônio Lobue</td>
-        </tr>
-          <tr><td>Rodrigo Andreatto</td></tr>
-
-           
-        <tr id="ralph-princesses">
-          <td class="cast-banner sparkle glow" colspan="3">
-            <div class="banner-inner">
-              <img src="https://res.cloudinary.com/dofvjifeo/image/upload/ralph-princesses.png" alt="">
-              <span class="banner-text">Disney Princesses</span>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>Branca de Neve</td> <td>Snow White</td>
-          <td>Andressa Andreatto (speaking &amp; vocalizations)</td>
-        </tr>
-        <tr>
-          <td>Cinderela</td> <td>Cinderella</td>
-          <td>Luísa Viotti</td>
-        </tr>
-        <tr>
-          <td>Aurora</td> <td>Aurora</td>
-          <td>Gabriela Milani</td>
-        </tr>
-        <tr>
-          <td>Ariel</td> <td>Ariel</td>
-          <td>Marisa Leal (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>Bela</td> <td>Belle</td>
-          <td>Giulia Nadruz</td>
-        </tr>
-        <tr>
-          <td>Jasmine</td> <td>Jasmine</td>
-          <td>Luiza Cesar</td>
-        </tr>
-        <tr>
-          <td>Pocahontas</td> <td>Pocahontas</td>
-          <td>Andrea Murucci</td>
-        </tr>
-        <tr>
-          <td>Mulan</td> <td>Mulan</td>
-          <td>Kacau Gomes</td>
-        </tr>
-        <tr>
-          <td>Tiana</td> <td>Tiana</td>
-          <td>Natali Pazete</td>
-        </tr>
-        <tr>
-          <td>Rapunzel</td> <td>Rapunzel</td>
-          <td>Sylvia Salusti</td>
-        </tr>
-        <tr>
-          <td>Merida</td> <td>Merida</td>
-          <td>Luisa Palomanes</td>
-        </tr>
-        <tr>
-          <td>Anna</td> <td>Anna</td>
-          <td>Erika Menezes</td>
-        </tr>
-        <tr>
-          <td>Elsa</td> <td>Elsa</td>
-          <td>Taryn Szpilman</td>
-        </tr>
-        <tr>
-          <td>Moana</td> <td>Moana</td>
-          <td>Any Gabrielly</td>
-        </tr>
-
-      </tbody>
-    </table>
-  </div>
+  {% include cast-table.html %}
 
   <!-- ============================================================
        ENCADRÉS OPTIONNELS "ADDITIONAL VOICES" / "CHOIR"
@@ -558,54 +346,20 @@ show_songs: true
   {% if page.show_additional_voices %}
   <div class="info-box" id="additional-voices">
     <div class="info-box-title">Additional voices/Choir</div>
-    <div class="voices-grid">
-      <div>Adriana Pissardini</div>
-      <div>Camila Castellani</div>
-      <div>Davi Barbosa</div>
-      <div>Dênia Campos</div>
-      <div>Fernanda Bullara</div>
-      <div>Fred Silveira</div>
-      <div>Gigi Patta</div>
-      <div>Gustavo Baroli</div>
-      <div>Lina Mendes</div>
-      <div>Márcia Fernandes</div>
-      <div>Nandu Valverde</div>
-      <div>Ramon Campos</div>
-      <div>Tânia Viana</div>
-      <div>Thayana Roverso</div>
-      <div>Thiago Machado</div>
-    </div>
+    {% include cast-names.html names=page.additional %}
 
+  {% if page.additional_intl %}
   <div class="voices-subtitle">International Additional Voices</div>
 
-    <div class="voices-grid">
-      <div>Pauline Brunner</div>
-      <div>Sam Salhi</div>
-      <div>Christian Peythieu</div>
-      <div>Marion Lécrivain</div>
-      <div>Richard Leroussel</div>
-      <div>Olivier Bénard</div>
-      <div>Guillaume Bourboulon</div>
-      <div>Iván González</div>
-      <div>Alexis Rangheard</div>
-      <div>Marie-Christine Robert</div>
-      <div>Carole Gioan</div>
-      <div>Mathilde Martin</div>
-      <div>Emmanuel Daumas</div>
-    </div>
+    {% include cast-names.html names=page.additional_intl %}
+  {% endif %}
   </div>
   {% endif %}
 
   {% if page.show_choir %}
   <div class="info-box" id="choir">
     <div class="info-box-title">Choir</div>
-    <div class="voices-grid">
-      <div>Name 1 / Native name 1</div>
-      <div>Name 2 / Native name 2</div>
-      <div>Name 3 / Native name 3</div>
-      <div>Name 4 / Native name 4</div>
-      <div>?</div>
-    </div>
+    {% include cast-names.html names=page.choir %}
   </div>
   {% endif %}
 
@@ -625,25 +379,12 @@ show_songs: true
   <div class="info-box" id="songs">
     <div class="info-box-title">Songs</div>
     <ul class="song-list">
-      <li class="song-item">
-        <span class="song-title-native">A Corrida do Caos</span>
-        <span class="song-title-english">(« A Place Called Slaughter Race »)</span>
-        <span class="performed-by"><i>performed by</i> : MariMoon (<i>Vanellope</i>) ; Giovanna Lancellotti (<i>Shank</i>) ; Bruno Sigrist (<i>Fridge-thief man</i>) ; Saulo Vasconcelos (<i>Butcher Boy</i>) ; Marya Bravo (<i>Little Debbie</i>) ; Rodrigo Andreatto (<i>Clown</i>) ; Vânia Canto (<i>Felony</i>) ; Lina Mendes (<i>Shark</i>) ; Fred Silveira (<i>Tattoo Guy</i>) ; Davi Barbosa ; Ricardo Fábio</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-english"><b>« Never Gonna Give You Up » <small>(Performed in English)</small></b></span>
-        <span class="performed-by"><i>performed by</i> : Tiago Abravanel (<i>Ralph</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native"><a href="https://www.youtube.com/watch?v=DX77wuv871A" target="_blank" rel="noopener noreferrer">Esse é o Lugar</a></span>
-        <span class="song-title-english">(« In This Place »)</span>
-        <span class="performed-by"><i>performed by</i> : Luísa Sonza</span>
-      </li>
+      {% include cast-songs.html %}
     </ul>
   </div>
   {% endif %}
 
-     
+
   <div class="info-box" id="Autodescription">
     <div class="info-box-title">Audiodescription</div>
     <table class="staff-table">
@@ -659,17 +400,7 @@ show_songs: true
        ============================================================ -->
   <div class="info-box" id="staff">
     <div class="info-box-title">Technical Staff</div>
-    <table class="staff-table">
-      <tr><td class="staff-name">Rodrigo Andreatto</td><td class="staff-role">Dubbing director</td></tr>
-      <tr><td class="staff-name">Nandu Valverde</td><td class="staff-role">Musical director</td></tr>
-      <tr><td class="staff-name">André Bighinzoli</td><td class="staff-role">Translation</td></tr>
-      <tr><td class="staff-name">Fernando Mendonça</td><td class="staff-role">Adaptation</td></tr>
-      <tr><td class="staff-name">Mariana Elisabetsky</td><td class="staff-role">Lyrics</td></tr>
-      <tr><td class="staff-name">Ana Lucia Lima</td><td class="staff-role">Creative executive</td></tr>
-      <tr><td class="staff-name">TV Group Digital Brasil</td><td class="staff-role">Dubbing studio</td></tr>
-      <tr><td class="staff-name">TV Group Digital Brasil</td><td class="staff-role">Editing studio</td></tr>
-      <tr><td class="staff-name">Shepperton International</td><td class="staff-role">Mixing studio</td></tr>
-    </table>
+    {% include cast-staff.html %}
     <div class="studio-line">DISNEY CHARACTER VOICES INTERNATIONAL, INC.</div>
   </div>
 
@@ -694,6 +425,11 @@ show_songs: true
     <small><b><i>Source</i></b> : <a href="https://www.dgabc.com.br/Noticia/3655281/morre-nandu-valverde-diretor-musical-de-sandy-no-live-action-de-mulan-apos-complicacoes-da-covid-19" target="_blank" rel="noopener noreferrer">Diário do Grande ABC</a></small></li>
     <li><b>Diego Marques</b>, the voice of eBoy and Rancis, is the nephew of <b>Jussara Marques</b>, the voice of Tiffany Herrera and the Instagram Pop-Up.</li>
     <li>Gabriela Milani was credited with her nickname <i>Gaby Milani</i> for her role as Aurora.</li>
+  </ul>
+    </li>
+    <li>Salvador Aldeguer, the voice of Ralph, was credited with his nickname <i>Patxi Aldeguer</i>.</li>
+    <li>Pilar Martín, the voice of Taffyta, was credited as <i>Piluca Martín</i>.</li>
+    <li>Milagros Fernández, the voice of Jimmy's Grandma and the Instagram Pop-Up, was credited with her full name for the role of Jimmy's Grandma, <i>María del Milagro Fernández</i>.</li>
   </ul>
 
   <!-- ============================================================
@@ -763,4 +499,4 @@ show_songs: true
 
 </div>
 
-{% include cast-scripts.html %}
+{% include cast-scripts-v2.html %}
