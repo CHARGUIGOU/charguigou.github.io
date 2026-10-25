@@ -38,3 +38,12 @@ ne seront plus créées).
 ## Tester à la main (facultatif)
     pip install pyyaml openpyxl
     python _scripts/generate_artists.py --check     # vérifie le tableau
+
+## 3. Le tableau des personnages (`_data/characters.xlsx`)
+Même principe que pour les artistes : le fichier `_data/characters.yml` est recréé à chaque build à partir du tableau.
+- Feuille « Personnages » : une ligne = un personnage (id, name, img, franchise, keywords, link, **visible**).
+- Feuille « Apparitions » : une ligne = un film où il apparaît (character, film, year, keywords, img, lead, upcoming).
+- `visible` = `no` : le personnage n'apparaît pas sur la page Character voices, mais son image reste utilisable dans les casts et les fiches.
+- Pour modifier : ouvre `characters.xlsx`, change ou ajoute des lignes, enregistre, puis sur GitHub : dossier `_data` > Add file > Upload files > commit.
+- Ne modifie plus `characters.yml` à la main : il est réécrit à chaque build. Seul `image_base` (début des URLs d'images) y reste lu.
+- Vérifier le tableau à la main : `python _scripts/generate_characters.py --check`
