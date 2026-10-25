@@ -54,7 +54,8 @@
 .cast-table.has-img td:nth-child(2):not(:only-child) { font-family: var(--cast-native-name-font); font-size: calc(var(--cast-text-size) * var(--cast-native-name-scale)); }
 .cast-table td.cast-thumb { position: relative; padding: 0; height: var(--cast-char-img, 56px); min-width: calc(var(--cast-char-img, 56px) + 2px + 2 * var(--table-cell-pad-x)); }
 .cast-table tbody tr:last-child td.cast-thumb { border-bottom: 1px solid var(--table-row-border); }
-.cast-table td.cast-thumb img { position: absolute; top: 0; bottom: 0; left: var(--table-cell-pad-x); width: calc(100% - 2 * var(--table-cell-pad-x)); height: 100%; box-sizing: border-box; object-fit: cover; object-position: top; border-radius: 0; border: 0 solid rgba(40, 40, 40, 0.35); border-width: 0 1px; }
+.cast-table td.cast-thumb .thumb-stack { position: absolute; top: 0; bottom: 0; left: var(--table-cell-pad-x); right: var(--table-cell-pad-x); display: flex; flex-direction: column; }
+.cast-table td.cast-thumb img { display: block; flex: 1 1 0; min-height: 0; width: 100%; box-sizing: border-box; object-fit: cover; object-position: top; border-radius: 0; border: 0 solid rgba(40, 40, 40, 0.35); border-width: 0 1px; }
 </style>
 {%- endif -%}
 <div class="info-box" id="cast{{ include.sfx }}">
@@ -144,7 +145,21 @@
         {%- assign c4_name = "" -%}
         {%- if auto_img -%}{%- assign c4_name = c1 -%}{%- endif -%}
         {%- capture c4_url -%}{% include character-image.html key=c4 name=c4_name film=cs_film %}{%- endcapture %}
-        <td class="cast-thumb"{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}>{% if c4_url != "" %}<img src="{{ c4_url }}" alt="{{ c1 | strip_html }}" loading="lazy"{% if cf_url != "" %} onerror="this.onerror=null;this.src='{{ cf_url }}'"{% endif %}>{% endif %}</td>
+        {%- assign extra_n = name_span | minus: 1 -%}
+        <td class="cast-thumb"{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}><div class="thumb-stack">
+          {%- if c4_url != "" %}<img src="{{ c4_url }}" alt="{{ c1 | strip_html }}" loading="lazy"{% if cf_url != "" %} onerror="this.onerror=null;this.src='{{ cf_url }}'"{% endif %}>{% endif -%}
+          {%- comment %} cases fusionnées : une image de plus par ligne "voix supplémentaire" qui a un id en 5e champ, empilées sur toute la hauteur {% endcomment -%}
+          {%- if extra_n > 0 -%}
+            {%- for r3 in cs_src.cast offset: nxt limit: extra_n -%}
+              {%- assign g3 = r3 | split: "|" -%}
+              {%- assign g3_id = g3[4] | default: "" | strip -%}
+              {%- if g3_id != "" -%}
+                {%- capture g3_url -%}{% include character-image.html key=g3_id film=cs_film %}{%- endcapture -%}
+                {%- if g3_url != "" %}<img src="{{ g3_url }}" alt="{{ c1 | strip_html }}" loading="lazy"{% if cf_url != "" %} onerror="this.onerror=null;this.src='{{ cf_url }}'"{% endif %}>{% endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        </div></td>
         {%- endif %}
         <td{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}>{{ c0 }}</td>
         <td{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}>{{ c1 }}</td>
