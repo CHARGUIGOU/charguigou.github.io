@@ -226,7 +226,9 @@
         {%- assign found = found | plus: 1 -%}
         {%- assign cur_e_txt = cur_e | replace: "<br/>", " " | replace: "<br>", " " | strip_html -%}
         {%- assign roles = roles | append: '<div class="role-line"><span class="role-img">' -%}
-        {%- capture cur_url -%}{% include character-image.html key=cur_i name=cur_e film=p_film %}{%- endcapture -%}
+        {%- assign row_i = f[4] | default: "" | strip -%}
+{%- if c0 == "" and c1 == "" and row_i != "" -%}{%- assign img_key = row_i -%}{%- else -%}{%- assign img_key = cur_i -%}{%- endif -%}
+{%- capture cur_url -%}{% include character-image.html key=img_key name=cur_e film=p_film %}{%- endcapture -%}
         {%- if cur_url != "" -%}{%- assign roles = roles | append: '<img src="' | append: cur_url | append: '" alt="" loading="lazy" ' | append: img_fb | append: '>' -%}{%- endif -%}
         {%- assign roles = roles | append: '</span><span class="role-text">' | append: cur_e_txt -%}
         {%- assign c3 = f[3] | default: "" | strip -%}
