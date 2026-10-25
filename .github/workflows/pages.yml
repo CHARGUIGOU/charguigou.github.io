@@ -27,6 +27,8 @@ jobs:
         run: |
           pip install pyyaml openpyxl
           python _scripts/generate_artists.py
+      - name: Personnages generes depuis le tableau
+        run: python _scripts/generate_characters.py
       - name: Precalcul des apparitions
         run: python _scripts/build_appearances.py
       - uses: actions/configure-pages@v5
