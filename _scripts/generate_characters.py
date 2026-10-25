@@ -152,6 +152,19 @@ def main():
         chars[cid]["appearances"].append(ap_item)
         n_app += 1
 
+    # image principale : celle de la feuille Personnages si elle existe,
+    # sinon l'image de sa plus ancienne apparition (d'après l'année) qui en a une
+    for c in chars.values():
+        if not c.get("img"):
+            def first_year(ap):
+                m = re.search(r"\d{4}", str(ap.get("year", "")))
+                return int(m.group()) if m else 9999
+            # tri stable : à année égale, l'ordre des lignes du tableau décide
+            for ap in sorted(c["appearances"], key=first_year):
+                if ap.get("img"):
+                    c["img"] = ap["img"]
+                    break
+
     base, extra = DEFAULT_BASE, {}
     if os.path.exists(out_path):
         try:
