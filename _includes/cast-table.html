@@ -169,7 +169,7 @@
         <td{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}>{{ c1 }}</td>
         {%- endunless -%}
         {%- unless skip_actor %}
-        <td{% if row_stack %} class="stack-row"{% endif %}{% if actor_span > 1 %} rowspan="{{ actor_span }}"{% endif %}>
+        <td{% if has_img %} class="stack-row"{% endif %}{% if actor_span > 1 %} rowspan="{{ actor_span }}"{% endif %}>
           {%- if real and c2 contains " + " -%}
             {%- assign mv_parts = c2 | split: " + " -%}
             {%- for mv in mv_parts -%}
