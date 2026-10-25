@@ -54,6 +54,7 @@
 .cast-table.has-img td:nth-child(2):not(:only-child) { font-family: var(--cast-native-name-font); font-size: calc(var(--cast-text-size) * var(--cast-native-name-scale)); }
 .cast-table td.cast-thumb { position: relative; padding: 0; height: var(--cast-char-img, 56px); min-width: calc(var(--cast-char-img, 56px) + 2px + 2 * var(--table-cell-pad-x)); }
 .cast-table tbody tr:last-child td.cast-thumb { border-bottom: 1px solid var(--table-row-border); }
+.cast-table td.stack-row { padding-top: 0; padding-bottom: 0; height: var(--cast-char-img, 56px); }
 .cast-table td.cast-thumb .thumb-stack { position: absolute; top: 0; bottom: 0; left: var(--table-cell-pad-x); right: var(--table-cell-pad-x); display: flex; flex-direction: column; }
 .cast-table td.cast-thumb img { display: block; flex: 1 1 0; min-height: 0; width: 100%; box-sizing: border-box; object-fit: cover; object-position: top; border-radius: 0; border: 0 solid rgba(40, 40, 40, 0.35); border-width: 0 1px; }
 </style>
@@ -137,7 +138,9 @@
         {%- endfor -%}
       {%- endif -%}
     {%- endif -%}
-    {%- assign prev_actor = c2 %}
+    {%- assign prev_actor = c2 -%}
+    {%- unless is_cont -%}{%- assign row_stack = false -%}{%- endunless -%}
+    {%- if is_cont -%}{%- assign own_id = f[4] | default: "" | strip -%}{%- if own_id != "" and has_img -%}{%- assign row_stack = true -%}{%- else -%}{%- assign row_stack = false -%}{%- endif -%}{%- endif %}
       <tr>
         {%- unless is_cont %}
         {%- if has_img %}
@@ -146,6 +149,7 @@
         {%- if auto_img -%}{%- assign c4_name = c1 -%}{%- endif -%}
         {%- capture c4_url -%}{% include character-image.html key=c4 name=c4_name film=cs_film %}{%- endcapture %}
         {%- assign extra_n = name_span | minus: 1 -%}
+        {%- assign row_stack = false -%}
         <td class="cast-thumb"{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}><div class="thumb-stack">
           {%- if c4_url != "" %}<img src="{{ c4_url }}" alt="{{ c1 | strip_html }}" loading="lazy"{% if cf_url != "" %} onerror="this.onerror=null;this.src='{{ cf_url }}'"{% endif %}>{% endif -%}
           {%- comment %} cases fusionnées : une image de plus par ligne "voix supplémentaire" qui a un id en 5e champ, empilées sur toute la hauteur {% endcomment -%}
@@ -155,7 +159,7 @@
               {%- assign g3_id = g3[4] | default: "" | strip -%}
               {%- if g3_id != "" -%}
                 {%- capture g3_url -%}{% include character-image.html key=g3_id film=cs_film %}{%- endcapture -%}
-                {%- if g3_url != "" %}<img src="{{ g3_url }}" alt="{{ c1 | strip_html }}" loading="lazy"{% if cf_url != "" %} onerror="this.onerror=null;this.src='{{ cf_url }}'"{% endif %}>{% endif -%}
+                {%- if g3_url != "" %}{%- assign row_stack = true -%}<img src="{{ g3_url }}" alt="{{ c1 | strip_html }}" loading="lazy"{% if cf_url != "" %} onerror="this.onerror=null;this.src='{{ cf_url }}'"{% endif %}>{% endif -%}
               {%- endif -%}
             {%- endfor -%}
           {%- endif -%}
@@ -165,7 +169,7 @@
         <td{% if name_span > 1 %} rowspan="{{ name_span }}"{% endif %}>{{ c1 }}</td>
         {%- endunless -%}
         {%- unless skip_actor %}
-        <td{% if actor_span > 1 %} rowspan="{{ actor_span }}"{% endif %}>
+        <td{% if row_stack %} class="stack-row"{% endif %}{% if actor_span > 1 %} rowspan="{{ actor_span }}"{% endif %}>
           {%- if real and c2 contains " + " -%}
             {%- assign mv_parts = c2 | split: " + " -%}
             {%- for mv in mv_parts -%}
