@@ -42,15 +42,29 @@
     /* miniature carrée recadrée (c_fill) ou limitée (c_limit) -> version agrandie, non recadrée */
     return u.replace(/c_fill,w_\d+,h_\d+,g_north|c_limit,w_\d+/, 'c_limit,w_' + ZOOM_W);
   }
+  var cache = {};
+  function preload(i) {
+    if (!thumbs.length) return;
+    var t = thumbs[(i + thumbs.length) % thumbs.length];
+    var u = bigUrl(t.currentSrc || t.src);
+    if (!cache[u]) { var im = new Image(); im.src = u; cache[u] = im; }
+    return u;
+  }
   function show(i) {
     if (!thumbs.length) return;
     cur = (i + thumbs.length) % thumbs.length;
     var t = thumbs[cur];
-    big.src = bigUrl(t.currentSrc || t.src);
+    var u = preload(cur);
+    /* affichage immédiat de la miniature (déjà chargée), remplacée dès que la grande image est prête */
+    big.src = t.currentSrc || t.src;
+    var im = cache[u];
+    function swap() { if (thumbs[cur] === t) big.src = u; }
+    if (im.complete) swap(); else im.addEventListener('load', swap);
     big.alt = t.alt || '';
     cap.textContent = t.alt || '';
     box.classList.add('open');
     box.setAttribute('aria-hidden', 'false');
+    preload(cur + 1); preload(cur - 1);   /* images voisines : le défilement est instantané */
   }
   function close() {
     box.classList.remove('open');
@@ -61,6 +75,8 @@
     thumbs = Array.prototype.slice.call(document.querySelectorAll('.cast-thumb img'));
     thumbs.forEach(function (img, i) {
       img.addEventListener('click', function (e) { e.preventDefault(); show(i); });
+      img.addEventListener('mouseenter', function () { preload(i); });   /* précharge dès le survol */
+      img.addEventListener('touchstart', function () { preload(i); }, { passive: true });
     });
   }
   box.addEventListener('click', function (e) { if (e.target !== big) close(); });
