@@ -142,10 +142,16 @@
     {%- assign actor_span = 1 -%}
     {%- assign skip_actor = false -%}
     {%- if real -%}
-      {%- if c2 == prev_actor -%}{%- assign skip_actor = true -%}
+      {%- comment %} une ligne qui ouvre un groupe multi-voix (ex : Auctioneers) ne fusionne pas sa voix avec les lignes précédentes ; son groupe reste aligné sur ses propres lignes {% endcomment -%}
+      {%- if c2 == prev_actor and name_span == 1 -%}{%- assign skip_actor = true -%}
       {%- else -%}
         {%- for r2 in cs_src.cast offset: nxt -%}
           {%- assign g = r2 | split: "|" -%}
+          {%- assign r2_n = nxt | plus: forloop.index0 | plus: 1 -%}
+          {%- assign h_nx = cs_src.cast[r2_n] | default: "" | split: "|" -%}
+          {%- assign h_n0 = h_nx[0] | default: "" | strip -%}{%- assign h_n1 = h_nx[1] | default: "" | strip -%}
+          {%- assign g_c0 = g[0] | default: "" | strip -%}{%- assign g_c1 = g[1] | default: "" | strip -%}
+          {%- if cs_src.cast[r2_n] and h_n0 == "" and h_n1 == "" and g_c0 != "" -%}{%- break -%}{%- endif -%}
           {%- assign g2 = g[2] | default: "" | split: "=" | first | default: "" | strip -%}
           {%- unless g2 contains " + " -%}{%- assign g2 = g2 | split: " (" | first | strip -%}{%- endunless -%}
           {%- if g2 == c2 -%}{%- assign actor_span = actor_span | plus: 1 -%}
