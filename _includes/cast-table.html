@@ -39,6 +39,8 @@
     {%- assign h1 = hf[1] | default: "" | strip -%}
     {%- if h0 != "banner" and h1 != "" -%}
       {%- assign h4 = hf[4] | default: "" | strip -%}
+      {%- assign h1_at = h1 | slice: 0, 1 -%}
+      {%- if h4 == "" and h1_at == "@" -%}{%- assign h4 = h1 | remove_first: "@" | split: " " | first | split: "<" | first -%}{%- endif -%}
       {%- assign h_name = "" -%}
       {%- if auto_img -%}{%- assign h_name = h1 -%}{%- endif -%}
       {%- capture cf_url -%}{% include character-image.html key="silhouette-additional" %}{%- endcapture -%}
@@ -77,6 +79,19 @@
   {%- assign f = row | split: "|" -%}
   {%- assign c0 = f[0] | default: "" | strip -%}
   {%- assign c1 = f[1] | default: "" | strip -%}
+  {%- comment %} "@id" (+ complément facultatif) dans le 2e champ : le nom vient de la feuille Personnages (characters.xlsx), l'id sert aussi pour l'image {% endcomment -%}
+  {%- assign c1_id = "" -%}
+  {%- assign c1_at = c1 | slice: 0, 1 -%}
+  {%- if c0 != "banner" and c1_at == "@" -%}
+    {%- assign c1_rest = c1 | remove_first: "@" -%}
+    {%- assign c1_id = c1_rest | split: " " | first | split: "<" | first | strip -%}
+    {%- assign c1_obj = site.data.characters.list | where: "id", c1_id | first -%}
+    {%- if c1_obj and c1_obj.name -%}
+      {%- assign c1_suffix = c1_rest | remove_first: c1_id | strip -%}
+      {%- assign c1 = c1_obj.name -%}
+      {%- if c1_suffix != "" -%}{%- assign c1 = c1 | append: " " | append: c1_suffix -%}{%- endif -%}
+    {%- endif -%}
+  {%- endif -%}
   {%- assign c2 = f[2] | default: "" | strip -%}
   {%- assign c2_parts = c2 | split: "=" -%}
   {%- assign c2_key = c2_parts[0] | default: "" | strip -%}
@@ -145,6 +160,7 @@
         {%- unless is_cont %}
         {%- if has_img %}
         {%- assign c4 = f[4] | default: "" | strip -%}
+        {%- if c4 == "" and c1_id != "" -%}{%- assign c4 = c1_id -%}{%- endif -%}
         {%- assign c4_name = "" -%}
         {%- if auto_img -%}{%- assign c4_name = c1 -%}{%- endif -%}
         {%- capture c4_url -%}{% include character-image.html key=c4 name=c4_name film=cs_film %}{%- endcapture %}
