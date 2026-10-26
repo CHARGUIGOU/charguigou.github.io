@@ -409,6 +409,9 @@
       {%- assign t_key = pr[0] | split: "=" | first | strip -%}
       {%- if t_key == slug -%}
         {%- assign t_role = pr[1] | default: "" | strip -%}
+        {%- comment %} rôle = id d'un personnage du tableau -> son nom (sinon texte libre tel quel) {% endcomment -%}
+        {%- assign t_role_obj = site.data.characters.list | where: "id", t_role | first -%}
+        {%- if t_role_obj and t_role_obj.name -%}{%- assign t_role = t_role_obj.name | replace: "<br/>", " " | replace: "<br>", " " | strip_html | strip -%}{%- endif -%}
         {%- assign sfound2 = sfound2 | plus: 1 -%}
         {%- assign sroles2 = sroles2 | append: '<div class="role-line"><span class="role-text">« ' | append: s_eng | append: " »" -%}
         {%- if t_role != "" -%}{%- assign sroles2 = sroles2 | append: " <i>as " | append: t_role | append: "</i>" -%}{%- endif -%}
