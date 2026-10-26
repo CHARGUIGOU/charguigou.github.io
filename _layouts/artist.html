@@ -198,6 +198,7 @@
   {%- assign cur_n = "" -%}
   {%- assign cur_e = "" -%}
   {%- assign cur_i = "" -%}
+  {%- assign cast_ids = "" -%}{%- assign song_cov = "" -%}{%- assign song_lines = 0 -%}
   {%- for row in p.cast -%}
     {%- assign f = row | split: "|" -%}
     {%- assign c0 = f[0] | default: "" | strip -%}
@@ -240,6 +241,25 @@
         {%- assign roles = roles | append: '<div class="role-line"><span class="role-img">' -%}
         {%- assign row_i = f[4] | default: "" | strip -%}
 {%- if c0 == "" and c1 == "" and row_i != "" -%}{%- assign img_key = row_i -%}{%- else -%}{%- assign img_key = cur_i -%}{%- endif -%}
+        {%- comment %} id du personnage de cette ligne (pour savoir plus bas qu'il est déjà dans le cast) ; si une chanson de cette page donne à ce comédien un personnage "variante" (colonne parent = ce personnage, ex : ariel-singing-ralph), c'est l'image de la variante qui est prise {% endcomment -%}
+        {%- assign cast_ids = cast_ids | append: "§" | append: img_key | append: "§" -%}
+        {%- for song in p.songs -%}
+          {%- assign sf = song | split: "|" -%}
+          {%- assign s_tokens = sf[2] | default: "" | split: ";" -%}
+          {%- for tok in s_tokens -%}
+            {%- assign t = tok | strip | replace_first: "&", "" | strip -%}
+            {%- assign pr = t | split: "@" -%}
+            {%- assign t_key = pr[0] | split: "=" | first | strip -%}
+            {%- assign t_role = pr[1] | default: "" | strip -%}
+            {%- if t_key == slug and t_role != "" -%}
+              {%- assign t_obj = site.data.characters.list | where: "id", t_role | first -%}
+              {%- if t_obj and t_obj.parent == img_key -%}
+                {%- assign img_key = t_role -%}
+                {%- assign song_cov = song_cov | append: "§" | append: t_role | append: "§" -%}
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endfor -%}
 {%- capture cur_url -%}{% include character-image.html key=img_key name=cur_e film=p_film %}{%- endcapture -%}
         {%- if cur_url != "" -%}{%- assign roles = roles | append: '<img src="' | append: cur_url | append: '" alt="" loading="lazy" ' | append: img_fb | append: '>' -%}{%- endif -%}
         {%- assign roles = roles | append: '</span><span class="role-text">' | append: cur_e_txt -%}
@@ -251,6 +271,34 @@
     {%- endif -%}
   {%- endfor -%}
   {%- assign cast_found = found -%}
+  {%- comment %} Personnages qui n'ont une voix que dans une chanson (id après "@" : "fiche @ id") : une ligne avec la photo du personnage + "(singing)".
+       Pas de doublon : rien n'est ajouté si ce comédien a déjà une ligne du cast pour ce personnage (ou sa variante chantée). {% endcomment -%}
+  {%- for song in p.songs -%}
+    {%- assign sf = song | split: "|" -%}
+    {%- assign s_tokens = sf[2] | default: "" | split: ";" -%}
+    {%- for tok in s_tokens -%}
+      {%- assign t = tok | strip | replace_first: "&", "" | strip -%}
+      {%- assign pr = t | split: "@" -%}
+      {%- assign t_key = pr[0] | split: "=" | first | strip -%}
+      {%- assign t_role = pr[1] | default: "" | strip -%}
+      {%- if t_key == slug and t_role != "" -%}
+        {%- assign t_tok = "§" | append: t_role | append: "§" -%}
+        {%- unless cast_ids contains t_tok or song_cov contains t_tok -%}
+          {%- assign t_obj = site.data.characters.list | where: "id", t_role | first -%}
+          {%- if t_obj -%}
+            {%- assign song_cov = song_cov | append: t_tok -%}
+            {%- assign found = found | plus: 1 -%}
+            {%- assign song_lines = song_lines | plus: 1 -%}
+            {%- assign t_name = t_obj.name | default: t_role | replace: "<br/>", " " | replace: "<br>", " " | strip_html | strip -%}
+            {%- capture t_url -%}{% include character-image.html key=t_role film=p_film %}{%- endcapture -%}
+            {%- assign roles = roles | append: '<div class="role-line"><span class="role-img">' -%}
+            {%- if t_url != "" -%}{%- assign roles = roles | append: '<img src="' | append: t_url | append: '" alt="" loading="lazy" ' | append: img_fb | append: '>' -%}{%- endif -%}
+            {%- assign roles = roles | append: '</span><span class="role-text">' | append: t_name | append: ' (singing)</span></div>' -%}
+          {%- endif -%}
+        {%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
   {%- assign in_add = false -%}
   {%- for it in p.additional -%}{%- assign it_key = it | split: "=" | first | strip -%}{%- if it_key == slug -%}{%- assign in_add = true -%}{%- endif -%}{%- endfor -%}
   {%- for it in p.additional_intl -%}{%- assign it_key = it | split: "=" | first | strip -%}{%- if it_key == slug -%}{%- assign in_add = true -%}{%- endif -%}{%- endfor -%}
@@ -265,7 +313,7 @@
     {%- assign roles = roles | append: '<div class="role-line"><span class="role-img">' | append: img_choir_html | append: '</span><span class="role-text"><i>Choir</i></span></div>'  -%}
   {%- endif -%}
   {%- comment %} Chanteur/chanteuse sans personnage dans le cast ce film-là (même s'il/elle est en voix additionnelle ou choeur) : ligne "Singer" en plus {% endcomment -%}
-  {%- if cast_found == 0 -%}
+  {%- if cast_found == 0 and song_lines == 0 -%}
     {%- assign sing_found = false -%}
     {%- assign sing_role = "" -%}
     {%- for song in p.songs -%}

@@ -108,6 +108,8 @@ def main():
                 item[k] = row[k]
         if row.get("keywords"):
             item["keywords"] = split_list(row["keywords"])
+        if row.get("parent"):
+            item["parent"] = row["parent"]
         if row.get("link"):
             item["link"] = row["link"]
         vis = row.get("visible", "").lower()
@@ -151,6 +153,10 @@ def main():
             ap_item["upcoming"] = True
         chars[cid]["appearances"].append(ap_item)
         n_app += 1
+
+    for c in chars.values():
+        if c.get("parent") and c["parent"] not in chars:
+            problems.append("Personnages : « %s » a pour parent « %s », introuvable" % (c["id"], c["parent"]))
 
     # image principale : celle de la feuille Personnages si elle existe,
     # sinon l'image de sa plus ancienne apparition (d'après l'année) qui en a une

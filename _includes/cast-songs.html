@@ -31,6 +31,11 @@
             {%- assign role = pr[1] | default: "" | strip -%}
             {%- unless forloop.first -%}{%- if amp == "&" %} &amp; {% else %} ; {% endif -%}{%- endunless -%}
             {%- include artist-link.html who=who -%}
+            {%- comment %} role = id d'un personnage du tableau (ex : vanellope) -> son nom ; sinon texte libre (ex : Soloist) {% endcomment -%}
+            {%- if role != "" -%}
+              {%- assign role_obj = site.data.characters.list | where: "id", role | first -%}
+              {%- if role_obj and role_obj.name -%}{%- assign role = role_obj.name -%}{%- endif -%}
+            {%- endif -%}
             {%- if role != "" %} (<i>{{ role }}</i>){% endif -%}
           {%- endfor -%}
         </span>
