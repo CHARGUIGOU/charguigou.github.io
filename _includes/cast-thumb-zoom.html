@@ -1,12 +1,12 @@
 {% comment %}
   Agrandit les vignettes de personnages du tableau Cast au clic (fenêtre plein écran).
-  À inclure UNE fois dans la page, après le tableau :  {% include cast-thumb-zoom.html %}
+  Sert aussi aux vignettes des fiches d'artistes (.role-img). À inclure UNE fois dans la page, après le tableau :  {% include cast-thumb-zoom.html %}
   Fermeture : clic n'importe où, croix, ou touche Échap. Les flèches du clavier passent au personnage suivant/précédent.
   Réglages : ci-dessous (taille de l'image agrandie dans ZOOM_W, couleur de fond dans --thumb-zoom-bg).
 {% endcomment %}
 <style>
-  .cast-thumb img { cursor: zoom-in; transition: transform .15s ease, box-shadow .15s ease; }
-  .cast-thumb img:hover { transform: scale(1.06); box-shadow: 0 2px 8px rgba(0,0,0,.25); }
+  .cast-thumb img, .role-img img { cursor: zoom-in; transition: transform .15s ease, box-shadow .15s ease; }
+  .cast-thumb img:hover, .role-img img:hover { transform: scale(1.06); box-shadow: 0 2px 8px rgba(0,0,0,.25); }
   .tz-overlay {
     --thumb-zoom-bg: rgba(10, 12, 20, .88);
     position: fixed; inset: 0; z-index: 10000; display: none;
@@ -60,8 +60,10 @@
     var im = cache[u];
     function swap() { if (thumbs[cur] === t) big.src = u; }
     if (im.complete) swap(); else im.addEventListener('load', swap);
-    big.alt = t.alt || '';
-    cap.textContent = t.alt || '';
+    var label = t.alt || '';
+    if (!label) { var rl = t.closest('.role-line'); var rt = rl && rl.querySelector('.role-text'); if (rt) label = rt.textContent.replace(/\s+/g, ' ').trim(); }
+    big.alt = label;
+    cap.textContent = label;
     box.classList.add('open');
     box.setAttribute('aria-hidden', 'false');
     preload(cur + 1); preload(cur - 1);   /* images voisines : le défilement est instantané */
@@ -72,7 +74,7 @@
     big.src = '';
   }
   function init() {
-    thumbs = Array.prototype.slice.call(document.querySelectorAll('.cast-thumb img'));
+    thumbs = Array.prototype.slice.call(document.querySelectorAll('.cast-thumb img, .role-img img'));
     thumbs.forEach(function (img, i) {
       img.addEventListener('click', function (e) { e.preventDefault(); show(i); });
       img.addEventListener('mouseenter', function () { preload(i); });   /* précharge dès le survol */
