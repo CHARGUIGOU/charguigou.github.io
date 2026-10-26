@@ -208,6 +208,18 @@
         {%- assign cur_n = c0 -%}
         {%- assign cur_e = c1 -%}
         {%- assign cur_i = f[4] | default: "" | strip -%}
+        {%- assign c1_at = c1 | slice: 0, 1 -%}
+        {%- if c1_at == "@" -%}
+          {%- assign c1_rest = c1 | remove_first: "@" -%}
+          {%- assign c1_id = c1_rest | split: " " | first | split: "<" | first | strip -%}
+          {%- if cur_i == "" -%}{%- assign cur_i = c1_id -%}{%- endif -%}
+          {%- assign c1_obj = site.data.characters.list | where: "id", c1_id | first -%}
+          {%- if c1_obj and c1_obj.name -%}
+            {%- assign c1_suffix = c1_rest | remove_first: c1_id | strip -%}
+            {%- assign cur_e = c1_obj.name -%}
+            {%- if c1_suffix != "" -%}{%- assign cur_e = cur_e | append: " " | append: c1_suffix -%}{%- endif -%}
+          {%- endif -%}
+        {%- endif -%}
       {%- endif -%}
       {%- assign c2_hit = false -%}{%- assign c2_note = "" -%}
       {%- if c2 contains " + " -%}
