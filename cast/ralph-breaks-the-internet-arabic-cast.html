@@ -10,6 +10,208 @@ title: "Ralph Breaks the Internet (2018) - Arabic cast"
 show_additional_voices: true
 show_choir: false
 show_songs: true
+
+# ============================================================
+# COMÉDIENS (cartes photo du haut) : le "artist" de chaque fiche (dossier artists/)
+# ============================================================
+cards: [yasmine-samir, ahmad-khairy, ilhamy-amin]
+
+# ============================================================
+# INFOS DE LA PAGE, reprises sur les fiches des artistes (tableau "Roles")
+# year = date du film/doublage ; film = titre court ; language = langue du doublage
+# year accepte : 2011  |  2011-02  |  2011-02-01 (date complète, de préférence celle de sortie du doublage).
+#   Sur les fiches des artistes, seule l'ANNÉE (les 4 premiers chiffres) s'affiche, mais le tableau est trié sur
+#   la date complète : deux doublages de la même année se rangent donc dans l'ordre de leur date.
+#   Sans mois/jour, l'année compte comme le 1er janvier.
+# IMPORTANT : "film" doit être écrit EXACTEMENT comme le titre de l'apparition dans _data/characters.yml
+# (majuscules/minuscules ignorées, mais pas "II" vs "2"). C'est ce titre qui permet de prendre l'image du
+# personnage DANS CE FILM (sur cette page et sur les fiches des artistes).
+# ============================================================
+year: 2019-03-06
+
+film: "Ralph Breaks the Internet"
+
+language: "Arabic"
+
+# ============================================================
+# VOIX ADDITIONNELLES CRÉDITÉES : les "artist" de leurs fiches, dans l'ordre d'affichage
+# (une fiche par personne ; elles apparaissent sur la page de la personne avec "Additional voice")
+# ============================================================
+additional:
+  - "ahmad-sameh"
+  - "ahmad-magdy"
+  - "omniya-al-huseiny"
+  - "judy-al-sheikh"
+  - "hoor-tamer"
+  - "khaled-shaaban"
+  - "ibrahim-najy"
+  - "ahmad-shamaa"
+  - "ismail-jamal"
+  - "iyad-walid"
+  - "tamer-al-kashef"
+  - "jana-walid"
+  - "hala-sabry"
+  - "khaled-al-shershaby"
+  - "dareen-hany"
+  - "ramy-al-tombary"
+  - "rana-adel"
+  - "reem-samir"
+  - "sayyed-al-roumy"
+  - "sharif-medhat-mohammad"
+  - "salah-bagato"
+  - "tarek-olesh"
+  - "ezzat-ghanim"
+  - "lashina-lashin"
+  - "dima-husam"
+  - "rodwan-sawan"
+  - "rawan-al-sharif"
+  - "sameh-issa"
+  - "shahira-fouad"
+  - "tarek-jawhar"
+  - "atef-al-habet"
+  - "amr-al-abbasy"
+  - "lobna-abdel-al-aziz"
+  - "lobna-wanas"
+  - "marc-mamdouh"
+  - "mohammad-ashraf"
+  - "mohammad-halim"
+  - "mohammad-obeid"
+  - "mariam-farouq"
+  - "mustafa-saraj"
+  - "mustafa-adel"
+  - "moawwad-ismail"
+  - "menna-helmy"
+  - "lama-abdel-hay"
+  - "lilian-al-sherbiny"
+  - "marina-georgy"
+  - "mohammad-al-shershaby"
+  - "mahmoud-hammouda"
+  - "marwan"
+  - "mustafa-samy"
+  - "mustafa-samir"
+  - "moataz-al-shazly"
+  - "mirna-jamal"
+  - "nariman-niazy"
+  - "noura-esmat"
+  - "nivine-agha"
+  - "heidi-salah"
+  - "hisham-al-shazly"
+  - "hind-wisam"
+  - "wegdan-said"
+  - "nathalie-alan"
+  - "noha-fekry"
+  - "nour-al-haggar"
+  - "nourhan-niazy"
+  - "hany-abdel-hay"
+  - "heidy-abdel-khaleq"
+  - "hisham-al-jondy"
+  - "hisham-adel"
+  - "wael-shahine"
+  - "walid-hassan"
+  - "youssef-omar"
+
+# CHOEUR (affiché si show_choir: true) : mêmes règles que additional.
+choir: []
+
+# ============================================================
+# CHANSONS : "titre natif | titre anglais | interprètes | note"
+# - titre natif vide = pas de ligne native (le titre anglais passe en gras ; la note s'affiche à côté)
+# - interprètes séparés par ; : "fiche @ Personnage" (le personnage est facultatif)
+# - un interprète qui commence par & est précédé de "&" au lieu de ";" (ex : &Choir)
+# - plusieurs voix pour un même personnage : répète le "@ Personnage" pour chacune
+# ============================================================
+songs:
+  - "سباق العذاب | A Place Called Slaughter Race | noha-qais @ vanellope; nathalie-alan @ shank; &Choir"
+  - " | Never Gonna Give You Up | mohammad-farouq-abdel-rahman @ Ralph | Performed in English"
+# ============================================================
+# TECHNICAL STAFF : "personne(s) | poste". Plusieurs personnes : sépare-les par ;
+# Un studio (ou tout texte qui n'est pas une fiche) s'affiche tel quel, sans lien.
+# ============================================================
+staff:
+  - "adham-sayyed | Dubbing director"
+  - "gihan-al-naser | Musical director"
+  - "ahmad-fawzy | Translation"
+  - "tanweer-preparation-workshop | Adaptation"
+  - "amr-hosny | Lyrics"
+  - "mohammad-farouq | Sound engineer"
+  - "heidy-saker | Dubbing supervisor"
+  - "virginie-courgenay | Creative supervisor"
+  - "boualem-lamhene | Creative executive"
+  - "tanweer-studios | Dubbing studio"
+  - "shepperton-international | Mixing studio"
+# ============================================================
+# TABLEAU CAST : une ligne par personnage, au format
+#     "nom natif | nom original | comédien | note | id du personnage"
+# - comédien = le "artist" de sa fiche ; "?" = inconnu
+#     "fiche = Texte" : affiche "Texte" à la place du nom officiel, sur cette page seulement (le lien reste).
+#     Pour un groupe fusionné, écris-le sur la PREMIÈRE ligne du groupe.
+# - même comédien sur plusieurs lignes qui se suivent = fusion automatique (rowspan)
+# - ligne avec natif et nom vides = autre voix du même personnage (fusion automatique)
+# - note (facultatif) : texte ajouté après le nom, ex : (speaking &amp; singing) ou ?
+#     Sans note mais avec un id, laisse le champ vide : "… | tommy-chu | | ralph"
+# - id du personnage (facultatif, 5e champ) : l'id de ce personnage dans _data/characters.yml (ex : ralph, elsa).
+#     Il sert à la vignette du personnage (voir cast_images plus bas) ; la fiche de l'artiste, elle, retrouve
+#     toute seule l'image du personnage d'après son nom original, sans qu'il soit nécessaire de mettre un id ici.
+#     Mets l'id quand le nom original ne suffit pas à retrouver le personnage (ex : "Hey Nongman…" -> nongman).
+#     "-" à cet endroit = aucune image pour cette ligne.
+# - bandeau : "banner | Texte | URL image | sparkle glow | id"
+# ============================================================
+cast_columns: "Arabic name | Original name | Voices"
+
+# Petit sous-titre à côté de "Cast" (facultatif ; supprime la ligne pour ne rien afficher)
+cast_subtitle: "(Hybrid MSA/Egyptian dub)"
+
+# VIGNETTES DES PERSONNAGES dans ce tableau (une colonne de petites images à gauche) :
+#   cast_images: false  = jamais de vignettes sur cette page
+#   cast_images: true   = vignettes pour tous les personnages trouvés dans _data/characters.yml
+#                         (id déduit du nom original si le 5e champ est vide ; "-" pour exclure une ligne)
+#   (ligne supprimée)   = vignettes seulement pour les lignes où tu as écrit un id en 5e champ
+# Les fiches des artistes affichent toujours les images, quel que soit ce réglage.
+cast_images: true
+cast:
+  - "رالف | @ralph | mohammad-farouq-abdel-rahman"
+  - "فانيليانا | @vanellope | ola-roshdy (speaking) + noha-qais (singing)"
+  - "شانك | @shank | yasmine-samir (speaking) + nathalie-alan (singing)"
+  - "يس | @yesss | nefertary"
+  - "سباملي | @spamley | ahmad-khairy"
+  - "أبو العريف | @knowsmore | ilhamy-amin"
+  - "أبو راسين | @double-dan | ahmad-abou-omera"
+  - "السيد ليتواك | @mr-litwak | hany-abdel-hay"
+  - "banner | Arcade characters | https://res.cloudinary.com/dofvjifeo/image/upload/ralph-arcade-characters.png | sparkle glow"
+  - "فيلكس | Felix | mahmoud-amer |  | fix-it-felix"
+  - "كالهون | Calhoun | gihan-al-naser |  | calhoun"
+  - "تابر | @tapper | hany-abdel-hay | ?"
+  - "تفيدة معمول | @taffyta-muttonfudge | ilham-sabry | ?"
+  - "? | @candlehead | ?"
+  - "? | @rancis-fluggerbutter | ?"
+  - "نات | @duncan | rodwan-sawan | ?"
+  - "دو | @wynnchel | mahmoud-hammouda | ?"
+  - "? | @surge-protector | ?"
+  - "حموضة | @sour-bill | wael-shahine | ?"
+  - "زانجيف | @zangief | ramy-al-tombary | ?"
+  - "جين | Gene | ? |  | gene"
+  - "? | @sonic | ?"
+  - "banner | Movie characters | https://res.cloudinary.com/dofvjifeo/image/upload/ralph-movie-characters.png | sparkle glow"
+  - "بظ يطير | @buzz-lightyear | diyaa-abdel-khaleq"
+  - "حوار | @eeyore | ?"
+  - "غضبان | @grumpy | ?"
+  - "? | @c3po | ?"
+  - "? | @baby-groot | ?"
+  - "banner | Disney Princesses | https://res.cloudinary.com/dofvjifeo/image/upload/ralph-princesses.png | sparkle glow | ralph-princesses"
+  - "سنو وايت | @snow-white | noha-qais | (speaking &amp; vocalizations?)"
+  - "سندريلا | @cinderella | doaa-al-serag"
+  - "شفق | @aurora | doaa-riad"
+  - "آريل | @ariel | malak-hamza (speaking) + rana-adel (singing)"
+  - "بل | @belle | assiah-iman-nabulsy"
+  - "ياسمين | @jasmine | aya-hamza"
+  - "بوكاهونتاس | @pocahontas | amal-abdallah"
+  - "مولان | @mulan | kholoud-adel"
+  - "تيانا | @tiana | jacqueline-rafiq"
+  - "رابونزل | @rapunzel | jacqueline-rafiq"
+  - "مريدا | @merida | hadir-mustafa"
+  - "آنا | @anna | shorouq-al-sharif"
+  - "إلسا | @elsa | nesma-mahgoub"
+  - "موانا | @moana | ilham-sabry"
 ---
 {% include header.html %}
 <title>{{ page.title }}</title>
@@ -104,10 +306,10 @@ show_songs: true
        → 'Sriracha'   (poids : 400 seulement)
      ============================================================ -->
 
-{% include cast-style.html %}
+{% include cast-style-v2.html %}
 <style>
 /* RÉGLAGES PROPRES À CETTE PAGE : ces valeurs écrasent les valeurs par défaut de
-   _includes/cast-style.html (liste complète des réglages dans ce fichier). Ajoute ici
+   _includes/cast-style-v2.html (liste complète des réglages dans ce fichier). Ajoute ici
    toute autre variable à changer sur cette page seulement. */
 :root {
 
@@ -138,295 +340,11 @@ show_songs: true
   <div class="cast-title-english">Ralph Breaks the Internet</div>
   <hr class="cast-hr">
 
-  <!-- ============================================================
-       COMÉDIENS DE DOUBLAGE — un .voice-card par comédien.
-       MODIFIE ICI : copie/colle un bloc .voice-card pour en ajouter.
-       Mets "(Unknown dates)" si tu n'as pas l'info, sinon le format
-       "(1960? - April 2021?)".
-       Les images grises ci-dessous sont des espaces réservés : remplace
-       chaque src="..." par l'URL de la vraie photo (Cloudinary).
-       ============================================================ -->
-  <div class="voice-cast">
-    <div class="voice-card">
-      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Yasmine_Samir.png" alt="Yasmine Samir">
-      <div class="actor-name">Yasmine Samir</div>
-      <div class="actor-dates">(Unknown dates)</div>
-    </div>
-    <div class="voice-card">
-      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Ahmad_Khairy.png" alt="Ahmad Khairy">
-      <div class="actor-name">Ahmad Khairy</div>
-      <div class="actor-dates">(July 14, 1981 -  )</div>
-    </div>
-    <div class="voice-card">
-      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Ilhamy_Amin.png" alt="Ilhamy Amin">
-      <div class="actor-name">Ilhamy Amin</div>
-      <div class="actor-dates">(Unknown dates)</div>
-    </div>
-  </div>
+  <!-- COMÉDIENS (cartes photo) et TABLEAU CAST : générés depuis le front matter tout en haut
+       (cards: et cast:) et depuis les fiches du dossier artists/. -->
+  {% include cast-cards.html %}
 
-  <!-- ============================================================
-       ENCADRÉ "CAST" — un <tr> par personnage.
-       MODIFIE ICI : "?" quand tu n'as pas l'info (nom natif, ou
-       acteur). Les noms de comédiens restent en texte simple pour
-       l'instant (pas de lien) : plus tard, tu pourras les transformer
-       en <a href="/artists/nom.html">...</a> vers leur propre fiche.
-       L'id="cast" est un point d'ancrage invisible : une source en bas
-       de page peut y faire remonter avec <a href="#cast">.
-
-       CAS PARTICULIERS — on fusionne des cellules avec rowspan="N"
-       (la cellule s'étire sur N lignes). Les 3 exemples à copier :
-
-       1) UNE VOIX POUR PLUSIEURS PERSONNAGES (même acteur sur 2 lignes) :
-          la cellule "Voices" est écrite une seule fois, dans la 1re ligne,
-          avec rowspan="2". La 2e ligne n'a donc que 2 <td> (pas de 3e).
-          <tr>
-            <td>Oafish</td><td>Oafish Guard</td>
-            <td rowspan="2">Johan Hedenberg</td>
-          </tr>
-          <tr>
-            <td>Fången</td><td>The Old Heretic</td>
-          </tr>
-
-       2) UN PERSONNAGE (OU GROUPE) AVEC PLUSIEURS VOIX :
-          cette fois ce sont les 2 premières cellules (noms) qui sont
-          fusionnées, avec rowspan="3" (= nombre de voix). Chaque voix a sa
-          propre ligne ; seule la 1re ligne contient aussi les noms.
-          <tr>
-            <td rowspan="3">Vakter och Zigenare</td>
-            <td rowspan="3">Guards &amp; Gypsies</td>
-            <td>Anders Öjebo</td>
-          </tr>
-          <tr><td>Roger Storm</td></tr>
-          <tr><td>Monica Forsberg</td></tr>
-
-       3) LES DEUX À LA FOIS : combine les deux (une cellule peut avoir
-          un rowspan, et la ligne d'à côté un autre).
-
-       4) BANDEAU DE CATÉGORIE (image et/ou texte, pleine largeur) :
-          une ligne avec UN SEUL <td class="cast-banner" colspan="3">.
-          Les 4 variantes sont dans l'exemple tout en bas du tableau.
-          Réglages (hauteur, couleur, alignement...) : bloc BANDEAUX dans :root.
-          Évite de placer un bandeau au milieu d'un rowspan : mets-le juste
-          avant ou juste après.
-
-       Règle simple : le nombre de <td> par ligne = 3 moins les cellules
-       déjà "prises" par un rowspan des lignes du dessus.
-       ============================================================ -->
-  <div class="info-box" id="cast">
-    <div class="info-box-title">Cast <span style="font-size:12px;">(Hybrid MSA/Egyptian dub)</span></div>
-    <table class="cast-table">
-      <thead>
-        <tr>
-          <th>Arabic name</th>
-          <th>Original name</th>
-          <th>Voices</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>رالف</td> <td>Ralph</td>
-          <td>Mohammad Farouq Abdel Rahman / محمد فاروق عبد الرحمن</td>
-        </tr>
-        <tr>
-          <td>فانيليانا</td> <td>Vanellope</td>
-          <td>Ola Roshdy / علا رشدي (speaking) &amp; Noha Qais / نهى قيس (singing)</td>
-        </tr>
-        <tr>
-          <td>شانك</td> <td>Shank</td>
-          <td>Yasmine Samir / ياسمين سمير (speaking) &amp; Nathalie Alan / ناتالي آلان (singing)</td>
-        </tr>
-        <tr>
-          <td>يس</td> <td>Yesss</td>
-          <td>Nefertary / نفرتاري</td>
-        </tr>
-        <tr>
-          <td>سباملي</td> <td>J.P. Spamley</td>
-          <td>Ahmad Khairy / أحمد خيري</td>
-        </tr>
-        <tr>
-          <td>أبو العريف</td> <td>KnowsMore</td>
-          <td>Ilhamy Amin / إلهامي أمين</td>
-        </tr>
-        <tr>
-          <td>أبو راسين</td> <td>Double Dan</td>
-          <td>Ahmad Abou Omera / أحمد أبو عميرة</td>
-        </tr>
-        <tr>
-          <td>السيد ليتواك</td> <td>Mr. Litwak</td>
-          <td>Hany Abdel Hay / هاني عبد الحي</td>
-        </tr>
-
-        <!-- ============================================================
-             BANDEAUX DE CATÉGORIE — exemple (copie/colle pour en ajouter).
-             Effets (à mettre dans class="cast-banner ...") :
-               sparkle = traînée de poussière de fée qui traverse le bandeau
-               glow    = halo lumineux derrière le texte (calé sur le passage de la poussière si "sparkle" aussi)
-               (les deux ensemble : class="cast-banner sparkle glow" ; aucun = bandeau simple)
-             Variantes :
-               - image de fond : ajoute <img src="..." alt=""> avant le <span> ; le texte
-                 blanc à ombre noire reste lisible dessus
-               - couleur propre à ce bandeau : style="background:#fde8f0;" sur le <td>
-               - texte centré : style="justify-content:center;" sur le <span class="banner-text">
-               - image seule : supprime le <span class="banner-text">
-             ============================================================ -->
-        <tr>
-          <td class="cast-banner sparkle glow" colspan="3">
-            <div class="banner-inner">
-              <img src="https://res.cloudinary.com/dofvjifeo/image/upload/ralph-arcade-characters.png" alt="">
-              <span class="banner-text">Arcade characters</span>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>فيلكس</td> <td>Felix</td>
-          <td>Mahmoud Amer / محمود عامر</td>
-        </tr>
-        <tr>
-          <td>كالهون</td> <td>Calhoun</td>
-          <td>Gihan Al-Naser / جيهان الناصر</td>
-        </tr>
-        <tr>
-          <td>تابر</td> <td>Tapper</td>
-          <td>Hany Abdel Hay / هاني عبد الحي ?</td>
-        </tr>
-        <tr>
-          <td>تفيدة معمول</td> <td>Taffyta Muttonfudge</td>
-          <td>Ilham Sabry / إلهام صبري ?</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Candlehead</td>
-          <td>?</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Rancis Fluggerbutter</td>
-          <td>?</td>
-        </tr>
-        <tr>
-          <td>نات</td> <td>Duncan</td>
-          <td>Rodwan Sawan / رضوان صوان ?</td>
-        </tr>
-        <tr>
-          <td>دو</td> <td>Wynnchel</td>
-          <td>Mahmoud Hammouda / محمود حمودة ?</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Surge Protector</td>
-          <td>?</td>
-        </tr>
-        <tr>
-          <td>حموضة</td> <td>Sour Bill</td>
-          <td>Wael Shahine / وائل شاهين ?</td>
-        </tr>
-        <tr>
-          <td>زانجيف</td> <td>Zangief</td>
-          <td>Ramy Al-Tombary / رامي الطمباري ?</td>
-        </tr>
-        <tr>
-          <td>جين</td> <td>Gene</td>
-          <td>?</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Sonic</td>
-          <td>?</td>
-        </tr>
-
-        <tr>
-          <td class="cast-banner sparkle glow" colspan="3">
-            <div class="banner-inner">
-              <img src="https://res.cloudinary.com/dofvjifeo/image/upload/ralph-movie-characters.png" alt="">
-              <span class="banner-text">Movie characters</span>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>بظ يطير</td> <td>Buzz Lightyear</td>
-          <td>Diyaa Abdel Khaleq / ضياء عبد الخالق</td>
-        </tr>
-        <tr>
-          <td>حوار</td> <td>Eeyore</td>
-          <td>?</td>
-        </tr>
-        <tr>
-          <td>غضبان</td> <td>Grumpy</td>
-          <td>?</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>C-3PO</td>
-          <td>?</td>
-        </tr>
-        <tr>
-          <td>?</td> <td>Baby Groot</td>
-          <td>?</td>
-        </tr>
-           
-        <tr id="ralph-princesses">
-          <td class="cast-banner sparkle glow" colspan="3">
-            <div class="banner-inner">
-              <img src="https://res.cloudinary.com/dofvjifeo/image/upload/ralph-princesses.png" alt="">
-              <span class="banner-text">Disney Princesses</span>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>سنو وايت</td> <td>Snow White</td>
-          <td>Noha Qais / نهى قيس (speaking & vocalizations?)</td>
-        </tr>
-        <tr>
-          <td>سندريلا</td> <td>Cinderella</td>
-          <td>Doaa Al-Serag / دعاء السراج</td>
-        </tr>
-        <tr>
-          <td>شفق</td> <td>Aurora</td>
-          <td>Doaa Riad / دعاء رياض</td>
-        </tr>
-        <tr>
-          <td>آريل</td> <td>Ariel</td>
-          <td>Malak Hamza / ملك حمزة (speaking) & Rana Adel / رنا عادل (singing)</td>
-        </tr>
-        <tr>
-          <td>بل</td> <td>Belle</td>
-          <td>Assiah Iman Nabulsy / آسيا إيمان النابلسي</td>
-        </tr>
-        <tr>
-          <td>ياسمين</td> <td>Jasmine</td>
-          <td>Aya Hamza / آية حمزة</td>
-        </tr>
-        <tr>
-          <td>بوكاهونتاس</td> <td>Pocahontas</td>
-          <td>Amal Abdallah / أمل عبد الله</td>
-        </tr>
-        <tr>
-          <td>مولان</td> <td>Mulan</td>
-          <td>Kholoud Adel / خلود عادل</td>
-        </tr>
-     <!-- EXEMPLE 1 : une même voix pour 2 personnages (rowspan="2" sur la cellule voix) -->
-        <tr>
-          <td>تيانا</td> <td>Tiana</td>
-          <td rowspan="2">Jacqueline Rafiq / جاكلين رفيق</td>
-        </tr>
-        <tr>
-          <td>رابونزل</td> <td>Rapunzel</td>
-        </tr>
-        <tr>
-          <td>مريدا</td> <td>Merida</td>
-          <td>Hadir Mustafa / هدير مصطفى</td>
-        </tr>
-        <tr>
-          <td>آنا</td> <td>Anna</td>
-          <td>Shorouq Al-Sharif / شروق الشريف</td>
-        </tr>
-        <tr>
-          <td>إلسا</td> <td>Elsa</td>
-          <td>Nesma Mahgoub / نسمة محجوب</td>
-        </tr>
-        <tr>
-          <td>موانا</td> <td>Moana</td>
-          <td>Ilham Sabry / إلهام صبري</td>
-        </tr>
-
-      </tbody>
-    </table>
-  </div>
+  {% include cast-table.html %}
 
   <!-- ============================================================
        ENCADRÉS OPTIONNELS "ADDITIONAL VOICES" / "CHOIR"
@@ -440,92 +358,14 @@ show_songs: true
   {% if page.show_additional_voices %}
   <div class="info-box" id="additional-voices">
     <div class="info-box-title">Additional voices/Choir</div>
-    <div class="voices-grid">
-      <div>Ahmad Sameh / أحمد سامح</div>
-      <div>Ahmad Magdy / أحمد مجدي</div>
-      <div>Omniya Al-Huseiny / أمنية الحسيني</div>
-      <div>Judy Al-Sheikh / جودي الشيخ</div>
-      <div>Hoor Tamer / حور تامر</div>
-      <div>Khaled Shaaban / خالد شعبان</div>
-      <div>Ibrahim Najy / إبراهيم ناجي</div>
-      <div>Ahmad Shamaa / أحمد شمعة</div>
-      <div>Ismail Jamal / إسماعيل جمال</div>
-      <div>Iyad Walid / إياد وليد</div>
-      <div>Tamer Al-Kashef / تامر الكاشف</div>
-      <div>Jana Walid / جنى وليد</div>
-      <div>Hala Sabry / حلا صبري</div>
-      <div>Khaled Al-Shershaby / خالد الشرشابي</div>
-      <div>Dareen Hany / دارين هاني</div>
-      <div>Ramy Al-Tombary / رامي الطمباري</div>
-      <div>Rana Adel / رنا عادل</div>
-      <div>Reem Samir / ريم سمير</div>
-      <div>Sayyed Al-Roumy / سيد الرومي</div>
-      <div>Sharif Medhat Mohammad / شريف مدحت محمد</div>
-      <div>Salah Bagato / صلاح بجاتو</div>
-      <div>Tarek Olesh / طارق عليش</div>
-      <div>Ezzat Ghanim / عزت غانم</div>
-      <div>Lashina Lashin  / لاشينة لاشين</div>
-      <div>Dima Husam / ديمة حسام</div>
-      <div>Rodwan Sawan / رضوان صوان</div>
-      <div>Rawan Al-Sharif / روان الشريف</div>
-      <div>Sameh Issa / سامح عيسى</div>
-      <div>Shahira Fouad / شهيرة فؤاد</div>
-      <div>Tarek Jawhar / طارق جوهر</div>
-      <div>Atef Al-Habet / عاطف الهابط</div>
-      <div>Amr Al-Abbasy / عمر العباسي</div>
-      <div>Lobna Abdel Al-Aziz / لبنى عبد العزيز</div>
-      <div>Lobna Wanas / لبنى ونس</div>
-      <div>Marc Mamdouh / مارك ممدوح</div>
-      <div>Mohammad Ashraf / محمد أشرف</div>
-      <div>Mohammad Halim / محمد حليم</div>
-      <div>Mohamamd Obeid / محمد عبيد</div>
-      <div>Mariam Farouq / مريم فاروق</div>
-      <div>Mustafa Saraj / مصطفى سراج</div>
-      <div>Mustafa Adel / مصطفى عادل</div>
-      <div>Moawwad Ismail / معوض إسماعيل</div>
-      <div>Menna Helmy / منة حلمي</div>
-      <div>Lama Abdel Hay / لما عبد الحي</div>
-      <div>Lilian Al-Sherbiny / ليليان الشربيني</div>
-      <div>Marina Georgy / مارينا جورجي</div>
-      <div>Mohammad Al-Shershaby / محمد الشرشابي</div>
-      <div>Mahmoud Hammouda / محمود حمودة</div>
-      <div>Marwan / مروان</div>
-      <div>Mustafa Samy / مصطفى سامي</div>
-      <div>Mustafa Samir / مصطفى سمير</div>
-      <div>Moataz Al-Shazly / معتز الشاذلي</div>
-      <div>Mirna Jamal / ميرنا جمال</div>
-      <div>Nariman Niazy / ناريمان نيازي</div>
-      <div>Noura Esmat / نورا عصمت</div>
-      <div>Nivine Agha / نيفين آغا</div>
-      <div>Heidi Salah / هايدي صلاح</div>
-      <div>Hisham Al-Shazly / هشام الشاذلي</div>
-      <div>Hind Wisam / هند وسام</div>
-      <div>Wegdan Said / وجدان سعيد</div>
-      <div>Nathalie Alan / ناتالي آلان</div>
-      <div>Noha Fekry / نهى فكري</div>
-      <div>Nour Al-Haggar / نور الحجار</div>
-      <div>Nourhan Niazy / نورهان نيازي</div>
-      <div>Hany Abdel Hay / هاني عبد الحي</div>
-      <div>Heidy Abdel Khaleq / هايدي عبد الخالق</div>
-      <div>Hisham Al-Jondy / هشام الجندي</div>
-      <div>Hisham Adel / هشام عادل</div>
-      <div>Wael Shahine / وائل شاهين</div>
-      <div>Walid Hassan / وليد حسن</div>
-      <div>Youssef Omar / يوسف عمر</div>
-    </div>
+    {% include cast-names.html names=page.additional %}
   </div>
   {% endif %}
 
   {% if page.show_choir %}
   <div class="info-box" id="choir">
     <div class="info-box-title">Choir</div>
-    <div class="voices-grid">
-      <div>Name 1 / Native name 1</div>
-      <div>Name 2 / Native name 2</div>
-      <div>Name 3 / Native name 3</div>
-      <div>Name 4 / Native name 4</div>
-      <div>?</div>
-    </div>
+    {% include cast-names.html names=page.choir %}
   </div>
   {% endif %}
 
@@ -545,15 +385,7 @@ show_songs: true
   <div class="info-box" id="songs">
     <div class="info-box-title">Songs <span style="font-size:12px;">(Egyptian Arabic)</span></div>
     <ul class="song-list">
-      <li class="song-item">
-        <span class="song-title-native">سباق العذاب</span>
-        <span class="song-title-english">(« A Place Called Slaughter Race »)</span>
-        <span class="performed-by"><i>performed by</i> : Noha Qais / نهى قيس (<i>Vanellope</i>) ; Nathalie Alan / ناتالي آلان (<i>Shank</i>) &amp; Choir</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-english"><b>« Never Gonna Give You Up » <small>(Performed in English)</small></b></span>
-        <span class="performed-by"><i>performed by</i> : Mohammad Farouq / محمد فاروق (<i>Ralph</i>)</span>
-      </li>
+      {% include cast-songs.html %}
     </ul>
   </div>
   {% endif %}
@@ -565,19 +397,7 @@ show_songs: true
        ============================================================ -->
   <div class="info-box" id="staff">
     <div class="info-box-title">Technical Staff</div>
-    <table class="staff-table">
-      <tr><td class="staff-name">Adham Sayyed (أدهم سيد)</td><td class="staff-role">Dubbing director</td></tr>
-      <tr><td class="staff-name">Gihan Al-Naser (جيهان الناصر)</td><td class="staff-role">Musical director</td></tr>
-      <tr><td class="staff-name">Ahmad Fawzy (أحمد فوزي)</td><td class="staff-role">Translation</td></tr>
-      <tr><td class="staff-name">Tanweer's Preparation Workshop (ورشة إعداد تنوير)</td><td class="staff-role">Adaptation</td></tr>
-      <tr><td class="staff-name">Amr Hosny (عمر حسني)</td><td class="staff-role">Lyrics</td></tr>
-      <tr><td class="staff-name">Mohammad Farouq (محمد فاروق)</td><td class="staff-role">Sound engineer</td></tr>
-      <tr><td class="staff-name">Heidy Saker (هايدي صقر)</td><td class="staff-role">Dubbing supervisor</td></tr>
-      <tr><td class="staff-name">Virginie Courgenay</td><td class="staff-role">Creative supervisor</td></tr>
-      <tr><td class="staff-name">Boualem Lamhene</td><td class="staff-role">Creative executive</td></tr>
-      <tr><td class="staff-name">Tanweer Studios (استوديوهات تنوير) - Egypt</td><td class="staff-role">Dubbing studio</td></tr>
-      <tr><td class="staff-name">Shepperton International</td><td class="staff-role">Mixing studio</td></tr>
-    </table>
+    {% include cast-staff.html %}
     <div class="studio-line">DISNEY CHARACTER VOICES INTERNATIONAL, INC.</div>
   </div>
 
@@ -660,4 +480,4 @@ show_songs: true
 
 </div>
 
-{% include cast-scripts.html %}
+{% include cast-scripts-v2.html %}
