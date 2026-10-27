@@ -10,6 +10,138 @@ title: "Mary Poppins Returns (2018) – Swedish cast"
 show_additional_voices: true
 show_choir: false
 show_songs: true
+
+# ============================================================
+# COMÉDIENS (cartes photo du haut) : le "artist" de chaque fiche (dossier artists/)
+# ============================================================
+cards: [annika-herlitz, lucas-kruger, david-alvefjord]
+
+# ============================================================
+# INFOS DE LA PAGE, reprises sur les fiches des artistes (tableau "Roles")
+# year = date du film/doublage ; film = titre court ; language = langue du doublage
+# year accepte : 2011  |  2011-02  |  2011-02-01 (date complète, de préférence celle de sortie du doublage).
+#   Sur les fiches des artistes, seule l'ANNÉE (les 4 premiers chiffres) s'affiche, mais le tableau est trié sur
+#   la date complète : deux doublages de la même année se rangent donc dans l'ordre de leur date.
+#   Sans mois/jour, l'année compte comme le 1er janvier.
+# IMPORTANT : "film" doit être écrit EXACTEMENT comme le titre de l'apparition dans _data/characters.yml
+# (majuscules/minuscules ignorées, mais pas "II" vs "2"). C'est ce titre qui permet de prendre l'image du
+# personnage DANS CE FILM (sur cette page et sur les fiches des artistes).
+# ============================================================
+year: 2018-12-25
+
+film: "Mary Poppins Returns"
+
+language: "Swedish"
+
+# ============================================================
+# VOIX ADDITIONNELLES CRÉDITÉES : les "artist" de leurs fiches, dans l'ordre d'affichage
+# (une fiche par personne ; elles apparaissent sur la page de la personne avec "Additional voice")
+# ============================================================
+additional:
+  - "magnus-loftsson"
+  - "jennie-jahns"
+  - "johan-hedenberg"
+  - "johan-karlsson"
+  - "dick-eriksson"
+  - "karolin-funke"
+  - "anette-belander"
+  - "klara-nilsson"
+  - "annica-edstam"
+  - "kristin-lidstrom"
+  - "bengt-skogholt"
+  - "linus-eklund-adolphson"
+  - "charlotte-ardai-jennefors"
+  - "oskar-nilsson"
+  - "christian-fex"
+  - "rikard-bjork"
+  - "christopher-wollter"
+  - "therese-andersson-lewis"
+
+# CHOEUR (affiché si show_choir: true) : mêmes règles que additional.
+choir: []
+
+# ============================================================
+# CHANSONS : "titre natif | titre anglais | interprètes | note"
+# - titre natif vide = pas de ligne native (le titre anglais passe en gras ; la note s'affiche à côté)
+# - interprètes séparés par ; : "fiche @ Personnage" (le personnage est facultatif)
+# - un interprète qui commence par & est précédé de "&" au lieu de ";" (ex : &Choir)
+# - plusieurs voix pour un même personnage : répète le "@ Personnage" pour chacune
+# ============================================================
+songs:
+  - "Himmelen som bara London har | (Underneath the) Lovely London Sky | lucas-kruger @ jack"
+  - "Samtalet | A Conversation | david-alvefjord @ michael-banks"
+  - "Himmelen som bara London har (repris I) | (Underneath the) Lovely London Sky (Reprise) | lucas-kruger @ jack"
+  - "Vad folk kan hitta på! | Can You Imagine That? | annika-herlitz @ mary-poppins; adrian-maceus @ john-banks; viva-ostervall-lyngbrant @ annabel-banks; valdemar-molino-sanchez @ georgie-banks; johan-hedenberg @ admiral-boom"
+  - "Royal Doulton Music Hall | The Royal Doulton Music Hall | annika-herlitz @ mary-poppins; lucas-kruger @ jack; adrian-maceus @ john-banks; valdemar-molino-sanchez @ georgie-banks; viva-ostervall-lyngbrant @ annabel-banks; karolin-funke; klara-nilsson; annica-edstam"
+  - "Ett omslag är ingen bok | A Cover Is Not the Book | annika-herlitz @ mary-poppins; lucas-kruger @ jack; johan-karlsson; rikard-bjork; david-alvefjord; karolin-funke; kristin-lidstrom; annica-edstam; klara-nilsson; anette-belander; therese-andersson-lewis; magnus-loftsson; rolf-christianson"
+  - "En plats någon särskild stans | The Place Where Lost Things Go | annika-herlitz @ mary-poppins"
+  - "Sköldpaddsvisan | Turning Turtle | kajsa-reingardt @ cousin-topsy; lucas-kruger @ jack; adrian-maceus @ john-banks; viva-ostervall-lyngbrant @ annabel-banks; valdemar-molino-sanchez @ georgie-banks; annika-herlitz @ mary-poppins"
+  - "Ta en liten sväng i ljuset | Trip a Little Light Fantastic | lucas-kruger @ jack; annika-herlitz @ mary-poppins; adrian-maceus @ john-banks; viva-ostervall-lyngbrant @ annabel-banks; valdemar-molino-sanchez @ georgie-banks; magnus-loftsson; rolf-christianson; johan-karlsson; rikard-bjork; david-alvefjord; christopher-wollter; oskar-nilsson"
+  - "En plats någon särskild stans (repris) | The Place Where Lost Things Go (Reprise) | valdemar-molino-sanchez @ georgie-banks; viva-ostervall-lyngbrant @ annabel-banks; adrian-maceus @ john-banks"
+  - "Ta en liten sväng i ljuset (repris) | Trip a Little Light Fantastic (Reprise) | gustav-levin @ dawes-jr; adrian-maceus @ john-banks; viva-ostervall-lyngbrant @ annabel-banks; valdemar-molino-sanchez @ georgie-banks; annika-herlitz @ mary-poppins; lucas-kruger @ jack; david-alvefjord @ michael-banks"
+  - "När allt känns lätt | Nowhere To Go But Up | annica-risberg @ balloon-lady; david-alvefjord @ michael-banks; adrian-maceus @ john-banks; viva-ostervall-lyngbrant @ annabel-banks; valdemar-molino-sanchez @ georgie-banks; lucas-kruger @ jack; linda-ulvaeus @ jane-banks; mia-benson @ ellen; andreas-rothlin-svensson @ gooding-badger; joachim-bergstrom @ frye-weasel; johan-hedenberg @ admiral-boom; karolin-funke; kristin-lidstrom; annica-edstam; klara-nilsson; therese-andersson-lewis; anette-belander; magnus-loftsson; rolf-christianson; johan-karlsson; rikard-bjork; david-alvefjord; christopher-wollter"
+  - "Himmelen som bara London har (repris II) | (Underneath the) Lovely London Sky (Finale) | lucas-kruger @ jack"
+
+# ============================================================
+# TECHNICAL STAFF : "personne(s) | poste". Plusieurs personnes : sépare-les par ;
+# Un studio (ou tout texte qui n'est pas une fiche) s'affiche tel quel, sans lien.
+# ============================================================
+staff:
+  - "joakim-jennefors | Dubbing director"
+  - "charlotte-ardai-jennefors | Dubbing director"
+  - "joakim-jennefors | Musical director"
+  - "robert-cronholt | Translation"
+  - "robert-cronholt | Lyrics"
+  - "adam-vassee | Sound engineer"
+  - "enny-ronnback | Booking"
+  - "maria-hellstrom | Production manager"
+  - "michael-rudolph | Creative supervisor"
+  - "sdi-media-sweden | Dubbing studio"
+  - "shepperton-international | Mixing studio"
+  - "eric-broberg; walt-disney-studios-motion-pictures-sweden-ab | Responsible publisher"
+
+# ============================================================
+# TABLEAU CAST : une ligne par personnage, au format
+#     "nom natif | nom original | comédien | note | id du personnage"
+# - comédien = le "artist" de sa fiche ; "?" = inconnu
+#     "fiche = Texte" : affiche "Texte" à la place du nom officiel, sur cette page seulement (le lien reste).
+#     Pour un groupe fusionné, écris-le sur la PREMIÈRE ligne du groupe.
+# - même comédien sur plusieurs lignes qui se suivent = fusion automatique (rowspan)
+# - ligne avec natif et nom vides = autre voix du même personnage (fusion automatique)
+# - note (facultatif) : texte ajouté après le nom, ex : (speaking &amp; singing) ou ?
+#     Sans note mais avec un id, laisse le champ vide : "… | tommy-chu | | ralph"
+# - id du personnage (facultatif, 5e champ) : l'id de ce personnage dans _data/characters.yml (ex : ralph, elsa).
+#     Il sert à la vignette du personnage (voir cast_images plus bas) ; la fiche de l'artiste, elle, retrouve
+#     toute seule l'image du personnage d'après son nom original, sans qu'il soit nécessaire de mettre un id ici.
+#     Mets l'id quand le nom original ne suffit pas à retrouver le personnage (ex : "Hey Nongman…" -> nongman).
+#     "-" à cet endroit = aucune image pour cette ligne.
+# - bandeau : "banner | Texte | URL image | sparkle glow | id"
+# ============================================================
+cast_columns: "Swedish name | Original name | Voices"
+
+# VIGNETTES DES PERSONNAGES dans ce tableau (une colonne de petites images à gauche) :
+#   cast_images: false  = jamais de vignettes sur cette page
+#   cast_images: true   = vignettes pour tous les personnages trouvés dans _data/characters.yml
+#                         (id déduit du nom original si le 5e champ est vide ; "-" pour exclure une ligne)
+#   (ligne supprimée)   = vignettes seulement pour les lignes où tu as écrit un id en 5e champ
+# Les fiches des artistes affichent toujours les images, quel que soit ce réglage.
+cast_images: true
+cast:
+  - "Mary Poppins | @mary-poppins | annika-herlitz | (speaking &amp; singing)"
+  - "Jack | @jack | lucas-kruger | (speaking &amp; singing)"
+  - "Mikael Back | @michael-banks | david-alvefjord | (speaking &amp; singing)"
+  - "Jane Back | @jane-banks | linda-ulvaeus | (speaking &amp; singing)"
+  - "Annabel Back | @annabel-banks | viva-ostervall-lyngbrant | (speaking &amp; singing)"
+  - "John Back | @john-banks | adrian-maceus | (speaking &amp; singing)"
+  - "Georgie Back | @georgie-banks | valdemar-molino-sanchez | (speaking &amp; singing)"
+  - "Ellen | @ellen | mia-benson | (speaking &amp; singing)"
+  - "Nera | @cousin-topsy | kajsa-reingardt | (speaking &amp; singing)"
+  - "Wilkins/Varg | @wilkins-wolf | rolf-christianson"
+  - "Gooding/Grävling | @gooding-badger | andreas-rothlin-svensson | (speaking &amp; singing)"
+  - "Frye/Vessla | @frye-weasel | joachim-bergstrom | (speaking &amp; singing)"
+  - "Herr Stål, Jr. | @dawes-jr | gustav-levin | (speaking &amp; singing)"
+  - "Ballongdamen | @balloon-lady | annica-risberg | (speaking &amp; singing)"
+  - "Amiral Bom | @admiral-boom | johan-hedenberg | (speaking? &amp; singing)"
 ---
 {% include header.html %}
 <title>{{ page.title }}</title>
@@ -102,10 +234,10 @@ show_songs: true
        → 'Sriracha'   (poids : 400 seulement)
      ============================================================ -->
 
-{% include cast-style.html %}
+{% include cast-style-v2.html %}
 <style>
 /* RÉGLAGES PROPRES À CETTE PAGE : ces valeurs écrasent les valeurs par défaut de
-   _includes/cast-style.html (liste complète des réglages dans ce fichier). Ajoute ici
+   _includes/cast-style-v2.html (liste complète des réglages dans ce fichier). Ajoute ici
    toute autre variable à changer sur cette page seulement. */
 :root {
 
@@ -136,164 +268,11 @@ show_songs: true
   <div class="cast-title-english">Mary Poppins Returns</div>
   <hr class="cast-hr">
 
-  <!-- ============================================================
-       COMÉDIENS DE DOUBLAGE — un .voice-card par comédien.
-       MODIFIE ICI : copie/colle un bloc .voice-card pour en ajouter.
-       Mets "(Unknown dates)" si tu n'as pas l'info, sinon le format
-       "(1960? - April 2021?)".
-       Les images grises ci-dessous sont des espaces réservés : remplace
-       chaque src="..." par l'URL de la vraie photo (Cloudinary).
-       ============================================================ -->
-  <div class="voice-cast">
-    <div class="voice-card">
-      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Annika_Herlitz2.png" alt="Annika Herlitz">
-      <div class="actor-name">Annika Herlitz</div>
-      <div class="actor-dates">(22 September 1984 -  )</div>
-    </div>
-    <div class="voice-card">
-      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Lucas_Kr%C3%BCger.png" alt="Lucas Krüger<">
-      <div class="actor-name">Lucas Krüger</div>
-      <div class="actor-dates">(17 May 1989 -  )</div>
-    </div>
-    <div class="voice-card">
-      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/David_Alvefjord.png" alt="David Alvefjord">
-      <div class="actor-name">David Alvefjord</div>
-      <div class="actor-dates">(7 March 1986 -  )</div>
-    </div>
-  </div>
+  <!-- COMÉDIENS (cartes photo) et TABLEAU CAST : générés depuis le front matter tout en haut
+       (cards: et cast:) et depuis les fiches du dossier artists/. -->
+  {% include cast-cards.html %}
 
-  <!-- ============================================================
-       ENCADRÉ "CAST" — un <tr> par personnage.
-       MODIFIE ICI : "?" quand tu n'as pas l'info (nom natif, ou
-       acteur). Les noms de comédiens restent en texte simple pour
-       l'instant (pas de lien) : plus tard, tu pourras les transformer
-       en <a href="/artists/nom.html">...</a> vers leur propre fiche.
-       L'id="cast" est un point d'ancrage invisible : une source en bas
-       de page peut y faire remonter avec <a href="#cast">.
-
-       CAS PARTICULIERS — on fusionne des cellules avec rowspan="N"
-       (la cellule s'étire sur N lignes). Les 3 exemples à copier :
-
-       1) UNE VOIX POUR PLUSIEURS PERSONNAGES (même acteur sur 2 lignes) :
-          la cellule "Voices" est écrite une seule fois, dans la 1re ligne,
-          avec rowspan="2". La 2e ligne n'a donc que 2 <td> (pas de 3e).
-          <tr>
-            <td>Oafish</td><td>Oafish Guard</td>
-            <td rowspan="2">Johan Hedenberg</td>
-          </tr>
-          <tr>
-            <td>Fången</td><td>The Old Heretic</td>
-          </tr>
-
-       2) UN PERSONNAGE (OU GROUPE) AVEC PLUSIEURS VOIX :
-          cette fois ce sont les 2 premières cellules (noms) qui sont
-          fusionnées, avec rowspan="3" (= nombre de voix). Chaque voix a sa
-          propre ligne ; seule la 1re ligne contient aussi les noms.
-          <tr>
-            <td rowspan="3">Vakter och Zigenare</td>
-            <td rowspan="3">Guards &amp; Gypsies</td>
-            <td>Anders Öjebo</td>
-          </tr>
-          <tr><td>Roger Storm</td></tr>
-          <tr><td>Monica Forsberg</td></tr>
-
-       3) LES DEUX À LA FOIS : combine les deux (une cellule peut avoir
-          un rowspan, et la ligne d'à côté un autre).
-
-       Règle simple : le nombre de <td> par ligne = 3 moins les cellules
-       déjà "prises" par un rowspan des lignes du dessus.
-       ============================================================ -->
-  <div class="info-box" id="cast">
-    <div class="info-box-title">Cast</div>
-    <table class="cast-table">
-      <thead>
-        <tr>
-          <th>Swedish name</th>
-          <th>Original name</th>
-          <th>Voices</th>
-        </tr>
-      </thead>
-      <tbody>
-
-        <tr>
-          <td>Mary Poppins</td>
-          <td>Mary Poppins</td>
-          <td>Annika Herlitz (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>Jack</td>
-          <td>Jack</td>
-          <td>Lucas Krüger (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>Mikael Back</td>
-          <td>Michael Banks</td>
-          <td>David Alvefjord (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>Jane Back</td>
-          <td>Jane Banks</td>
-          <td>Linda Ulvaeus (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>Annabel Back</td>
-          <td>Annabel Banks</td>
-          <td>Viva Östervall Lyngbrant (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>John Back</td>
-          <td>John Banks</td>
-          <td>Adrian Macéus (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>Georgie Back</td>
-          <td>Georgie Banks</td>
-          <td>Valdemar Molino Sanchez (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>Ellen</td>
-          <td>Ellen</td>
-          <td>Mia Benson (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>Nera</td>
-          <td>Cousin Topsy</td>
-          <td>Kajsa Reingardt (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>Wilkins/Varg</td>
-          <td>Wilkins/Wolf</td>
-          <td>Rolf Christianson</td>
-        </tr>
-        <tr>
-          <td>Gooding/Grävling</td>
-          <td>Gooding/Badger</td>
-          <td>Andreas Rothlin Svensson (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>Frye/Vessla</td>
-          <td>Frye/Weasel</td>
-          <td>Joachim Bergström (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>Herr Stål, Jr.</td>
-          <td>Mr. Dawes Jr.</td>
-          <td>Gustav Levin (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>Ballongdamen</td>
-          <td>Balloon Lady</td>
-          <td>Annica Risberg (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>Amiral Bom</td>
-          <td>Admiral Boom</td>
-          <td>Johan Hedenberg (speaking? &amp; singing)</td>
-        </tr>
-
-      </tbody>
-    </table>
-  </div>
+  {% include cast-table.html %}
 
   <!-- ============================================================
        ENCADRÉS OPTIONNELS "ADDITIONAL VOICES" / "CHOIR"
@@ -307,39 +286,14 @@ show_songs: true
   {% if page.show_additional_voices %}
   <div class="info-box" id="additional-voices">
     <div class="info-box-title">Additional voices/Choir</div>
-    <div class="voices-grid">
-      <div>Magnus Loftsson</div>
-      <div>Jennie Jahns</div>
-      <div>Johan Hedenberg</div>
-      <div>Johan Karlsson</div>
-      <div>Dick Eriksson</div>
-      <div>Karolin Funke</div>
-      <div>Anette Belander</div>
-      <div>Klara Nilsson</div>
-      <div>Annica Edstam</div>
-      <div>Kristin Lidström</div>
-      <div>Bengt Skogholt</div>
-      <div>Linus Eklund Adolphson</div>
-      <div>Charlotte Ardai Jennefors</div>
-      <div>Oskar Nilsson</div>
-      <div>Christian Fex</div>
-      <div>Rikard Björk</div>
-      <div>Christopher Wollter</div>
-      <div>Thérèse Andersson Lewis</div>
-    </div>
+    {% include cast-names.html names=page.additional %}
   </div>
   {% endif %}
 
   {% if page.show_choir %}
   <div class="info-box" id="choir">
     <div class="info-box-title">Choir</div>
-    <div class="voices-grid">
-      <div>Name 1 / Native name 1</div>
-      <div>Name 2 / Native name 2</div>
-      <div>Name 3 / Native name 3</div>
-      <div>Name 4 / Native name 4</div>
-      <div>?</div>
-    </div>
+    {% include cast-names.html names=page.choir %}
   </div>
   {% endif %}
 
@@ -359,73 +313,7 @@ show_songs: true
   <div class="info-box" id="songs">
     <div class="info-box-title">Songs</div>
     <ul class="song-list">
-
-      <li class="song-item">
-        <span class="song-title-native">Himmelen som bara London har</span>
-        <span class="song-title-english">(« (Underneath the) Lovely London Sky »)</span>
-        <span class="performed-by"><i>performed by</i> : Lucas Krüger (<i>Jack</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">Samtalet</span>
-        <span class="song-title-english">(« A Conversation »)</span>
-        <span class="performed-by"><i>performed by</i> : David Alvefjord (<i>Michael Banks</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">Himmelen som bara London har (repris I)</span>
-        <span class="song-title-english">(« (Underneath the) Lovely London Sky (Reprise) »)</span>
-        <span class="performed-by"><i>performed by</i> : Lucas Krüger (<i>Jack</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">Vad folk kan hitta på!</span>
-        <span class="song-title-english">(« Can You Imagine That? »)</span>
-        <span class="performed-by"><i>performed by</i> : Annika Herlitz (<i>Mary Poppins</i>) ; Adrian Macéus (<i>John</i>) ; Viva Östervall Lyngbrant (<i>Annabel</i>) ; Valdemar Molino Sanchez (<i>Georgie</i>) ; Johan Hedenberg (<i>Admiral Boom</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">Royal Doulton Music Hall</span>
-        <span class="song-title-english">(« The Royal Doulton Music Hall »)</span>
-        <span class="performed-by"><i>performed by</i> : Annika Herlitz (<i>Mary Poppins</i>) ; Lucas Krüger (<i>Jack</i>) ; Adrian Macéus (<i>John</i>) ; Valdemar Molino Sanchez (<i>Georgie</i>) ; Viva Östervall Lyngbrant (<i>Annabel</i>) ; Karolin Funke ; Klara Nilsson ; Annica Edstam</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">Ett omslag är ingen bok</span>
-        <span class="song-title-english">(« A Cover Is Not the Book »)</span>
-        <span class="performed-by"><i>performed by</i> : Annika Herlitz (<i>Mary Poppins</i>) ; Lucas Krüger (<i>Jack</i>) ; Johan Karlsson ; Rikard Björk ; David Alvefjord ; Karolin Funke ; Kristin Lidström ; Annica Edstam ; Klara Nilsson ; Anette Belander ; Thérèse Andersson Lewis ; Magnus Loftsson ; Rolf Christianson</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">En plats någon särskild stans</span>
-        <span class="song-title-english">(« The Place Where Lost Things Go »)</span>
-        <span class="performed-by"><i>performed by</i> : Annika Herlitz (<i>Mary Poppins</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">Sköldpaddsvisan</span>
-        <span class="song-title-english">(« Turning Turtle »)</span>
-        <span class="performed-by"><i>performed by</i> : Kajsa Reingardt (<i>Topsy</i>) ; Lucas Krüger (<i>Jack</i>) ; Adrian Macéus (<i>John</i>) ; Viva Östervall Lyngbrant (<i>Annabel</i>) ; Valdemar Molino Sanchez (<i>Georgie</i>) ; Annika Herlitz (<i>Mary Poppins</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">Ta en liten sväng i ljuset</span>
-        <span class="song-title-english">(« Trip a Little Light Fantastic »)</span>
-        <span class="performed-by"><i>performed by</i> : Lucas Krüger (<i>Jack</i>) ; Annika Herlitz (<i>Mary Poppins</i>) ; Adrian Macéus (<i>John</i>) ; Viva Östervall Lyngbrant (<i>Annabel</i>) ; Valdemar Molino Sanchez (<i>Georgie</i>) ; Magnus Loftsson ; Rolf Christianson ; Johan Karlsson ; Rikard Björk ; David Alvefjord ; Christopher Wollter ; Oskar Nilsson</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">En plats någon särskild stans (repris)</span>
-        <span class="song-title-english">(« The Place Where Lost Things Go (Reprise) »)</span>
-        <span class="performed-by"><i>performed by</i> : Valdemar Molino Sanchez (<i>Georgie</i>) ; Viva Östervall Lyngbrant (<i>Annabel</i>) ; Adrian Macéus (<i>John</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">Ta en liten sväng i ljuset (repris)</span>
-        <span class="song-title-english">(« Trip a Little Light Fantastic (Reprise) »)</span>
-        <span class="performed-by"><i>performed by</i> : Gustav Levin (<i>Mr. Dawes Jr.</i>) ; Adrian Macéus (<i>John</i>) ; Viva Östervall Lyngbrant (<i>Annabel</i>) ; Valdemar Molino Sanchez (<i>Georgie</i>) ; Annika Herlitz (<i>Mary Poppins</i>) ; Lucas Krüger (<i>Jack</i>) ; David Alvefjord (<i>Michael Banks</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">När allt känns lätt</span>
-        <span class="song-title-english">(« Nowhere To Go But Up »)</span>
-        <span class="performed-by"><i>performed by</i> : Annica Risberg (<i>Balloon Lady</i>) ; David Alvefjord (<i>Michael Banks</i>) ; Adrian Macéus (<i>John</i>) ; Viva Östervall Lyngbrant (<i>Annabel</i>) ; Valdemar Molino Sanchez (<i>Georgie</i>) ; Lucas Krüger (<i>Jack</i>) ; Linda Ulvaeus (<i>Jane Banks</i>) ; Mia Benson (<i>Ellen</i>) ; Andreas Rothlin Svensson (<i>Gooding</i>) ; Joachim Bergström (<i>Frye</i>) ; Johan Hedenberg (<i>Admiral Boom</i>) ; Karolin Funke ; Kristin Lidström ; Annica Edstam ; Klara Nilsson ; Thérèse Andersson Lewis ; Anette Belander ; Magnus Loftsson ; Rolf Christianson ; Johan Karlsson ; Rikard Björk ; David Alvefjord ; Christopher Wollter</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">Himmelen som bara London har (repris II)</span>
-        <span class="song-title-english">(« (Underneath the) Lovely London Sky (Finale) »)</span>
-        <span class="performed-by"><i>performed by</i> : Lucas Krüger (<i>Jack</i>)</span>
-      </li>
-
+      {% include cast-songs.html %}
     </ul>
   </div>
   {% endif %}
@@ -437,22 +325,7 @@ show_songs: true
        ============================================================ -->
   <div class="info-box" id="staff">
     <div class="info-box-title">Technical Staff</div>
-    <table class="staff-table">
-      <tr><td class="staff-name">Joakim Jennefors</td><td class="staff-role">Dubbing director</td></tr>
-      <tr><td class="staff-name">Charlotte Ardai Jennefors</td><td class="staff-role">Dubbing director</td></tr>
-      <tr><td class="staff-name">Joakim Jennefors</td><td class="staff-role">Musical director</td></tr>
-      <tr><td class="staff-name">Robert Cronholt</td><td class="staff-role">Translation</td></tr>
-      <tr><td class="staff-name">Robert Cronholt</td><td class="staff-role">Lyrics</td></tr>
-      <tr><td class="staff-name">Adam Vassée</td><td class="staff-role">Sound engineer</td></tr>
-      <tr><td class="staff-name">Enny Rönnbäck</td><td class="staff-role">Booking</td></tr>
-      <tr><td class="staff-name">Maria Hellström</td><td class="staff-role">Production manager</td></tr>
-      <tr><td class="staff-name">Robert Cronholt</td><td class="staff-role">Lyrics</td></tr>
-      <tr><td class="staff-name">Robert Cronholt</td><td class="staff-role">Lyrics</td></tr>
-      <tr><td class="staff-name">Michael Rudolph</td><td class="staff-role">Creative supervisor</td></tr>
-      <tr><td class="staff-name">SDI Media Sweden</td><td class="staff-role">Dubbing studio</td></tr>
-      <tr><td class="staff-name">Shepperton International</td><td class="staff-role">Mixing studio</td></tr>
-      <tr><td class="staff-name">Eric Broberg<br>Walt Disney Studios Motion Pictures Sweden AB</td><td class="staff-role">Responsible publisher</td></tr>
-    </table>
+    {% include cast-staff.html %}
     <div class="studio-line">DISNEY CHARACTER VOICES INTERNATIONAL, INC.</div>
   </div>
 
@@ -464,7 +337,7 @@ show_songs: true
        ============================================================ -->
   <ul class="cast-trivia">
     <li>Release date :<br>
-         Sweden - <b>25 December 2018</b> (<small>(Cinemas)</small>.</li>
+         Sweden - <b>25 December 2018</b> <small>(Cinemas)</small></li>
     <li>Linda Ulvaeus, the voice of Jane Banks, was miscredited as <i>Linda Ulveaus</i>.</li>
   </ul>
 
@@ -524,4 +397,4 @@ show_songs: true
   </ol>
 </div>
 
-{% include cast-scripts.html %}
+{% include cast-scripts-v2.html %}
