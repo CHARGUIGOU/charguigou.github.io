@@ -12,7 +12,7 @@ Usage (depuis la racine du dépôt) :
     python _scripts/generate_characters.py            # écrit _data/characters.yml
     python _scripts/generate_characters.py --check    # vérifie le tableau, n'écrit rien
 """
-import argparse, datetime, os, re, sys
+import argparse, copy, datetime, os, re, sys
 
 try:
     import yaml
@@ -177,7 +177,7 @@ def main():
             old = yaml.safe_load(open(out_path, encoding="utf-8-sig").read())
             if isinstance(old, dict):
                 base = old.get("image_base", base)
-                extra = {k: v for k, v in old.items() if k not in ("image_base", "list")}
+                extra = {k: v for k, v in old.items() if k not in ("image_base", "list", "by_id")}
         except yaml.YAMLError:
             pass
 
@@ -191,6 +191,8 @@ def main():
     data = {"image_base": base}
     data.update(extra)
     data["list"] = [chars[c] for c in order]
+    # index par id (accès direct dans les templates : site.data.characters.by_id[id]) ; copies pour éviter les alias YAML
+    data["by_id"] = {c: copy.deepcopy(chars[c]) for c in order}
     head = ("# Fichier GÉNÉRÉ depuis _data/characters.xlsx à chaque build : ne le modifie pas à la main,\n"
             "# modifie le tableau (feuilles Personnages et Apparitions).\n")
     txt = head + yaml.safe_dump(data, allow_unicode=True, sort_keys=False, default_flow_style=False, width=10000)

@@ -40,7 +40,7 @@
             {%- assign role_shown = true -%}
             {%- if role != "" and role == nx_role -%}{%- assign role_shown = false -%}{%- endif -%}
             {%- if role != "" -%}
-              {%- assign role_obj = site.data.characters.list | where: "id", role | first -%}
+              {%- assign role_obj = site.data.characters.by_id[role] -%}
               {%- if role_obj and role_obj.name -%}{%- assign role = role_obj.name -%}{%- endif -%}
             {%- endif -%}
             {%- if role != "" and role_shown %} (<i>{{ role }}</i>){% endif -%}

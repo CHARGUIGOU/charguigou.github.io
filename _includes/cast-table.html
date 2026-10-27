@@ -86,7 +86,7 @@
   {%- if c0 != "banner" and c1_at == "@" -%}
     {%- assign c1_rest = c1 | remove_first: "@" -%}
     {%- assign c1_id = c1_rest | split: " " | first | split: "<" | first | strip -%}
-    {%- assign c1_obj = site.data.characters.list | where: "id", c1_id | first -%}
+    {%- assign c1_obj = site.data.characters.by_id[c1_id] -%}
     {%- if c1_obj and c1_obj.name -%}
       {%- assign c1_suffix = c1_rest | remove_first: c1_id | strip -%}
       {%- assign c1 = c1_obj.name -%}

@@ -214,7 +214,7 @@
           {%- assign c1_rest = c1 | remove_first: "@" -%}
           {%- assign c1_id = c1_rest | split: " " | first | split: "<" | first | strip -%}
           {%- if cur_i == "" -%}{%- assign cur_i = c1_id -%}{%- endif -%}
-          {%- assign c1_obj = site.data.characters.list | where: "id", c1_id | first -%}
+          {%- assign c1_obj = site.data.characters.by_id[c1_id] -%}
           {%- if c1_obj and c1_obj.name -%}
             {%- assign c1_suffix = c1_rest | remove_first: c1_id | strip -%}
             {%- assign cur_e = c1_obj.name -%}
@@ -252,7 +252,7 @@
             {%- assign t_key = pr[0] | split: "=" | first | strip -%}
             {%- assign t_role = pr[1] | default: "" | strip -%}
             {%- if t_key == slug and t_role != "" -%}
-              {%- assign t_obj = site.data.characters.list | where: "id", t_role | first -%}
+              {%- assign t_obj = site.data.characters.by_id[t_role] -%}
               {%- if t_obj and t_obj.parent == img_key -%}
                 {%- assign img_key = t_role -%}
                 {%- assign song_cov = song_cov | append: "§" | append: t_role | append: "§" -%}
@@ -284,7 +284,7 @@
       {%- if t_key == slug and t_role != "" -%}
         {%- assign t_tok = "§" | append: t_role | append: "§" -%}
         {%- unless cast_ids contains t_tok or song_cov contains t_tok -%}
-          {%- assign t_obj = site.data.characters.list | where: "id", t_role | first -%}
+          {%- assign t_obj = site.data.characters.by_id[t_role] -%}
           {%- if t_obj -%}
             {%- assign song_cov = song_cov | append: t_tok -%}
             {%- assign found = found | plus: 1 -%}
@@ -410,7 +410,7 @@
       {%- if t_key == slug -%}
         {%- assign t_role = pr[1] | default: "" | strip -%}
         {%- comment %} rôle = id d'un personnage du tableau -> son nom (sinon texte libre tel quel) {% endcomment -%}
-        {%- assign t_role_obj = site.data.characters.list | where: "id", t_role | first -%}
+        {%- assign t_role_obj = site.data.characters.by_id[t_role] -%}
         {%- if t_role_obj and t_role_obj.name -%}{%- assign t_role = t_role_obj.name | replace: "<br/>", " " | replace: "<br>", " " | strip_html | strip -%}{%- endif -%}
         {%- assign sfound2 = sfound2 | plus: 1 -%}
         {%- assign sroles2 = sroles2 | append: '<div class="role-line"><span class="role-text">« ' | append: s_eng | append: " »" -%}
