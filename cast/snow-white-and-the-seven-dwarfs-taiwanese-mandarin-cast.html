@@ -10,6 +10,112 @@ title: "Snow White and the Seven Dwarfs (1937) - Taiwanese Mandarin cast"
 show_additional_voices: false
 show_choir: false
 show_songs: true
+
+# ============================================================
+# COMÉDIENS (cartes photo du haut) : le "artist" de chaque fiche (dossier artists/)
+# ============================================================
+cards: [corisa-lee, judy-chen, karen-wang]
+
+# ============================================================
+# INFOS DE LA PAGE, reprises sur les fiches des artistes (tableau "Roles")
+# year = date du film/doublage ; film = titre court ; language = langue du doublage
+# year accepte : 2011  |  2011-02  |  2011-02-01 (date complète, de préférence celle de sortie du doublage).
+#   Sur les fiches des artistes, seule l'ANNÉE (les 4 premiers chiffres) s'affiche, mais le tableau est trié sur
+#   la date complète : deux doublages de la même année se rangent donc dans l'ordre de leur date.
+#   Sans mois/jour, l'année compte comme le 1er janvier.
+# IMPORTANT : "film" doit être écrit EXACTEMENT comme le titre de l'apparition dans _data/characters.yml
+# (majuscules/minuscules ignorées, mais pas "II" vs "2"). C'est ce titre qui permet de prendre l'image du
+# personnage DANS CE FILM (sur cette page et sur les fiches des artistes).
+# ============================================================
+year: 1994-11
+
+film: "Snow White and the Seven Dwarfs"
+
+language: "Taiwanese Mandarin"
+
+# ============================================================
+# VOIX ADDITIONNELLES CRÉDITÉES : les "artist" de leurs fiches, dans l'ordre d'affichage
+# (une fiche par personne ; elles apparaissent sur la page de la personne avec "Additional voice")
+# ============================================================
+additional: []
+
+# CHOEUR (affiché si show_choir: true) : mêmes règles que additional.
+choir: []
+
+# ============================================================
+# CHANSONS : "titre natif | titre anglais | interprètes | note"
+# - titre natif vide = pas de ligne native (le titre anglais passe en gras ; la note s'affiche à côté)
+# - interprètes séparés par ; : "fiche @ Personnage" (le personnage est facultatif)
+# - un interprète qui commence par & est précédé de "&" au lieu de ";" (ex : &Choir)
+# - plusieurs voix pour un même personnage : répète le "@ Personnage" pour chacune
+# ============================================================
+songs:
+  - "許願井 | I'm Wishing | judy-chen @ snow-white; xie-wen-de @ prince-charming"
+  - "給你的歌 | One Song | xie-wen-de @ prince-charming"
+  - "給你的歌 (重奏) | One Song (Reprise) | judy-chen @ snow-white"
+  - "開心唱首歌 | With a Smile and a Song | judy-chen @ snow-white"
+  - "吹口哨來作工 | Whistle While You Work | judy-chen @ snow-white"
+  - "挖挖挖/嗨呵 | Dig Dig Dig/Heigh-Ho | xu-jian-chun @ happy; yang-shao-wen @ grumpy; shen-guang-ping @ bashful; jiang-xian-cheng @ Sneezy ?; sun-de-cheng @ doc; jiang-xian-cheng @ sleepy"
+  - "嗨呵 (重奏) | Heigh-Ho (Reprise) | sun-de-cheng; xu-jian-chun; yang-shao-wen; shen-guang-ping; jiang-xian-cheng @ Dwarfs' Choir"
+  - "洗手歌 | The Dwarfs' Washing Song | sun-de-cheng @ doc; xu-jian-chun @ happy; yang-shao-wen @ grumpy; shen-guang-ping @ bashful; jiang-xian-cheng @ Sneezy ?; jiang-xian-cheng @ sleepy"
+  - "抓狂歌 | The Silly Song | xu-jian-chun @ happy; shen-guang-ping @ bashful; judy-chen @ snow-white; yang-shao-wen; sun-de-cheng; jiang-xian-cheng @ Dwarfs' Choir"
+  - "愛情會來臨 | Someday My Prince Will Come | judy-chen @ snow-white"
+  - "愛情會來臨 (重奏) | Someday My Prince Will Come (Reprise) | judy-chen @ snow-white"
+  - "給你的歌 (終曲) | One Song (Reprise) | xie-wen-de @ prince-charming"
+  - "愛情會來臨 (終曲) | Someday My Prince Will Come (Finale) | Choir"
+
+# ============================================================
+# TECHNICAL STAFF : "personne(s) | poste". Plusieurs personnes : sépare-les par ;
+# Un studio (ou tout texte qui n'est pas une fiche) s'affiche tel quel, sans lien.
+# ============================================================
+staff:
+  - "karen-wang | Dubbing director"
+  - "bernard-lau | Musical director"
+  - "hong-zi-jing | Translation"
+  - "bernard-lau | Lyrics"
+  - "? | Creative Supervisor"
+  - "karen-wangs-studio | Dubbing studio (dialogues)"
+  - "house-of-music-group | Recording studio (songs)"
+
+# ============================================================
+# TABLEAU CAST : une ligne par personnage, au format
+#     "nom natif | nom original | comédien | note | id du personnage"
+# - comédien = le "artist" de sa fiche ; "?" = inconnu
+#     "fiche = Texte" : affiche "Texte" à la place du nom officiel, sur cette page seulement (le lien reste).
+#     Pour un groupe fusionné, écris-le sur la PREMIÈRE ligne du groupe.
+# - même comédien sur plusieurs lignes qui se suivent = fusion automatique (rowspan)
+# - ligne avec natif et nom vides = autre voix du même personnage (fusion automatique)
+# - note (facultatif) : texte ajouté après le nom, ex : (speaking &amp; singing) ou ?
+#     Sans note mais avec un id, laisse le champ vide : "… | tommy-chu | | ralph"
+# - id du personnage (facultatif, 5e champ) : l'id de ce personnage dans _data/characters.yml (ex : ralph, elsa).
+#     Il sert à la vignette du personnage (voir cast_images plus bas) ; la fiche de l'artiste, elle, retrouve
+#     toute seule l'image du personnage d'après son nom original, sans qu'il soit nécessaire de mettre un id ici.
+#     Mets l'id quand le nom original ne suffit pas à retrouver le personnage (ex : "Hey Nongman…" -> nongman).
+#     "-" à cet endroit = aucune image pour cette ligne.
+# - bandeau : "banner | Texte | URL image | sparkle glow | id"
+# ============================================================
+cast_columns: "TW Mandarin name | Original name | Voices"
+
+
+# VIGNETTES DES PERSONNAGES dans ce tableau (une colonne de petites images à gauche) :
+#   cast_images: false  = jamais de vignettes sur cette page
+#   cast_images: true   = vignettes pour tous les personnages trouvés dans _data/characters.yml
+#                         (id déduit du nom original si le 5e champ est vide ; "-" pour exclure une ligne)
+#   (ligne supprimée)   = vignettes seulement pour les lignes où tu as écrit un id en 5e champ
+# Les fiches des artistes affichent toujours les images, quel que soit ce réglage.
+cast_images: true
+cast:
+  - "白雪 | @snow-white | corisa-lee (speaking) + judy-chen (singing)"
+  - "皇后/巫婆 | @evil-queen-hag | karen-wang"
+  - "白馬王子 | Prince | jiang-xian-cheng (speaking) + xie-wen-de (singing) |  | prince-charming"
+  - "萬事通 | @doc | sun-de-cheng | (speaking &amp; singing)"
+  - "愛生氣 | @grumpy | yang-shao-wen | (speaking &amp; singing)"
+  - "開心果 | @happy | xu-jian-chun | (speaking &amp; singing)"
+  - "害羞鬼 | @bashful | shen-guang-ping | (speaking &amp; singing)"
+  - "噴嚏精 | @sneezy | tong-shao-zong (speaking) + jiang-xian-cheng (singing) ?"
+  - "瞌睡蟲 | @sleepy | jiang-xian-cheng | (speaking &amp; singing)"
+  - "魔鏡 | @magic-mirror | shen-guang-ping"
+  - "獵人 | @huntsman-sw | hong-ming"
 ---
 {% include header.html %}
 <title>{{ page.title }}</title>
@@ -103,10 +209,10 @@ show_songs: true
        → 'Sriracha'   (poids : 400 seulement)
      ============================================================ -->
 
-{% include cast-style.html %}
+{% include cast-style-v2.html %}
 <style>
 /* RÉGLAGES PROPRES À CETTE PAGE : ces valeurs écrasent les valeurs par défaut de
-   _includes/cast-style.html (liste complète des réglages dans ce fichier). Ajoute ici
+   _includes/cast-style-v2.html (liste complète des réglages dans ce fichier). Ajoute ici
    toute autre variable à changer sur cette page seulement. */
 :root {
 
@@ -137,131 +243,11 @@ show_songs: true
   <div class="cast-title-english">Snow White and the Seven Dwarfs</div>
   <hr class="cast-hr">
 
-  <!-- ============================================================
-       COMÉDIENS DE DOUBLAGE — un .voice-card par comédien.
-       MODIFIE ICI : copie/colle un bloc .voice-card pour en ajouter.
-       Mets "(Unknown dates)" si tu n'as pas l'info, sinon le format
-       "(1960? - April 2021?)".
-       Les images grises ci-dessous sont des espaces réservés : remplace
-       chaque src="..." par l'URL de la vraie photo (Cloudinary).
-       ============================================================ -->
-  <div class="voice-cast">
-    <div class="voice-card">
-      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Corisa_Lee.png" alt="Corisa Lee">
-      <div class="actor-name">Corisa Lee</div>
-      <div class="actor-dates">(Unknown dates)</div>
-    </div>
-    <div class="voice-card">
-      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Judy_Chen.png" alt="Judy Chen">
-      <div class="actor-name">Judy Chen</div>
-      <div class="actor-dates">(Unknown dates)</div>
-    </div>
-    <div class="voice-card">
-      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Karen_Wang.png" alt="Karen Wang">
-      <div class="actor-name">Karen Wang</div>
-      <div class="actor-dates">(15 November 1953 -  )</div>
-    </div>
-  </div>
+  <!-- COMÉDIENS (cartes photo) et TABLEAU CAST : générés depuis le front matter tout en haut
+       (cards: et cast:) et depuis les fiches du dossier artists/. -->
+  {% include cast-cards.html %}
 
-  <!-- ============================================================
-       ENCADRÉ "CAST" — un <tr> par personnage.
-       MODIFIE ICI : "?" quand tu n'as pas l'info (nom natif, ou
-       acteur). Les noms de comédiens restent en texte simple pour
-       l'instant (pas de lien) : plus tard, tu pourras les transformer
-       en <a href="/artists/nom.html">...</a> vers leur propre fiche.
-       L'id="cast" est un point d'ancrage invisible : une source en bas
-       de page peut y faire remonter avec <a href="#cast">.
-
-       CAS PARTICULIERS — on fusionne des cellules avec rowspan="N"
-       (la cellule s'étire sur N lignes). Les 3 exemples à copier :
-
-       1) UNE VOIX POUR PLUSIEURS PERSONNAGES (même acteur sur 2 lignes) :
-          la cellule "Voices" est écrite une seule fois, dans la 1re ligne,
-          avec rowspan="2". La 2e ligne n'a donc que 2 <td> (pas de 3e).
-          <tr>
-            <td>Oafish</td><td>Oafish Guard</td>
-            <td rowspan="2">Johan Hedenberg</td>
-          </tr>
-          <tr>
-            <td>Fången</td><td>The Old Heretic</td>
-          </tr>
-
-       2) UN PERSONNAGE (OU GROUPE) AVEC PLUSIEURS VOIX :
-          cette fois ce sont les 2 premières cellules (noms) qui sont
-          fusionnées, avec rowspan="3" (= nombre de voix). Chaque voix a sa
-          propre ligne ; seule la 1re ligne contient aussi les noms.
-          <tr>
-            <td rowspan="3">Vakter och Zigenare</td>
-            <td rowspan="3">Guards &amp; Gypsies</td>
-            <td>Anders Öjebo</td>
-          </tr>
-          <tr><td>Roger Storm</td></tr>
-          <tr><td>Monica Forsberg</td></tr>
-
-       3) LES DEUX À LA FOIS : combine les deux (une cellule peut avoir
-          un rowspan, et la ligne d'à côté un autre).
-
-       Règle simple : le nombre de <td> par ligne = 3 moins les cellules
-       déjà "prises" par un rowspan des lignes du dessus.
-       ============================================================ -->
-  <div class="info-box" id="cast">
-    <div class="info-box-title">Cast</div>
-    <table class="cast-table">
-      <thead>
-        <tr>
-          <th>TW Mandarin name</th>
-          <th>Original name</th>
-          <th>Voices</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>白雪</td> <td>Snow White</td>
-          <td>"Corisa Lee" Lǐ Zhí-Píng / 李直平 (speaking) &amp; "Judy Chen" Chén Xiù-Zhū / 陳秀珠 (singing)</td>
-        </tr>
-        <tr>
-          <td>皇后/巫婆</td> <td>Evil Queen/Hag</td>
-          <td>"Karen Wang" Wáng Jǐng-Píng / 王景平</td>
-        </tr>
-        <tr>
-          <td>白馬王子</td> <td>Prince</td>
-          <td>Jiāng Xiān-Chéng / 姜先誠 (speaking) &amp; Xiè Wén-Dé / 謝文德 (singing)</td>
-        </tr>
-        <tr>
-          <td>萬事通</td> <td>Doc</td>
-          <td>Sūn Dé-Chéng / 孫德成 (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>愛生氣</td> <td>Grumpy</td>
-          <td>Yáng Shǎo-Wén / 楊少文 (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>開心果</td> <td>Happy</td>
-          <td>Xú Jiàn-Chūn / 徐健春 (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>害羞鬼</td> <td>Bashful</td>
-          <td>Shěn Guāng-Píng / 沈光平 (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>噴嚏精</td> <td>Sneezy</td>
-          <td>Tóng Shào-Zōng / 佟紹宗 (speaking) &amp; Jiāng Xiān-Chéng / 姜先誠 ? (singing)</td>
-        </tr>
-        <tr>
-          <td>瞌睡蟲</td> <td>Sleepy</td>
-          <td>Jiāng Xiān-Chéng / 姜先誠 (speaking &amp; singing)</td>
-        </tr>
-        <tr>
-          <td>魔鏡</td> <td>Magic Mirror</td>
-          <td>Shěn Guāng-Píng / 沈光平</td>
-        </tr>
-        <tr>
-          <td>獵人</td> <td>Huntsman</td>
-          <td>"Hóng Míng" Zhāng Hóng-Míng / "洪明" 張鴻明</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  {% include cast-table.html %}
 
   <!-- ============================================================
        ENCADRÉS OPTIONNELS "ADDITIONAL VOICES" / "CHOIR"
@@ -275,25 +261,14 @@ show_songs: true
   {% if page.show_additional_voices %}
   <div class="info-box" id="additional-voices">
     <div class="info-box-title">Additional voices</div>
-    <div class="voices-grid">
-      <div>Name 1 / Native name 1</div>
-      <div>Name 2 / Native name 2</div>
-      <div>Name 3 / Native name 3</div>
-      <div>Name 4 / Native name 4</div>
-    </div>
+    {% include cast-names.html names=page.additional %}
   </div>
   {% endif %}
 
   {% if page.show_choir %}
   <div class="info-box" id="choir">
     <div class="info-box-title">Choir</div>
-    <div class="voices-grid">
-      <div>Name 1 / Native name 1</div>
-      <div>Name 2 / Native name 2</div>
-      <div>Name 3 / Native name 3</div>
-      <div>Name 4 / Native name 4</div>
-      <div>?</div>
-    </div>
+    {% include cast-names.html names=page.choir %}
   </div>
   {% endif %}
 
@@ -313,73 +288,7 @@ show_songs: true
   <div class="info-box" id="songs">
     <div class="info-box-title">Songs</div>
     <ul class="song-list">
-
-      <li class="song-item">
-        <span class="song-title-native">許願井</span>
-        <span class="song-title-english">(« I'm Wishing »)</span>
-        <span class="performed-by"><i>performed by</i> : "Judy Chen" Chén Xiù-Zhū / 陳秀珠 (<i>Snow White</i>) ; Xiè Wén-Dé / 謝文德 (<i>Prince</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">給你的歌</span>
-        <span class="song-title-english">(« One Song »)</span>
-        <span class="performed-by"><i>performed by</i> : Xiè Wén-Dé / 謝文德 (<i>Prince</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">給你的歌 (重奏)</span>
-        <span class="song-title-english">(« One Song (Reprise) »)</span>
-        <span class="performed-by"><i>performed by</i> : "Judy Chen" Chén Xiù-Zhū / 陳秀珠 (<i>Snow White</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">開心唱首歌</span>
-        <span class="song-title-english">(« With a Smile and a Song »)</span>
-        <span class="performed-by"><i>performed by</i> : "Judy Chen" Chén Xiù-Zhū / 陳秀珠 (<i>Snow White</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">吹口哨來作工</span>
-        <span class="song-title-english">(« Whistle While You Work »)</span>
-        <span class="performed-by"><i>performed by</i> : "Judy Chen" Chén Xiù-Zhū / 陳秀珠 (<i>Snow White</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">挖挖挖/嗨呵</span>
-        <span class="song-title-english">(« Dig Dig Dig/Heigh-Ho »)</span>
-        <span class="performed-by"><i>performed by</i> : Xú Jiàn-Chūn / 徐健春 (<i>Happy</i>) ; Yáng Shǎo-Wén / 楊少文 (<i>Grumpy</i>) ; Shěn Guāng-Píng / 沈光平 (<i>Bashful</i>) ; Jiāng Xiān-Chéng / 姜先誠 ? (<i>Sneezy</i>) ; Sūn Dé-Chéng / 孫德成 (<i>Doc</i>) ; Jiāng Xiān-Chéng / 姜先誠 (<i>Sleepy</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">嗨呵 (重奏)</span>
-        <span class="song-title-english">(« Heigh-Ho (Reprise) »)</span>
-        <span class="performed-by"><i>performed by</i> : Sūn Dé-Chéng / 孫德成 ; Xú Jiàn-Chūn / 徐健春 ; Yáng Shǎo-Wén / 楊少文 ; Shěn Guāng-Píng / 沈光平 ; Jiāng Xiān-Chéng / 姜先誠 (<i>Dwarfs' Choir</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">洗手歌</span>
-        <span class="song-title-english">(« The Dwarfs' Washing Song »)</span>
-        <span class="performed-by"><i>performed by</i> : Sūn Dé-Chéng / 孫德成 (<i>Doc</i>) ; Xú Jiàn-Chūn / 徐健春 (<i>Happy</i>) ; Yáng Shǎo-Wén / 楊少文 (<i>Grumpy</i>) ; Shěn Guāng-Píng / 沈光平 (<i>Bashful</i>) ; Jiāng Xiān-Chéng / 姜先誠 ? (<i>Sneezy</i>) ; Jiāng Xiān-Chéng / 姜先誠 (<i>Sleepy</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">抓狂歌</span>
-        <span class="song-title-english">(« The Silly Song »)</span>
-        <span class="performed-by"><i>performed by</i> : Xú Jiàn-Chūn / 徐健春 (<i>Happy</i>) ; Shěn Guāng-Píng / 沈光平 (<i>Bashful</i>) ; "Judy Chen" Chén Xiù-Zhū / 陳秀珠 (<i>Snow White</i>) ; Yáng Shǎo-Wén / 楊少文 ; Sūn Dé-Chéng / 孫德成 ; Jiāng Xiān-Chéng / 姜先誠 (<i>Dwarfs' Choir</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">愛情會來臨</span>
-        <span class="song-title-english">(« Someday My Prince Will Come »)</span>
-        <span class="performed-by"><i>performed by</i> : "Judy Chen" Chén Xiù-Zhū / 陳秀珠 (<i>Snow White</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">愛情會來臨 (重奏)</span>
-        <span class="song-title-english">(« Someday My Prince Will Come (Reprise) »)</span>
-        <span class="performed-by"><i>performed by</i> : "Judy Chen" Chén Xiù-Zhū / 陳秀珠 (<i>Snow White</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">給你的歌 (終曲)</span>
-        <span class="song-title-english">(« One Song (Reprise) »)</span>
-        <span class="performed-by"><i>performed by</i> : Xiè Wén-Dé / 謝文德 (<i>Prince</i>)</span>
-      </li>
-      <li class="song-item">
-        <span class="song-title-native">愛情會來臨 (終曲)</span>
-        <span class="song-title-english">(« Someday My Prince Will Come (Finale) »)</span>
-        <span class="performed-by"><i>performed by</i> : Choir</span>
-      </li>
-
+      {% include cast-songs.html %}
     </ul>
   </div>
   {% endif %}
@@ -391,15 +300,7 @@ show_songs: true
        ============================================================ -->
   <div class="info-box" id="staff">
     <div class="info-box-title">Technical Staff</div>
-    <table class="staff-table">
-      <tr><td class="staff-name">"Karen Wang" Wáng Jǐng-Píng (王景平)</td><td class="staff-role">Dubbing director</td></tr>
-      <tr><td class="staff-name">"Bernard Lau" Lóu Ēn-Qí (樓恩奇)</td><td class="staff-role">Musical director</td></tr>
-      <tr><td class="staff-name">Hóng Zǐ-Jīng (洪紫晶)</td><td class="staff-role">Translation</td></tr>
-      <tr><td class="staff-name">"Bernard Lau" Lóu Ēn-Qí (樓恩奇)</td><td class="staff-role">Lyrics</td></tr>
-      <tr><td class="staff-name">?</td><td class="staff-role">Creative Supervisor</td></tr>
-      <tr><td class="staff-name">Karen Wang's Studio Co., LTD (景平工作室)</td><td class="staff-role">Dubbing studio (dialogues)</td></tr>
-      <tr><td class="staff-name">"HMG" House of Music Group (音樂世家)</td><td class="staff-role">Recording studio (songs)</td></tr>
-    </table>
+    {% include cast-staff.html %}
     <div class="studio-line">DISNEY CHARACTER VOICES INTERNATIONAL, INC.</div>
   </div>
 
@@ -478,4 +379,4 @@ show_songs: true
 
 </div>
 
-{% include cast-scripts.html %}
+{% include cast-scripts-v2.html %}
