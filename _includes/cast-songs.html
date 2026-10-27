@@ -2,6 +2,7 @@
   Liste des chansons depuis page.songs. Une chanson = "titre natif | titre anglais | interprètes | note".
   Interprètes séparés par ; : "fiche @ Personnage". Un interprète qui commence par & est
   précédé de "&" au lieu de ";" (ex : &Choir). Titre natif vide : titre anglais seul, en gras.
+  Plusieurs interprètes pour le même rôle : répète « @ Rôle » pour chacun ; il n'est affiché qu'après le dernier de la série.
   Page à onglets : passe src=tab (l'onglet) pour lire ses données au lieu de celles de la page (sinon : la page elle-même).
 {%- endcomment -%}
 {%- assign cs_src = include.src -%}{%- unless cs_src -%}{%- assign cs_src = page -%}{%- endunless -%}
@@ -32,11 +33,17 @@
             {%- unless forloop.first -%}{%- if amp == "&" %} &amp; {% else %} ; {% endif -%}{%- endunless -%}
             {%- include artist-link.html who=who -%}
             {%- comment %} role = id d'un personnage du tableau (ex : vanellope) -> son nom ; sinon texte libre (ex : Soloist) {% endcomment -%}
+            {%- comment %} même rôle sur les interprètes qui se suivent (ex : un chœur) : il n'est écrit qu'après le DERNIER ("A ; B ; C (Dwarfs' Choir)") ; chacun garde pourtant son rôle sur sa fiche {% endcomment -%}
+            {%- assign nx_role = "" -%}
+            {%- assign nx_tok = tokens[forloop.index] | default: "" | strip | replace_first: "&", "" | strip -%}
+            {%- if nx_tok != "" -%}{%- assign nx_pr = nx_tok | split: "@" -%}{%- assign nx_role = nx_pr[1] | default: "" | strip -%}{%- endif -%}
+            {%- assign role_shown = true -%}
+            {%- if role != "" and role == nx_role -%}{%- assign role_shown = false -%}{%- endif -%}
             {%- if role != "" -%}
               {%- assign role_obj = site.data.characters.list | where: "id", role | first -%}
               {%- if role_obj and role_obj.name -%}{%- assign role = role_obj.name -%}{%- endif -%}
             {%- endif -%}
-            {%- if role != "" %} (<i>{{ role }}</i>){% endif -%}
+            {%- if role != "" and role_shown %} (<i>{{ role }}</i>){% endif -%}
           {%- endfor -%}
         </span>
       </li>
