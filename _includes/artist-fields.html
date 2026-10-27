@@ -6,6 +6,8 @@
     af_nnick   = pseudo natif (native_nickname, ou l'ancien native_nick)
     af_native  = nom natif (native_name, ou l'ancien native)
     af_family  = family_name        af_first = first_name
+    af_part    = particle (facultatif : "Al-", "de", "van der"...) ; af_famfull = particule + nom de famille ("Al-Naser")
+    La particule s'affiche avec le nom de famille mais ne compte pas pour le classement alphabétique (page Voice Artists).
     af_rom     = nom "officiel" en lettres latines :
                  - l'ancien champ romanization s'il est rempli (rien ne change pour les fiches existantes)
                  - sinon composé de first_name + family_name, dans l'ordre de name_order :
@@ -18,13 +20,19 @@
 {%- assign af_native = include.a.native_name | default: include.a.native | default: "" | strip -%}
 {%- assign af_family = include.a.family_name | default: "" | strip -%}
 {%- assign af_first = include.a.first_name | default: "" | strip -%}
+{%- assign af_part = include.a.particle | default: "" | strip -%}
+{%- assign af_famfull = af_family -%}
+{%- if af_part != "" and af_family != "" -%}
+  {%- assign af_part_end = af_part | slice: -1, 1 -%}
+  {%- if af_part_end == "-" or af_part_end == "'" or af_part_end == "’" -%}{%- assign af_famfull = af_part | append: af_family -%}{%- else -%}{%- assign af_famfull = af_part | append: " " | append: af_family -%}{%- endif -%}
+{%- endif -%}
 {%- assign af_rom = include.a.romanization | default: "" | strip -%}
 {%- if af_rom == "" -%}
   {%- if af_family != "" or af_first != "" -%}
     {%- if include.a.name_order == "family" -%}
-      {%- assign af_rom = af_family | append: " " | append: af_first | strip -%}
+      {%- assign af_rom = af_famfull | append: " " | append: af_first | strip -%}
     {%- else -%}
-      {%- assign af_rom = af_first | append: " " | append: af_family | strip -%}
+      {%- assign af_rom = af_first | append: " " | append: af_famfull | strip -%}
     {%- endif -%}
   {%- endif -%}
 {%- endif -%}

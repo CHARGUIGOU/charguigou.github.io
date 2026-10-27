@@ -20,7 +20,7 @@ try:
 except ImportError:
     sys.exit("PyYAML manquant : pip install pyyaml")
 
-COLUMNS = ["artist", "nickname", "native_nickname", "family_name", "first_name", "native_name",
+COLUMNS = ["artist", "nickname", "native_nickname", "family_name", "particle", "first_name", "native_name",
            "name_order", "full_name", "other_names", "prefix", "display", "page_name", "short_name",
            "script", "photo", "address", "country", "dates", "birth_date", "death_date", "kind", "thumb_fit", "gallery", "bio", "romanization"]
 LIST_COLS = {"other_names", "gallery"}
@@ -29,7 +29,8 @@ MARK = "generated: true"
 
 
 def norm_header(h):
-    return re.sub(r"[\s\-]+", "_", str(h or "").strip().lower())
+    h = re.sub(r"[\s\-]+", "_", str(h or "").strip().lower())
+    return {"particule": "particle"}.get(h, h)
 
 
 def cell_text(v):

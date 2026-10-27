@@ -16,7 +16,7 @@ title: Voice artists
   - Photo carrée = "photo:" de la fiche (silhouette si absente). Studios : logo entier (non rogné).
   - Nom sous la photo (mode annuaire "Nom, Prénom") : short_name tel quel, sinon pseudo retourné ("Jason Chau" → "Chau, Jason"),
     sinon family_name + first_name, sinon (ancien système) romanization, sinon display / nom natif.
-    Le classement alphabétique suit ce nom affiché. La recherche trouve aussi full_name et other_names.
+    Le classement alphabétique suit ce nom (sans la colonne particle : « Al-Naser, Gihan » est rangé sous le N). La recherche trouve aussi full_name et other_names.
   - Langues = déduites des pages de cast (cast, voix additionnelles, chœur, chansons, staff) + extra_roles/extra_songs/extra_credits de la fiche.
   - Pays = "country:" de la fiche.
   - Studios = fiches avec "kind: studio". Leur vignette montre l'image ENTIÈRE (logos) ; pour une photo à recadrer en carré,
@@ -87,7 +87,7 @@ title: Voice artists
        1) short_name (tel quel)  2) pseudo retourné ("Jason Chau" → "Chau, Jason" : dernier mot = nom de famille ; pseudo d'un seul mot = tel quel)
        3) family_name, first_name  4) ancien système : romanization  5) display, puis nom natif, puis slug {% endcomment -%}
   {%- assign short_set = a.short_name | default: "" | strip -%}
-  {%- assign nm = "" -%}
+  {%- assign nm = "" -%}{%- assign sort_nm = "" -%}
   {%- if short_set != "" -%}
     {%- assign nm = short_set -%}
   {%- elsif af_nick != "" -%}
@@ -100,6 +100,9 @@ title: Voice artists
     {%- else -%}
       {%- assign nm = af_nick -%}
     {%- endif -%}
+  {%- elsif af_family != "" and af_part != "" -%}
+    {%- comment %} Colonne "particle" (ex : "Al-", "de") : affichée avec le nom de famille ("Al-Naser, Gihan") mais le classement et la lettre suivent le nom de famille seul (Naser -> N) {% endcomment -%}
+    {%- if af_first != "" -%}{%- assign nm = af_famfull | append: ", " | append: af_first -%}{%- assign sort_nm = af_family | append: ", " | append: af_first -%}{%- else -%}{%- assign nm = af_famfull -%}{%- assign sort_nm = af_family -%}{%- endif -%}
   {%- elsif af_family != "" -%}
     {%- if af_first != "" -%}{%- assign nm = af_family | append: ", " | append: af_first -%}{%- else -%}{%- assign nm = af_family -%}{%- endif -%}
   {%- elsif af_rom != "" -%}
@@ -108,6 +111,7 @@ title: Voice artists
     {%- assign nm = a.display | default: af_native | default: a_slug -%}
   {%- endif -%}
   {%- assign nm = nm | strip -%}
+  {%- assign sort_nm = sort_nm | default: nm | strip -%}
   {%- capture search_txt -%}{{ a_slug }} {{ af_nick }} {{ af_rom }} {{ af_family }} {{ af_first }} {{ af_nnick }} {{ af_native }} {{ a.display }} {{ a.short_name }} {{ a.prefix }} {{ a.page_name }} {{ a.full_name }} {{ a.other_names | join: " " }}{%- endcapture -%}
 
   {%- comment %} langues de la fiche {% endcomment -%}
@@ -144,6 +148,7 @@ title: Voice artists
   {%- capture card -%}
   <a class="vi-card{% if is_studio and a.thumb_fit != "cover" %} studio{% endif %}" href="{{ a.url }}"
      data-name="{{ nm | strip_html | escape }}"
+     data-sort="{{ sort_nm | strip_html | escape }}"
      data-search="{{ search_txt | strip_html | escape }}"
      data-langs="|{{ a_langs | escape }}"
      data-country="{{ a_ckey | escape }}">
@@ -360,7 +365,7 @@ a.vi-card:hover .vi-name { color: var(--vi-blue); }
   function norm(s) { return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
   function prep(grid) {
     var arr = Array.prototype.slice.call(grid.querySelectorAll('.vi-card'));
-    arr.forEach(function (c) { c.__s = norm(c.dataset.search); c.__n = norm(c.dataset.name); });
+    arr.forEach(function (c) { c.__s = norm(c.dataset.search); c.__n = norm(c.dataset.sort || c.dataset.name); });
     arr.sort(function (a, b) { return a.__n < b.__n ? -1 : a.__n > b.__n ? 1 : 0; });   /* ordre alphabétique (fixe) */
     return arr;
   }
