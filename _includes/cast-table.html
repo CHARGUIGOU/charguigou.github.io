@@ -15,6 +15,7 @@
     (la même image sert sur la fiche du comédien). Une URL complète est aussi acceptée.
   - bandeau :  banner | Texte | URL de l'image | sparkle glow | id-d-ancrage
   Titres de colonnes : cast_columns: "Cantonese name | Original name | Voices"
+  Sous-titre du titre "Cast" (facultatif) : cast_subtitle: "(Hybrid MSA/Egyptian dub)"
   Page à onglets : passe src=tab (l'onglet) pour lire ses données au lieu de celles de la page (sinon : la page elle-même).
   Page à onglets : passe aussi sfx="-v1" (suffixe de l'id du tableau : id="cast-v1").
 {%- endcomment -%}
@@ -62,7 +63,7 @@
 </style>
 {%- endif -%}
 <div class="info-box" id="cast{{ include.sfx }}">
-  <div class="info-box-title">Cast</div>
+  <div class="info-box-title">Cast{% assign cs_sub = cs_src.cast_subtitle | default: page.cast_subtitle | default: "" %}{% if cs_sub != "" %} <span style="font-size:12px;">{{ cs_sub }}</span>{% endif %}</div>
   <table class="cast-table{% if has_img %} has-img{% endif %}">
     <thead>
       <tr>
