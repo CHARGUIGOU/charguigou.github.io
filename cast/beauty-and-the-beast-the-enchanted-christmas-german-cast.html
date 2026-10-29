@@ -385,7 +385,19 @@ gallery:
     <li><b>Mario von Jascheroff</b>, the voice of Fife, dubbing director, adapter and lyricist, is the father of <b>Constantin von Jascheroff</b>, the voice of Chip.</li>
     <li><b>Thomas Fritsch</b>, the voice of Maestro Forte, returned as <b>Lumiere</b> in the 2002 added scene "<i>Human Again</i>" in the first movie.</li>
   </ul>
+  <!-- ============================================================
+       GALERIE
+       ============================================================ -->
 
+<div class="gallery-title">Gallery</div>
+<div class="gallery-carousel" id="galleryCarousel">
+  <button class="gallery-arrow prev" type="button" aria-label="Previous images">&#8249;</button>
+  <div class="gallery-track" id="galleryTrack">
+    {% include cast-gallery.html %}
+  </div>
+  <button class="gallery-arrow next" type="button" aria-label="Next images">&#8250;</button>
+</div>
+  
   <!-- ============================================================
        LIENS VERS LES PAGES SIMILAIRES (optionnel)
        - .related-prev : film(s) qui viennent AVANT celui-ci (à gauche,
