@@ -34,6 +34,20 @@ language: "Language"
 # trouvés dans characters.xlsx ; ligne supprimée = seulement les lignes qui ont un id en 5e champ)
 cast_images: false
 
+# ============================================================
+# GALERIE (diaporama du bas de page) : une ligne par image, 3 colonnes séparées par « | » :
+#     "fichier | légende | recadrage"
+#   fichier   : le nom du fichier sur Cloudinary (le début de l'URL est ajouté tout seul, voir cast-gallery.html).
+#   légende   : facultatif ; affichée au survol de la miniature (voile bleu) et sous l'image ouverte.
+#   recadrage : facultatif ; partie gardée dans la miniature carrée : north (haut, par défaut), center, south.
+#   gallery_full : facultatif ; pour les très grandes images ou à trame fine, taille de l'affichage plein écran.
+#   gallery_base : facultatif ; seulement si les images sont ailleurs que sur le Cloudinary habituel.
+# ============================================================
+# gallery_full: "w_1600,q_auto:best"
+gallery:
+  - "IMAGE-1.jpg | Poster"
+  - "IMAGE-2.png | Disney+ | center"
+
 tabs:
   # ------------------------------------------------------------
   # ONGLET 1
@@ -51,49 +65,6 @@ tabs:
 
     # Cartes photo des comédiens : le "artist" de chaque fiche (dossier artists/)
     cards: [artist-slug-1, artist-slug-2, artist-slug-3]
-
-    # Voix additionnelles / choeur : le "artist" de leurs fiches (ou un texte libre sans fiche)
-    additional:
-      - "artist-slug-4"
-      - "artist-slug-5"
-    additional_intl:
-      - "Nom Prénom (texte simple, sans fiche)"
-    choir:
-      - "artist-slug-6"
-
-    # CHANSONS : une ligne par chanson, 4 colonnes séparées par « | » :
-    #     "titre natif | titre anglais | interprètes | note"
-    #   COLONNE 1 — titre natif : le titre dans la langue du doublage. VIDE = pas de ligne native : le titre anglais passe en gras.
-    #   COLONNE 2 — titre anglais : le titre original, affiché entre guillemets (ex : Let it Go).
-    #   COLONNE 3 — interprètes, séparés par « ; » : "fiche @ Personnage" (le « @ Personnage » est facultatif).
-    #               « Personnage » = de préférence l'id du personnage (ex : ralph) : son nom vient de characters.xlsx ; sinon texte libre
-    #               (ex : Dwarfs' Choir). Le rôle est repris sur la fiche de l'artiste.
-    #               Interprètes qui se suivent avec le MÊME rôle : le rôle n'est affiché qu'après le dernier (« a ; b ; c @ Dwarfs' Choir »
-    #               s'écrit « a @ Dwarfs' Choir; b @ Dwarfs' Choir; c @ Dwarfs' Choir »), mais chacun l'a sur sa fiche.
-    #               Un interprète qui commence par « & » est précédé de « & » au lieu de « ; » (ex : &Choir).
-    #               Plusieurs voix pour un même personnage : répète le « @ Personnage » pour chacune.
-    #   COLONNE 4 — note (facultatif) : affichée à côté du titre quand il n'y a pas de titre natif (ex : Performed in English).
-    songs:
-      - "titre natif | English title | artist-slug-1 @ Personnage; artist-slug-2 @ Personnage; &Choir"
-      - " | English title (sans titre natif) | artist-slug-1 @ Personnage | Performed in English"
-
-    # TECHNICAL STAFF : une ligne par poste, 2 colonnes séparées par « | » :
-    #     "personne(s) | poste"
-    #   COLONNE 1 — personne(s) : le « artist » d'une fiche. Plusieurs personnes pour le même poste : sépare-les par « ; ».
-    #               Un studio (ou tout texte qui n'est pas une fiche) s'affiche tel quel, sans lien. "?" = inconnu.
-    #   COLONNE 2 — poste : le texte affiché à droite (ex : Dubbing director, Musical director, Translation, Lyrics...).
-    staff:
-      - "artist-slug-1 | Dubbing director"
-      - "artist-slug-2 | Musical director"
-      - "artist-slug-3; artist-slug-4 | Production coordinators"
-      - "studio-slug | Dubbing studio"
-
-    # Sources de CET onglet : "texte" ou "texte | boîte" ; la boîte ajoute la petite flèche ↑ qui remonte vers
-    # elle : cast, additional-voices, choir, songs ou staff.
-    sources:
-      - "Dubbing director"
-      - "Lyrics (song titles) | songs"
-      - "Another source without arrow"
 
     # TABLEAU CAST : une ligne par personnage, 5 colonnes séparées par « | » :
     #     "nom natif | nom original | comédien | note | id du personnage"
@@ -144,6 +115,49 @@ tabs:
       - "banner | Titre du bandeau | https://res.cloudinary.com/dofvjifeo/image/upload/IMAGE-DU-BANDEAU.png | sparkle glow"
       - "nom natif | Original name | artist-slug-6"
 
+    # Voix additionnelles / choeur : le "artist" de leurs fiches (ou un texte libre sans fiche)
+    additional:
+      - "artist-slug-4"
+      - "artist-slug-5"
+    additional_intl:
+      - "Nom Prénom (texte simple, sans fiche)"
+    choir:
+      - "artist-slug-6"
+
+    # CHANSONS : une ligne par chanson, 4 colonnes séparées par « | » :
+    #     "titre natif | titre anglais | interprètes | note"
+    #   COLONNE 1 — titre natif : le titre dans la langue du doublage. VIDE = pas de ligne native : le titre anglais passe en gras.
+    #   COLONNE 2 — titre anglais : le titre original, affiché entre guillemets (ex : Let it Go).
+    #   COLONNE 3 — interprètes, séparés par « ; » : "fiche @ Personnage" (le « @ Personnage » est facultatif).
+    #               « Personnage » = de préférence l'id du personnage (ex : ralph) : son nom vient de characters.xlsx ; sinon texte libre
+    #               (ex : Dwarfs' Choir). Le rôle est repris sur la fiche de l'artiste.
+    #               Interprètes qui se suivent avec le MÊME rôle : le rôle n'est affiché qu'après le dernier (« a ; b ; c @ Dwarfs' Choir »
+    #               s'écrit « a @ Dwarfs' Choir; b @ Dwarfs' Choir; c @ Dwarfs' Choir »), mais chacun l'a sur sa fiche.
+    #               Un interprète qui commence par « & » est précédé de « & » au lieu de « ; » (ex : &Choir).
+    #               Plusieurs voix pour un même personnage : répète le « @ Personnage » pour chacune.
+    #   COLONNE 4 — note (facultatif) : affichée à côté du titre quand il n'y a pas de titre natif (ex : Performed in English).
+    songs:
+      - "titre natif | English title | artist-slug-1 @ Personnage; artist-slug-2 @ Personnage; &Choir"
+      - " | English title (sans titre natif) | artist-slug-1 @ Personnage | Performed in English"
+
+    # TECHNICAL STAFF : une ligne par poste, 2 colonnes séparées par « | » :
+    #     "personne(s) | poste"
+    #   COLONNE 1 — personne(s) : le « artist » d'une fiche. Plusieurs personnes pour le même poste : sépare-les par « ; ».
+    #               Un studio (ou tout texte qui n'est pas une fiche) s'affiche tel quel, sans lien. "?" = inconnu.
+    #   COLONNE 2 — poste : le texte affiché à droite (ex : Dubbing director, Musical director, Translation, Lyrics...).
+    staff:
+      - "artist-slug-1 | Dubbing director"
+      - "artist-slug-2 | Musical director"
+      - "artist-slug-3; artist-slug-4 | Production coordinators"
+      - "studio-slug | Dubbing studio"
+
+    # Sources de CET onglet : "texte" ou "texte | boîte" ; la boîte ajoute la petite flèche ↑ qui remonte vers
+    # elle : cast, additional-voices, choir, songs ou staff.
+    sources:
+      - "Dubbing director"
+      - "Lyrics (song titles) | songs"
+      - "Another source without arrow"
+
   # ------------------------------------------------------------
   # ONGLET 2 (même structure ; supprime ce bloc s'il n'y a qu'un doublage)
   # ------------------------------------------------------------
@@ -154,6 +168,9 @@ tabs:
     show_choir: false
     show_songs: true
     cards: [artist-slug-7]
+    cast_columns: "Language name | Original name | Voices"
+    cast:
+      - "nom natif | Original name | artist-slug-7"
     additional: []
     choir: []
     songs:
@@ -162,9 +179,6 @@ tabs:
       - "artist-slug-8 | Dubbing director"
     sources:
       - "Source for this version | cast"
-    cast_columns: "Language name | Original name | Voices"
-    cast:
-      - "nom natif | Original name | artist-slug-7"
 ---
 {% include header.html %}
 <title>{{ page.title }}</title>
@@ -377,24 +391,15 @@ tabs:
        - data-caption="..." (optionnel) : légende affichée au survol
          de la miniature (voile bleu) et sous l'image ouverte. Sans
          data-caption, pas de voile ni de légende pour cette image.
-       - Remplace chaque src par l'URL de la vraie image.
-       - IMAGES TRÈS GRANDES ou avec une trame fine (affiches, motifs...) :
-         une image redimensionnée par le navigateur peut paraître granuleuse
-         ou « moirée ». Solution : faire redimensionner l'image par Cloudinary,
-         en ajoutant des réglages juste après /upload/ dans l'URL.
-           src       = miniature : .../upload/w_450,h_450,c_fill,g_north,q_auto:best/NOM.png
-                       (carré 450px, recadré sur le haut ; g_center = au centre, g_south = en bas)
-           data-full = affichage plein écran : .../upload/w_1600,q_auto:best/NOM.png
-                       (le navigateur l'utilise à l'ouverture ; sans data-full, c'est le src)
+       - Les images se déclarent dans « gallery: » du front matter (voir plus haut) : fichier | légende | recadrage.
+         Tu peux aussi écrire à la main des <img src="..." data-full="..." data-caption="..."> à côté de l'include.
        Change "Gallery" en "Media" si tu préfères.
        ============================================================ -->
   <div class="gallery-title">Gallery</div>
   <div class="gallery-carousel" id="galleryCarousel">
     <button class="gallery-arrow prev" type="button" aria-label="Previous images">&#8249;</button>
     <div class="gallery-track" id="galleryTrack">
-        <img src="https://res.cloudinary.com/dofvjifeo/image/upload/w_450,h_450,c_fill,g_north,q_auto:best/NOM_IMAGE.jpg"
-             data-full="https://res.cloudinary.com/dofvjifeo/image/upload/NOM_IMAGE.jpg"
-             alt="..." data-caption="...">
+      {% include cast-gallery.html %}
     </div>
     <button class="gallery-arrow next" type="button" aria-label="Next images">&#8250;</button>
   </div>
@@ -407,15 +412,16 @@ tabs:
        - .related-next : film(s) qui viennent APRÈS (à droite, flèche
          vers la droite).
        Plusieurs films dans un bloc ? Ajoute simplement un <a> par ligne.
+       Les liens s'ouvrent dans un NOUVEL ONGLET (target="_blank" rel="noopener") ; pour ouvrir dans le même onglet, supprime ces deux attributs.
        Pas de film avant (ou après) ? Supprime tout le bloc
        correspondant (prev ou next) : l'autre reste à sa place.
        ============================================================ -->
   <div class="cast-related">
     <div class="related-prev">
-      <a href="#"><span class="related-arrow">➤</span>Previous film (year)</a>
+      <a href="#" target="_blank" rel="noopener"><span class="related-arrow">➤</span>Previous film (year)</a>
     </div>
     <div class="related-next">
-      <a href="#">Film suivant (YEAR)<span class="related-arrow">➤</span></a>
+      <a href="#" target="_blank" rel="noopener">Film suivant (YEAR)<span class="related-arrow">➤</span></a>
     </div>
   </div>
 
