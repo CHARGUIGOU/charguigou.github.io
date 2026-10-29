@@ -21,8 +21,8 @@ title: "Beauty and the Beast: The Enchanted Christmas (1998) - Brazilian Portugu
 # false = il disparaît complètement de la page
 # (pas besoin de supprimer le code HTML plus bas)
 # ============================================================
-show_additional_voices: false
-show_choir: false   # passe à true + remplis « choir: » plus bas
+show_additional_voices: fase
+show_choir: true
 show_songs: true
 
 # ============================================================
@@ -43,7 +43,7 @@ cards: [thomas-fritsch, maud-ackermann, mario-von-jascheroff]
 # ============================================================
 year: 1998-11-18
 film: "Beauty and the Beast: The Enchanted Christmas"          # exactement le titre de l'apparition (onglet Apparitions de characters.xlsx) (majuscules ignorées)
-language: "German"
+language: "Brazilian Portuguese"
 
 # ============================================================
 # TABLEAU CAST : une ligne par personnage, 5 colonnes séparées par « | » :
@@ -82,7 +82,7 @@ language: "German"
 #   ex : "Cantonese name | Original name | Voices".
 #   cast_subtitle (facultatif) = petit texte à côté du titre « Cast », ex : cast_subtitle: "(Hybrid MSA/Egyptian dub)".
 # ============================================================
-cast_columns: "German name | Original name | Voices"
+cast_columns: "BR Portuguese name | Original name | Voices"
 # cast_subtitle: "(petit texte à côté du titre Cast)"   # facultatif
 
 # VIGNETTES DES PERSONNAGES dans ce tableau (une colonne de petites images à gauche) :
@@ -93,16 +93,19 @@ cast_columns: "German name | Original name | Voices"
 # Les fiches des artistes affichent toujours les images, quel que soit ce réglage.
 cast_images: true
 cast:
-  - "Belle | @belle | jana-werner | (speaking &amp; singing)"
-  - "Biest | @beast | matthias-freihof"
-  - "Angélique | @angelique | maud-ackermann (speaking) + heike-gentsch (singing)"
-  - "Maestro Forte | @maestro-forte | thomas-fritsch (speaking &amp; singing)"
-  - "Pico | @fife | mario-von-jascheroff"
-  - "Lumière | @lumiere | joachim-kemmer | (speaking &amp; singing)"
-  - "Von Unruh | @cogsworth | roland-hemmo (speaking) + wolfgang-ostberg (singing)"
-  - "Mme Pottine | @mrs-potts | ingeborg-wellmann"
-  - "Tassilo | @chip | constantin-von-jascheroff (speaking &amp; singing)"
-  - "Axt | @axe-batb | wolfgang-ostberg"
+  - "Bela | @belle | ju-cassou | (speaking &amp; singing)"
+  - "Fera/Príncipe | @beast-prince | garcia-junior"
+  - "Angélique | @angelique | kiara-sasso | (speaking &amp; singing)"
+  - "Maestro Fortes | @maestro-forte | pietro-mario (speaking) + mauricio-luz (singing)"
+  - "Pífano | @fife | pedro-eugenio"
+  - "Lumière | @lumiere | mauro-ramos | (speaking &amp; singing)"
+  - "Horloge | @cogsworth | isaac-schneider | (speaking &amp; singing)"
+  - "Madame Samovar | @mrs-potts | geisa-vidal"
+  - "Zip | @chip | caio-cesar (speaking) + jonas-caforo (singing)"
+  - "Mendiga/Feiticeira | @beggar-enchantress | dolores-machado"
+  - "Machado | @axe-batb | francisco-jose"
+  - "Lata de óleo | @oil-can | mauricio-berger"
+  - "Locutor | Announcer | mauricio-berger"
 #  - "nom natif 2 | Original name 2 | artist-slug-2 = Texte affiché à la place du nom officiel"
 #  - " |  | artist-slug-3"
 
@@ -121,13 +124,14 @@ cast:
 #   COLONNE 4 — note (facultatif) : affichée à côté du titre quand il n'y a pas de titre natif (ex : Performed in English).
 # ============================================================
 songs:
-  - "Falalalala | Deck the Halls | joachim-kemmer @ lumiere; wolfgang-ostberg @ cogsworth; heike-gentsch @ angelique; ingeborg-wellmann @ mrs-potts; &Choir"
-  - "Geschichten | Stories | jana-werner @ belle"
-  - "Solange es Weihnachten gibt | As Long As There's Christmas | jana-werner @ belle; wolfgang-ostberg @ cogsworth; ingeborg-wellmann @ mrs-potts; joachim-kemmer @ lumiere; constantin-von-jascheroff @ chip; ? @ fifi; &Choir"
-  - "Verliebt euch nicht | Don't Fall in Love | thomas-fritsch @ maestro-forte"
-  - "Solange es Weihnachten gibt (Reprise) | As Long As There's Christmas (Reprise) | heike-gentsch @ angelique; jana-werner @ belle"
-  - "Es kommt keiner an uns ran | A Cut Above the Rest | joachim-kemmer @ lumiere; wolfgang-ostberg @ cogsworth; jana-werner @ belle"
-  - "Solange es Weihnachten gibt (Endetitel) | As Long As There's Christmas (End Title) | ute-becker; &thomas-zaufke"
+  - "Óh! Cantemos com Alegria | Deck the Halls | mauro-ramos @ lumiere; isaac-schneider @ cogsworth; kiara-sasso @ angelique; geisa-vidal @ mrs-potts; ju-cassou; &Choir"
+  - "Histórias | Stories | ju-cassou @ belle"
+  - "Natal para Todos | As Long As There's Christmas | ju-cassou @ belle; isaac-schneider @ cogsworth; geisa-vidal @ mrs-potts; mauro-ramos @ lumiere; jonas-caforo @ chip; nanna-tribuzy @ fifi; &Choir"
+  - "Óh! Cantemos com Alegria | Deck the Halls | mauricio-luz @ maestro-forte"
+  - "Esqueça o Amor | Don't Fall in Love | mauricio-luz @ maestro-forte"
+  - "Natal para Todos (Reprise) | As Long As There's Christmas (Reprise) | kiara-sasso @ angelique; ju-cassou @ belle"
+  - "Ninguém Vai Nos Superar | A Cut Above the Rest | mauro-ramos @ lumiere; isaac-schneider @ cogsworth; ju-cassou @ belle"
+  - "Natal para Todos (Créditos Finais) | As Long As There's Christmas (End Title) | gottsha; &marcelo-coutinho"
 
 # ============================================================
 # VOIX ADDITIONNELLES CRÉDITÉES : les "artist" de leurs fiches, dans l'ordre d'affichage
@@ -143,7 +147,19 @@ additional:
 #  - "Nom Prénom (texte simple, sans fiche)"
 
 # CHOEUR (affiché si show_choir: true) : mêmes règles que additional.
-choir: []
+choir:
+  - "aline-cabral"
+  - "alfredo-liryo"
+  - "augusto-caruso"
+  - "deco-fiori"
+  - "fernanda-cappelli"
+  - "juliana-franco"
+  - "kika-tristao"
+  - "mauricio-luz"
+  - "marcia-coutinho"
+  - "nadja-daltro"
+  - "ronaldo-victorio"
+  - "simo"
 
 # ============================================================
 # TECHNICAL STAFF : une ligne par poste, 2 colonnes séparées par « | » :
@@ -153,13 +169,14 @@ choir: []
 #   COLONNE 2 — poste : le texte affiché à droite (ex : Dubbing director, Musical director, Translation, Lyrics...).
 # ============================================================
 staff:
-  - "mario-von-jascheroff | Dubbing director"
-  - "andreas-hommelsheim | Musical director"
-  - "mario-von-jascheroff | Adaptation"
-  - "mario-von-jascheroff | Lyrics"
-  - "nikki-rabanus | Creative executive"
-  - "berliner-synchron | Dubbing studio (dialogues)"
-  - "blackbird-music | Recording studio (songs)"
+  - "telmo-perle-munch | Dubbing director"
+  - "marcelo-coutinho | Musical director"
+  - "telmo-perle-munch | Translation/Adaptation"
+  - "pavlos-euthymiou | Lyrics"
+  - "luiz-guilherme-dorey | Sound engineer"
+  - "renato-raposo | Sound engineer"
+  - "delart | Dubbing studio (dialogues)"
+  - "double-sound | Recording studio (songs)"
 
 # ============================================================
 # GALERIE (diaporama du bas de page) : une ligne par image, 3 colonnes séparées par « | » :
@@ -381,9 +398,8 @@ gallery:
   <ul class="cast-trivia">
     <li>Release date :<br>
     Brazil - <b>11 November 1998</b> <small>(VHS)</small></li>
-    <li>Ingeborg Wellmann, the voice of Mrs. Potts, was miscredited in the cast as <i>Ingeborg Wellman</i>.</li>
-    <li><b>Mario von Jascheroff</b>, the voice of Fife, dubbing director, adapter and lyricist, is the father of <b>Constantin von Jascheroff</b>, the voice of Chip.</li>
-    <li><b>Thomas Fritsch</b>, the voice of Maestro Forte, returned as <b>Lumiere</b> in the 2002 added scene "<i>Human Again</i>" in the first movie.</li>
+    <li><b>Maurício Luz</b>, the singing voice of Maestro Forte, was the singing voice of <b>Gaston</b> in the first movie.</li>
+    <li>Kiara Sasso, the voice of Angelique, was credited with her real name's spelling, <i>Chiara Sasso</i>.</li>
   </ul>
   <!-- ============================================================
        GALERIE
