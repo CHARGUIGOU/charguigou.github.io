@@ -46,61 +46,6 @@ film: "Beauty and the Beast: The Enchanted Christmas"          # exactement le t
 language: "German"
 
 # ============================================================
-# VOIX ADDITIONNELLES CRÉDITÉES : les "artist" de leurs fiches, dans l'ordre d'affichage
-# (une fiche par personne ; elles apparaissent sur la page de la personne avec "Additional voice")
-# ============================================================
-additional:
-  - "artist-slug-1"
-  - "artist-slug-2"
-  - "artist-slug-3"
-
-# Voix additionnelles internationales : une fiche si le texte est l'identifiant d'une fiche, sinon texte simple.
-# additional_intl:
-#  - "Nom Prénom (texte simple, sans fiche)"
-
-# CHOEUR (affiché si show_choir: true) : mêmes règles que additional.
-choir: []
-
-# ============================================================
-# CHANSONS : une ligne par chanson, 4 colonnes séparées par « | » :
-#     "titre natif | titre anglais | interprètes | note"
-#   COLONNE 1 — titre natif : le titre dans la langue du doublage. VIDE = pas de ligne native : le titre anglais passe en gras.
-#   COLONNE 2 — titre anglais : le titre original, affiché entre guillemets (ex : Let it Go).
-#   COLONNE 3 — interprètes, séparés par « ; » : "fiche @ Personnage" (le « @ Personnage » est facultatif).
-#               « Personnage » = de préférence l'id du personnage (ex : ralph) : son nom vient de characters.xlsx ; sinon texte libre
-#               (ex : Dwarfs' Choir). Le rôle est repris sur la fiche de l'artiste.
-#               Interprètes qui se suivent avec le MÊME rôle : le rôle n'est affiché qu'après le dernier (« a ; b ; c @ Dwarfs' Choir »
-#               s'écrit « a @ Dwarfs' Choir; b @ Dwarfs' Choir; c @ Dwarfs' Choir »), mais chacun l'a sur sa fiche.
-#               Un interprète qui commence par « & » est précédé de « & » au lieu de « ; » (ex : &Choir).
-#               Plusieurs voix pour un même personnage : répète le « @ Personnage » pour chacune.
-#   COLONNE 4 — note (facultatif) : affichée à côté du titre quand il n'y a pas de titre natif (ex : Performed in English).
-# ============================================================
-songs:
-  - "Falalalala | Deck the Halls | joachim-kemmer @ lumiere; wolfgang-ostberg @ cogsworth; heike-gentsch @ angelique; ingeborg-wellmann @ mrs-potts; &Choir"
-  - "Geschichten | Stories | jana-werner @ belle"
-  - "Solange es Weihnachten gibt | As Long As There's Christmas | jana-werner @ belle; wolfgang-ostberg @ cogsworth; ingeborg-wellmann @ mrs-potts; joachim-kemmer @ lumiere; constantin-von-jascheroff @ chip; ? @ fifi; &Choir"
-  - "Verliebt euch nicht | Don't Fall in Love | thomas-fritsch @ maestro-forte"
-  - "Solange es Weihnachten gibt (Reprise) | As Long As There's Christmas (Reprise) | heike-gentsch @ angelique; jana-werner @ belle"
-  - "Es kommt keiner an uns ran | A Cut Above the Rest | joachim-kemmer @ lumiere; wolfgang-ostberg @ cogsworth; jana-werner @ belle"
-  - "Solange es Weihnachten gibt (Endetitel) | As Long As There's Christmas (End Title) | ute-becker; &thomas-zaufke"
-
-# ============================================================
-# TECHNICAL STAFF : une ligne par poste, 2 colonnes séparées par « | » :
-#     "personne(s) | poste"
-#   COLONNE 1 — personne(s) : le « artist » d'une fiche. Plusieurs personnes pour le même poste : sépare-les par « ; ».
-#               Un studio (ou tout texte qui n'est pas une fiche) s'affiche tel quel, sans lien. "?" = inconnu.
-#   COLONNE 2 — poste : le texte affiché à droite (ex : Dubbing director, Musical director, Translation, Lyrics...).
-# ============================================================
-staff:
-  - "mario-von-jascheroff | Dubbing director"
-  - "andreas-hommelsheim | Musical director"
-  - "mario-von-jascheroff | Adaptation"
-  - "mario-von-jascheroff | Lyrics"
-  - "nikki-rabanus | Creative executive"
-  - "berliner-synchron | Dubbing studio (dialogues)"
-  - "blackbird-music | Recording studio (songs)"
-
-# ============================================================
 # TABLEAU CAST : une ligne par personnage, 5 colonnes séparées par « | » :
 #     "nom natif | nom original | comédien | note | id du personnage"
 #
@@ -160,6 +105,77 @@ cast:
   - "Axt | @axe-batb | wolfgang-ostberg"
 #  - "nom natif 2 | Original name 2 | artist-slug-2 = Texte affiché à la place du nom officiel"
 #  - " |  | artist-slug-3"
+
+# ============================================================
+# CHANSONS : une ligne par chanson, 4 colonnes séparées par « | » :
+#     "titre natif | titre anglais | interprètes | note"
+#   COLONNE 1 — titre natif : le titre dans la langue du doublage. VIDE = pas de ligne native : le titre anglais passe en gras.
+#   COLONNE 2 — titre anglais : le titre original, affiché entre guillemets (ex : Let it Go).
+#   COLONNE 3 — interprètes, séparés par « ; » : "fiche @ Personnage" (le « @ Personnage » est facultatif).
+#               « Personnage » = de préférence l'id du personnage (ex : ralph) : son nom vient de characters.xlsx ; sinon texte libre
+#               (ex : Dwarfs' Choir). Le rôle est repris sur la fiche de l'artiste.
+#               Interprètes qui se suivent avec le MÊME rôle : le rôle n'est affiché qu'après le dernier (« a ; b ; c @ Dwarfs' Choir »
+#               s'écrit « a @ Dwarfs' Choir; b @ Dwarfs' Choir; c @ Dwarfs' Choir »), mais chacun l'a sur sa fiche.
+#               Un interprète qui commence par « & » est précédé de « & » au lieu de « ; » (ex : &Choir).
+#               Plusieurs voix pour un même personnage : répète le « @ Personnage » pour chacune.
+#   COLONNE 4 — note (facultatif) : affichée à côté du titre quand il n'y a pas de titre natif (ex : Performed in English).
+# ============================================================
+songs:
+  - "Falalalala | Deck the Halls | joachim-kemmer @ lumiere; wolfgang-ostberg @ cogsworth; heike-gentsch @ angelique; ingeborg-wellmann @ mrs-potts; &Choir"
+  - "Geschichten | Stories | jana-werner @ belle"
+  - "Solange es Weihnachten gibt | As Long As There's Christmas | jana-werner @ belle; wolfgang-ostberg @ cogsworth; ingeborg-wellmann @ mrs-potts; joachim-kemmer @ lumiere; constantin-von-jascheroff @ chip; ? @ fifi; &Choir"
+  - "Verliebt euch nicht | Don't Fall in Love | thomas-fritsch @ maestro-forte"
+  - "Solange es Weihnachten gibt (Reprise) | As Long As There's Christmas (Reprise) | heike-gentsch @ angelique; jana-werner @ belle"
+  - "Es kommt keiner an uns ran | A Cut Above the Rest | joachim-kemmer @ lumiere; wolfgang-ostberg @ cogsworth; jana-werner @ belle"
+  - "Solange es Weihnachten gibt (Endetitel) | As Long As There's Christmas (End Title) | ute-becker; &thomas-zaufke"
+
+# ============================================================
+# VOIX ADDITIONNELLES CRÉDITÉES : les "artist" de leurs fiches, dans l'ordre d'affichage
+# (une fiche par personne ; elles apparaissent sur la page de la personne avec "Additional voice")
+# ============================================================
+additional:
+  - "artist-slug-1"
+  - "artist-slug-2"
+  - "artist-slug-3"
+
+# Voix additionnelles internationales : une fiche si le texte est l'identifiant d'une fiche, sinon texte simple.
+# additional_intl:
+#  - "Nom Prénom (texte simple, sans fiche)"
+
+# CHOEUR (affiché si show_choir: true) : mêmes règles que additional.
+choir: []
+
+# ============================================================
+# TECHNICAL STAFF : une ligne par poste, 2 colonnes séparées par « | » :
+#     "personne(s) | poste"
+#   COLONNE 1 — personne(s) : le « artist » d'une fiche. Plusieurs personnes pour le même poste : sépare-les par « ; ».
+#               Un studio (ou tout texte qui n'est pas une fiche) s'affiche tel quel, sans lien. "?" = inconnu.
+#   COLONNE 2 — poste : le texte affiché à droite (ex : Dubbing director, Musical director, Translation, Lyrics...).
+# ============================================================
+staff:
+  - "mario-von-jascheroff | Dubbing director"
+  - "andreas-hommelsheim | Musical director"
+  - "mario-von-jascheroff | Adaptation"
+  - "mario-von-jascheroff | Lyrics"
+  - "nikki-rabanus | Creative executive"
+  - "berliner-synchron | Dubbing studio (dialogues)"
+  - "blackbird-music | Recording studio (songs)"
+
+# ============================================================
+# GALERIE (diaporama du bas de page) : une ligne par image, 3 colonnes séparées par « | » :
+#     "fichier | légende | recadrage"
+#   fichier   : le nom du fichier sur Cloudinary (le début de l'URL est ajouté tout seul, voir cast-gallery.html).
+#   légende   : facultatif ; affichée au survol de la miniature (voile bleu) et sous l'image ouverte.
+#   recadrage : facultatif ; partie gardée dans la miniature carrée : north (haut, par défaut), center, south.
+#   gallery_full : facultatif ; pour les très grandes images ou à trame fine, taille de l'affichage plein écran.
+#   gallery_base : facultatif ; seulement si les images sont ailleurs que sur le Cloudinary habituel.
+# ============================================================
+# gallery_full: "w_1600,q_auto:best"
+gallery:
+  - "Beauty_and_the_Beast_2_German_1998_VHS.jpg | 1998 VHS"
+  - "Beauty_and_the_Beast_2_German_DVD.jpg | German DVD"
+  - "Beauty_and_the_Beast_2_German_2010_DVD.jpg | 2010 DVD"
+  - "Beauty_and_the_Beast_2_German_Disney.jpg | Disney+"
 
 ---
 {% include header.html %}
