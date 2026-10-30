@@ -959,6 +959,15 @@ body {
 .sources-list li {
   margin-bottom: 2px;
 }
+/* Liens des sources : couleur du site, sans changement une fois visités */
+.sources-list a:not(.back-ref),
+.sources-list a:not(.back-ref):visited {
+  color: var(--link-color);
+  text-decoration: none;
+}
+.sources-list a:not(.back-ref):hover {
+  text-decoration: underline;
+}
 /* Petite flèche ↑ optionnelle : remonte vers une boîte de la page */
 .sources-list .back-ref {
   font-style: normal;
