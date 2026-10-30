@@ -459,33 +459,18 @@ gallery:
   </ul>
 
   <!-- ============================================================
-       GALERIE (diaporama) — MODIFIE ICI : un <img> par image, dans
-       l'ordre voulu. Les miniatures s'affichent en carré (recadrées
-       au centre) ; s'il y en a trop pour la largeur de la page, des
-       flèches apparaissent pour les faire défiler. Au clic, la
-       galerie s'ouvre en plein écran (flèches, clavier, Échap).
-       - data-caption="..." (optionnel) : légende affichée au survol
-         de la miniature (voile bleu) et sous l'image ouverte. Sans
-         data-caption, pas de voile ni de légende pour cette image.
-       - Les carrés gris numérotés sont des espaces réservés : remplace
-         chaque src par l'URL de la vraie image (la même image sert à
-         la miniature et à l'affichage en grand).
-       Change "Gallery" en "Media" si tu préfères.
+       GALERIE
        ============================================================ -->
-  <div class="gallery-title">Gallery</div>
-  <div class="gallery-carousel" id="galleryCarousel">
-    <button class="gallery-arrow prev" type="button" aria-label="Previous images">&#8249;</button>
-    <div class="gallery-track" id="galleryTrack">
-      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/w_450,h_450,c_fill,g_north,q_auto:best/Ralph_Breaks_the_Internet_Castilian_1.jpg"
-           data-full="https://res.cloudinary.com/dofvjifeo/image/upload/Ralph_Breaks_the_Internet_Castilian_1.jpg" alt="Ralph Breaks the Internet Castilian Spanish poster">
-      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/w_450,h_450,c_fill,g_north,q_auto:best/Ralph_Breaks_the_Internet_Castilian_2.jpg"
-           data-full="https://res.cloudinary.com/dofvjifeo/image/upload/Ralph_Breaks_the_Internet_Castilian_2.jpg" alt="Ralph Breaks the Internet Castilian Spanish poster">
-      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/w_450,h_450,c_fill,g_north,q_auto:best/Ralph_Breaks_the_Internet_Castilian_3.jpg"
-           data-full="https://res.cloudinary.com/dofvjifeo/image/upload/Ralph_Breaks_the_Internet_Castilian_3.jpg" alt="Ralph Breaks the Internet Castilian Spanish poster">
-    </div>
-    <button class="gallery-arrow next" type="button" aria-label="Next images">&#8250;</button>
-  </div>
 
+<div class="gallery-title">Gallery</div>
+<div class="gallery-carousel" id="galleryCarousel">
+  <button class="gallery-arrow prev" type="button" aria-label="Previous images">&#8249;</button>
+  <div class="gallery-track" id="galleryTrack">
+    {% include cast-gallery.html %}
+  </div>
+  <button class="gallery-arrow next" type="button" aria-label="Next images">&#8250;</button>
+</div>
+ 
   <!-- ============================================================
        LIENS VERS LES PAGES SIMILAIRES (optionnel)
        - .related-prev : film(s) qui viennent AVANT celui-ci (à gauche,
