@@ -34,50 +34,6 @@ film: "Snow White and the Seven Dwarfs"
 language: "Taiwanese Mandarin"
 
 # ============================================================
-# VOIX ADDITIONNELLES CRÉDITÉES : les "artist" de leurs fiches, dans l'ordre d'affichage
-# (une fiche par personne ; elles apparaissent sur la page de la personne avec "Additional voice")
-# ============================================================
-additional: []
-
-# CHOEUR (affiché si show_choir: true) : mêmes règles que additional.
-choir: []
-
-# ============================================================
-# CHANSONS : "titre natif | titre anglais | interprètes | note"
-# - titre natif vide = pas de ligne native (le titre anglais passe en gras ; la note s'affiche à côté)
-# - interprètes séparés par ; : "fiche @ Personnage" (le personnage est facultatif)
-# - un interprète qui commence par & est précédé de "&" au lieu de ";" (ex : &Choir)
-# - plusieurs voix pour un même personnage : répète le "@ Personnage" pour chacune
-# ============================================================
-songs:
-  - "許願井 | I'm Wishing | judy-chen @ snow-white; xie-wen-de @ prince-charming"
-  - "給你的歌 | One Song | xie-wen-de @ prince-charming"
-  - "給你的歌 (重奏) | One Song (Reprise) | judy-chen @ snow-white"
-  - "開心唱首歌 | With a Smile and a Song | judy-chen @ snow-white"
-  - "吹口哨來作工 | Whistle While You Work | judy-chen @ snow-white"
-  - "挖挖挖/嗨呵 | Dig Dig Dig/Heigh-Ho | xu-jian-chun @ happy; yang-shao-wen @ grumpy; shen-guang-ping @ bashful; jiang-xian-cheng @ Sneezy?; sun-de-cheng @ doc; jiang-xian-cheng @ sleepy"
-  - "嗨呵 (重奏) | Heigh-Ho (Reprise) | sun-de-cheng @ Dwarfs' Choir; xu-jian-chun @ Dwarfs' Choir; yang-shao-wen @ Dwarfs' Choir; shen-guang-ping @ Dwarfs' Choir; jiang-xian-cheng @ Dwarfs' Choir"
-  - "洗手歌 | The Dwarfs' Washing Song | sun-de-cheng @ doc; xu-jian-chun @ happy; yang-shao-wen @ grumpy; shen-guang-ping @ bashful; jiang-xian-cheng @ Sneezy?; jiang-xian-cheng @ sleepy"
-  - "抓狂歌 | The Silly Song | xu-jian-chun @ happy; shen-guang-ping @ bashful; judy-chen @ snow-white; yang-shao-wen @ Dwarfs' Choir; sun-de-cheng @ Dwarfs' Choir; jiang-xian-cheng @ Dwarfs' Choir"
-  - "愛情會來臨 | Someday My Prince Will Come | judy-chen @ snow-white"
-  - "愛情會來臨 (重奏) | Someday My Prince Will Come (Reprise) | judy-chen @ snow-white"
-  - "給你的歌 (終曲) | One Song (Reprise) | xie-wen-de @ prince-charming"
-  - "愛情會來臨 (終曲) | Someday My Prince Will Come (Finale) | Choir"
-
-# ============================================================
-# TECHNICAL STAFF : "personne(s) | poste". Plusieurs personnes : sépare-les par ;
-# Un studio (ou tout texte qui n'est pas une fiche) s'affiche tel quel, sans lien.
-# ============================================================
-staff:
-  - "karen-wang | Dubbing director"
-  - "bernard-lau | Musical director"
-  - "hong-zi-jing | Translation"
-  - "bernard-lau | Lyrics"
-  - "? | Creative Supervisor"
-  - "karen-wangs-studio | Dubbing studio (dialogues)"
-  - "house-of-music-group | Recording studio (songs)"
-
-# ============================================================
 # TABLEAU CAST : une ligne par personnage, au format
 #     "nom natif | nom original | comédien | note | id du personnage"
 # - comédien = le "artist" de sa fiche ; "?" = inconnu
@@ -116,6 +72,65 @@ cast:
   - "瞌睡蟲 | @sleepy | jiang-xian-cheng | (speaking &amp; singing)"
   - "魔鏡 | @magic-mirror | shen-guang-ping"
   - "獵人 | @huntsman-sw | hong-ming"
+
+# ============================================================
+# CHANSONS : "titre natif | titre anglais | interprètes | note"
+# - titre natif vide = pas de ligne native (le titre anglais passe en gras ; la note s'affiche à côté)
+# - interprètes séparés par ; : "fiche @ Personnage" (le personnage est facultatif)
+# - un interprète qui commence par & est précédé de "&" au lieu de ";" (ex : &Choir)
+# - plusieurs voix pour un même personnage : répète le "@ Personnage" pour chacune
+# ============================================================
+songs:
+  - "許願井 | I'm Wishing | judy-chen @ snow-white; xie-wen-de @ prince-charming"
+  - "給你的歌 | One Song | xie-wen-de @ prince-charming"
+  - "給你的歌 (重奏) | One Song (Reprise) | judy-chen @ snow-white"
+  - "開心唱首歌 | With a Smile and a Song | judy-chen @ snow-white"
+  - "吹口哨來作工 | Whistle While You Work | judy-chen @ snow-white"
+  - "挖挖挖/嗨呵 | Dig Dig Dig/Heigh-Ho | xu-jian-chun @ happy; yang-shao-wen @ grumpy; shen-guang-ping @ bashful; jiang-xian-cheng @ Sneezy?; sun-de-cheng @ doc; jiang-xian-cheng @ sleepy"
+  - "嗨呵 (重奏) | Heigh-Ho (Reprise) | sun-de-cheng @ Dwarfs' Choir; xu-jian-chun @ Dwarfs' Choir; yang-shao-wen @ Dwarfs' Choir; shen-guang-ping @ Dwarfs' Choir; jiang-xian-cheng @ Dwarfs' Choir"
+  - "洗手歌 | The Dwarfs' Washing Song | sun-de-cheng @ doc; xu-jian-chun @ happy; yang-shao-wen @ grumpy; shen-guang-ping @ bashful; jiang-xian-cheng @ Sneezy?; jiang-xian-cheng @ sleepy"
+  - "抓狂歌 | The Silly Song | xu-jian-chun @ happy; shen-guang-ping @ bashful; judy-chen @ snow-white; yang-shao-wen @ Dwarfs' Choir; sun-de-cheng @ Dwarfs' Choir; jiang-xian-cheng @ Dwarfs' Choir"
+  - "愛情會來臨 | Someday My Prince Will Come | judy-chen @ snow-white"
+  - "愛情會來臨 (重奏) | Someday My Prince Will Come (Reprise) | judy-chen @ snow-white"
+  - "給你的歌 (終曲) | One Song (Reprise) | xie-wen-de @ prince-charming"
+  - "愛情會來臨 (終曲) | Someday My Prince Will Come (Finale) | Choir"
+
+# ============================================================
+# VOIX ADDITIONNELLES CRÉDITÉES : les "artist" de leurs fiches, dans l'ordre d'affichage
+# (une fiche par personne ; elles apparaissent sur la page de la personne avec "Additional voice")
+# ============================================================
+additional: []
+
+# CHOEUR (affiché si show_choir: true) : mêmes règles que additional.
+choir: []
+
+# ============================================================
+# TECHNICAL STAFF : "personne(s) | poste". Plusieurs personnes : sépare-les par ;
+# Un studio (ou tout texte qui n'est pas une fiche) s'affiche tel quel, sans lien.
+# ============================================================
+staff:
+  - "karen-wang | Dubbing director"
+  - "bernard-lau | Musical director"
+  - "hong-zi-jing | Translation"
+  - "bernard-lau | Lyrics"
+  - "? | Creative Supervisor"
+  - "karen-wangs-studio | Dubbing studio (dialogues)"
+  - "house-of-music-group | Recording studio (songs)"
+
+# ============================================================
+# GALERIE (diaporama du bas de page) : une ligne par image, 3 colonnes séparées par « | » :
+#     "fichier | légende | recadrage"
+#   fichier   : le nom du fichier sur Cloudinary (le début de l'URL est ajouté tout seul, voir cast-gallery.html).
+#   légende   : facultatif ; affichée au survol de la miniature (voile bleu) et sous l'image ouverte.
+#   recadrage : facultatif ; partie gardée dans la miniature carrée : north (haut, par défaut), center, south.
+#   gallery_full : facultatif ; pour les très grandes images ou à trame fine, taille de l'affichage plein écran.
+#   gallery_base : facultatif ; seulement si les images sont ailleurs que sur le Cloudinary habituel.
+# ============================================================
+# gallery_full: "w_1600,q_auto:best"
+gallery:
+  - "Snow_White_and_the_Seven_Dwarfs_Taiwan_3.png | DVD cover"
+  - "Snow_White_and_the_Seven_Dwarfs_Taiwan_1.jpg | Blu-Ray"
+
 ---
 {% include header.html %}
 <title>{{ page.title }}</title>
@@ -318,29 +333,15 @@ cast:
   </ul>
 
   <!-- ============================================================
-       GALERIE (diaporama) — MODIFIE ICI : un <img> par image, dans
-       l'ordre voulu. Les miniatures s'affichent en carré (recadrées
-       au centre) ; s'il y en a trop pour la largeur de la page, des
-       flèches apparaissent pour les faire défiler. Au clic, la
-       galerie s'ouvre en plein écran (flèches, clavier, Échap).
-       - data-caption="..." (optionnel) : légende affichée au survol
-         de la miniature (voile bleu) et sous l'image ouverte. Sans
-         data-caption, pas de voile ni de légende pour cette image.
-       - Les carrés gris numérotés sont des espaces réservés : remplace
-         chaque src par l'URL de la vraie image (la même image sert à
-         la miniature et à l'affichage en grand).
+       GALERIE (diaporama) — les images viennent du front matter (gallery:),
+       voir le bloc GALERIE tout en haut du fichier. Rien à modifier ici.
        Change "Gallery" en "Media" si tu préfères.
        ============================================================ -->
   <div class="gallery-title">Gallery</div>
   <div class="gallery-carousel" id="galleryCarousel">
     <button class="gallery-arrow prev" type="button" aria-label="Previous images">&#8249;</button>
     <div class="gallery-track" id="galleryTrack">
-      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/w_450,h_450,c_fill,g_north,q_auto:best/Snow_White_and_the_Seven_Dwarfs_Taiwan_3.png"
-           data-full="https://res.cloudinary.com/dofvjifeo/image/upload/Snow_White_and_the_Seven_Dwarfs_Taiwan_3.png"
-           alt="Snow White Taiwanese DVD" data-caption="DVD cover">
-      <img src="https://res.cloudinary.com/dofvjifeo/image/upload/w_450,h_450,c_fill,g_north,q_auto:best/Snow_White_and_the_Seven_Dwarfs_Taiwan_1.jpg"
-           data-full="https://res.cloudinary.com/dofvjifeo/image/upload/Snow_White_and_the_Seven_Dwarfs_Taiwan_1.jpg"
-           alt="Snow White Taiwanese Blu Ray" data-caption="Blu-Ray">
+      {% include cast-gallery.html %}
     </div>
     <button class="gallery-arrow next" type="button" aria-label="Next images">&#8250;</button>
   </div>
