@@ -319,4 +319,16 @@
     big.src = s;
   });
 })();
+
+/* LIENS D'IMAGES RACCOURCIS dans les Sources : un lien écrit <a href="LINK+Nom_du_fichier.jpg"> est complété avec
+   l'adresse de base des images (_data/photos.yml, ligne « base ») et s'ouvre dans un nouvel onglet.
+   Si l'hébergeur change un jour, c'est la seule ligne de photos.yml à modifier. */
+(function () {
+  var BASE = {{ site.data.photos.base | default: "https://res.cloudinary.com/dofvjifeo/image/upload/" | jsonify }};
+  document.querySelectorAll('.sources-list a[href^="LINK+"]').forEach(function (a) {
+    a.setAttribute('href', BASE + a.getAttribute('href').slice(5));   // enlève "LINK+"
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener');
+  });
+})();
 </script>
