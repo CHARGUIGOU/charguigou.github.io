@@ -299,6 +299,32 @@
       {%- endif -%}
     {%- endfor -%}
   {%- endfor -%}
+  {%- comment %} Rôles en texte libre dans les chansons (ex : « Soloist »), même si le comédien a déjà une ligne du cast : une ligne par rôle.
+       Les ensembles (rôle contenant "choir" ou "chorus", ex : Dwarfs' Choir) ne sont pas listés ici : ils restent seulement dans le tableau Songs. {% endcomment -%}
+  {%- assign free_cov = "" -%}{%- assign free_lines = 0 -%}
+  {%- for song in p.songs -%}
+    {%- assign sf = song | split: "|" -%}
+    {%- assign s_tokens = sf[2] | default: "" | split: ";" -%}
+    {%- for tok in s_tokens -%}
+      {%- assign t = tok | strip | replace_first: "&", "" | strip -%}
+      {%- assign pr = t | split: "@" -%}
+      {%- assign t_key = pr[0] | split: "=" | first | strip -%}
+      {%- assign t_role = pr[1] | default: "" | strip -%}
+      {%- if t_key == slug and t_role != "" -%}
+        {%- assign t_obj = site.data.characters.by_id[t_role] -%}
+        {%- assign t_low = t_role | downcase -%}
+        {%- unless t_obj or t_low contains "choir" or t_low contains "chorus" -%}
+          {%- assign t_tok = "§" | append: t_role | append: "§" -%}
+          {%- unless free_cov contains t_tok -%}
+            {%- assign free_cov = free_cov | append: t_tok -%}
+            {%- assign free_lines = free_lines | plus: 1 -%}
+            {%- assign found = found | plus: 1 -%}
+            {%- assign roles = roles | append: '<div class="role-line"><span class="role-img">' | append: img_singer_html | append: '</span><span class="role-text"><i>' | append: t_role | append: '</i></span></div>' -%}
+          {%- endunless -%}
+        {%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
   {%- assign in_add = false -%}
   {%- for it in p.additional -%}{%- assign it_key = it | split: "=" | first | strip -%}{%- if it_key == slug -%}{%- assign in_add = true -%}{%- endif -%}{%- endfor -%}
   {%- for it in p.additional_intl -%}{%- assign it_key = it | split: "=" | first | strip -%}{%- if it_key == slug -%}{%- assign in_add = true -%}{%- endif -%}{%- endfor -%}
@@ -313,7 +339,7 @@
     {%- assign roles = roles | append: '<div class="role-line"><span class="role-img">' | append: img_choir_html | append: '</span><span class="role-text"><i>Choir</i></span></div>'  -%}
   {%- endif -%}
   {%- comment %} Chanteur/chanteuse sans personnage dans le cast ce film-là (même s'il/elle est en voix additionnelle ou choeur) : ligne "Singer" en plus {% endcomment -%}
-  {%- if cast_found == 0 and song_lines == 0 -%}
+  {%- if cast_found == 0 and song_lines == 0 and free_lines == 0 -%}
     {%- assign sing_found = false -%}
     {%- assign sing_role = "" -%}
     {%- for song in p.songs -%}
