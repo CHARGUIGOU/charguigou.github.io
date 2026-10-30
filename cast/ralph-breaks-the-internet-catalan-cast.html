@@ -224,6 +224,20 @@ cast:
   - "Anna | @anna | paula-ribo | ?"
   - "Elsa | @elsa | ?"
   - "Vaiana | @moana | cristal-barreyro | ?"
+
+# ============================================================
+# GALERIE (diaporama du bas de page) : une ligne par image, 3 colonnes séparées par « | » :
+#     "fichier | légende | recadrage"
+#   fichier   : le nom du fichier sur Cloudinary (le début de l'URL est ajouté tout seul, voir cast-gallery.html).
+#   légende   : facultatif ; affichée au survol de la miniature (voile bleu) et sous l'image ouverte.
+#   recadrage : facultatif ; partie gardée dans la miniature carrée : north (haut, par défaut), center, south.
+#   gallery_full : facultatif ; pour les très grandes images ou à trame fine, taille de l'affichage plein écran.
+#   gallery_base : facultatif ; seulement si les images sont ailleurs que sur le Cloudinary habituel.
+# ============================================================
+# gallery_full: "w_1600,q_auto:best"
+gallery:
+  - "Ralph_Breaks_the_Internet_Catalan_1.jpg"
+
 ---
 {% include header.html %}
 <title>{{ page.title }}</title>
