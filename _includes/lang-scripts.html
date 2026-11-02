@@ -1,0 +1,175 @@
+{% comment %} JS commun des pages de langue (inclus dans chaque page par la ligne include lang-scripts.html). Il utilise la liste « films » et les constantes PIC / DISNEY / NDISNEY définies dans le script de la page, juste au-dessus. {% endcomment %}
+<script>
+// ============================================================
+//  RENDERING
+// ============================================================
+
+function buildFilmItem(film) {
+  const isNoDub = !!film.noDub;
+  const hasLink = !!film.link && !isNoDub;
+
+  const li = document.createElement('li');
+
+  // La carte elle-même est un vrai <a href="..."> quand il y a un lien
+  // (clic droit → "ouvrir dans un nouvel onglet" marche alors PARTOUT
+  // sur la carte, pas juste sur le texte du titre), sinon un simple <div>.
+  const card = document.createElement(hasLink ? 'a' : 'div');
+  card.className = 'film-title' + (isNoDub ? ' no-dub' : '') + (hasLink ? ' has-link' : '');
+  card.dataset.studio = film.studio || 'disney';
+  if (hasLink) card.href = film.link;
+
+  // Avertissement dans la console (invisible pour les visiteurs) si un
+  // film n'a pas de studio défini : évite qu'il soit classé "Disney"
+  // silencieusement par erreur.
+  if (!film.studio) console.warn('Film sans studio défini, classé "Disney" par défaut :', film.name);
+
+  // Keywords span(s)
+  const kwHTML = film.keywords
+    ? film.keywords.map(k => `<span class="keywords">${k}</span>`).join('')
+    : '';
+
+  // Badges : "No Dub" (si noDub:true) + badge personnalisé (si badge:"…"), empilés
+  const badges = [];
+  if (isNoDub) badges.push('No Dub');
+  if (film.badge) badges.push(film.badge);
+  const badgeHTML = badges.length
+    ? `<div class="card-badges">${badges.map(t => `<span class="no-dub-badge">${t}</span>`).join('')}</div>`
+    : '';
+
+  card.innerHTML = `
+    <img src="${film.img}" alt="${film.name.replace(/<br>/g,' ')}">
+    <div class="card-caption">
+      <div class="caption-bg"></div>
+      <span class="film-year">${film.year || film.date?.substring(0,4) || '????'}</span>
+      <span class="film-name">${film.name.replace(/<br>/g, ' <br>')}</span>
+    </div>
+    ${kwHTML}
+    ${badgeHTML}
+  `;
+
+  li.appendChild(card);
+  return li;
+}
+
+function parseDate(dateStr) {
+  if (!dateStr) return new Date('9999-01-01');
+  if (dateStr === '????') return new Date('0001-01-01');
+  const normalized = dateStr
+    .replace('20??', '1999-12-31')
+    .replace('201?', '2009-12-31')
+    .replace('202?', '2019-12-31')
+    .replace(/\?/g, '0');
+  const d = new Date(normalized);
+  return isNaN(d) ? new Date('9999-01-01') : d;
+}
+
+films.sort((a, b) => parseDate(a.date || a.year) - parseDate(b.date || b.year));
+
+// Separate dubbed and no-dub per category, then append dubbed first, no-dub into nodub list
+const categoryLists = { classics: [], shorts: [], live: [] };
+const noDubItems = [];
+
+films.forEach(film => {
+  if (film.noDub) {
+    noDubItems.push(film);
+  } else {
+    categoryLists[film.category].push(film);
+  }
+});
+
+['classics','shorts','live'].forEach(cat => {
+  const ul = document.getElementById('list-' + cat);
+  categoryLists[cat].forEach(film => ul.appendChild(buildFilmItem(film)));
+});
+
+const noDubUl = document.getElementById('list-nodub');
+noDubItems.forEach(film => noDubUl.appendChild(buildFilmItem(film)));
+
+// ============================================================
+//  STUDIO FILTER + SEARCH (combined)
+// ============================================================
+
+// Track active studio filter
+let activeStudio = 'all';
+
+// Studios grouped under "others" button
+const OTHERS = ['dreamworks', 'donbluth', 'richard_rich', 'warner', 'netflix', 'fox'];
+
+function studioMatches(filmStudio, filterStudio) {
+  if (filterStudio === 'all') return true;
+  if (filterStudio === 'others') return OTHERS.includes(filmStudio);
+  return filmStudio === filterStudio;
+}
+
+function applyFilters() {
+  const search = document.getElementById('filmSearch').value.toLowerCase();
+
+  document.querySelectorAll('.film-title').forEach(function (el) {
+    const text        = el.textContent.toLowerCase();
+    const filmStudio  = el.dataset.studio || 'disney';
+    const matchSearch = text.includes(search);
+    const matchStudio = studioMatches(filmStudio, activeStudio);
+    el.style.display  = (matchSearch && matchStudio) ? 'block' : 'none';
+  });
+
+  let anyVisible = false;
+
+  ['classics','shorts','live','nodub'].forEach(function (cat) {
+    const title   = document.getElementById('title-'   + cat);
+    const wrapper = document.getElementById('wrapper-' + cat);
+    const ul      = document.getElementById('list-'    + cat);
+    if (!ul) return;
+    const hasVisible = [...ul.querySelectorAll('.film-title')].some(f => f.style.display !== 'none');
+    if (hasVisible) anyVisible = true;
+    title.style.display   = hasVisible ? '' : 'none';
+    wrapper.style.display = hasVisible ? '' : 'none';
+  });
+
+  // Message "aucun résultat" : affiché seulement si une recherche est en
+  // cours ET qu'elle ne donne rien, dans aucune catégorie.
+  const noResultsEl = document.getElementById('noResultsMsg');
+  if (search && !anyVisible) {
+    noResultsEl.style.display = 'block';
+    document.getElementById('noResultsQuery').textContent = document.getElementById('filmSearch').value;
+  } else {
+    noResultsEl.style.display = 'none';
+  }
+
+  // Mise à jour des compteurs
+  document.querySelectorAll('.studio-btn').forEach(function(btn) {
+    const studio = btn.dataset.studio;
+    const count = films.filter(f => !f.noDub && studioMatches(f.studio || 'disney', studio) && f.name.replace(/<br>/g, ' ').toLowerCase().includes(search)).length;
+    btn.querySelector('.count').textContent = '(' + count + ')';
+  });
+}
+
+// Studio buttons
+document.querySelectorAll('.studio-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    document.querySelectorAll('.studio-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeStudio = btn.dataset.studio;
+    applyFilters();
+  });
+});
+
+applyFilters(); // initialisation au chargement
+
+// Search bar
+document.getElementById('filmSearch').addEventListener('keyup', applyFilters);
+
+// ============================================================
+//  BOUTON RETOUR EN HAUT
+//  Apparaît après 400px de scroll, ramène en douceur en haut de page.
+// ============================================================
+
+const backToTop = document.getElementById('backToTop');
+
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+</script>
