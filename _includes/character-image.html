@@ -18,7 +18,7 @@
 {%- if ci_k4 == "http" -%}
   {%- assign ci_url = ci_key -%}
 {%- elsif ci_key != "" -%}
-  {%- assign ci_char = site.data.characters.list | where: "id", ci_key | first -%}
+  {%- assign ci_char = site.data.characters.by_id[ci_key] -%}
   {%- if ci_char -%}
     {%- assign ci_url = ci_char.img | default: "" -%}
     {%- assign ci_film = include.film | default: "" | downcase | strip -%}

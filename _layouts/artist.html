@@ -187,7 +187,7 @@
 {%- capture roles_rows -%}
 {%- for pg in cast_pages -%}
   {%- comment %} page à onglets : chaque onglet (tabs:) compte comme un doublage ; sinon la page elle-même {% endcomment -%}
-  {%- if pg.tabs -%}{%- assign units = pg.tabs -%}{%- else -%}{%- assign units = site.pages | where: "url", pg.url -%}{%- endif -%}
+  {%- if pg.tabs -%}{%- assign units = pg.tabs -%}{%- else -%}{%- assign units = cast_pages | where: "url", pg.url -%}{%- endif -%}
   {%- for p in units -%}
   {%- assign p_film = p.film | default: pg.film | default: pg.title -%}
   {%- assign p_year = p.year | default: pg.year -%}
@@ -417,7 +417,7 @@
 {%- capture songs_rows -%}
 {%- for pg in cast_pages -%}
   {%- comment %} page à onglets : chaque onglet (tabs:) compte comme un doublage ; sinon la page elle-même {% endcomment -%}
-  {%- if pg.tabs -%}{%- assign units = pg.tabs -%}{%- else -%}{%- assign units = site.pages | where: "url", pg.url -%}{%- endif -%}
+  {%- if pg.tabs -%}{%- assign units = pg.tabs -%}{%- else -%}{%- assign units = cast_pages | where: "url", pg.url -%}{%- endif -%}
   {%- for p in units -%}
   {%- assign p_film = p.film | default: pg.film | default: pg.title -%}
   {%- assign p_year = p.year | default: pg.year -%}
@@ -492,7 +492,7 @@
 {%- capture staff_rows -%}
 {%- for pg in staff_pages -%}
   {%- comment %} page à onglets : chaque onglet (tabs:) compte comme un doublage ; sinon la page elle-même {% endcomment -%}
-  {%- if pg.tabs -%}{%- assign units = pg.tabs -%}{%- else -%}{%- assign units = site.pages | where: "url", pg.url -%}{%- endif -%}
+  {%- if pg.tabs -%}{%- assign units = pg.tabs -%}{%- else -%}{%- assign units = staff_pages | where: "url", pg.url -%}{%- endif -%}
   {%- for p in units -%}
   {%- assign p_film = p.film | default: pg.film | default: pg.title -%}
   {%- assign p_year = p.year | default: pg.year -%}
