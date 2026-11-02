@@ -182,6 +182,7 @@
   --gallery-gap: 12px;            /* espace entre les miniatures */
   --gallery-fade-width: 60px;     /* largeur du fondu blanc sur les bords quand il reste des images à faire défiler (0px = pas de fondu) */
   --gallery-thumb-size: 200px;    /* côté des miniatures carrées */
+  --gallery-placeholder: rgba(0, 0, 0, 0.06);   /* fond gris des miniatures pendant leur chargement (transparent pour l'enlever) */
   --gallery-photo-radius: 6px;
   --gallery-space-above: 50px;    /* espace au-dessus du titre "Gallery" */
   --gallery-veil: rgba(42,93,160,0.6);         /* voile sur la miniature au survol (bleu du site, 42,93,160 ; change le dernier chiffre pour l'opacité) */
@@ -731,12 +732,27 @@ body {
 .gallery-item:hover {
   transform: scale(1.04);
 }
+.gallery-item {
+  background: var(--gallery-placeholder);   /* carré gris en attendant que l'image charge */
+}
 .gallery-item img {
   border-radius: inherit;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  color: transparent;   /* cache le texte alt pendant le chargement */
+}
+/* Avant que le script entoure chaque miniature d'un .gallery-item, l'image a déjà sa taille et son fond gris :
+   plus de grandes images qui s'affichent puis rétrécissent. */
+.gallery-track > img {
+  flex: 0 0 auto;
+  width: var(--gallery-thumb-size);
+  height: var(--gallery-thumb-size);
+  object-fit: cover;
+  border-radius: var(--gallery-photo-radius);
+  background: var(--gallery-placeholder);
+  color: transparent;
 }
 /* Légende : voile bleu transparent + texte, visible au survol (seulement si data-caption est rempli) */
 .gallery-caption {

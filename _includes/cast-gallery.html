@@ -29,5 +29,5 @@
     {%- endif -%}
   {%- endif -%}
   {%- assign g_alt = g_cap | default: page.film | default: page.title %}
-      <img src="{{ g_thumb }}" data-full="{{ g_big }}" alt="{{ g_alt | escape }}"{% if g_cap != "" %} data-caption="{{ g_cap | escape }}"{% endif %}>
+      <img src="{{ g_thumb }}" loading="lazy" decoding="async" data-full="{{ g_big }}" alt="{{ g_alt | escape }}"{% if g_cap != "" %} data-caption="{{ g_cap | escape }}"{% endif %}>
 {%- endfor %}
