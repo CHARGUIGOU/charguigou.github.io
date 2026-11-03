@@ -22,6 +22,9 @@
   /* ---------- DRAPEAU (au-dessus du titre) ---------- */
   --flag-width: 200px;        /* largeur du drapeau (la hauteur s'adapte) */
   --flag-gap: 30px;          /* espace entre le drapeau et le titre */
+
+  /* ---------- LIENS (anecdotes et sources) ---------- */
+  --link-color: #2a5da0;     /* bleu du site ; les liens ne changent pas de couleur une fois visités */
 }
 /* Nom natif de la langue (tous les réglages sont dans :root, en haut) */
 .lang-title-native {
@@ -477,6 +480,15 @@ body, .film-title, .category-title, #filmSearch {
   margin-bottom: 6px;
   font-size: 14px;
   line-height: 1.5;
+}
+/* Liens des anecdotes et des sources : couleur du site, sans changement une fois visités */
+.trivia-section a,
+.trivia-section a:visited {
+  color: var(--link-color);
+  text-decoration: none;
+}
+.trivia-section a:hover {
+  text-decoration: underline;
 }
 
 /* ============================================================
