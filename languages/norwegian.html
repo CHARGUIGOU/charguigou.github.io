@@ -1,0 +1,423 @@
+---
+layout: null
+title: "Norwegian"
+---
+{% include header.html %}
+<title>{{ page.title }}</title>
+<!-- GOOGLE FONT -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap" rel="stylesheet">
+<!-- ============================================================
+     POLICE DU TITRE LOCALISÉ (optionnel) — seulement pour les pages dont
+     le titre est dans une écriture non latine. Étapes :
+     1) copie le <link> de la langue voulue (liste ci-dessous) juste sous le <link> « GOOGLE FONT » ci-dessus ;
+     2) dans le petit bloc <style> :root { ... } plus bas (juste sous l'include), ajoute ou remplace :
+        --title-native-font: 'Nom de la police', 'Open Sans', sans-serif;
+        (le nom seulement, jamais la balise <link>) ;
+     3) si le poids indiqué est « 400 seulement », ajoute --title-native-weight: 400; dans ce même bloc
+        (sinon le navigateur fabrique un faux gras).
+     Sans rien changer, le nom natif garde la police du site (Open Sans).
+     Les langues sont classées par ordre alphabétique (l'arabe en premier).
+
+     Arabic (Standard, Egyptian)
+       <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+       → 'Amiri'   (poids : 400, 700 ; écriture de droite à gauche : ajoute dir="rtl" sur la div du nom natif)
+
+     Armenian
+       <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wdth,wght@62.5..100,100..900&display=swap" rel="stylesheet">
+       → 'Noto Sans Armenian'   (poids : 100 à 900)
+
+     Bengali
+       <link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+       → 'Tiro Bangla'   (poids : 400 seulement)
+
+     Chinese - Cantonese (Hong Kong)
+       <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&display=swap" rel="stylesheet">
+       → 'Noto Serif HK'   (poids : 200 à 900)
+
+     Chinese - Simplified
+       <link href="https://fonts.googleapis.com/css2?family=Long+Cang&display=swap" rel="stylesheet">
+       → 'Long Cang'   (poids : 400 seulement)
+
+     Chinese - Traditional (Taiwan)
+       <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC:wght@300;400;700&display=swap" rel="stylesheet">
+       → 'LXGW WenKai Mono TC'   (poids : 300, 400, 700)
+
+     Cyrillic (Bulgarian, Russian, Kazakh, Ukrainian, Serbian, Abkhaz, Karachay-Balkar, Kabardian, Crimean Tatar)
+       <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+       → 'Cormorant Garamond'   (poids : 300 à 700)
+
+     Georgian
+       <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Georgian:wght@100..900&display=swap" rel="stylesheet">
+       → 'Noto Serif Georgian'   (poids : 100 à 900)
+
+     Greek
+       <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+       → 'EB Garamond'   (poids : 400 à 800)
+
+     Hebrew
+       <link href="https://fonts.googleapis.com/css2?family=David+Libre:wght@400;500;700&display=swap" rel="stylesheet">
+       → 'David Libre'   (poids : 400, 500, 700 ; écriture de droite à gauche : ajoute dir="rtl" sur la div du nom natif)
+
+     Hindi, Marathi
+       <link href="https://fonts.googleapis.com/css2?family=Tillana:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+       → 'Tillana'   (poids : 400 à 800)
+
+     Japanese
+       <link href="https://fonts.googleapis.com/css2?family=Yuji+Mai&display=swap" rel="stylesheet">
+       → 'Yuji Mai'   (poids : 400 seulement)
+
+     Kannada
+       <link href="https://fonts.googleapis.com/css2?family=Tiro+Kannada&display=swap" rel="stylesheet">
+       → 'Tiro Kannada'   (poids : 400 seulement)
+
+     Korean
+       <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap" rel="stylesheet">
+       → 'Nanum Brush Script'   (poids : 400 seulement)
+
+     Malayalam
+       <link href="https://fonts.googleapis.com/css2?family=Chilanka&display=swap" rel="stylesheet">
+       → 'Chilanka'   (poids : 400 seulement)
+
+     Tamil
+       <link href="https://fonts.googleapis.com/css2?family=Meera+Inimai&display=swap" rel="stylesheet">
+       → 'Meera Inimai'   (poids : 400 seulement)
+
+     Telugu
+       <link href="https://fonts.googleapis.com/css2?family=Gurajada&display=swap" rel="stylesheet">
+       → 'Gurajada'   (poids : 400 seulement)
+
+     Thai
+       <link href="https://fonts.googleapis.com/css2?family=Sriracha&display=swap" rel="stylesheet">
+       → 'Sriracha'   (poids : 400 seulement)
+     ============================================================ -->
+
+{% include lang-style.html %}
+<style>
+/* RÉGLAGES PROPRES À CETTE PAGE : ces valeurs écrasent les valeurs par défaut de
+   _includes/lang-style.html (liste complète des réglages dans ce fichier). N'écris ici que ce qui change
+   sur cette page ; ajoute toute autre variable de ce fichier si besoin. */
+:root {
+
+  /* ---------- NOM NATIF DE LA LANGUE ---------- */
+  --title-native-font: 'Open Sans', sans-serif;   /* ex. 'LXGW WenKai Mono TC', 'Open Sans', sans-serif (voir la liste des polices plus haut) */
+  --title-native-size: 16px;
+  --title-native-weight: 600;   /* mets 400 si la police choisie est « 400 seulement » */
+
+  /* Autres réglages possibles (valeurs par défaut) : */
+  /* --title-native-style: italic;   italic ou normal */
+  /* --title-native-color: #2a5da0; */
+  /* --title-native-letter-spacing: 2px;   mets 0px pour arabe, hindi... (écriture reliée) */
+  /* --flag-width: 200px;   largeur du drapeau */
+  /* --flag-gap: 30px;   espace entre le drapeau et le titre */
+  /* --page-margin: 10%;   marge latérale de la page */
+}
+</style>
+
+<!-- ============================================================
+     TITRE BILINGUE — HTML pur, tout est modifiable ligne par ligne
+     MODIFIE ICI selon la page : nom anglais + nom natif en dessous
+     ============================================================ -->
+<div style="text-align:center; padding-top:50px;">
+
+  <!-- Drapeau du pays (optionnel : supprime la ligne si pas de drapeau) -->
+  <img class="lang-flag" src="https://res.cloudinary.com/dofvjifeo/image/upload/norway_flag_on_banner.png" alt="Country">
+
+  <!-- Nom de la langue en anglais -->
+  <div style="font-family:'Open Sans', sans-serif; font-size:26px; font-weight:600; color:#222222; line-height:1.3; letter-spacing:1px; margin:0;">NORWEGIAN credits</div>
+
+  <!-- Nom natif de la langue -->
+  <div class="lang-title-native">Norsk</div>
+
+</div>
+
+<!-- SEARCH BAR -->
+<input type="text" id="filmSearch" placeholder="Search a film..." />
+
+<!-- Message affiché uniquement si la recherche ne donne aucun résultat -->
+<div id="noResultsMsg">No film found for "<strong id="noResultsQuery"></strong>"</div>
+
+<!-- ============================================================
+     SOMMAIRE DE CATÉGORIES (ancre vers chaque section)
+     ============================================================ -->
+<nav class="category-nav">
+  <a href="#title-classics">Classics</a>
+  <a href="#title-shorts">Shorts</a>
+  <a href="#title-live">Live-action/Remakes</a>
+  <a href="#title-nodub">No Dub</a>
+</nav>
+
+<!-- STUDIO FILTER -->
+<div class="studio-filter">
+  <button class="studio-btn active" data-studio="all">All <span class="count"></span></button>
+  <button class="studio-btn" data-studio="disney">Disney <span class="count"></span></button>
+  <button class="studio-btn" data-studio="disneytoon">Disneytoon <span class="count"></span></button>
+  <button class="studio-btn" data-studio="pixar">Pixar <span class="count"></span></button>
+  <button class="studio-btn" data-studio="others">Others <span class="count"></span></button>
+</div>
+
+<!-- CONTAINERS -->
+<h2 class="category-title" id="title-classics">
+  <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Clap_Cinema.gif" alt="">Original Classics
+</h2>
+<div class="film-list-wrapper" id="wrapper-classics">
+  <ul class="film-list" id="list-classics"></ul>
+</div>
+
+<h2 class="category-title" id="title-shorts">
+  <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Clap_Cinema.gif" alt="">Shorts
+</h2>
+<div class="film-list-wrapper" id="wrapper-shorts">
+  <ul class="film-list" id="list-shorts"></ul>
+</div>
+
+<h2 class="category-title" id="title-live">
+  <img src="https://res.cloudinary.com/dofvjifeo/image/upload/Clap_Cinema.gif" alt="">Live-action/Remakes
+</h2>
+<div class="film-list-wrapper" id="wrapper-live">
+  <ul class="film-list" id="list-live"></ul>
+</div>
+
+<h2 class="category-title no-dub-title" id="title-nodub">
+  <img src="https://res.cloudinary.com/dofvjifeo/image/upload/No_sound_Movie_Cast.gif" alt="">No Dub
+</h2>
+<div class="film-list-wrapper" id="wrapper-nodub">
+  <ul class="film-list" id="list-nodub"></ul>
+</div>
+
+<!-- ============================================================
+     SECTION TRIVIA
+     MODIFIE ICI : remplace le "N/A" par tes anecdotes (une <li> par anecdote)
+     ============================================================ -->
+<div class="trivia-section">
+  <div class="trivia-title"><span class="highlight">T</span>RIVIA</div>
+  <ul>
+   <li><i>Snow White and the Seven Dwarfs</i> was originally planned to be dubbed in Norwegian back in 1938, as Disney was touring <b>Europe</b> and the <b>Middle East</b> to sell the film. The idea of a Norwegian dub was eventually dropped.<br>
+    <small><b><i>Source</i></b> : <a href="https://res.cloudinary.com/dofvjifeo/image/upload/Snow_White_-_Arabic_Greek_Norwegian_1938_dubs_The_Pittsburgh_Press_-_26.02.1938.jpg" target="_blank" rel="noopener">The Pittsburgh Press</a> 26-Feb-1938</small></li>
+   <li><i>Alice in Wonderland</i> was the first Norwegian Disney dub to be released, but not the first to be made: <i>Fun and Fancy Free</i> was the first Disney movie to get a Norwegian version, with the process starting in <b>1950</b>.<br>
+    <small><b><i>Source</i></b> : <a href="https://res.cloudinary.com/dofvjifeo/image/upload/July_29_1950_First_Norwegian_dub_Fun_Fancy_Free.png" target="_blank" rel="noopener">Newspaper</a> 29-Jul-1950</small></li>
+   <li>However, Norway's initial dubbing spree was short-lived: it stopped after <i>Peter Pan</i> in 1953 and only resumed almost two decades later, with <i>The Aristocats</i> in 1971.<br>
+     The same would happen again after <i>Robin Hood</i> in 1974; until dubbing resumed permanently in 1982 with <i>The Fox and the Hound</i>. The reasons are unknown (possibly financial).</li>
+  </ul>
+</div>
+
+<!-- ============================================================
+     BOUTON RETOUR EN HAUT
+     ============================================================ -->
+<button id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 3c-1 0-1.8.8-1.8 1.8v6.4L8.6 9.6a1.6 1.6 0 0 0-2.3 2.2l4.2 4.4c.8.8 2.1.8 2.9 0l4.2-4.4a1.6 1.6 0 0 0-2.3-2.2l-1.6 1.6V4.8C13.8 3.8 13 3 12 3z" fill="#2a5da0" transform="rotate(180 12 12)"/>
+  </svg>
+</button>
+
+<script>
+// ============================================================
+//  FILM DATA
+//  Fields:
+//    name      : display name (use <br> for line breaks)
+//    year      : (optionnel) année affichée sur la carte — si absent, extrait de date:
+//                utile pour afficher une année de doublage différente, ou "20??" etc.
+//    date      : date de sortie originale (YYYY-MM-DD), utilisée pour le tri
+//    img       : full URL to the poster image
+//    link      : URL to the cast page (omit if not yet made)
+//    keywords  : extra search terms (optional array)
+//    noDub     : true  → goes to No Dub section
+//    category  : "classics" | "shorts" | "live"
+//    badge     : badge supplémentaire (ex. "Dubbed in China"), affiché sous le badge "No Dub" (ou tout en haut s'il est seul)
+// ============================================================
+
+const PIC     = "https://res.cloudinary.com/dofvjifeo/image/upload/";
+const DISNEY  = "https://disneyinternationaldubbings.weebly.com/";
+const NDISNEY = "https://nondisneyinternationaldubbings.weebly.com/";
+
+const films = [
+
+
+  // ── ORIGINAL CLASSICS ────────────────────────────────────
+
+
+  { category:"classics", date:"1983-12-02", name:"Snow White and the Seven Dwarfs", img:PIC+"snowwhiteandthesevendwarfs1937logo.png", studio:"disney", link:DISNEY+"snow-white-and-the-seven-dwarfs--norwegian-cast.html" },
+  { category:"classics", date:"1995-07-21", name:"Pinocchio", img:PIC+"pinocchio1940logo2.png", studio:"disney", link:DISNEY+"pinocchio--norwegian-cast.html" },
+  { category:"classics", date:"19??", name:"Fantasia", img:PIC+"fantasia1940logo.png", studio:"disney", link:DISNEY+"fantasia--norwegian-cast.html" },
+  { category:"classics", date:"1990", year:"1990 ?", name:"Dumbo", img:PIC+"dumbo1941logo.png", studio:"disney" },
+  { category:"classics", date:"1993-08-06", name:"Bambi", img:PIC+"bambi1942logo.png", studio:"disney", link:DISNEY+"bambi--norwegian-cast.html" },
+  { category:"classics", date:"1942-08-24", name:"Saludos Amigos", img:PIC+"saludosamigos1942logo.png", studio:"disney", noDub:true },
+  { category:"classics", date:"1944-12-21", name:"The Three Caballeros", img:PIC+"thethreecaballeros1944logo.png", studio:"disney", noDub:true },
+  { category:"classics", date:"1946-08-15", name:"Make Mine Music", img:PIC+"makeminemusic1946logo.png", studio:"disney", noDub:true },
+  { category:"classics", date:"1952-04-14", name:"Fun and Fancy Free", img:PIC+"funandfancyfree1947logo.png", keywords:["mickey"], studio:"disney", link:DISNEY+"fun-and-fancy-free--norwegian-cast.html" },
+  { category:"classics", date:"1948-05-27", name:"Melody Time", img:PIC+"melodytime1948logo.png", studio:"disney", noDub:true },
+  { category:"classics", date:"1949-10-05", name:"The Adventures of Ichabod<br>and Mr. Toad", img:PIC+"theadventuresofIchabodandmrtoad1949logo.png", studio:"disney", noDub:true },
+  { category:"classics", date:"1992-10-01", name:"Cinderella", img:PIC+"cinderella1950logo.png", studio:"disney", link:DISNEY+"cinderella--norwegian-cast.html" },
+  { category:"classics", date:"1951-12-26", name:"Alice in Wonderland", img:PIC+"aliceinwonderland1951logo.png", studio:"disney", link:DISNEY+"alice-in-wonderland--norwegian-cast.html" },
+  { category:"classics", date:"1953-12-26", name:"Peter Pan", img:PIC+"peterpan1953logo.png", studio:"disney", link:DISNEY+"peter-pan--norwegian-cast.html" },
+  { category:"classics", date:"1986-03-16", name:"Lady and the Tramp", img:PIC+"ladyandthetramp1955logo.png", studio:"disney", link:DISNEY+"lady-and-the-tramp--norwegian-cast.html" },
+  { category:"classics", date:"1995-09-29", name:"Sleeping Beauty", img:PIC+"sleepingbeauty1959logo2.png", studio:"disney", link:DISNEY+"sleeping-beauty--norwegian-cast.html" },
+  { category:"classics", date:"1995-03-24", name:"One Hundred and One Dalmatians", img:PIC+"onehundredandonedalmatians1961logo.png", keywords:["101 dalmatians"], studio:"disney", link:DISNEY+"one-hundred-and-one-dalmatians--norwegian-cast.html" },
+  { category:"classics", date:"1993-05-01", name:"The Sword in the Stone", img:PIC+"theswordinthestone1963logo.png", studio:"disney", link:DISNEY+"the-sword-in-the-stone--norwegian-cast.html" },
+  { category:"classics", date:"1993-04-01", name:"The Jungle Book", img:PIC+"thejunglebook1967logo.png", studio:"disney", link:DISNEY+"the-jungle-book--norwegian-cast.html" },
+  { category:"classics", date:"1971-12-26", name:"The Aristocats", img:PIC+"thearistocats1970logo.png", studio:"disney", link:DISNEY+"the-aristocats--norwegian-cast.html" },
+  { category:"classics", date:"1974-12-19", name:"Robin Hood", img:PIC+"robinhood1973logo.png", studio:"disney", link:DISNEY+"robin-hood--norwegian-cast.html" },
+  { category:"classics", date:"1997-09-24", name:"The Many Adventures of Winnie the Pooh", img:PIC+"themanyadventuresofwinniethepooh1977logo.png", studio:"disney" },
+  { category:"classics", date:"1990", name:"The Rescuers", img:PIC+"therescuers1977logo.png", studio:"disney", link:DISNEY+"the-rescuers--norwegian-cast.html" },
+  { category:"classics", date:"1982-04-22", name:"The Fox and the Hound", img:PIC+"thefoxandthehound1981logo.png", studio:"disney", link:DISNEY+"the-fox-and-the-hound--norwegian-cast.html" },
+  { category:"classics", date:"1998", name:"The Black Cauldron", img:PIC+"theblackcauldron1985logo.png", studio:"disney", link:DISNEY+"the-black-cauldron--norwegian-cast.html" },
+  { category:"classics", date:"1986", name:"The Great Mouse Detective", img:PIC+"thegreatmousedetective1986logo.png", studio:"disney", link:DISNEY+"the-great-mouse-detective--norwegian-cast.html" },
+  { category:"classics", date:"1989-11-30", name:"Oliver & Company", img:PIC+"olivercompany1988logo.png", studio:"disney", link:DISNEY+"oliver--company--norwegian-cast.html" },
+  { category:"classics", date:"1990-11-29", name:"The Little Mermaid", img:PIC+"thelittlemermaid1989logo.png", studio:"disney", link:DISNEY+"the-little-mermaid--norwegian-cast.html" },
+  { category:"classics", date:"1991", name:"DuckTales the Movie:<br>Treasure of the Lost Lamp", img:PIC+"ducktalesthemovie1990logo.png", studio:"disneytoon", link:DISNEY+"ducktales-the-movie--norwegian-cast.html" },
+  { category:"classics", date:"1991-11-28", name:"The Rescuers Down Under", img:PIC+"therescuersdownunder1990logo.png", studio:"disney", link:DISNEY+"the-rescuers-down-under--norwegian-cast.html" },
+  { category:"classics", date:"1992-12-03", name:"Beauty and the Beast", img:PIC+"beautyandthebeast1991logo.png", studio:"disney", link:DISNEY+"beauty-and-the-beast--norwegian-cast.html" },
+  { category:"classics", date:"1993-12-03", name:"Aladdin", img:PIC+"aladdin1992logo.png", studio:"disney", link:DISNEY+"aladdin--norwegian-cast.html" },
+  { category:"classics", date:"1994-08-05", name:"Thumbelina", img:PIC+"thumbelina1994logo.png", studio:"donbluth", link:NDISNEY+"thumbelina--norwegian-cast.html" },
+  { category:"classics", date:"1995", name:"The Return of Jafar", img:PIC+"thereturnofjafar1994logo.png", keywords:["aladdin"], studio:"disneytoon", link:NDISNEY+"the-return-of-jafar--norwegian-cast.html" },
+  { category:"classics", date:"1994-08-18", name:"The Lion King", img:PIC+"thelionking1994logo.png", studio:"disney", link:DISNEY+"the-lion-king--norwegian-cast.html" },
+  { category:"classics", date:"1995-08-04", name:"The Swan Princess", img:PIC+"theswanprincess1994logo.png", studio:"richard_rich", link:NDISNEY+"the-swan-princess--norwegian-cast.html" },
+  { category:"classics", date:"1995-12-01", name:"Pocahontas", img:PIC+"pocahontas1995logo.png", studio:"disney", link:DISNEY+"pocahontas--norwegian-cast.html" },
+  { category:"classics", date:"1996-08-09", name:"A Goofy Movie", img:PIC+"agoofymovie1995logo.png", studio:"disneytoon" },
+  { category:"classics", date:"1996-03-15", name:"Toy Story", img:PIC+"toystory1995logo.png", studio:"pixar", link:NDISNEY+"toy-story--norwegian-cast.html" },
+  { category:"classics", date:"1996-11-15", name:"The Hunchback of Notre Dame", img:PIC+"thehunchbackofnotredame1996logo.png", studio:"disney", link:DISNEY+"the-hunchback-of-notre-dame--norwegian-cast.html" },
+  { category:"classics", date:"1997", name:"Aladdin and the King of Thieves", img:PIC+"aladdinandthekingofthieves1996logo.png", studio:"disneytoon", link:NDISNEY+"aladdin-and-the-king-of-thieves--norwegian-cast.html" },
+  { category:"classics", date:"1997-12-05", name:"Hercules", img:PIC+"hercules1997logo.png", studio:"disney", link:DISNEY+"hercules--norwegian-cast.html" },
+  { category:"classics", date:"1998-03-20", name:"Anastasia", img:PIC+"anastasia1997logo.png", studio:"fox" },
+  { category:"classics", date:"1998-12-01", year:"1998 ?", name:"Beauty and the Beast:<br>The Enchanted Christmas", img:PIC+"beautyandthebeasttheenchantedchristmas1997logo.png", studio:"disneytoon", link:NDISNEY+"beauty-and-the-beast-the-enchanted-christmas--norwegian-cast.html" },
+  { category:"classics", date:"1999", year:"1999 ?", name:"Beauty and the Beast:<br>Belle's Magical World", img:PIC+"bellesmagicalworld1998logo.png", studio:"disneytoon", link:NDISNEY+"beauty-and-the-beast-belles-magical-world--norwegian-cast.html" },
+  { category:"classics", date:"1998-09-25", name:"Quest for Camelot", img:PIC+"questforcamelot1998logo.png", studio:"warner", link:NDISNEY+"quest-for-camelot--norwegian-cast.html" },
+  { category:"classics", date:"1998-11-27", name:"Mulan", img:PIC+"mulan1998logo.png", studio:"disney", link:DISNEY+"mulan--norwegian-cast.html" },
+  { category:"classics", date:"1999", year:"1999 ?", name:"Pocahontas II:<br>Journey to a New World", img:PIC+"pocahontas2journeytoanewworld1998logo.png", studio:"disneytoon", link:NDISNEY+"pocahontas-2-journey-to-a-new-world--norwegian-cast.html" },
+  { category:"classics", date:"1999-03-17", name:"The Lion King II: Simba's Pride", img:PIC+"thelionking2simbaspride1998logo.png", studio:"disneytoon", link:DISNEY+"the-lion-king-2-simbas-pride--norwegian-cast.html" },
+  { category:"classics", date:"1999-02-05", name:"A Bug's Life", img:PIC+"abugslife1998logo.png", studio:"pixar" },
+  { category:"classics", date:"1998-12-24", name:"The Prince of Egypt", img:PIC+"theprinceofegypt1998logo.png", studio:"dreamworks", link:NDISNEY+"the-prince-of-egypt--norwegian-cast.html" },
+  { category:"classics", date:"1999-11-12", name:"Tarzan", img:PIC+"tarzan1999logo.png", studio:"disney", link:DISNEY+"tarzan--norwegian-cast.html" },
+  { category:"classics", date:"2000-02-04", name:"Toy Story 2", img:PIC+"toystory21999logo.png", studio:"pixar" },
+  { category:"classics", date:"2000-05-04", year:"2000 ?", name:"Fantasia 2000", img:PIC+"fantasia20001999logo.png", studio:"disney", link:DISNEY+"fantasia-2000--norwegian-cast.html" },
+  { category:"classics", date:"2000-02-29", year:"2000 ?", name:"An Extremely Goofy Movie", img:PIC+"anextremelygoofymovie2000logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2000-11-17", name:"Dinosaur", img:PIC+"dinosaur2000logo.png", studio:"disney" },
+  { category:"classics", date:"2000-11-22", name:"The Little Mermaid II:<br>Return to the Sea", img:PIC+"thelittlemermaid2returntothesea2000logo.png", studio:"disneytoon", link:DISNEY+"the-little-mermaid-2-return-to-the-sea--norwegian-cast.html" },
+  { category:"classics", date:"2001-02-09", name:"The Emperor's New Groove", img:PIC+"theemperorsnewgroove2000logo.png", studio:"disney", link:DISNEY+"the-emperors-new-groove--norwegian-cast.html" },
+  { category:"classics", date:"2001-05-03", name:"Lady and the Tramp II:<br>Scamp's Adventure", img:PIC+"ladyandthetramp2scampsadventure2001logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2001-11-01", name:"Atlantis: The Lost Empire", img:PIC+"atlantisthelostempire2001logo.png", studio:"disney", link:DISNEY+"atlantis-the-lost-empire--norwegian-cast.html" },
+  { category:"classics", date:"2002-02-08", name:"Monsters, Inc.", img:PIC+"monstersinc2001logo.png", studio:"pixar" },
+  { category:"classics", date:"2002-03-22", name:"Return to Neverland", img:PIC+"returntoneverland2002logo.png", keywords:["peter pan"], studio:"disneytoon", link:NDISNEY+"return-to-neverland--norwegian-cast.html" },
+  { category:"classics", date:"2002-09-11", name:"Cinderella II: Dreams Come True", img:PIC+"cinderella2dreamscomerrue2002logo.png", studio:"disneytoon", link:NDISNEY+"cinderella-2-dreams-come-true--norwegian-cast.html" },
+  { category:"classics", date:"2002-02-13", name:"The Hunchback of Notre Dame II", img:PIC+"thehunchbackofnotredame22002logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2002-09-06", name:"Lilo & Stitch", img:PIC+"lilostitch2002logo.png", studio:"disney", link:DISNEY+"lilo--stitch--norwegian-cast.html" },
+  { category:"classics", date:"2002-12-26", name:"Treasure Planet", img:PIC+"treasureplanet2002logo.png", studio:"disney", link:DISNEY+"treasure-planet--norwegian-cast.html" },
+  { category:"classics", date:"2003-02-12", name:"101 Dalmatians II:<br>Patch's London Adventure", img:PIC+"101dalmatians2patchslondonadventure2002logo.png", studio:"disneytoon", link:NDISNEY+"101-dalmatians-2-patchs-london-adventure--norwegian-cast.html" },
+  { category:"classics", date:"2003-02-07", name:"The Jungle Book 2", img:PIC+"thejunglebook22003logo.png", studio:"disneytoon", link:NDISNEY+"the-jungle-book-2--norwegian-cast.html" },
+  { category:"classics", date:"2003-05-07", name:"Atlantis: Milo's Return", img:PIC+"atlantismilosreturn2003logo.png", studio:"disneytoon", link:NDISNEY+"atlantis-milos-return--norwegian-cast.html" },
+  { category:"classics", date:"2003-11-14", name:"Finding Nemo", img:PIC+"findingnemo2003logo.png", studio:"pixar", link:NDISNEY+"finding-nemo--norwegian-cast.html" },
+  { category:"classics", date:"2004-02-06", name:"Brother Bear", img:PIC+"brotherbear2003logo.png", studio:"disney", link:DISNEY+"brother-bear--norwegian-cast.html" },
+  { category:"classics", date:"2004-02-18", name:"The Lion King 3: Hakuna Matata", img:PIC+"thelionking3hakunamatata2004logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2004-09-03", name:"Home on the Range", img:PIC+"homeontherange2004logo.png", studio:"disney", link:DISNEY+"home-on-the-range--norwegian-cast.html" },
+  { category:"classics", date:"2004-11-12", name:"The Incredibles", img:PIC+"theincredibles2004logo.png", studio:"pixar", link:NDISNEY+"the-incredibles--norwegian-cast.html" },
+  { category:"classics", date:"2004-11-03", name:"Mulan II", img:PIC+"mulan22004logo.png", studio:"disneytoon", link:NDISNEY+"mulan-2--norwegian-cast.html" },
+  { category:"classics", date:"2005-08-10", name:"Tarzan II", img:PIC+"tarzan22005logo.png", studio:"disneytoon", link:NDISNEY+"tarzan-2--norwegian-cast.html" },
+  { category:"classics", date:"2005-09-14", name:"Lilo & Stitch 2: Stitch Has a Glitch", img:PIC+"lilostitch2stitchhasaglitch2005logo.png", studio:"disneytoon", link:NDISNEY+"lilo--stitch-2-stitch-has-a-glitch--norwegian-cast.html" },
+  { category:"classics", date:"2006-01-27", name:"Chicken Little", img:PIC+"chickenlittle2005logo.png", studio:"disney" },
+  { category:"classics", date:"2006-01-18", name:"Kronk's New Groove", img:PIC+"kronksnewgroove2005logo.png", keywords:["the emperor's new groove"], studio:"disneytoon", link:NDISNEY+"kronks-new-groove--norwegian-cast.html" },
+  { category:"classics", date:"2006-02-24", name:"Bambi II", img:PIC+"bambi22006logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2006-09-06", name:"Brother Bear 2", img:PIC+"brotherbear22006logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2007-08-08", name:"The Fox and the Hound 2", img:PIC+"thefoxandthehound22006logo.png", studio:"disneytoon", link:NDISNEY+"the-fox-and-the-hound-2--norwegian-cast.html" },
+  { category:"classics", date:"2007-09-05", name:"Cinderella III: A Twist in Time", img:PIC+"cinderella3atwistintime2007logo.png", studio:"disneytoon", link:NDISNEY+"cinderella-3-a-twist-in-time--norwegian-cast.html" },
+  { category:"classics", date:"2007-08-10", name:"Meet the Robinsons", img:PIC+"meettherobinsons2007logo.png", studio:"disney" },
+  { category:"classics", date:"2007-09-28", name:"Ratatouille", img:PIC+"ratatouille2007logo.png", studio:"pixar" },
+  { category:"classics", date:"2008-02-27", name:"Disney Princess Enchanted Tales<br>Follow Your Dreams", img:PIC+"disneyprincessenchantedtales2007logo.png", keywords:["aladdin", "sleeping beauty"], studio:"disneytoon", link:DISNEY+"disney-princess-enchanted-tales--norwegian-cast.html" },
+  { category:"classics", date:"2008-08-29", name:"WALL·E", img:PIC+"walle2008logo.png", studio:"pixar" },
+  { category:"classics", date:"2008-09-24", name:"The Little Mermaid:<br>Ariel's Beginning", img:PIC+"arielsbeginning2008logo.png", studio:"disneytoon", link:DISNEY+"the-little-mermaid-ariels-beginning--norwegian-cast.html" },
+  { category:"classics", date:"2008-10-28", name:"Tinker Bell", img:PIC+"tinkerbell2008logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2009-02-06", name:"Bolt", img:PIC+"bolt2008logo.png", studio:"disney" },
+  { category:"classics", date:"2009-09-25", name:"Up", img:PIC+"up2009logo.png", studio:"pixar" },
+  { category:"classics", date:"2009-11-11", name:"Tinker Bell and the Lost Treasure", img:PIC+"tinkerbellandthelosttreasure2009logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2010-02-19", name:"The Princess and the Frog", img:PIC+"theprincessandthefrog2009logo.png", studio:"disney", link:DISNEY+"the-princess-and-the-frog--norwegian-cast.html" },
+  { category:"classics", date:"2010-08-27", name:"Toy Story 3", img:PIC+"toystory32010logo.png", studio:"pixar", link:NDISNEY+"toy-story-3--norwegian-cast.html" },
+  { category:"classics", date:"2010-09-29", name:"Tinker Bell and the Great Fairy Rescue", img:PIC+"tinkerbellandthegreatfairyrescue2010logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2011-02-04", name:"Tangled", img:PIC+"tangled2010logo.png", studio:"disney", link:DISNEY+"tangled--norwegian-cast.html" },
+  { category:"classics", date:"2011-10-21", name:"Winnie the Pooh", img:PIC+"winniethepooh2011logo.png", studio:"disney", link:DISNEY+"winnie-the-pooh-2011--norwegian-cast.html" },
+  { category:"classics", date:"2012-08-31", name:"Brave", img:PIC+"brave2012logo.png", studio:"pixar", link:NDISNEY+"brave--norwegian-cast.html" },
+  { category:"classics", date:"2012-11-30", name:"Rise of the Guardians", img:PIC+"riseoftheguardians2012logo.png", studio:"dreamworks", link:NDISNEY+"rise-of-the-guardians--norwegian-cast.html" },
+  { category:"classics", date:"2012-10-19", name:"Secret of the Wings", img:PIC+"secretofthewings2012logo.png", keywords:["tinker bell"], studio:"disneytoon" },
+  { category:"classics", date:"2013-02-08", name:"Wreck-it Ralph", img:PIC+"wreckitralph2012logo2.png", keywords:["wreck it ralph"], studio:"disney", link:DISNEY+"wreck-it-ralph--norwegian-cast.html" },
+  { category:"classics", date:"2013-08-02", name:"Monsters University", img:PIC+"monstersuniversity2013logo.png", studio:"pixar" },
+  { category:"classics", date:"2013-12-25", name:"Frozen", img:PIC+"frozen2013logo.png", studio:"disney", link:DISNEY+"frozen--norwegian-cast.html" },
+  { category:"classics", date:"2014-02-21", name:"The Pirate Fairy", img:PIC+"thepiratefairy2014logo.png", keywords:["tinker bell"], studio:"disneytoon" },
+  { category:"classics", date:"2015-01-30", name:"Big Hero 6", img:PIC+"bighero62014logo.png", studio:"disney", link:DISNEY+"big-hero-6--norwegian-cast.html" },
+  { category:"classics", date:"2014-12-25", name:"Tinker Bell and the Legend of the Neverbeast", img:PIC+"tinkerbellandthelegendoftheneverbeast2014logo.png", studio:"disneytoon" },
+  { category:"classics", date:"2015-08-21", name:"Inside Out", img:PIC+"insideout2015logo.png", studio:"pixar", link:NDISNEY+"inside-out--norwegian-cast.html" },
+  { category:"classics", date:"2016-01-22", name:"The Good Dinosaur", img:PIC+"thegooddinosaur2015logo.png", studio:"pixar" },
+  { category:"classics", date:"2016-02-26", name:"Zootopia", img:PIC+"zootopia2016logo.png", studio:"disney" },
+  { category:"classics", date:"2016-08-26", name:"Finding Dory", img:PIC+"findingdory2016logo.png", keywords:["finding nemo"], studio:"pixar" },
+  { category:"classics", date:"2017-02-03", name:"Moana", img:PIC+"moana2016logo.png", keywords:["vaiana"], studio:"disney", link:DISNEY+"moana--norwegian-cast.html" },
+  { category:"classics", date:"2018-02-02", name:"Coco", img:PIC+"coco2017logo.png", studio:"pixar", link:NDISNEY+"coco--norwegian-cast.html" },
+  { category:"classics", date:"2018-08-24", name:"Incredibles 2", img:PIC+"incredibles22018logo.png", keywords:["the incredibles 2"], studio:"pixar", link:NDISNEY+"incredibles-2--norwegian-cast.html" },
+  { category:"classics", date:"2019-02-01", name:"Ralph Breaks the Internet", img:PIC+"ralphbreakstheinternet2018logo.png", keywords:["wreck it ralph"], studio:"disney", link:DISNEY+"ralph-breaks-the-internet--norwegian-cast.html" },
+  { category:"classics", date:"2019-09-06", name:"Toy Story 4", img:PIC+"toystory42019logo.png", studio:"pixar" },
+  { category:"classics", date:"2019-12-25", name:"Frozen II", img:PIC+"frozen22019logo.png", studio:"disney", link:DISNEY+"frozen-2--norwegian-cast.html" },
+  { category:"classics", date:"2020-03-06", name:"Onward", img:PIC+"onward2020logo.png", studio:"pixar", link:NDISNEY+"onward--norwegian-cast.html" },
+  { category:"classics", date:"2020-12-25", name:"Soul", img:PIC+"soul2020logo.png", studio:"pixar" },
+  { category:"classics", date:"2021-03-05", name:"Raya and the Last Dragon", img:PIC+"rayaandthelastdragon2021logo.png", studio:"disney", link:DISNEY+"raya-and-the-last-dragon--norwegian-cast.html" },
+  { category:"classics", date:"2021-06-18", name:"Luca", img:PIC+"luca2021logo.png", studio:"pixar", link:NDISNEY+"luca--norwegian-cast.html" },
+  { category:"classics", date:"2021-11-24", name:"Encanto", img:PIC+"encanto2021logo.png", studio:"disney", link:DISNEY+"encanto--norwegian-cast.html" },
+  { category:"classics", date:"2022-03-11", name:"Turning Red", img:PIC+"turningred2022logo.png", studio:"pixar", link:NDISNEY+"turning-red--norwegian-cast.html" },
+  { category:"classics", date:"2022-06-15", name:"Lightyear", img:PIC+"lightyear2022logo.png", keywords:["toy story"], studio:"pixar", link:NDISNEY+"lightyear--norwegian-cast.html" },
+  { category:"classics", date:"2022-11-23", name:"Strange World", img:PIC+"strangeworld2022logo2.png", studio:"disney", link:DISNEY+"strange-world--norwegian-cast.html" },
+  { category:"classics", date:"2023-07-07", name:"Elemental", img:PIC+"elemental2023logo.png", studio:"pixar" },
+  { category:"classics", date:"2023-12-08", name:"Wish", img:PIC+"wish2023logo2.png", studio:"disney" },
+  { category:"classics", date:"2024-06-14", name:"Inside Out 2", img:PIC+"insideout22024logo.png", studio:"pixar" },
+  { category:"classics", date:"2024-11-29", name:"Moana 2", img:PIC+"moana22024logo.png", keywords:["vaiana 2"], studio:"disney" },
+  { category:"classics", date:"2025-06-20", name:"Elio", img:PIC+"elio2025logo.png", studio:"pixar" },
+  { category:"classics", date:"2025-11-26", name:"Zootopia 2", img:PIC+"zootopia22025logo.png", studio:"disney" },
+  { category:"classics", date:"2026-03-06", name:"Hoppers", img:PIC+"hoppers2026logo.png", studio:"pixar" },
+  { category:"classics", date:"2026-06-19", name:"Toy Story 5", img:PIC+"toystory52026logo.png", studio:"pixar" },
+  { category:"classics", date:"2026-11-27", name:"Hexed", img:PIC+"hexed2026logo.png", studio:"disney" },
+
+
+  // ── SHORTS ───────────────────────────────────────────────
+
+
+  { category:"shorts", date:"1983-12-16", name:"Mickey's Christmas Carol", img:PIC+"mickeyschristmascarol1983logo.png", studio:"disney" },
+  { category:"shorts", date:"1990-11-16", name:"The Prince and the Pauper", img:PIC+"theprinceandthepauper1990logo.png", keywords:["mickey"], studio:"disney" },
+  { category:"shorts", date:"2012-01-24", name:"Tangled Ever After", img:PIC+"tangledeverafter2012logo.png", studio:"disney", link:NDISNEY+"tangled-ever-after--norwegian-cast.html" },
+  { category:"shorts", date:"2015-03-13", name:"Frozen Fever", img:PIC+"frozenfever2015logo.png", studio:"disney", link:NDISNEY+"frozen-fever--norwegian-cast.html" },
+  { category:"shorts", date:"2017-12-01", name:"Olaf's Frozen Adventure", img:PIC+"olafsfrozenadventure2017logo.png", studio:"disney", link:NDISNEY+"olafs-frozen-adventure--norwegian-cast.html" },
+  { category:"shorts", date:"2023-10-16", name:"Once Upon a Studio", img:PIC+"onceuponastudio2023logo.png", studio:"disney" },
+
+
+  // ── LIVE-ACTION / REMAKES ────────────────────────────────
+
+
+  { category:"live", date:"1999", year:"1999 ?", name:"Mary Poppins", img:PIC+"marypoppins1964logo.png", studio:"disney", link:NDISNEY+"mary-poppins--norwegian-cast.html" },
+  { category:"live", date:"1971-10-07", name:"Bedknobs and Broomsticks", img:PIC+"bedknobsandbroomsticks1971logo.png", studio:"disney", noDub:true },
+  { category:"live", date:"1997-02-01", name:"101 Dalmatians", img:PIC+"101dalmatians1996logo.png", studio:"disney", link:NDISNEY+"101-dalmatians-1996-live-action--norwegian-cast.html" },
+  { category:"live", date:"2000-12-26", name:"102 Dalmatians", img:PIC+"102dalmatians2000logo.png", keywords:["101 dalmatians"], studio:"disney", link:NDISNEY+"102-dalmatians-2000-live-action--norwegian-cast.html" },
+  { category:"live", date:"2022", name:"Enchanted", img:PIC+"enchanted2007logo.png", studio:"disney" },
+  { category:"live", date:"2010-03-05", name:"Alice in Wonderland", img:PIC+"aliceinwonderland2010logo.png", studio:"disney", link:NDISNEY+"alice-in-wonderland-2010-live-action--norwegian-cast.html" },
+  { category:"live", date:"2014-05-30", name:"Maleficent", img:PIC+"Maleficent2014logo.png", keywords:["sleeping beauty"], studio:"disney", noDub:true },
+  { category:"live", date:"2015-03-13", name:"Cinderella", img:PIC+"cinderella2015logo.png", studio:"disney", link:NDISNEY+"cinderella-2015-live-action--norwegian-cast.html" },
+  { category:"live", date:"2016-04-15", name:"The Jungle Book", img:PIC+"thejunglebook2016logo.png", studio:"disney", noDub:true },
+  { category:"live", date:"2016-05-27", name:"Alice Through the Looking Glass", img:PIC+"alicethroughthelookingglass2016logo.png", studio:"disney", noDub:true },
+  { category:"live", date:"2017-03-17", name:"Beauty and the Beast", img:PIC+"beautyandthebeast2017logo2.png", studio:"disney" },
+  { category:"live", date:"2018-12-25", name:"Mary Poppins Returns", img:PIC+"marypoppinsreturns2018logo2.png", studio:"disney", link:NDISNEY+"mary-poppins-returns--norwegian-cast.html" },
+  { category:"live", date:"2019-03-29", name:"Dumbo", img:PIC+"dumbo2019logo.png", studio:"disney" },
+  { category:"live", date:"2019-05-22", name:"Aladdin", img:PIC+"aladdin2019logo.png", studio:"disney" },
+  { category:"live", date:"2019-07-17", name:"The Lion King", img:PIC+"thelionking2019logo.png", studio:"disney" },
+  { category:"live", date:"2019-10-18", name:"Maleficent: Mistress of Evil", img:PIC+"maleficentmistressofevil2019logo.png", keywords:["sleeping beauty"], studio:"disney", noDub:true },
+  { category:"live", date:"2020-03-01", name:"Lady and the Tramp", img:PIC+"ladyandthetramp2019.png", studio:"disney" },
+  { category:"live", date:"2020-09-04", name:"Mulan", img:PIC+"Mulan2020logo.png", studio:"disney", noDub:true },
+  { category:"live", date:"2021-05-28", name:"Cruella", img:PIC+"cruella2021logo.png", keywords:["101 dalmatians"], studio:"disney", noDub:true },
+  { category:"live", date:"2022-09-08", name:"Pinocchio", img:PIC+"pinocchio2022logo.png", studio:"disney" },
+  { category:"live", date:"2022-11-18", name:"Disenchanted", img:PIC+"disenchanted2022logo.png", studio:"disney", link:NDISNEY+"disenchanted--norwegian-cast.html" },
+  { category:"live", date:"2023-04-28", name:"Peter Pan & Wendy", img:PIC+"peterpanwendy2023logo.png", studio:"disney" },
+  { category:"live", date:"2023-05-26", name:"The Little Mermaid", img:PIC+"thelittlemermaid2023logo.png", studio:"disney", link:NDISNEY+"the-little-mermaid-2023-live-action--norwegian-cast.html" },
+  { category:"live", date:"2024-12-18", name:"Mufasa: The Lion King", img:PIC+"mufasathelionking2024logo.png", studio:"disney" },
+  { category:"live", date:"2025-03-21", name:"Snow White", img:PIC+"snowwhite2025logo.png", studio:"disney" },
+  { category:"live", date:"2025-05-23", name:"Lilo & Stitch", img:PIC+"lilostitch2025logo.png", studio:"disney" },
+  { category:"live", date:"2026-07-10", name:"Moana", img:PIC+"moana2026logo.png", keywords:["vaiana"], studio:"disney" },
+
+
+  // ── NO DUB ────────────────────────────────
+
+
+];
+</script>
+{% include lang-scripts.html %}
