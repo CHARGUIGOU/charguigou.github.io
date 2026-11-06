@@ -358,6 +358,13 @@ body {
   font-size: 0.82em;    /* ← TAILLE de "(speaking)" / "(singing)" */
 }
 
+/* Espace supplémentaire à chaque <br> dans la colonne des voix */
+.voice-cell br {
+  content: "";
+  display: block;
+  margin-top: 4px;      /* ← ESPACE ajouté entre deux lignes séparées par un <br> */
+}
+
 /* Colonne de la VOIX (le nom de l'acteur/actrice). Pas de font-size propre
    non plus : hérite du 13.5px de .voice-table td tout en haut de ce bloc. */
 .voice-cell a {
