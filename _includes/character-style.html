@@ -358,13 +358,6 @@ body {
   font-size: 0.82em;    /* ← TAILLE de "(speaking)" / "(singing)" */
 }
 
-/* Espace supplémentaire à chaque <br> dans la colonne des voix */
-.voice-cell br {
-  content: "";
-  display: block;
-  margin-top: 4px;      /* ← ESPACE ajouté entre deux lignes séparées par un <br> */
-}
-
 /* Colonne de la VOIX (le nom de l'acteur/actrice). Pas de font-size propre
    non plus : hérite du 13.5px de .voice-table td tout en haut de ce bloc. */
 .voice-cell a {
@@ -377,6 +370,12 @@ body {
 
 /* Nom d'un artiste qui a une fiche ({Nom|id} dans la liste des voix) :
    même look que dans les pages de cast -> couleur du texte, bleu pâle au survol. */
+/* Espace ajouté à chaque <br> dans la colonne des voix */
+.voice-cell .line-gap {
+  display: block;
+  height: 4px;          /* ← ESPACE entre deux lignes séparées par un <br> */
+}
+
 .voice-cell a.actor-link {
   color: inherit;
   text-decoration: none;

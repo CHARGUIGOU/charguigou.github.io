@@ -52,6 +52,8 @@ function formatVoice(html) {
   return String(html).split(/(<small>[\s\S]*?(?:<\/small>|(?=<br>)|$))/g)
     .map((part, i) => (i % 2 === 1 ? part : smallParens(part)))
     .join('')
+    // ESPACE entre deux lignes séparées par un <br> (taille réglée dans character-style.html : .line-gap)
+    .replace(/<br>/g, '<br><span class="line-gap"></span>')
     // LIEN VERS UNE FICHE : {Texte affiché|id-de-la-fiche} -> lien vers /artists/id-de-la-fiche.html
     //   seulement si la fiche existe (liste window.ARTIST_IDS, générée au build)
     .replace(/\{([^{}|]+)\|([\w-]+)\}/g, (m, text, id) =>
