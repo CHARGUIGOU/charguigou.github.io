@@ -5,6 +5,7 @@
   contient les données (voices_xxx) et la liste "voicesData".
   ============================================================
 {% endcomment %}
+<script src="/assets/artist-ids.js"></script>
 <script>
 // ============================================================
 //  RENDU DES TABLEAUX DE VOIX
@@ -24,6 +25,8 @@
 //    </small> a été oublié : le bloc va alors jusqu'au prochain <br> ou à la fin de la ligne) :
 //    les anciennes lignes continuent de marcher telles quelles.
 //  - Le champ "lang" (colonne de gauche) n'est pas modifié.
+//  - Lien vers la fiche d'un artiste : {Texte affiché|id-de-la-fiche}
+//       {Anila Muçaj|anila-mucaj} (speaking)  ->  nom cliquable (si la fiche existe) + (speaking) en petit
 // ============================================================
 
 function smallParens(s) {
@@ -48,7 +51,13 @@ function smallParens(s) {
 function formatVoice(html) {
   return String(html).split(/(<small>[\s\S]*?(?:<\/small>|(?=<br>)|$))/g)
     .map((part, i) => (i % 2 === 1 ? part : smallParens(part)))
-    .join('');
+    .join('')
+    // LIEN VERS UNE FICHE : {Texte affiché|id-de-la-fiche} -> lien vers /artists/id-de-la-fiche.html
+    //   seulement si la fiche existe (liste window.ARTIST_IDS, générée au build)
+    .replace(/\{([^{}|]+)\|([\w-]+)\}/g, (m, text, id) =>
+      (window.ARTIST_IDS && window.ARTIST_IDS.has(id))
+        ? '<a class="actor-link" href="/artists/' + id + '.html">' + text.trim() + '</a>'
+        : text.trim());   // fiche pas encore créée : simple texte, sans lien
 }
 
 function renderVoiceTable(mountId, data) {

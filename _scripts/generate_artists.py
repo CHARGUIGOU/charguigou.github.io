@@ -13,6 +13,7 @@ Usage (depuis la racine du dépôt) :
     python _scripts/generate_artists.py            # génère artists/*.md
     python _scripts/generate_artists.py --check    # vérifie le tableau, n'écrit rien
 """
+import json
 import argparse, csv, datetime, glob, io, os, re, sys
 
 try:
@@ -238,6 +239,18 @@ def main():
         with open(os.path.join(artists_dir, slug + ".md"), "w", encoding="utf-8", newline="\n") as fh:
             fh.write(txt)
     print("écrit : %d fichiers dans artists/" % len(made))
+
+    # Liste de TOUTES les fiches existantes (générées + manuelles) pour les pages
+    # personnages : {Nom|id} ne devient un lien que si l'id est dans cette liste.
+    ids = sorted(os.path.splitext(os.path.basename(p))[0]
+                 for p in glob.glob(os.path.join(artists_dir, "*.md"))
+                 if not os.path.basename(p).startswith("_"))
+    assets_dir = os.path.join(root, "assets")
+    os.makedirs(assets_dir, exist_ok=True)
+    with open(os.path.join(assets_dir, "artist-ids.js"), "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("// GÉNÉRÉ par _scripts/generate_artists.py : ne pas modifier.\n"
+                 "window.ARTIST_IDS = new Set(" + json.dumps(ids, ensure_ascii=False) + ");\n")
+    print("écrit : assets/artist-ids.js (%d fiches)" % len(ids))
 
 
 if __name__ == "__main__":
