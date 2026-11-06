@@ -23,8 +23,8 @@ except ImportError:
 
 COLUMNS = ["artist", "nickname", "native_nickname", "family_name", "particle", "first_name", "native_name",
            "name_order", "full_name", "other_names", "prefix", "display", "page_name", "short_name",
-           "script", "photo", "address", "country", "dates", "birth_date", "death_date", "kind", "thumb_fit", "gallery", "bio", "romanization"]
-LIST_COLS = {"other_names", "gallery"}
+           "script", "photo", "address", "country", "dates", "birth_date", "death_date", "kind", "thumb_fit", "gallery", "extra_roles", "bio", "romanization"]
+LIST_COLS = {"other_names", "gallery", "extra_roles"}
 SLUG = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 MARK = "generated: true"
 
@@ -132,7 +132,7 @@ def build_front(row):
         if col == "other_names":
             items = [x.strip() for x in re.split(r"[;\r\n]+", v) if x.strip()]
             v = items if len(items) > 1 else (items[0] if items else "")
-        elif col == "gallery":
+        elif col in ("gallery", "extra_roles"):
             v = split_items(v)
         elif col == "name_order":
             if v.lower() not in ("family", "famille", "nom"):
@@ -219,6 +219,12 @@ def main():
         fm = build_front(row)
         if not any(k in fm for k in ("nickname", "family_name", "first_name", "display", "native_name", "full_name", "romanization")):
             problems.append("ligne %d (%s) : aucun nom renseigné, la fiche s'affichera avec son identifiant" % (n, slug))
+        for i, er in enumerate(fm.get("extra_roles", []), start=1):
+            f = [x.strip() for x in er.split("|")]
+            if len(f) < 2 or not f[0] or not f[1]:
+                problems.append("ligne %d (%s) : extra_roles ligne %d « %s » : il faut au moins « rôle | film »" % (n, slug, i, er))
+            elif len(f) > 5:
+                problems.append("ligne %d (%s) : extra_roles ligne %d « %s » : trop de « | » (5 champs maximum : rôle | film | année | langue | image)" % (n, slug, i, er))
         made.append((slug, fm, row.get("bio", "")))
 
     print("tableau : %s" % os.path.relpath(table, root))
