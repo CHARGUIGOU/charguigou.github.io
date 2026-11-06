@@ -12,6 +12,45 @@
 //  { lang, voice } et l'insère dans le point de montage (id fourni).
 // ============================================================
 
+// ============================================================
+//  MISE EN PETIT AUTOMATIQUE DES PARENTHÈSES (colonne des voix)
+//  Dans le champ "voice", tout ce qui est entre parenthèses passe tout
+//  seul en <small>, ainsi que le "&" qui suit directement une parenthèse :
+//     'Anila Muçaj (speaking) & Jodi Benson (singing)'
+//  devient
+//     Anila Muçaj <small>(speaking) &</small> Jodi Benson <small>(singing)</small>
+//  - Les parenthèses imbriquées sont gérées : (speaking (S01)) reste un seul bloc.
+//  - Ce qui est DÉJÀ écrit entre <small>...</small> à la main n'est pas touché (même si le
+//    </small> a été oublié : le bloc va alors jusqu'au prochain <br> ou à la fin de la ligne) :
+//    les anciennes lignes continuent de marcher telles quelles.
+//  - Le champ "lang" (colonne de gauche) n'est pas modifié.
+// ============================================================
+
+function smallParens(s) {
+  let out = '', i = 0;
+  while (i < s.length) {
+    if (s[i] !== '(') { out += s[i++]; continue; }
+    let depth = 0, j = i;
+    for (; j < s.length; j++) {
+      if (s[j] === '(') depth++;
+      else if (s[j] === ')' && --depth === 0) break;
+    }
+    if (j >= s.length) { out += s.slice(i); break; }          // parenthèse jamais fermée : laissée telle quelle
+    let end = j + 1;
+    const amp = s.slice(end).match(/^\s*(&amp;|&)(?=\s|$)/);   // "&" juste après la parenthèse : en petit aussi
+    if (amp) end += amp[0].length;
+    out += '<small>' + s.slice(i, end) + '</small>';
+    i = end;
+  }
+  return out;
+}
+
+function formatVoice(html) {
+  return String(html).split(/(<small>[\s\S]*?(?:<\/small>|(?=<br>)|$))/g)
+    .map((part, i) => (i % 2 === 1 ? part : smallParens(part)))
+    .join('');
+}
+
 function renderVoiceTable(mountId, data) {
   const mount = document.getElementById(mountId);
   if (!mount) return;
@@ -22,7 +61,7 @@ function renderVoiceTable(mountId, data) {
 
   data.forEach(entry => {
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td class="lang-cell">${entry.lang}</td><td class="voice-cell">${entry.voice}</td>`;
+    tr.innerHTML = `<td class="lang-cell">${entry.lang}</td><td class="voice-cell">${formatVoice(entry.voice)}</td>`;
     tbody.appendChild(tr);
   });
 
