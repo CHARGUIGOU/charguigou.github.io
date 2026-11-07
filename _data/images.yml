@@ -13,11 +13,14 @@
 # ============================================================
 base: "https://res.cloudinary.com/dofvjifeo/image/upload/"
 
+# Bandeaux des films (pages personnages) : hébergés sur ImageKit (adresse de base + réglage "banner" ci-dessous)
+banner_base: "https://ik.imagekit.io/charguigou/"
+
 presets:
   thumb: "c_limit,w_160,q_auto,f_auto"             # petites vignettes des personnages (tableaux de cast, fiches d'artistes) : 160 px de large
   zoom: "c_limit,w_900,q_auto,f_auto"              # même image agrandie au clic (remplace "thumb" dans l'adresse)
   card: "c_limit,w_260,q_auto,f_auto"              # cartes de la page Character Voices
-  banner: "w_1800,c_limit,q_auto,f_auto"           # bandeaux des films (pages personnages) : 1800 px de large max
+  banner: "tr:w-1800,c-at_max"                     # bandeaux des films (ImageKit) : 1800 px de large max, jamais agrandi
   gallery_thumb: "w_400,h_400,c_fill,g_{pos},q_auto"   # miniatures carrées des galeries ({pos} = north / center / south, mis automatiquement)
   artist_thumb: "c_fill,g_auto,w_160,h_160,q_auto,f_auto"   # vignettes carrées de la page Voice Artists (artistes)
   studio_thumb: "c_fit,w_160,h_160,q_auto,f_auto"          # vignettes de la page Voice Artists (studios : logo entier)
