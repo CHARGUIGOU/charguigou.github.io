@@ -4,7 +4,7 @@
                 name = nom original affiché (ex: Ralph) : sert seulement quand key est vide, l'id est alors déduit du nom
                        (minuscules, espaces en tirets : "Mr. Litwak" -> mr-litwak)
                 film = titre du film (facultatif) : si le personnage a une image pour CE film, c'est elle qui est prise
-                px = LARGEUR de la miniature en pixels (défaut 160 ; hauteur proportionnelle, jamais recadrée ici)
+                (la taille des miniatures se règle dans _data/images.yml : réglage « thumb »)
   Renvoie seulement l'URL (vide si le personnage ou son image n'existe pas).
 {%- endcomment -%}
 {%- assign ci_url = "" -%}
@@ -32,14 +32,8 @@
 {%- endif -%}
 {%- if ci_url != "" -%}
   {%- assign ci_u4 = ci_url | slice: 0, 4 -%}
-  {%- comment -%}
-    Taille des miniatures : réglée ICI (largeur 160 px par défaut), indépendante de "image_base"
-    (qui sert à la page Character Voices). On garde seulement le début de l'adresse (…/upload/).
-  {%- endcomment -%}
-  {%- assign ci_size = include.px | default: 160 -%}
   {%- if ci_u4 != "http" -%}
-    {%- assign ci_root = site.data.characters.image_base | split: "/upload/" | first | append: "/upload/" -%}
-    {%- assign ci_url = ci_root | append: "c_limit,w_" | append: ci_size | append: ",q_auto,f_auto/" | append: ci_url -%}
+    {%- assign ci_url = site.data.images.base | append: site.data.images.presets.thumb | append: "/" | append: ci_url -%}
   {%- endif -%}
   {{- ci_url -}}
 {%- endif -%}

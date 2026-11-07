@@ -1,0 +1,24 @@
+# ============================================================
+# IMAGES : HÉBERGEUR ET TAILLES — le SEUL endroit à modifier
+# ============================================================
+# Toutes les images du site qui passent par Cloudinary sont construites ainsi :
+#       base  +  réglage (preset)  +  "/"  +  nom du fichier
+# Exemple :  https://res.cloudinary.com/dofvjifeo/image/upload/ + c_limit,w_160,q_auto,f_auto + / + Ariel1989.png
+#
+# - Pour changer la TAILLE ou le FORMAT d'un type d'image : modifie son réglage dans "presets" ci-dessous.
+# - Pour changer d'HÉBERGEUR (ex : ImageKit) : change "base" et réécris les réglages dans la syntaxe du nouvel hébergeur
+#   (ex ImageKit : base "https://ik.imagekit.io/TON-ID/" et réglage "tr:w-160,c-at_max"). Rien d'autre à toucher,
+#   sauf les adresses écrites À LA MAIN dans une page (<img src="https://res.cloudinary.com/..."> dans le texte d'une page).
+# - Un réglage vide ("") = l'image d'origine, sans transformation.
+# ============================================================
+base: "https://res.cloudinary.com/dofvjifeo/image/upload/"
+
+presets:
+  thumb: "c_limit,w_160,q_auto,f_auto"             # petites vignettes des personnages (tableaux de cast, fiches d'artistes) : 160 px de large
+  zoom: "c_limit,w_900,q_auto,f_auto"              # même image agrandie au clic (remplace "thumb" dans l'adresse)
+  card: "c_limit,w_260,q_auto,f_auto"              # cartes de la page Character Voices
+  banner: "w_1800,c_limit,q_auto,f_auto"           # bandeaux des films (pages personnages) : 1800 px de large max
+  gallery_thumb: "w_400,h_400,c_fill,g_{pos},q_auto"   # miniatures carrées des galeries ({pos} = north / center / south, mis automatiquement)
+  artist_thumb: "c_fill,g_auto,w_160,h_160,q_auto,f_auto"   # vignettes carrées de la page Voice Artists (artistes)
+  studio_thumb: "c_fit,w_160,h_160,q_auto,f_auto"          # vignettes de la page Voice Artists (studios : logo entier)
+  photo: "q_auto,f_auto"                           # photos des artistes (cartes de cast, fiches) : mêmes dimensions, format plus léger

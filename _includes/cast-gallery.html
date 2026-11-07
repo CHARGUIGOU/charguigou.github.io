@@ -2,15 +2,15 @@
   IMAGES DE LA GALERIE construites depuis le front matter (page.gallery). Une ligne = une chaîne :
       fichier | légende | recadrage
   - fichier : nom du fichier sur Cloudinary (ex : Beauty_and_the_Beast_2_German_DVD.jpg). Le début commun de l'URL
-    (https://res.cloudinary.com/dofvjifeo/image/upload/) est ajouté tout seul ; pour une autre base, écris
+    (base de _data/images.yml) est ajouté tout seul ; pour une autre base, écris
     gallery_base: "https://.../upload/" dans le front matter. Une URL complète (http...) est aussi acceptée telle quelle.
   - légende (facultatif) : texte affiché au survol de la miniature et sous l'image ouverte (aussi utilisé comme alt).
   - recadrage (facultatif) : partie de l'image gardée dans la miniature carrée : north (haut, par défaut), center, south.
   - gallery_full (facultatif, front matter) : réglages Cloudinary pour l'affichage plein écran, ex : gallery_full: "w_1600,q_auto:best"
     (pour les très grandes images ; sans lui, l'image d'origine est utilisée).
-  Miniature = <base>w_400,h_400,c_fill,g_<recadrage>,q_auto/<fichier>
+  Miniature = <base> + réglage « gallery_thumb » de _data/images.yml (taille, qualité) + / + <fichier>
 {%- endcomment -%}
-{%- assign g_base = page.gallery_base | default: "https://res.cloudinary.com/dofvjifeo/image/upload/" -%}
+{%- assign g_base = page.gallery_base | default: site.data.images.base -%}
 {%- assign g_full = page.gallery_full | default: "" -%}
 {%- for g_row in page.gallery %}
   {%- assign g_f = g_row | split: "|" -%}
@@ -21,7 +21,8 @@
   {%- if g_file contains "://" -%}
     {%- assign g_thumb = g_file -%}{%- assign g_big = g_file -%}
   {%- else -%}
-    {%- assign g_thumb = g_base | append: "w_400,h_400,c_fill,g_" | append: g_pos | append: ",q_auto/" | append: g_file -%}
+    {%- assign g_pre = site.data.images.presets.gallery_thumb | replace: "{pos}", g_pos -%}
+    {%- assign g_thumb = g_base | append: g_pre | append: "/" | append: g_file -%}
     {%- if g_full != "" -%}
       {%- assign g_big = g_base | append: g_full | append: "/" | append: g_file -%}
     {%- else -%}

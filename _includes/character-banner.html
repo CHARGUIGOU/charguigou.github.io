@@ -2,17 +2,16 @@
   ============================================================
   character-banner.html — BANDEAU IMAGE D'UN FILM (pages personnages)
   Usage :  {% include character-banner.html file="Ariel1989Header.png" alt="Ariel" %}
-  - file : nom du fichier sur Cloudinary. Le début commun de l'URL
-    (https://res.cloudinary.com/dofvjifeo/image/upload/w_1800,c_limit,q_auto,f_auto/)
-    est ajouté tout seul : l'image est réduite à 1800 px de large max et servie
-    dans le format le plus léger. Une URL complète (http...) est aussi acceptée telle quelle.
+  - file : nom du fichier sur Cloudinary. Le début commun de l'URL (base + réglage « banner » de
+    _data/images.yml, ex : 1800 px de large max, format le plus léger) est ajouté tout seul.
+    Une URL complète (http...) est aussi acceptée telle quelle.
   - alt  : texte alternatif de l'image.
   - eager=true : à mettre sur le PREMIER bandeau de la page (visible tout de suite) ;
     les autres sont chargés seulement quand on s'en approche (loading="lazy").
-  Pour changer la taille ou le format de TOUS les bandeaux de TOUTES les pages : modifie la ligne b_base ci-dessous.
+  Pour changer la taille ou le format de TOUS les bandeaux de TOUTES les pages : modifie « banner » dans _data/images.yml.
   ============================================================
 {%- endcomment -%}
-{%- assign b_base = "https://res.cloudinary.com/dofvjifeo/image/upload/w_1800,c_limit,q_auto,f_auto/" -%}
+{%- assign b_base = site.data.images.base | append: site.data.images.presets.banner | append: "/" -%}
 {%- assign b_src = include.file -%}
 {%- unless b_src contains "://" -%}{%- assign b_src = b_base | append: include.file -%}{%- endunless -%}
 <img class="film-banner" src="{{ b_src }}"{% unless include.eager %} loading="lazy" decoding="async"{% endunless %} alt="{{ include.alt | escape }}">

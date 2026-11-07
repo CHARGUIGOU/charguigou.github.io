@@ -2,7 +2,7 @@
   Agrandit les vignettes de personnages du tableau Cast au clic (fenêtre plein écran).
   Sert aussi aux vignettes des fiches d'artistes (.role-img). À inclure UNE fois dans la page, après le tableau :  {% include cast-thumb-zoom.html %}
   Fermeture : clic n'importe où, croix, ou touche Échap. Les flèches du clavier passent au personnage suivant/précédent.
-  Réglages : ci-dessous (taille de l'image agrandie dans ZOOM_W, couleur de fond dans --thumb-zoom-bg).
+  Réglages : taille de l'image agrandie = réglage « zoom » de _data/images.yml ; couleur de fond dans --thumb-zoom-bg ci-dessous.
 {% endcomment %}
 <style>
   .cast-thumb img, .role-img img { cursor: zoom-in; transition: transform .15s ease, box-shadow .15s ease; }
@@ -32,15 +32,16 @@
 </div>
 <script>
 (function () {
-  var ZOOM_W = 900;   /* largeur de l'image agrandie (Cloudinary) */
+  /* la miniature (réglage « thumb ») est remplacée par la version agrandie (réglage « zoom ») dans l'adresse */
+  var THUMB_SEG = {{ '/' | append: site.data.images.presets.thumb | append: '/' | jsonify }};
+  var ZOOM_SEG = {{ '/' | append: site.data.images.presets.zoom | append: '/' | jsonify }};
   var box = document.getElementById('tzOverlay');
   var big = document.getElementById('tzImg');
   var cap = document.getElementById('tzCap');
   var thumbs = [], cur = -1;
 
   function bigUrl(u) {
-    /* miniature carrée recadrée (c_fill) ou limitée (c_limit) -> version agrandie, non recadrée */
-    return u.replace(/c_fill,w_\d+,h_\d+,g_north|c_limit,w_\d+/, 'c_limit,w_' + ZOOM_W);
+    return u.replace(THUMB_SEG, ZOOM_SEG);
   }
   var cache = {};
   function preload(i) {

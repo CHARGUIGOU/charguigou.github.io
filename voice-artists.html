@@ -137,13 +137,10 @@ title: Voice artists
     {%- unless country_all contains ck -%}{%- assign country_all = country_all | append: a_ckey | append: "~" | append: a_country | append: "|" -%}{%- endunless -%}
   {%- endif -%}
 
-  {%- comment %} photo : miniature Cloudinary légère si possible {% endcomment -%}
-  {%- capture ph_full -%}{% include artist-photo.html a=a %}{%- endcapture -%}
+  {%- comment %} photo : miniature légère (réglages « artist_thumb » / « studio_thumb » de _data/images.yml) {% endcomment -%}
+  {%- if is_studio and a.thumb_fit != "cover" -%}{%- assign ph_preset = "studio_thumb" -%}{%- else -%}{%- assign ph_preset = "artist_thumb" -%}{%- endif -%}
+  {%- capture ph_full -%}{% include artist-photo.html a=a preset=ph_preset %}{%- endcapture -%}
   {%- assign ph = ph_full | strip -%}
-  {%- if ph contains "res.cloudinary.com" and ph contains "/image/upload/" and a.photo -%}
-    {%- if is_studio and a.thumb_fit != "cover" -%}{%- assign tr = "/image/upload/c_fit,w_160,h_160,q_auto,f_auto/" -%}{%- else -%}{%- assign tr = "/image/upload/c_fill,g_auto,w_160,h_160,q_auto,f_auto/" -%}{%- endif -%}
-    {%- assign ph = ph | replace_first: "/image/upload/", tr -%}
-  {%- endif -%}
 
   {%- capture card -%}
   <a class="vi-card{% if is_studio and a.thumb_fit != "cover" %} studio{% endif %}" href="{{ a.url }}"

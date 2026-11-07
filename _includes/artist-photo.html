@@ -1,6 +1,20 @@
-{%- comment %} Adresse de la photo d'une fiche : nom de fichier seul (+ base de _data/photos.yml), ou adresse complète {% endcomment -%}
+{%- comment %}
+  Adresse de la photo d'une fiche : nom de fichier seul (+ base de _data/images.yml), ou adresse complète.
+  Paramètres :  a = la fiche ;  preset = nom du réglage de _data/images.yml (défaut : "photo").
+  Une adresse complète de la même base, sans transformation, reçoit aussi le réglage ; les autres adresses restent telles quelles.
+{% endcomment -%}
 {%- if include.a.kind == "studio" -%}{%- assign ph_default = "data:image/svg+xml;utf8,STUDIO" -%}{%- else -%}{%- assign ph_default = "data:image/svg+xml;utf8,PERSON" -%}{%- endif -%}
 {%- assign ph = include.a.photo | default: ph_default | strip -%}
 {%- assign ph_k = ph | slice: 0, 4 -%}
 {%- assign ph_s = ph | slice: 0, 1 -%}
-{%- if ph_k != "http" and ph_k != "data" and ph_s != "/" -%}{%- assign ph = site.data.photos.base | append: ph -%}{%- endif -%}{{ ph }}
+{%- assign ph_base = site.data.images.base -%}
+{%- assign ph_name = include.preset | default: "photo" -%}
+{%- assign ph_pre = site.data.images.presets[ph_name] | default: "" -%}
+{%- if ph_k == "http" -%}
+  {%- if ph_pre != "" and ph contains ph_base -%}
+    {%- assign ph_rest = ph | remove_first: ph_base -%}
+    {%- unless ph_rest contains "/" -%}{%- assign ph = ph_base | append: ph_pre | append: "/" | append: ph_rest -%}{%- endunless -%}
+  {%- endif -%}
+{%- elsif ph_k != "data" and ph_s != "/" -%}
+  {%- if ph_pre != "" -%}{%- assign ph = ph_base | append: ph_pre | append: "/" | append: ph -%}{%- else -%}{%- assign ph = ph_base | append: ph -%}{%- endif -%}
+{%- endif -%}{{ ph }}
