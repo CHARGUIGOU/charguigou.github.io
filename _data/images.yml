@@ -22,3 +22,12 @@ presets:
   artist_thumb: "c_fill,g_auto,w_160,h_160,q_auto,f_auto"   # vignettes carrées de la page Voice Artists (artistes)
   studio_thumb: "c_fit,w_160,h_160,q_auto,f_auto"          # vignettes de la page Voice Artists (studios : logo entier)
   photo: "q_auto,f_auto"                           # photos des artistes (cartes de cast, fiches) : mêmes dimensions, format plus léger
+
+# ------------------------------------------------------------
+# IMAGES HÉBERGÉES SUR WEEBLY (drapeaux, images de cinéma, logos des pages Movie Cast)
+# Début commun de l'adresse de ces images : si elles changent un jour d'hébergeur, c'est ici que ça se change
+# (et le reste de l'adresse = le nom du fichier, écrit dans la page).
+# ------------------------------------------------------------
+weebly:
+  disney: "https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/"
+  nondisney: "https://nondisneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/"
