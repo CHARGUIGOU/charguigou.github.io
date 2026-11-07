@@ -204,10 +204,15 @@ backToTop.addEventListener('click', () => {
 // ============================================================
 
 document.querySelectorAll('.film-banner').forEach(img => {
-  img.addEventListener('error', () => {
+  const showFallback = () => {
     img.style.display = 'none';
     img.closest('.film-header').classList.add('banner-fallback');
-  });
+  };
+  img.addEventListener('error', showFallback);
+  // Si l'image a DÉJÀ échoué avant que ce script s'exécute (cas courant pour
+  // la bannière chargée en priorité), l'événement "error" est déjà passé :
+  // on vérifie donc l'état actuel.
+  if (img.complete && img.naturalWidth === 0) showFallback();
 });
 
 // ============================================================
