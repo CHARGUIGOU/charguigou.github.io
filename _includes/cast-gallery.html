@@ -8,7 +8,7 @@
   - recadrage (facultatif) : partie de l'image gardée dans la miniature carrée : north (haut, par défaut), center, south.
   - gallery_full (facultatif, front matter) : réglages Cloudinary pour l'affichage plein écran, ex : gallery_full: "w_1600,q_auto:best"
     (pour les très grandes images ; sans lui, l'image d'origine est utilisée).
-  Miniature = <base>w_450,h_450,c_fill,g_<recadrage>,q_auto:best/<fichier>
+  Miniature = <base>w_400,h_400,c_fill,g_<recadrage>,q_auto/<fichier>
 {%- endcomment -%}
 {%- assign g_base = page.gallery_base | default: "https://res.cloudinary.com/dofvjifeo/image/upload/" -%}
 {%- assign g_full = page.gallery_full | default: "" -%}
@@ -21,7 +21,7 @@
   {%- if g_file contains "://" -%}
     {%- assign g_thumb = g_file -%}{%- assign g_big = g_file -%}
   {%- else -%}
-    {%- assign g_thumb = g_base | append: "w_450,h_450,c_fill,g_" | append: g_pos | append: ",q_auto:best/" | append: g_file -%}
+    {%- assign g_thumb = g_base | append: "w_400,h_400,c_fill,g_" | append: g_pos | append: ",q_auto/" | append: g_file -%}
     {%- if g_full != "" -%}
       {%- assign g_big = g_base | append: g_full | append: "/" | append: g_file -%}
     {%- else -%}
@@ -29,5 +29,5 @@
     {%- endif -%}
   {%- endif -%}
   {%- assign g_alt = g_cap | default: page.film | default: page.title %}
-      <img src="{{ g_thumb }}" loading="lazy" decoding="async" data-full="{{ g_big }}" alt="{{ g_alt | escape }}"{% if g_cap != "" %} data-caption="{{ g_cap | escape }}"{% endif %}>
+      <img src="{{ g_thumb }}" data-full="{{ g_big }}" alt="{{ g_alt | escape }}"{% if g_cap != "" %} data-caption="{{ g_cap | escape }}"{% endif %}>
 {%- endfor %}

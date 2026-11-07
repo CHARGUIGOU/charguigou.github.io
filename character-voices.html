@@ -639,7 +639,8 @@ body, .search-input {
 //  Prince Charming" sous le film de 1937, écris-les dans cet ordre.
 // ============================================================
 
-const PIC = "{{ site.data.characters.image_base }}";
+// Largeur des images des cartes : 260 px (cartes de 150 px, 200 px au survol). Monte à 320 si tu les trouves floues.
+const PIC = "{{ site.data.characters.image_base | split: '/upload/' | first }}/upload/c_limit,w_260,q_auto,f_auto/";
 
 // Les personnages sont maintenant dans _data/characters.yml (un seul endroit pour les données et les images,
 // partagé avec les pages de cast et les fiches des artistes). Les champs sont les mêmes qu'avant ;
