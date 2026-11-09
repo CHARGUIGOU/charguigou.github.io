@@ -639,7 +639,7 @@ body, .search-input {
 //  Prince Charming" sous le film de 1937, écris-les dans cet ordre.
 // ============================================================
 
-const PIC = {{ site.data.images.base | append: site.data.images.presets.card | append: "/" | jsonify }};   // taille des cartes : réglage « card » de _data/images.yml
+const PIC = {{ site.data.images.characters.base | append: site.data.images.characters.card | append: "/" | jsonify }};   // taille des cartes : réglage « card » de _data/images.yml
 
 // Les personnages sont maintenant dans _data/characters.yml (un seul endroit pour les données et les images,
 // partagé avec les pages de cast et les fiches des artistes). Les champs sont les mêmes qu'avant ;

@@ -33,8 +33,8 @@
 <script>
 (function () {
   /* la miniature (réglage « thumb ») est remplacée par la version agrandie (réglage « zoom ») dans l'adresse */
-  var THUMB_SEG = {{ '/' | append: site.data.images.presets.thumb | append: '/' | jsonify }};
-  var ZOOM_SEG = {{ '/' | append: site.data.images.presets.zoom | append: '/' | jsonify }};
+  var THUMB_SEG = {{ '/' | append: site.data.images.characters.thumb | append: '/' | jsonify }};
+  var ZOOM_SEG = {{ '/' | append: site.data.images.characters.zoom | append: '/' | jsonify }};
   var box = document.getElementById('tzOverlay');
   var big = document.getElementById('tzImg');
   var cap = document.getElementById('tzCap');

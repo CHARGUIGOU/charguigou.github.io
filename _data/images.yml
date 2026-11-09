@@ -20,7 +20,7 @@ presets:
   thumb: "c_limit,w_160,q_auto,f_auto"             # petites vignettes des personnages (tableaux de cast, fiches d'artistes) : 160 px de large
   zoom: "c_limit,w_900,q_auto,f_auto"              # même image agrandie au clic (remplace "thumb" dans l'adresse)
   card: "c_limit,w_260,q_auto,f_auto"              # cartes de la page Character Voices
-  banner: "tr:q-90"
+  banner: "tr:q-90"                                      # bandeaux des films (ImageKit) : taille d'origine, compression légère
   gallery_thumb: "w_400,h_400,c_fill,g_{pos},q_auto"   # miniatures carrées des galeries ({pos} = north / center / south, mis automatiquement)
   artist_thumb: "c_fill,g_auto,w_160,h_160,q_auto,f_auto"   # vignettes carrées de la page Voice Artists (artistes)
   studio_thumb: "c_fit,w_160,h_160,q_auto,f_auto"          # vignettes de la page Voice Artists (studios : logo entier)
@@ -34,3 +34,22 @@ presets:
 weebly:
   disney: "https://disneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/"
   nondisney: "https://nondisneyinternationaldubbings.weebly.com/uploads/5/5/8/3/55831083/"
+
+# ------------------------------------------------------------
+# IMAGES DES PERSONNAGES (vignettes des casts et fiches d'artistes, zoom au clic, cartes de Character Voices)
+# Même principe que le reste : base + réglage + "/" + nom du fichier. Tout est ici, rien ailleurs.
+#
+# POUR BASCULER SUR IMAGEKIT : (1) uploader toutes les images des personnages dans le dossier « characters » d'ImageKit (mêmes noms de fichiers, extension comprise),
+# (2) remplacer les 4 lignes ci-dessous par les lignes "ImageKit" en commentaire juste en dessous.
+# ------------------------------------------------------------
+characters:
+  base: "https://res.cloudinary.com/dofvjifeo/image/upload/"
+  thumb: "c_limit,w_160,q_auto,f_auto"      # vignettes (tableaux de cast, fiches d'artistes) : 160 px de large
+  zoom: "c_limit,w_900,q_auto,f_auto"       # même image agrandie au clic
+  card: "c_limit,w_260,q_auto,f_auto"       # cartes de la page Character Voices
+  # NB : sur ImageKit le réglage doit venir juste après l'identifiant, AVANT le dossier : c'est pourquoi "/characters" est écrit à la fin des réglages.
+  # --- Lignes ImageKit (à utiliser à la place des 4 lignes ci-dessus quand les images y sont) ---
+  # base: "https://ik.imagekit.io/charguigou/"
+  # thumb: "tr:w-240,c-at_max/characters"
+  # zoom: "tr:w-900,c-at_max/characters"
+  # card: "tr:w-360,c-at_max/characters"

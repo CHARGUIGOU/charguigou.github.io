@@ -33,7 +33,7 @@
 {%- if ci_url != "" -%}
   {%- assign ci_u4 = ci_url | slice: 0, 4 -%}
   {%- if ci_u4 != "http" -%}
-    {%- assign ci_url = site.data.images.base | append: site.data.images.presets.thumb | append: "/" | append: ci_url -%}
+    {%- assign ci_url = site.data.images.characters.base | append: site.data.images.characters.thumb | append: "/" | append: ci_url -%}
   {%- endif -%}
   {{- ci_url -}}
 {%- endif -%}
