@@ -43,13 +43,7 @@ weebly:
 # (2) remplacer les 4 lignes ci-dessous par les lignes "ImageKit" en commentaire juste en dessous.
 # ------------------------------------------------------------
 characters:
-  base: "https://res.cloudinary.com/dofvjifeo/image/upload/"
-  thumb: "c_limit,w_160,q_auto,f_auto"      # vignettes (tableaux de cast, fiches d'artistes) : 160 px de large
-  zoom: "c_limit,w_900,q_auto,f_auto"       # même image agrandie au clic
-  card: "c_limit,w_260,q_auto,f_auto"       # cartes de la page Character Voices
-  # NB : sur ImageKit le réglage doit venir juste après l'identifiant, AVANT le dossier : c'est pourquoi "/characters" est écrit à la fin des réglages.
-  # --- Lignes ImageKit (à utiliser à la place des 4 lignes ci-dessus quand les images y sont) ---
-  # base: "https://ik.imagekit.io/charguigou/"
-  # thumb: "tr:w-240,c-at_max/characters"
-  # zoom: "tr:w-900,c-at_max/characters"
-  # card: "tr:w-360,c-at_max/characters"
+  base: "https://ik.imagekit.io/charguigou/"
+  thumb: "tr:w-240,c-at_max/characters"
+  zoom: "tr:w-900,c-at_max/characters"
+  card: "tr:w-360,c-at_max/characters"
