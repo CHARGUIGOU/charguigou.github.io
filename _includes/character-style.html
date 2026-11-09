@@ -47,7 +47,6 @@
   --banner-pad-side: 80px;     /* retrait du titre depuis le bord gauche/droit du bandeau */
   --banner-title-bottom: 30px; /* remonte le titre depuis le bas du bandeau */
   --banner-margin-bottom: 30px; /* espace entre le bandeau et le contenu qui suit */
-  --portrayed-by-indent: 200px; /* décalage vers la droite de "Portrayed by", en plus de la marge de page */
   --lang-col-width: 340px;      /* largeur de la colonne "langue" dans les tableaux de voix */
   --fallback-glow-duration: 12s; /* durée d'un aller (puis retour) de la lumière du fond de secours */
   --year-color: #7ea6d8;       /* couleur des années/dates (bleu pastel) */
@@ -296,12 +295,15 @@ body {
 }
 
 .portrayed-by {
-  color: #666;
-  font-size: 14px;
-  margin: 16px var(--page-margin) 6px calc(var(--page-margin) + var(--portrayed-by-indent));
+  color: #222;                  /* couleur du nom de l'acteur/actrice */
+  font-size: 16px;              /* taille du texte "Portrayed by ..." */
+  text-align: center;           /* centré au-dessus du tableau de voix */
+  margin: 22px var(--page-margin) 8px;
 }
 .portrayed-by em {
   font-style: italic;
+  color: #777;                  /* "Portrayed by" plus discret que le nom */
+  margin-right: 0.45em;         /* espace entre "by" et le nom */
 }
 
 /* Tableau des doublages */
