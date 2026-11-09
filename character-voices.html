@@ -290,7 +290,19 @@ body, .search-input {
   perspective: 1000px;
   cursor: pointer;
   z-index: 1;
-  transition: width 0.3s ease, height 0.3s ease;
+  transition: width 0.3s ease, height 0.3s ease, margin-bottom 0.3s ease;
+}
+/* HAUTEUR DE LIGNE STABLE : dès qu'une carte d'une ligne est survolée, TOUTES les
+   cartes de cette ligne reçoivent la classe ".row-open" (ajoutée en JS, voir
+   setupGrowHover) : leur marge du bas compense exactement ce que la carte survolée
+   gagne en hauteur. Résultat : la ligne garde la même hauteur pendant qu'on passe
+   d'une carte à sa voisine, donc la ligne du dessous ne bouge plus (avant, elle
+   remontait un instant entre la fermeture de l'une et l'ouverture de l'autre). */
+.character-card.row-open {
+  margin-bottom: calc(var(--card-hover-height) - var(--card-size));
+}
+.character-card.row-open.hovered {
+  margin-bottom: 0;
 }
 /* Agrandissement déclenché par la classe ".hovered" (ajoutée/retirée en
    JS avec un petit délai anti-scintillement — voir setupGrowHover plus
@@ -933,6 +945,18 @@ function renderFlat(list) {
 const GRACE_MS = 150;
 let currentHoveredCard = null;
 let hoverCloseTimeout = null;
+let openRowCards = [];   // cartes de la ligne actuellement "ouverte" (classe .row-open)
+
+// Cartes qui partagent la même ligne que "li" (même position verticale)
+function cardsOfRow(li) {
+  const top = li.offsetTop;
+  return Array.from(li.parentElement.children).filter(el => Math.abs(el.offsetTop - top) < 4);
+}
+function setOpenRow(cards) {
+  openRowCards.forEach(el => { if (!cards.includes(el)) el.classList.remove('row-open'); });
+  cards.forEach(el => el.classList.add('row-open'));
+  openRowCards = cards;
+}
 
 function setupGrowHover(li) {
   li.addEventListener('mouseenter', () => {
@@ -943,6 +967,9 @@ function setupGrowHover(li) {
     if (currentHoveredCard && currentHoveredCard !== li) {
       currentHoveredCard.classList.remove('hovered');
     }
+    // La ligne reste "ouverte" en continu quand on passe d'une carte à sa voisine
+    // (si la carte est sur la même ligne que la précédente, rien ne change pour les marges).
+    if (!openRowCards.includes(li)) setOpenRow(cardsOfRow(li));
     li.classList.add('hovered');
     currentHoveredCard = li;
   });
@@ -950,7 +977,10 @@ function setupGrowHover(li) {
   li.addEventListener('mouseleave', () => {
     hoverCloseTimeout = setTimeout(() => {
       li.classList.remove('hovered');
-      if (currentHoveredCard === li) currentHoveredCard = null;
+      if (currentHoveredCard === li) {
+        currentHoveredCard = null;
+        setOpenRow([]);   // plus aucune carte survolée : la ligne se referme
+      }
       hoverCloseTimeout = null;
     }, GRACE_MS);
   });
@@ -1005,7 +1035,7 @@ function setupNeighborPush(li) {
         neighborResetTimeouts.delete(sib);
       }
       const sibIdx = rowSiblings.indexOf(sib);
-      sib.style.transition = 'transform 0.3s ease, width 0.3s ease, height 0.3s ease';
+      sib.style.transition = 'transform 0.3s ease, width 0.3s ease, height 0.3s ease, margin-bottom 0.3s ease';
       sib.style.transform = sibIdx < idx ? `translateX(-${shift}px)` : `translateX(${shift}px)`;
     });
   });
