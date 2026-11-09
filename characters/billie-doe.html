@@ -1,0 +1,112 @@
+---
+layout: null
+title: "Billie Doe"
+---
+<!-- GOOGLE FONTS -->
+<title>{{ page.title }}</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&family=IM+Fell+English:ital@0;1&family=Noto+Sans+Arabic:wght@300..800&family=Noto+Sans+Armenian:wght@300..800&family=Noto+Sans+Bengali:wght@300..800&family=Noto+Sans+Devanagari:wght@300..800&family=Noto+Sans+Georgian:wght@300..800&family=Noto+Sans+Hebrew:wght@300..800&family=Noto+Sans+Kannada:wght@300..800&family=Noto+Sans+Malayalam:wght@300..800&family=Noto+Sans+Tamil:wght@300..800&family=Noto+Sans+Telugu:wght@300..800&family=Noto+Sans+Thai:wght@300..800&display=swap" rel="stylesheet">
+
+{% include character-style.html %}
+
+
+<!-- ============================================================
+     RETOUR
+     ============================================================ -->
+<a class="back-btn" href="/character-voices.html">← All characters</a>
+
+<!-- ============================================================
+     TITRE + RECHERCHE (gauche) / SOMMAIRE (droite)
+     Le sommaire de droite se remplit TOUT SEUL à partir des sections
+     film plus bas (voir le script en bas de page) : tu n'as jamais
+     besoin d'y toucher, même en ajoutant un nouveau film.
+     ============================================================ -->
+<div class="top-section">
+  <div class="top-left">
+    <h1 class="page-title">Billie Doe<br></h1>
+    <input type="text" id="langSearch" placeholder="Search a language or a voice actor...">
+    <div id="langResultInfo"></div>
+  </div>
+
+  <nav class="toc" id="toc">
+    <div class="toc-title">Appearances</div>
+    <ol id="tocList"></ol>
+  </nav>
+</div>
+
+<!-- ============================================================
+     FILM 1 : The Little Mermaid (1989)
+     ============================================================ -->
+<section class="film-section" id="film-2026">
+  <div class="film-header">
+    {% include character-banner.html file="BillieDoe2026Header.png" alt="BillieDoe" eager=true %}
+    <div class="film-header-overlay">
+      <h2 class="film-title">Hexed <span class="film-year">(2026)</span></h2>
+    </div>
+  </div>
+
+  <div class="voice-table-mount" id="voices-2026"></div>
+
+  <div class="trivia">
+    <h3>Trivia</h3>
+    <ul>
+      <li>In the <b>Brazilian</b>, <b>Danish</b> and <b>Japanese</b> dubs, only the <i>songs</i> were redubbed in the 1997/1998 reissue - the rest of the dubs were kept as they were (<i>Only Flounder's was voice also redubbed in the Danish version</i>).</li>
+      <li><b>Sissel Kyrkjebø</b>, a Norwegian singer, dubbed Ariel in three different versions, as a package for the Scandinavian dubs : in <b>Danish</b> for the singing voice, and in <b>Norwegian</b> and <b>Swedish</b> for both speaking and singing.</li>
+      <li>In the <i>Cantonese dub</i>, <b>Cally Kwong (鄺美雲)</b>, the singing voice of Ariel, also sang a pop version of <i>"Part Of Your World"</i> in the end credits.</li>
+      <li><b>Simona Patitucci</b>, the <i>Italian</i> voice of Ariel, won a prize as <i>Best European Ariel</i> in 2001. She should have gone to New York, but because of the <b>terrorist attacks</b> of 9/11/01, she couldn't collect it in person.<br>
+        <small><b><i>Source</i></b> : Simona Patitucci</small></li>
+      <li><b>Svetlana Svetikova (Светлана Светикова)</b>, the <i>Russian</i> voice, also won a prize for <b>Best Foreign Version</b>.</li>
+      <li><b>Valgerður Guðnadóttir</b> didn't have to audition for the role. The directors only sent a demo of her singing and she got the part.<br>
+      <b><i>Source</i></b> : Valgerður Guðnadóttir</li>
+      <li><b>Martina Sprangers</b>, the voice of Ariel in the <i>first Thai dub</i> (1991), was known as <i>Martina Antoinette Jalleh</i>. She's <b>Malaysian</b>, and adopted later the Thai nationality. As she was not fluent in Thai at the time of the dubbing, she had to memorize the dialogues from someone else's speaking, before reciting herself the lines.<br>
+        <small><b><i>Source</i></b> : Martina Sprangers</small></li>
+      <li>The Albanian dubs aren't official.</li>
+    </ul>
+  </div>
+</section>
+
+
+<div class="last-update">Last update - 9-Nov-2026</div>
+
+<!-- ============================================================
+     BOUTON RETOUR EN HAUT
+     MODIFIE ICI : la couleur du contour vient de --accent en haut du fichier
+     ============================================================ -->
+<button id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 3c-1 0-1.8.8-1.8 1.8v6.4L8.6 9.6a1.6 1.6 0 0 0-2.3 2.2l4.2 4.4c.8.8 2.1.8 2.9 0l4.2-4.4a1.6 1.6 0 0 0-2.3-2.2l-1.6 1.6V4.8C13.8 3.8 13 3 12 3z" fill="#1a4a8a" transform="rotate(180 12 12)"/>
+  </svg>
+</button>
+
+<script>
+// ============================================================
+//  DONNEES DES VOIX PAR FILM
+//  MODIFIE ICI : chaque entrée = { lang: "...", voice: "..." }.
+//  Le champ "voice" accepte du HTML libre (<small>, <b>, <i>, scripts natifs, etc.)
+// ============================================================
+
+const voices_2026 = [
+  { lang: "English", voice: '{Hailee Steinfeld|hailee-steinfeld}' },
+  { lang: "French", voice: '{Chloé Jouannet|chloe-jouannet}' },
+  { lang: "Japanese", voice: '{"Mei Hata" Hata Meiku / 畑芽育|mei-hata}' },
+  { lang: "Romanian", voice: '{Theodora Calotă|theodora-calota}' },
+  { lang: "Thai", voice: '{Nene Royal / เนเน่ รอยัล|nene-royal}' }
+];
+
+
+// ============================================================
+//  MODIFIE ICI : la liste des tableaux de voix existants.
+//  Un objet { "id-du-point-de-montage": tableau_de_données } — la clé
+//  à gauche est EXACTEMENT l'id que tu as mis sur le <div
+//  class="voice-table-mount" id="..."> plus haut dans le fichier (avec
+//  des tirets), la valeur à droite est le nom de la constante "const
+//  voices_xxx = [...]" (avec des underscores, obligatoire en JS).
+//  C'est le SEUL endroit à modifier quand tu ajoutes un film : plus
+//  besoin d'une ligne "renderVoiceTable(...)" séparée pour chacun, le
+//  script commun (character-scripts.html) se charge de tout relier.
+// ============================================================
+const voicesData = {
+  'voices-2026': voices_2026,
+};
+</script>
+
+{% include character-scripts.html %}
