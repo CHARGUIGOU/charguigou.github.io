@@ -295,17 +295,18 @@ body {
 }
 
 .portrayed-by {
-  color: #222;                  /* couleur du nom de l'acteur/actrice */
-  font-size: 16px;              /* taille du texte "Portrayed by ..." */
+  color: #555;                  /* couleur du nom de l'acteur/actrice */
+  font-size: 14px;              /* taille du texte "Portrayed by ..." */
+  letter-spacing: 1px;          /* espacement entre les lettres */
   text-align: center;
   /* Centré sur la frontière entre la colonne "langue" et la colonne "voix"
-     (= au-dessus du " :" des langues), donc au-dessus des deux colonnes. */
-  width: calc(2 * var(--lang-col-width) + 6px);
+     (= entre le " :" des langues et le début des voix). */
+  width: calc(2 * var(--lang-col-width) + 42px);
   margin: 22px 0 8px var(--page-margin);
 }
 .portrayed-by em {
   font-style: italic;
-  color: #777;                  /* "Portrayed by" plus discret que le nom */
+  color: #888;                  /* "Portrayed by" plus discret que le nom */
   margin-right: 0.45em;         /* espace entre "by" et le nom */
 }
 
@@ -549,6 +550,6 @@ body.searching .continuity {
 
 @media (max-width: 700px) {
   .lang-cell { width: 150px; white-space: normal; }
-  .portrayed-by { width: calc(2 * 150px + 6px); }
+  .portrayed-by { width: calc(2 * 150px + 42px); }
 }
 </style>
