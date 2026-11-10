@@ -115,7 +115,10 @@
       <tr{% if b_id != "" %} id="{{ b_id }}"{% endif %}>
         <td class="cast-banner {{ b_fx }}" colspan="{% if has_img %}4{% else %}3{% endif %}">
           <div class="banner-inner">
-            {%- if c2 != "" %}<img src="{{ c2 }}" alt="">{% endif %}
+            {%- comment %} image du bandeau : un simple nom de fichier (ex : ralph-princesses.png) est complété avec banner_base + réglage "banner" de _data/images.yml (ImageKit) ; une URL complète (http...) reste telle quelle {% endcomment -%}
+            {%- assign b_src = c2 -%}
+            {%- if c2 != "" -%}{%- unless c2 contains "://" -%}{%- assign b_src = site.data.images.banner_base | append: site.data.images.presets.banner | append: "/" | append: c2 -%}{%- endunless -%}{%- endif -%}
+            {%- if c2 != "" %}<img src="{{ b_src }}" alt="">{% endif %}
             <span class="banner-text">{{ c1 }}</span>
           </div>
         </td>
