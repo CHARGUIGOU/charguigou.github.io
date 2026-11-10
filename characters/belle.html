@@ -1,0 +1,227 @@
+---
+layout: null
+title: "Belle"
+---
+<!-- GOOGLE FONTS -->
+<title>{{ page.title }}</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&family=IM+Fell+English:ital@0;1&family=Noto+Sans+Arabic:wght@300..800&family=Noto+Sans+Armenian:wght@300..800&family=Noto+Sans+Bengali:wght@300..800&family=Noto+Sans+Devanagari:wght@300..800&family=Noto+Sans+Georgian:wght@300..800&family=Noto+Sans+Hebrew:wght@300..800&family=Noto+Sans+Kannada:wght@300..800&family=Noto+Sans+Malayalam:wght@300..800&family=Noto+Sans+Tamil:wght@300..800&family=Noto+Sans+Telugu:wght@300..800&family=Noto+Sans+Thai:wght@300..800&display=swap" rel="stylesheet">
+
+{% include character-style.html %}
+
+
+<!-- ============================================================
+     RETOUR
+     ============================================================ -->
+<a class="back-btn" href="/character-voices.html">← All characters</a>
+
+<!-- ============================================================
+     TITRE + RECHERCHE (gauche) / SOMMAIRE (droite)
+     Le sommaire de droite se remplit TOUT SEUL à partir des sections
+     film plus bas (voir le script en bas de page) : tu n'as jamais
+     besoin d'y toucher, même en ajoutant un nouveau film.
+     ============================================================ -->
+<div class="top-section">
+  <div class="top-left">
+    <h1 class="page-title">Belle<br></h1>
+    <input type="text" id="langSearch" placeholder="Search a language or a voice actor...">
+    <div id="langResultInfo"></div>
+  </div>
+
+  <nav class="toc" id="toc">
+    <div class="toc-title">Appearances</div>
+    <ol id="tocList"></ol>
+  </nav>
+</div>
+
+<!-- ============================================================
+     FILM 1 : Beauty and the Beast (1991)
+     ============================================================ -->
+<section class="film-section" id="film-1991">
+  <div class="film-header">
+    {% include character-banner.html file="Belle1991Header.png" alt="Belle 1991 banner" eager=true %}
+    <div class="film-header-overlay">
+      <h2 class="film-title">Beauty and the Beast <span class="film-year">(1991)</span></h2>
+    </div>
+  </div>
+
+  <div class="voice-table-mount" id="voices-1991"></div>
+
+  <div class="trivia">
+    <h3>Trivia</h3>
+    <ul>
+      <li><b>Madhura Kumbhar</b> (मधुरा कुंभार), the <i>Marathi</i> singing voice of Belle, would return in 2017 as Belle's singing voice in the <i>Hindi</i> version.</li>
+      <li><b>Jolanta Wilk</b>, the <i>Polish 2002</i> speaking voice of Belle, told in an interview for <a href="https://www.youtube.com/watch?v=LYJqn7yNPm8&t=448s" target="_blank" rel="noopener">WIDZĘ GŁOSY</a> that she first tried to model her voice after <i>Paige O'Hara's</i>, speaking in a slightly <b>lower tone</b>. But in the end Disney preferred her natural voice recording.</li>
+      <li><b>Alina Eremia</b>, the <i>Romanian</i> voice, was only 17 years old when she dubbed the character.</li>
+      <li><b>Nguyễn Duyên Quỳnh</b>, the <i>Vietnamese</i> voice, dubbed both animated classic and live-action remake <i>Beauty and the Beast</i> the same year.</li>
+      <li>The <b>MSArabic TV</b> dub never aired.</li>
+      <li>The Albanian dubs aren't official.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     FILM 2 : Beauty and the Beast: The Enchanted Christmas (1997)
+     ============================================================ -->
+<section class="film-section" id="film-1997">
+  <div class="film-header">
+    {% include character-banner.html file="Belle1997Header.png" alt="Belle 1997 banner"}
+    <div class="film-header-overlay">
+      <h2 class="film-title">Beauty and the Beast: The Enchanted Christmas <span class="film-year">(1997)</span></h2>
+    </div>
+  </div>
+
+  <div class="voice-table-mount" id="voices-1997"></div>
+
+  <div class="trivia">
+    <h3>Trivia</h3>
+    <ul>
+      <li>The song "<i><a href="https://www.youtube.com/watch?v=iZXot80U304" target="_blank" rel="noopener">As Long as There's Christmas</a></i>" was dubbed for a special <b>Bulgarian Christmas VHS</b> "<i>Disney Winter Wonderland</i>" (2003?). <i>Yordanka Ilova</i> (Йорданка Илова), the voice of Belle in the first film, sang for the character again.</li>
+      <li>In the <b>Egyptian Arabic</b> dub, the singing voice of Belle in the first film <i>Dalia Farouq</i> (داليا فاروق) eventually reprised the speaking parts of the character.</li>
+      <li>The Albanian dub isn't official.</li>
+    </ul>
+  </div>
+</section>
+
+
+<div class="last-update">Last update - 11-Nov-2026</div>
+
+<!-- ============================================================
+     BOUTON RETOUR EN HAUT
+     MODIFIE ICI : la couleur du contour vient de --accent en haut du fichier
+     ============================================================ -->
+<button id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 3c-1 0-1.8.8-1.8 1.8v6.4L8.6 9.6a1.6 1.6 0 0 0-2.3 2.2l4.2 4.4c.8.8 2.1.8 2.9 0l4.2-4.4a1.6 1.6 0 0 0-2.3-2.2l-1.6 1.6V4.8C13.8 3.8 13 3 12 3z" fill="#1a4a8a" transform="rotate(180 12 12)"/>
+  </svg>
+</button>
+
+<script>
+// ============================================================
+//  DONNEES DES VOIX PAR FILM
+//  MODIFIE ICI : chaque entrée = { lang: "...", voice: "..." }.
+//  Le champ "voice" accepte du HTML libre (<small>, <b>, <i>, scripts natifs, etc.)
+// ============================================================
+
+const voices_1991 = [
+  { lang: "Albanian (2002)", voice: '{Alma Koleci|alma-koleci} (speaking & singing)' },
+  { lang: "Albanian (2003)", voice: "{Shegushe Bebeti|shegushe-bebeti} (speaking) & {Paige O'Hara|paige-ohara} (singing - original version)" },
+  { lang: "<small>Egyptian</small> Arabic (2002)", voice: '{Liqaa Al-Khamisy / لقاء الخميسي|liqaa-al-khamisy} (speaking) & {Dalia Farouq / داليا فاروق|dalia-farouq} (singing)' },
+  { lang: "<small>Modern Standard</small> Arabic TV (2014)", voice: '{Dalia Farouq / داليا فاروق|dalia-farouq} (speaking & singing)' },
+  { lang: "<small>Modern Standard</small> Arabic (2022)", voice: '{Arig Fouda / أريج فودة|arig-fouda} (speaking & singing)' },
+  { lang: "Armenian (2016)", voice: '{Karine Yesayan / Կարինե Եսայան|karine-yesayan} (speaking) & {Susanna Petrosyan / Սուսաննա Պետրոսյան|susanna-petrosyan} (singing)' },
+  { lang: "Bulgarian (2002)", voice: '{Yordanka Ilova / Йорданка Илова|yordanka-ilova} (speaking & singing)' },
+  { lang: "Cantonese", voice: '{Can Bou-saan / 陳寶珊|can-bou-saan} (speaking) & {"Sarah Yeung" Joeng Suk-Zing / 楊淑貞|sarah-yeung} (singing)<br>{"Peggy Kwok" Gwok Bik-Zan / 郭碧珍|peggy-kwok} (2002 added dialogue "<i>Human Again</i>")' },
+  { lang: "Croatian (2010)", voice: '{Renata Sabljak|renata-sabljak} (speaking & singing)' },
+  { lang: "Czech (1994)", voice: '{Jana Mařasová|jana-marasova} (speaking & singing)' },
+  { lang: "Danish", voice: '{Louise Fribo|louise-fribo} (speaking & singing)' },
+  { lang: "Dutch", voice: '{Joke de Kruijf|joke-de-kruijf} (speaking & singing)' },
+  { lang: "English", voice: "{Paige O'Hara|paige-ohara} (speaking & singing)" },
+  { lang: "Finnish", voice: '{Mervi Hiltunen|mervi-hiltunen} (speaking & singing)' },
+  { lang: "French", voice: '{Bénédicte Lécroart|benedicte-lecroart}' },
+  { lang: "German", voice: '{Jana Werner|jana-werner} (speaking & singing)' },
+  { lang: "Greek", voice: '{Krísti Stasinopoúlou / Κρίστη Στασινοπούλου|kristi-stasinopoulou} (speaking & singing)<br>{Áriel Konstantinídi / Άριελ Κωνσταντινίδη|ariel-konstantinidi} (2002 added dialogue "<i>Human Again</i>")' },
+  { lang: "Hebrew", voice: '{Rinat Gabay / רינת גבאי|rinat-gabay} (speaking & singing)' },
+  { lang: "Hindi (200?)", voice: '{Mona Ghosh Shetty / मोना घोष शेट्टी|mona-ghosh-shetty} (speaking) & {Smita Malhotra Rosemeyer|smita-malhotra-rosemeyer} (singing)' },
+  { lang: "Hungarian", voice: '{Kocsis Judit|kocsis-judit} (speaking & singing)' },
+  { lang: "Icelandic (2002)", voice: '{Selma Björnsdóttir|selma-bjornsdottir} (speaking & singing)' },
+  { lang: "Indonesian", voice: '{Yvonne Rose Pattiapon|yvonne-rose-pattiapon} (speaking & singing)' },
+  { lang: "Italian", voice: '{Laura Boccanera|laura-boccanera} (speaking) & {Marjorie Biondo|marjorie-biondo} (singing)<br>{Barbara De Bortoli|barbara-de-bortoli} (2002 added dialogue "<i>Human Again</i>")' },
+  { lang: "Japanese", voice: '{Itō Eri / 伊東恵里|ito-eri} (speaking & singing)' },
+  { lang: "Karachay-Balkar (2013)", voice: '{Gergokalanı Xalimat / Гергокаланы Халимат|gergokalani-xalimat} (speaking & singing)' },
+  { lang: "Kazakh (2017)", voice: '{Nazerke Serıkbolova / Назерке Серікболова|nazerke-serikbolova} (speaking & singing)' },
+  { lang: "Korean", voice: '{Seong Yu-jin / 성유진|seong-yu-jin} (speaking) & {Jeon Su-gyeong / 전수경|jeon-su-gyeong} (singing)<br>{Seo Hye-jeong / 서혜정|seo-hye-jeong} (2002 added dialogue "<i>Human Again</i>' },
+  { lang: "Malay (2012)", voice: '? (speaking) & {Joan Jim|joan-jim} (singing)' },
+  { lang: "<small>Taiwanese</small> Mandarin", voice: '{Liú Xiǎo-Yún / 劉小芸|liu-xiao-yun} (speaking) & {Shī Cǎi-Yún / 施彩雲|shi-cai-yun} (singing)' },
+  { lang: "Mandarin Chinese (200?)", voice: '{Xuē Bái / 薛白|xue-bai} (speaking) & {Yú Hǎi-Yīng / 于海英|yu-hai-ying} (singing)' },
+  { lang: "Marathi (2015)", voice: '{Neshma Chemburkar / नेश्मा चेम्बुरकर|neshma-chemburkar} ? (speaking) & {Madhura Kumbhar / मधुरा कुंभार|madhura-kumbhar} (singing)' },
+  { lang: "Norwegian", voice: '{Merethe Trøan|merethe-troan} (speaking & singing)' },
+  { lang: "Polish (1993)", voice: '{Katarzyna Skrzynecka|katarzyna-skrzynecka} (speaking & singing)' },
+  { lang: "Polish (2002)", voice: '{Jolanta Wilk|jolanta-wilk} (speaking) & {Katarzyna Owczarz|katarzyna-owczarz} (singing)' },
+  { lang: "<small>Brazilian</small> Portuguese", voice: '{Ju Cassou|ju-cassou} (speaking & singing)' },
+  { lang: "Portuguese (2002)", voice: '{Carla de Sá|carla-de-sa} (speaking) & {Alda Joana|alda-joana} (singing)' },
+  { lang: "Romanian (2012)", voice: '{Alina Eremia|alina-eremia} (speaking & singing)' },
+  { lang: "Russian (2002)", voice: '{Saule Iskakova / Сауле Искакова|saule-iskakova} (speaking & singing)' },
+  { lang: "Slovak (2010)", voice: '{Alžbeta Bartošová|alzbeta-bartosova} (speaking & singing)' },
+  { lang: "Slovene (2019?)", voice: '?' },
+  { lang: "<small>Latin American</small> Spanish", voice: '{Diana Santos|diana-santos} (speaking) & {Lourdes Ambriz|lourdes-ambriz} (singing)' },
+  { lang: "<small>Castilian</small> Spanish", voice: '{Inés Moraleda|ines-moraleda} (speaking & singing)' },
+  { lang: "Swedish", voice: '{Sofia Källgren|sofia-kallgren} (speaking & singing)' },
+  { lang: "Telugu TV (????)", voice: "? (speaking) & {Paige O'Hara|paige-ohara} (singing - original version)" },
+  { lang: "Thai (1992)", voice: '{"Fourth" Naruemon Chiwangkun / "โฟร์ท" นฤมล จิวังกูรv|naruemon-chiwangkun} (speaking & singing)' },
+  { lang: "Thai (2002)", voice: '{Chanchira Nimphithakphong / จันทร์จิรา นิ่มพิทักษ์พงศ์v|chanchira-nimphithakpong} (speaking & singing)' },
+  { lang: "Turkish (2002)", voice: '{Figen Sümeli|figen-sumeli} (speaking) & {Otilia Maria Radulescu İpek|otilia-maria-radulescu-ipek} (singing)' },
+  { lang: "Ukrainian", voice: '{Hanna Syrbu / Ганна Сирбу|hanna-syrbu}' },
+  { lang: "Vietnamese (2019)", voice: '{Nguyễn Duyên Quỳnh|nguyen-duyen-quynh} (speaking & singing)' }
+];
+
+const voices_1997 = [
+  { lang: "Albanian (2002)", voice: '{Alma Koleci|alma-koleci} (speaking & singing)' },
+  { lang: "Albanian (2003)", voice: "{Shegushe Bebeti|shegushe-bebeti} (speaking) & {Paige O'Hara|paige-ohara} (singing - original version)" },
+  { lang: "<small>Egyptian</small> Arabic (2002)", voice: '{Liqaa Al-Khamisy / لقاء الخميسي|liqaa-al-khamisy} (speaking) & {Dalia Farouq / داليا فاروق|dalia-farouq} (singing)' },
+  { lang: "<small>Modern Standard</small> Arabic TV (2014)", voice: '{Dalia Farouq / داليا فاروق|dalia-farouq} (speaking & singing)' },
+  { lang: "<small>Modern Standard</small> Arabic (2022)", voice: '{Arig Fouda / أريج فودة|arig-fouda} (speaking & singing)' },
+  { lang: "Armenian (2016)", voice: '{Karine Yesayan / Կարինե Եսայան|karine-yesayan} (speaking) & {Susanna Petrosyan / Սուսաննա Պետրոսյան|susanna-petrosyan} (singing)' },
+  { lang: "Bulgarian (2002)", voice: '{Yordanka Ilova / Йорданка Илова|yordanka-ilova} (speaking & singing)' },
+  { lang: "Cantonese", voice: '{Can Bou-saan / 陳寶珊|can-bou-saan} (speaking) & {"Sarah Yeung" Joeng Suk-Zing / 楊淑貞|sarah-yeung} (singing)<br>{"Peggy Kwok" Gwok Bik-Zan / 郭碧珍|peggy-kwok} (2002 added dialogue "<i>Human Again</i>")' },
+  { lang: "Croatian (2010)", voice: '{Renata Sabljak|renata-sabljak} (speaking & singing)' },
+  { lang: "Czech (1994)", voice: '{Jana Mařasová|jana-marasova} (speaking & singing)' },
+  { lang: "Danish", voice: '{Louise Fribo|louise-fribo} (speaking & singing)' },
+  { lang: "Dutch", voice: '{Joke de Kruijf|joke-de-kruijf} (speaking & singing)' },
+  { lang: "English", voice: "{Paige O'Hara|paige-ohara} (speaking & singing)" },
+  { lang: "Finnish", voice: '{Mervi Hiltunen|mervi-hiltunen} (speaking & singing)' },
+  { lang: "French", voice: '{Bénédicte Lécroart|benedicte-lecroart}' },
+  { lang: "German", voice: '{Jana Werner|jana-werner} (speaking & singing)' },
+  { lang: "Greek", voice: '{Krísti Stasinopoúlou / Κρίστη Στασινοπούλου|kristi-stasinopoulou} (speaking & singing)<br>{Áriel Konstantinídi / Άριελ Κωνσταντινίδη|ariel-konstantinidi} (2002 added dialogue "<i>Human Again</i>")' },
+  { lang: "Hebrew", voice: '{Rinat Gabay / רינת גבאי|rinat-gabay} (speaking & singing)' },
+  { lang: "Hindi (200?)", voice: '{Mona Ghosh Shetty / मोना घोष शेट्टी|mona-ghosh-shetty} (speaking) & {Smita Malhotra Rosemeyer|smita-malhotra-rosemeyer} (singing)' },
+  { lang: "Hungarian", voice: '{Kocsis Judit|kocsis-judit} (speaking & singing)' },
+  { lang: "Icelandic (2002)", voice: '{Selma Björnsdóttir|selma-bjornsdottir} (speaking & singing)' },
+  { lang: "Indonesian", voice: '{Yvonne Rose Pattiapon|yvonne-rose-pattiapon} (speaking & singing)' },
+  { lang: "Italian", voice: '{Laura Boccanera|laura-boccanera} (speaking) & {Marjorie Biondo|marjorie-biondo} (singing)<br>{Barbara De Bortoli|barbara-de-bortoli} (2002 added dialogue "<i>Human Again</i>")' },
+  { lang: "Japanese", voice: '{Itō Eri / 伊東恵里|ito-eri} (speaking & singing)' },
+  { lang: "Karachay-Balkar (2013)", voice: '{Gergokalanı Xalimat / Гергокаланы Халимат|gergokalani-xalimat} (speaking & singing)' },
+  { lang: "Kazakh (2017)", voice: '{Nazerke Serıkbolova / Назерке Серікболова|nazerke-serikbolova} (speaking & singing)' },
+  { lang: "Korean", voice: '{Seong Yu-jin / 성유진|seong-yu-jin} (speaking) & {Jeon Su-gyeong / 전수경|jeon-su-gyeong} (singing)<br>{Seo Hye-jeong / 서혜정|seo-hye-jeong} (2002 added dialogue "<i>Human Again</i>' },
+  { lang: "Malay (2012)", voice: '? (speaking) & {Joan Jim|joan-jim} (singing)' },
+  { lang: "<small>Taiwanese</small> Mandarin", voice: '{Liú Xiǎo-Yún / 劉小芸|liu-xiao-yun} (speaking) & {Shī Cǎi-Yún / 施彩雲|shi-cai-yun} (singing)' },
+  { lang: "Mandarin Chinese (200?)", voice: '{Xuē Bái / 薛白|xue-bai} (speaking) & {Yú Hǎi-Yīng / 于海英|yu-hai-ying} (singing)' },
+  { lang: "Marathi (2015)", voice: '{Neshma Chemburkar / नेश्मा चेम्बुरकर|neshma-chemburkar} ? (speaking) & {Madhura Kumbhar / मधुरा कुंभार|madhura-kumbhar} (singing)' },
+  { lang: "Norwegian", voice: '{Merethe Trøan|merethe-troan} (speaking & singing)' },
+  { lang: "Polish (1993)", voice: '{Katarzyna Skrzynecka|katarzyna-skrzynecka} (speaking & singing)' },
+  { lang: "Polish (2002)", voice: '{Jolanta Wilk|jolanta-wilk} (speaking) & {Katarzyna Owczarz|katarzyna-owczarz} (singing)' },
+  { lang: "<small>Brazilian</small> Portuguese", voice: '{Ju Cassou|ju-cassou} (speaking & singing)' },
+  { lang: "Portuguese (2002)", voice: '{Carla de Sá|carla-de-sa} (speaking) & {Alda Joana|alda-joana} (singing)' },
+  { lang: "Romanian (2012)", voice: '{Alina Eremia|alina-eremia} (speaking & singing)' },
+  { lang: "Russian (2002)", voice: '{Saule Iskakova / Сауле Искакова|saule-iskakova} (speaking & singing)' },
+  { lang: "Slovak (2010)", voice: '{Alžbeta Bartošová|alzbeta-bartosova} (speaking & singing)' },
+  { lang: "Slovene (2019?)", voice: '?' },
+  { lang: "<small>Latin American</small> Spanish", voice: '{Diana Santos|diana-santos} (speaking) & {Lourdes Ambriz|lourdes-ambriz} (singing)' },
+  { lang: "<small>Castilian</small> Spanish", voice: '{Inés Moraleda|ines-moraleda} (speaking & singing)' },
+  { lang: "Swedish", voice: '{Sofia Källgren|sofia-kallgren} (speaking & singing)' },
+  { lang: "Telugu TV (????)", voice: "? (speaking) & {Paige O'Hara|paige-ohara} (singing - original version)" },
+  { lang: "Thai (1992)", voice: '{"Fourth" Naruemon Chiwangkun / "โฟร์ท" นฤมล จิวังกูรv|naruemon-chiwangkun} (speaking & singing)' },
+  { lang: "Thai (2002)", voice: '{Chanchira Nimphithakphong / จันทร์จิรา นิ่มพิทักษ์พงศ์v|chanchira-nimphithakpong} (speaking & singing)' },
+  { lang: "Turkish (2002)", voice: '{Figen Sümeli|figen-sumeli} (speaking) & {Otilia Maria Radulescu İpek|otilia-maria-radulescu-ipek} (singing)' },
+  { lang: "Ukrainian", voice: '{Hanna Syrbu / Ганна Сирбу|hanna-syrbu}' },
+  { lang: "Vietnamese (2019)", voice: '{Nguyễn Duyên Quỳnh|nguyen-duyen-quynh} (speaking & singing)' }
+];
+
+
+// ============================================================
+//  MODIFIE ICI : la liste des tableaux de voix existants.
+//  Un objet { "id-du-point-de-montage": tableau_de_données } — la clé
+//  à gauche est EXACTEMENT l'id que tu as mis sur le <div
+//  class="voice-table-mount" id="..."> plus haut dans le fichier (avec
+//  des tirets), la valeur à droite est le nom de la constante "const
+//  voices_xxx = [...]" (avec des underscores, obligatoire en JS).
+//  C'est le SEUL endroit à modifier quand tu ajoutes un film : plus
+//  besoin d'une ligne "renderVoiceTable(...)" séparée pour chacun, le
+//  script commun (character-scripts.html) se charge de tout relier.
+// ============================================================
+const voicesData = {
+  'voices-1991': voices_1991,
+  'voices-1997': voices_1997,
+};
+</script>
+
+{% include character-scripts.html %}
