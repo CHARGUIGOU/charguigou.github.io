@@ -41,7 +41,7 @@
   --name-font: 'IM Fell English', serif;
   --toc-title-size: 13px;      /* taille du titre "Appearances" */
   --toc-item-size: 12px;       /* taille des lignes ET des chiffres du sommaire */
-  --toc-width: 420px;          /* largeur de l'encadré "Appearances" */
+  --toc-width: 420px;          /* largeur MAXIMALE de l'encadré "Appearances" (il se réduit si les titres sont plus courts) */
   --banner-height: 300px;      /* hauteur des bandeaux images par film */
   --banner-position: center 25%; /* cadrage de l'image dans le bandeau (comme background-position) */
   --banner-title-size: 50px;   /* taille du titre incrusté sur le bandeau */
@@ -143,8 +143,9 @@ body {
 
 /* La BOÎTE grise entière (fond, bordure, largeur) */
 .toc {
-  flex: 0 0 var(--toc-width);  /* largeur de l'encadré (variable --toc-width tout en haut du fichier) */
-  max-width: 100%;
+  flex: 0 0 auto;
+  width: max-content;          /* aussi large que la ligne la plus longue... */
+  max-width: min(var(--toc-width), 100%);  /* ...mais jamais plus que --toc-width (tout en haut du fichier) */
   padding: 16px 24px;
   background: #f8f9fa;   /* couleur de fond */
   border: 1px solid #dcdcdc;
