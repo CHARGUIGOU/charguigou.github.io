@@ -339,6 +339,7 @@
     {%- assign roles = roles | append: '<div class="role-line"><span class="role-img">' | append: img_choir_html | append: '</span><span class="role-text"><i>Choir</i></span></div>'  -%}
   {%- endif -%}
   {%- comment %} Chanteur/chanteuse sans personnage dans le cast ce film-là (même s'il/elle est en voix additionnelle ou choeur) : ligne "Singer" en plus {% endcomment -%}
+  {%- assign sing_added = false -%}
   {%- if cast_found == 0 and song_lines == 0 and free_lines == 0 -%}
     {%- assign sing_found = false -%}
     {%- assign sing_role = "" -%}
@@ -361,8 +362,28 @@
       {%- assign roles = roles | append: '<div class="role-line"><span class="role-img">' | append: img_singer_html | append: '</span><span class="role-text"><i>'  -%}
       {%- if sing_role != "" -%}{%- assign roles = roles | append: sing_role -%}{%- else -%}{%- assign roles = roles | append: "Singer" -%}{%- endif -%}
       {%- assign roles = roles | append: "</i></span></div>" -%}
+      {%- assign sing_added = true -%}
     {%- endif -%}
   {%- endif -%}
+  {%- comment %} Il/elle a déjà d'autres lignes dans ce film (personnage du cast, personnage chanté, rôle libre) mais figure aussi dans une chanson SANS rôle (aucun "@") : ligne "Singer" en plus, une seule fois par film {% endcomment -%}
+  {%- unless sing_added -%}
+    {%- assign sing_norole = false -%}
+    {%- for song in p.songs -%}
+      {%- assign sf = song | split: "|" -%}
+      {%- assign s_tokens = sf[2] | default: "" | split: ";" -%}
+      {%- for tok in s_tokens -%}
+        {%- assign t = tok | strip | replace_first: "&", "" | strip -%}
+        {%- assign pr = t | split: "@" -%}
+        {%- assign t_key = pr[0] | split: "=" | first | strip -%}
+        {%- assign t_role = pr[1] | default: "" | strip -%}
+        {%- if t_key == slug and t_role == "" -%}{%- assign sing_norole = true -%}{%- endif -%}
+      {%- endfor -%}
+    {%- endfor -%}
+    {%- if sing_norole -%}
+      {%- assign found = found | plus: 1 -%}
+      {%- assign roles = roles | append: '<div class="role-line"><span class="role-img">' | append: img_singer_html | append: '</span><span class="role-text"><i>Singer</i></span></div>' -%}
+    {%- endif -%}
+  {%- endunless -%}
   {%- if found > 0 -%}
     {%- assign total = total | plus: found -%}
     {%- assign n_films = n_films | plus: 1 -%}
