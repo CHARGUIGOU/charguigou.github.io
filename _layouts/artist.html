@@ -325,12 +325,15 @@
       {%- endif -%}
     {%- endfor -%}
   {%- endfor -%}
-  {%- assign in_add = false -%}
-  {%- for it in p.additional -%}{%- assign it_key = it | split: "=" | first | strip -%}{%- if it_key == slug -%}{%- assign in_add = true -%}{%- endif -%}{%- endfor -%}
-  {%- for it in p.additional_intl -%}{%- assign it_key = it | split: "=" | first | strip -%}{%- if it_key == slug -%}{%- assign in_add = true -%}{%- endif -%}{%- endfor -%}
+  {%- assign in_add = false -%}{%- assign add_note = "" -%}
+  {%- comment %} "fiche | note" : la note (ex : (International version)) est affichée après "Additional voice" {% endcomment -%}
+  {%- for it in p.additional -%}{%- assign it_parts = it | split: "|" -%}{%- assign it_key = it_parts[0] | split: "=" | first | strip -%}{%- if it_key == slug -%}{%- assign in_add = true -%}{%- assign add_note = it_parts[1] | default: "" | strip -%}{%- endif -%}{%- endfor -%}
+  {%- for it in p.additional_intl -%}{%- assign it_parts = it | split: "|" -%}{%- assign it_key = it_parts[0] | split: "=" | first | strip -%}{%- if it_key == slug -%}{%- assign in_add = true -%}{%- assign add_note = it_parts[1] | default: "" | strip -%}{%- endif -%}{%- endfor -%}
   {%- if in_add -%}
     {%- assign found = found | plus: 1 -%}
-    {%- assign roles = roles | append: '<div class="role-line"><span class="role-img">' | append: img_additional_html | append: '</span><span class="role-text"><i>Additional voice</i></span></div>'  -%}
+    {%- assign roles = roles | append: '<div class="role-line"><span class="role-img">' | append: img_additional_html | append: '</span><span class="role-text"><i>Additional voice</i>' -%}
+    {%- if add_note != "" -%}{%- assign roles = roles | append: ' <small>' | append: add_note | append: '</small>' -%}{%- endif -%}
+    {%- assign roles = roles | append: '</span></div>' -%}
   {%- endif -%}
   {%- assign in_choir = false -%}
   {%- for it in p.choir -%}{%- assign it_key = it | split: "=" | first | strip -%}{%- if it_key == slug -%}{%- assign in_choir = true -%}{%- endif -%}{%- endfor -%}

@@ -3,9 +3,14 @@
     {% include cast-names.html names=page.additional %}
   Chaque élément de la liste = l'identifiant d'une fiche (nom officiel + lien),
   ou un texte libre (affiché tel quel, sans lien).
+  "fiche | note" : la note (ex : (International version)) est affichée en petit après le nom
+  (et reprise sur la fiche de l'artiste, après "Additional voice").
 {%- endcomment -%}
 <div class="voices-grid">
 {%- for person in include.names %}
-      <div>{% include artist-link.html who=person %}</div>
+      {%- assign pn_parts = person | split: "|" -%}
+      {%- assign pn_name = pn_parts[0] | strip -%}
+      {%- assign pn_note = pn_parts[1] | default: "" | strip %}
+      <div>{% include artist-link.html who=pn_name %}{% if pn_note != "" %} <small>{{ pn_note }}</small>{% endif %}</div>
 {%- endfor %}
     </div>
