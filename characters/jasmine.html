@@ -1,0 +1,300 @@
+---
+layout: null
+title: "Jasmine"
+---
+<!-- GOOGLE FONTS -->
+<title>{{ page.title }}</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&family=IM+Fell+English:ital@0;1&family=Noto+Sans+Arabic:wght@300..800&family=Noto+Sans+Armenian:wght@300..800&family=Noto+Sans+Bengali:wght@300..800&family=Noto+Sans+Devanagari:wght@300..800&family=Noto+Sans+Georgian:wght@300..800&family=Noto+Sans+Hebrew:wght@300..800&family=Noto+Sans+Kannada:wght@300..800&family=Noto+Sans+Malayalam:wght@300..800&family=Noto+Sans+Tamil:wght@300..800&family=Noto+Sans+Telugu:wght@300..800&family=Noto+Sans+Thai:wght@300..800&display=swap" rel="stylesheet">
+
+{% include character-style.html %}
+
+
+<!-- ============================================================
+     RETOUR
+     ============================================================ -->
+<a class="back-btn" href="/character-voices.html">← All characters</a>
+
+<!-- ============================================================
+     TITRE + RECHERCHE (gauche) / SOMMAIRE (droite)
+     Le sommaire de droite se remplit TOUT SEUL à partir des sections
+     film plus bas (voir le script en bas de page) : tu n'as jamais
+     besoin d'y toucher, même en ajoutant un nouveau film.
+     ============================================================ -->
+<div class="top-section">
+  <div class="top-left">
+    <h1 class="page-title">Jasmine<br></h1>
+    <input type="text" id="langSearch" placeholder="Search a language or a voice actor...">
+    <div id="langResultInfo"></div>
+  </div>
+
+  <nav class="toc" id="toc">
+    <div class="toc-title">Appearances</div>
+    <ol id="tocList"></ol>
+  </nav>
+</div>
+
+<!-- ============================================================
+     FILM 1 : The Little Mermaid (1989)
+     ============================================================ -->
+<section class="film-section" id="film-1992">
+  <div class="film-header">
+    {% include character-banner.html file="Jasmine1992Header.png" alt="Jasmine 1992 banner" eager=true %}
+    <div class="film-header-overlay">
+      <h2 class="film-title">Aladdin <span class="film-year">(1992)</span></h2>
+    </div>
+  </div>
+
+  <div class="voice-table-mount" id="voices-1992"></div>
+
+  <div class="trivia">
+    <h3>Trivia</h3>
+    <ul>
+      <li></li>
+    </ul>
+  </div>
+</section>
+
+
+<div class="last-update">Last update - 18-Nov-2026</div>
+
+<!-- ============================================================
+     BOUTON RETOUR EN HAUT
+     MODIFIE ICI : la couleur du contour vient de --accent en haut du fichier
+     ============================================================ -->
+<button id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 3c-1 0-1.8.8-1.8 1.8v6.4L8.6 9.6a1.6 1.6 0 0 0-2.3 2.2l4.2 4.4c.8.8 2.1.8 2.9 0l4.2-4.4a1.6 1.6 0 0 0-2.3-2.2l-1.6 1.6V4.8C13.8 3.8 13 3 12 3z" fill="#1a4a8a" transform="rotate(180 12 12)"/>
+  </svg>
+</button>
+
+<script>
+// ============================================================
+//  DONNEES DES VOIX PAR FILM
+//  MODIFIE ICI : chaque entrée = { lang: "...", voice: "..." }.
+//  Le champ "voice" accepte du HTML libre (<small>, <b>, <i>, scripts natifs, etc.)
+// ============================================================
+
+const voices_1992 = [
+  { lang: "Albanian (2004?)", voice: '{Anila Muçaj|anila-mucaj} (speaking) &amp; {Jeta Mehmeti|jeta-mehmeti} (singing)' },
+  { lang: "<small>Egyptian</small> Arabic (2004)", voice: '{Nahla Al-Malawany / نهلة الملواني|nahla-al-malawany} (speaking & singing)' },
+  { lang: "<small>Modern Standard</small> Arabic TV (2013)", voice: '{Aya Hamza / آية حمزة|aya-hamza} & {Noha Qais / نهى قيس|noha-qais} (singing)' },
+  { lang: "<small>Modern Standard</small> Arabic (2022)", voice: '{Aya Hamza / آية حمزة|aya-hamza} & {Shahd Ezz / شهد عز|shahd-ezz} (singing)' },
+  { lang: "Bulgarian (2004)", voice: '{Petya Abadzhieva / Петя Абаджиева|petya-abadzhieva} (speaking) & {Ventsislava Stoilova / Венцислава Стоилова|ventsislava-stoilova} (singing)' },
+  { lang: "Cantonese", voice: '? (speaking) & {"May Chan" Can Mei-fung / 陳美鳳|may-chan} (singing)' },
+  { lang: "Croatian (2004)", voice: '{Zrinka Cvitešić|zrinka-cvitesic} (speaking) & {Renata Sabljak|renata-sabljak} (singing)' },
+  { lang: "Czech", voice: '{Sabina Laurinová|sabina-laurinova} (speaking) & Jana Mařasová|jana-marasova} (singing)' },
+  { lang: "Danish", voice: '{Ilia Swainson|ilia-swainson} (speaking) & {Louise Norby|louise-norby} (singing)' },
+  { lang: "Dutch", voice: '{Laura Vlasblom|laura-vlasblom} (speaking & singing)' },
+  { lang: "English", voice: '{Linda Larkin|linda-larkin} (speaking) & {Lea Salonga|lea-salonga} (singing)' },
+  { lang: "Filipino (2016)", voice: '?' },
+  { lang: "Finnish", voice: '{Ulla Renko|ulla-renko} (speaking & singing)' },
+  { lang: "French", voice: '{Magali Barney|magali-barney} (speaking) & {Karine Costa|karine-costa} (singing)' },
+  { lang: "<small>Quebec</small> French", voice: '{Geneviève De Rocray|genevieve-de-rocray} (speaking) & {Martine Chevrier|martine-chevrier} (singing)' },
+  { lang: "German", voice: '{Maud Ackermann|maud-ackermann} (speaking) & {Sabine Hettlich|sabine-hettlich} (singing)' },
+  { lang: "Greek", voice: '{Katerína Yiamalí / Κατερίνα Γιαμαλή|katerina-yiamali} (speaking & singing)' },
+  { lang: "Hebrew", voice: '{Rama Messinger / רמה מסינגר|rama-messinger} (speaking & singing)' },
+  { lang: "Hindi (1994)", voice: '{Namrata Sawhney / नम्रता साहनी|namrata-sawhney} (speaking) & {Dominique Cerejo|dominique-cerejo} (singing)' },
+  { lang: "Hungarian", voice: '{Kocsis Judit|kocsis-judit} (speaking) & {Janza Kata|janza-kata} (singing)' },
+  { lang: "Icelandic", voice: '{Edda Heiðrún Backman|edda-heidrun-backman} (speaking & singing)' },
+  { lang: "Indonesian (1994)", voice: '{Hana Pertiwi|hana-pertiwi} (speaking & singing)' },
+  { lang: "Italian", voice: '{Manuela Cenciarelli|manuela-cenciarelli} (speaking) & {Simona Pirone|simona-pirone} (singing)' },
+  { lang: "Japanese", voice: '{Asoh Kaori / 麻生かほ里|asoh-kaori} (speaking & singing)' },
+  { lang: "Kazakh (2017?)", voice: '{Ainūr Babaeva / Айнұр Бабаева|ainur-babaeva} (speaking & singing)' },
+  { lang: "Korean", voice: '{Hong Yeong-ran / 홍영란|hong-yeong-ran} (speaking) & {Lee Jeong-hwa / 이정화|lee-jeong-hwa} (singing)' },
+  { lang: "Malay (201?)", voice: '? (speaking) & {Maizurah Hamzah|maizurah-hamzah} (singing)' },
+  { lang: "<small>Taiwanese</small> Mandarin", voice: '? (speaking) & {"Paula Ma" Mǎ Yù-Fēn / 馬毓芬|paula-ma} (singing)' },
+  { lang: "Mandarin Chinese (2016?)", voice: '{Táo Diǎn / 陶典|tao-dian} ? (speaking) & ? (singing)' },
+  { lang: "Norwegian", voice: '{Jannike Kruse|jannike-kruse} (speaking & singing)' },
+  { lang: "Polish", voice: '{Katarzyna Skrzynecka|katarzyna-skrzynecka} (speaking & singing)' },
+  { lang: "<small>Brazilian</small> Portuguese", voice: '{Sílvia Goiabeira|silvia-goiabeira} (speaking) & {Kika Tristão|kika-tristao} (singing)' },
+  { lang: "Portuguese (2004)", voice: '{Joana Carvalho|joana-carvalho} (speaking) & {Sofia Escobar|sofia-escobar} (singing)' },
+  { lang: "Romanian (2011)", voice: '{Simona Nae|simona-nae} (speaking & singing)' },
+  { lang: "Russian (2004)", voice: '{Yevgeniya Igumnova / Евгения Игумнова|yevgeniya-igumnova} (speaking) & {Anna Pozdnyakova / Анна Позднякова|anna-pozdnyakova} (singing)' },
+  { lang: "Serbian TV (2009)", voice: '{Mariana Aranđelović / Мариана Аранђеловић|mariana-arandelovic} (speaking) & {Mirjana Stojanović / Мирјана Стојановић|mirjana-stojanovic} (singing)' },
+  { lang: "Slovak TV (2008?)", voice: '{Tatiana Pauhofová|tatiana-pauhofova} (speaking) & {Eva Sakálová|eva-sakalova} (singing)' },
+  { lang: "Slovak (2013)", voice: '{Alžbeta Bartošová|alzbeta-bartosova} (speaking & singing)' },
+  { lang: "<small>Latin American</small> Spanish", voice: '{Maggie Vera|maggie-vera} (speaking) & {Analy|analy} (singing)' },
+  { lang: "<small>Castilian</small> Spanish", voice: '{Marta Barbará|marta-barbara} (speaking) & {Ángela Aloy|angela-aloy} (singing)' },
+  { lang: "Swedish", voice: '{Myrra Malmberg|myrra-malmberg} (speaking & singing)' },
+  { lang: "Tamil (1994)", voice: '{Rohini / ரோகிணி|rohini} (speaking) & {"Annupamaa" Anupama Krishnaswami / "அனுபமா"|annupamaa} (singing)' },
+  { lang: "Tamil (1994)", voice: '{Rohini / ரరోహిణి|rohini} (speaking) & {"Annupamaa" Anupama Krishnaswami|annupamaa} (singing)' },
+  { lang: "Thai", voice: '{Netnapha Hanrotchanawut / เนตรนภา หาญโรจนวุฒิ|netnapha-hanrotchanawut} (speaking & singing)' },
+  { lang: "Turkish (2004?)", voice: '{Figen Sümeli|figen-sumeli} (speaking) & {Otilia Maria Radulescu İpek|otilia-maria-radulescu-ipek} (singing)' },
+  { lang: "Ukrainian (2011)", voice: '{Daryna Mamai-Sumska / Дарина Мамай-Сумська|daryna-mamai-sumska} (speaking & singing)' },
+  { lang: "Vietnamese (2019)", voice: '?' },
+];
+
+const voices_1994 = [
+  { lang: "Albanian (2013)", voice: '{Anisa Dervishi|anisa-dervishi} (speaking) & {Liz Callaway|liz-callaway} (singing - original version)' },
+  { lang: "<small>Egyptian</small> Arabic (1997)", voice: '{Mona Zaky / منى زكي|mona-zaky} (speaking) & Dalia Abdel Wahab / داليا عبد الوهاب|dalia-abdel-wahab} (singing)' },
+  { lang: "<small>Modern Standard</small> Arabic TV (2013)", voice: '{Aya Hamza / آية حمزة|aya-hamza} & {Noha Qais / نهى قيس|noha-qais} (singing)' },
+  { lang: "Bulgarian (2004)", voice: '{Petya Abadzhieva / Петя Абаджиева|petya-abadzhieva} (speaking) & {Ventsislava Stoilova / Венцислава Стоилова|ventsislava-stoilova} (singing)' },
+  { lang: "Cantonese", voice: '?' },
+  { lang: "Croatian (2004)", voice: '{Zrinka Cvitešić|zrinka-cvitesic} (speaking) & {Renata Sabljak|renata-sabljak} (singing)' },
+  { lang: "Czech (2005)", voice: '{Sabina Laurinová|sabina-laurinova} (speaking & singing)' },
+  { lang: "Danish", voice: '{Ilia Swainson|ilia-swainson} (speaking & singing)' },
+  { lang: "Dutch", voice: '{Laura Vlasblom|laura-vlasblom} (speaking & singing)' },
+  { lang: "English", voice: '{Linda Larkin|linda-larkin} (speaking) & {Liz Callaway|liz-callaway} (singing)' },
+  { lang: "Finnish", voice: '{Ulla Renko|ulla-renko} (speaking & singing)' },
+  { lang: "French", voice: '{Magali Barney|magali-barney} (speaking) & {Karine Costa|karine-costa} (singing)' },
+  { lang: "German", voice: '{Maud Ackermann|maud-ackermann} (speaking) & {Sabine Hettlich|sabine-hettlich} (singing)' },
+  { lang: "Greek", voice: '{Katerína Yiamalí / Κατερίνα Γιαμαλή|katerina-yiamali} (speaking & singing)' },
+  { lang: "Hebrew", voice: '{Rama Messinger / רמה מסינגר|rama-messinger} (speaking & singing)' },
+  { lang: "Hindi (????)", voice: "? (speaking) & {Marianne D'Cruz Aiman|marianne-dcruz-aiman}" },
+  { lang: "Hungarian (2000?)", voice: '{Kocsis Judit|kocsis-judit} (speaking) & {Janza Kata|janza-kata} (singing)' },
+  { lang: "Icelandic", voice: '{Edda Heiðrún Backman|edda-heidrun-backman} (speaking & singing)' },
+  { lang: "Indonesian (200?)", voice: '?' },
+  { lang: "Italian", voice: '{Manuela Cenciarelli|manuela-cenciarelli} (speaking) & ? (singing)' },
+  { lang: "Japanese", voice: '{Asoh Kaori / 麻生かほ里|asoh-kaori} (speaking & singing)' },
+  { lang: "Kazakh (2016?)", voice: '{Ainūr Babaeva / Айнұр Бабаева|ainur-babaeva} ? (speaking & singing)' },
+  { lang: "Korean", voice: '{Hong Yeong-ran / 홍영란|hong-yeong-ran} (speaking) & {Lee Jeong-hwa / 이정화|lee-jeong-hwa} (singing)' },
+  { lang: "Malay (201?)", voice: '?' },
+  { lang: "<small>Taiwanese</small> Mandarin", voice: '?' },
+  { lang: "Norwegian", voice: '{Jannike Kruse|jannike-kruse} (speaking & singing)' },
+  { lang: "Polish (2001)", voice: '{Olga Bończyk|olga-bonczyk} (speaking & singing)' },
+  { lang: "<small>Brazilian</small> Portuguese", voice: '{Sílvia Goiabeira|silvia-goiabeira} (speaking) & {Kika Tristão|kika-tristao} (singing)' },
+  { lang: "Portuguese (2004)", voice: '{Joana Carvalho|joana-carvalho} (speaking) & {Sofia Escobar|sofia-escobar} (singing)' },
+  { lang: "Romanian (2011)", voice: '{Simona Nae|simona-nae} (speaking & singing)' },
+  { lang: "Russian (2004)", voice: '{Yevgeniya Igumnova / Евгения Игумнова|yevgeniya-igumnova} (speaking) & {Anna Pozdnyakova / Анна Позднякова|anna-pozdnyakova} (singing)' },
+  { lang: "Slovak (2013?)", voice: '{Alžbeta Bartošová|alzbeta-bartosova} (speaking & singing)' },
+  { lang: "<small>Latin American</small> Spanish", voice: '{Maggie Vera|maggie-vera} (speaking) & {Analy|analy} (singing)' },
+  { lang: "<small>Castilian</small> Spanish", voice: '{Marta Barbará|marta-barbara} (speaking) & {Ángela Aloy|angela-aloy} (singing)' },
+  { lang: "Swedish", voice: '{Myrra Malmberg|myrra-malmberg} (speaking & singing)' },
+  { lang: "Telugu TV (????)", voice: '?' },
+  { lang: "Thai", voice: '{Netnapha Hanrotchanawut / เนตรนภา หาญโรจนวุฒิ|netnapha-hanrotchanawut} (speaking & singing)' },
+  { lang: "Turkish (2004?)", voice: '{Figen Sümeli|figen-sumeli} (speaking) & {Otilia Maria Radulescu İpek|otilia-maria-radulescu-ipek} (singing)' },
+  { lang: "Ukrainian (20??)", voice: '{Daryna Mamai-Sumska / Дарина Мамай-Сумська|daryna-mamai-sumska} (speaking & singing)' },
+];
+
+const voices_1996 = [
+  { lang: "Albanian (2003)", voice: '{Alma Koleci|alma-koleci} (speaking & singing)' },
+  { lang: "Albanian (2015)", voice: '{Suela Xhonuzi|suela-xhonuzi} (speaking) & {Liz Callaway|liz-callaway} (singing - original version)' },
+  { lang: "<small>Egyptian</small> Arabic", voice: '{Mona Zaky / منى زكي|mona-zaky} (speaking) & Dalia Abdel Wahab / داليا عبد الوهاب|dalia-abdel-wahab} (singing)' },
+  { lang: "<small>Modern Standard</small> Arabic TV (2013)", voice: '{Aya Hamza / آية حمزة|aya-hamza} & {Noha Qais / نهى قيس|noha-qais} (singing)' },
+  { lang: "Bulgarian (2004)", voice: '{Petya Abadzhieva / Петя Абаджиева|petya-abadzhieva} (speaking) & {Ventsislava Stoilova / Венцислава Стоилова|ventsislava-stoilova} (singing)' },
+  { lang: "Cantonese", voice: '{"Carmen Wong" Wong Ngaa-Man / 王雅文|carmen-wong} (speaking & singing)' },
+  { lang: "Croatian (2004)", voice: '{Zrinka Cvitešić|zrinka-cvitesic} (speaking) & {Renata Sabljak|renata-sabljak} (singing)' },
+  { lang: "Czech", voice: '{Sabina Laurinová|sabina-laurinova} (speaking) & Jana Mařasová|jana-marasova} (singing)' },
+  { lang: "Danish", voice: '{Ilia Swainson|ilia-swainson} (speaking & singing)' },
+  { lang: "Dutch", voice: '{Laura Vlasblom|laura-vlasblom} (speaking & singing)' },
+  { lang: "English", voice: '{Linda Larkin|linda-larkin} (speaking) & {Liz Callaway|liz-callaway} (singing)' },
+  { lang: "Finnish", voice: '{Ulla Renko|ulla-renko} (speaking & singing)' },
+  { lang: "French", voice: '{Magali Barney|magali-barney} (speaking) & {Karine Costa|karine-costa} (singing)' },
+  { lang: "<small>Quebec</small> French", voice: '{Natalie Hamel-Roy|natalie-hamel-roy} (speaking) & {Martine Chevrier|martine-chevrier} (singing)' },
+  { lang: "German", voice: '{Maud Ackermann|maud-ackermann} (speaking) & {Heike Gentsch|heike-gentsch} (singing)' },
+  { lang: "Greek", voice: '{Katerína Yiamalí / Κατερίνα Γιαμαλή|katerina-yiamali} (speaking & singing)' },
+  { lang: "Hebrew", voice: '{Rama Messinger / רמה מסינגר|rama-messinger} (speaking & singing)' },
+  { lang: "Hindi (????)", voice: "? (speaking) & {Marianne D'Cruz Aiman|marianne-dcruz-aiman}" },
+  { lang: "Hungarian", voice: '{Kocsis Judit|kocsis-judit} (speaking) & {Janza Kata|janza-kata} (singing)' },
+  { lang: "Icelandic", voice: '{Edda Heiðrún Backman|edda-heidrun-backman} (speaking & singing)' },
+  { lang: "Indonesian (????)", voice: '?' },
+  { lang: "Italian", voice: '{Manuela Cenciarelli|manuela-cenciarelli} (speaking) & {Lorena Brancucci|lorena-brancucci} (singing)' },
+  { lang: "Japanese", voice: '{Asoh Kaori / 麻生かほ里|asoh-kaori} (speaking & singing)' },
+  { lang: "Kazakh (2016?)", voice: '{Ainūr Babaeva / Айнұр Бабаева|ainur-babaeva} ? (speaking & singing)' },
+  { lang: "Korean", voice: '{Hong Yeong-ran / 홍영란|hong-yeong-ran} (speaking) & {Lee Jeong-hwa / 이정화|lee-jeong-hwa} (singing)' },
+  { lang: "Malay (201?)", voice: '?' },
+  { lang: "<small>Taiwanese</small> Mandarin", voice: '{Wáng Huá-Yí / 王華怡|wang-hua-yi} (speaking) & {"Paula Ma" Mǎ Yù-Fēn / 馬毓芬|paula-ma} (singing)' },
+  { lang: "Norwegian", voice: '{Jannike Kruse|jannike-kruse} (speaking & singing)' },
+  { lang: "Polish", voice: '{Olga Bończyk|olga-bonczyk} (speaking & singing)' },
+  { lang: "<small>Brazilian</small> Portuguese", voice: '{Sílvia Goiabeira|silvia-goiabeira} (speaking) & {Kika Tristão|kika-tristao} (singing)' },
+  { lang: "Portuguese (2004)", voice: '{Joana Carvalho|joana-carvalho} (speaking) & {Sofia Escobar|sofia-escobar} (singing)' },
+  { lang: "Romanian (2011)", voice: '{Simona Nae|simona-nae} (speaking & singing)' },
+  { lang: "Russian (2004)", voice: '{Yevgeniya Igumnova / Евгения Игумнова|yevgeniya-igumnova} (speaking) & {Anna Pozdnyakova / Анна Позднякова|anna-pozdnyakova} (singing)' },
+  { lang: "Slovak", voice: '{Soňa Norisová|sona-norisova} (speaking & singing)' },
+  { lang: "<small>Latin American</small> Spanish", voice: '{Maggie Vera|maggie-vera} (speaking) & {Analy|analy} (singing)' },
+  { lang: "<small>Castilian</small> Spanish", voice: '{Marta Barbará|marta-barbara} (speaking) & {Ángela Aloy|angela-aloy} (singing)' },
+  { lang: "Swedish", voice: '{Myrra Malmberg|myrra-malmberg} (speaking & singing)' },
+  { lang: "Tamil TV (????)", voice: '? (speaking) & {"Pop Shalini" Shalini Singh|pop-shalini} ? (singing)' },
+  { lang: "Telugu TV (????)", voice: '?' },
+  { lang: "Thai", voice: '{Netnapha Hanrotchanawut / เนตรนภา หาญโรจนวุฒิ|netnapha-hanrotchanawut} (speaking & singing)' },
+  { lang: "Turkish (2004?)", voice: '{Figen Sümeli|figen-sumeli} (speaking) & {Otilia Maria Radulescu İpek|otilia-maria-radulescu-ipek} ? (singing)' },
+  { lang: "Ukrainian (2018)", voice: '{Daryna Mamai-Sumska / Дарина Мамай-Сумська|daryna-mamai-sumska} (speaking & singing)' },
+];
+
+const voices_2007 = [
+  { lang: "Albanian (2008)", voice: '{Sonjela Leço|sonjela-leco} (speaking) & {Lea Salonga|lea-salonga} (singing - original version)' },
+  { lang: "<small>Modern Standard</small> Arabic (2011)", voice: '{Wafaa Abdullah / وفاء عبدالله|wafaa-abdullah} ? (speaking) & {Christina Ishaq / كريستينا اسحاق|christina-ishaq} (singing)' },
+  { lang: "Czech (20??)", voice: '?' },
+  { lang: "Danish", voice: '{Katrine Falkenberg|katrine-falkenberg} (speaking & singing)' },
+  { lang: "Dutch", voice: '{Lottie Hellingman|lottie-hellingman} (speaking & singing)' },
+  { lang: "English", voice: '{Linda Larkin|linda-larkin} (speaking) & {Lea Salonga|lea-salonga} (singing)' },
+  { lang: "Finnish", voice: '{Ulla Renko|ulla-renko} (speaking & singing)' },
+  { lang: "French", voice: '{Magali Barney|magali-barney} (speaking) & {Karine Costa|karine-costa} (singing)' },
+  { lang: "<small>Quebec</small> French", voice: '{Natalie Hamel-Roy|natalie-hamel-roy} (speaking) & {Martine Chevrier|martine-chevrier} (singing)' },
+  { lang: "German", voice: '? (speaking) & {Heike Gentsch|heike-gentsch} (singing)' },
+  { lang: "Greek", voice: '{Afrodíti Antonáki / Αφροδίτη Αντωνάκη|afroditi-antonaki} (speaking) & {Réna Mórfi / Ρένα Μόρφη|rena-morfi} (singing)' },
+  { lang: "Hebrew (2012)", voice: '{Meshi Kleinstein / משי קלינשטיין|meshi-kleinstein} (speaking & singing)' },
+  { lang: "Hungarian (2013)", voice: '{Janza Kata|janza-kata} ?' },
+  { lang: "Italian", voice: '{Manuela Cenciarelli|manuela-cenciarelli} (speaking) & {Rossella Ruini|rossella-ruini} (singing)' },
+  { lang: "Japanese", voice: '{Asoh Kaori / 麻生かほ里|asoh-kaori} (speaking & singing)' },
+  { lang: "Korean", voice: '{Jeong Hyeon-gyeong / 정현경|jeong-hyeon-gyeong} (speaking) & {Hong Yun-hui / 홍윤희|hong-yun-hui} (singing)' },
+  { lang: "<small>Taiwanese</small> Mandarin", voice: '?' },
+  { lang: "Norwegian", voice: '{Jannike Kruse|jannike-kruse} (speaking & singing)' },
+  { lang: "Polish (2012)", voice: '{Aneta Todorczuk|aneta-todorczuk} (speaking) & {Aneta Figiel|aneta-figiel} (singing)' },
+  { lang: "<small>Brazilian</small> Portuguese", voice: '? (speaking) & {Kika Tristão|kika-tristao} (singing)' },
+  { lang: "Romanian (201?)", voice: '{Simona Nae|simona-nae} (speaking & singing)' },
+  { lang: "<small>Latin American</small> Spanish", voice: '{Maggie Vera|maggie-vera} (speaking & singing)' },
+  { lang: "<small>Castilian</small> Spanish", voice: '{Bélen Rodríguez|belen-rodriguez} (speaking) & {Ángela Aloy|angela-aloy} (singing)' },
+  { lang: "Swedish", voice: '{Myrra Malmberg|myrra-malmberg} (speaking & singing)' },
+  { lang: "Thai (20??)", voice: '? (speaking) & {Lea Salonga|lea-salonga} (singing - original version)' },
+];
+
+const voices_2019 = [
+  { lang: "Bulgarian", voice: '{Stefania Georgieva / Стефания Георгиева|stefania-georgieva} (speaking) & {Nevena Tsoneva / Невена Цонева|nevena-tsoneva} (singing)' },
+  { lang: "Croatian", voice: '{Franka Batelić|franka-batelic} (speaking & singing)' },
+  { lang: "Czech", voice: '{Nina Horáková|nina-horakova} (speaking) & {Martina Placrová|martina-placrova} (singing)' },
+  { lang: "Danish", voice: '{Marie Tourell Søderberg|marie-tourell-soderberg} (speaking) & {Annelie "Karui" Saemala Overbeck|karui} (singing)' },
+  { lang: "Dutch", voice: '{Desi van Doeveren|desi-van-doeveren} (speaking & singing)' },
+  { lang: "Finnish", voice: '{Anni Kajos|anni-kajos} (speaking & singing)' },
+  { lang: "Flemish", voice: '{Maja Van Honsté|maja-van-honste} (speaking & singing)' },
+  { lang: "French", voice: '{Hiba Tawaji|hiba-tawaji} (speaking & singing)' },
+  { lang: "<small>Quebec</small> French", voice: '{Geneviève Bédard|genevieve-bedard} (speaking) & {Hiba Tawaji|hiba-tawaji} (singing)' },
+  { lang: "German", voice: '{Maria Hönig|maria-honig} (speaking) & {Julia Milena Scheeser|julia-milena-scheeser} (singing)' },
+  { lang: "Greek", voice: '{Alexándra Lérta / Αλεξάνδρα Λέρτα|alexandra-lerta} (speaking & singing)' },
+  { lang: "Hebrew", voice: '{Meshi Kleinstein / משי קלינשטיין|meshi-kleinstein} (speaking & singing)' },
+  { lang: "Hindi", voice: '{Muskkaan Jaferi / मुस्कान जाफरी|muskkaan-jaferi} (speaking) & {Monali Thakur / मोनाली ठाकुर|monali-thakur} (singing)' },
+  { lang: "Hungarian", voice: '{Törőcsik Franciska|torocsik-franciska} (speaking) & {Jenes Kitti|jenes-kitti} (singing)' },
+  { lang: "Indonesian (2020)", voice: '{Miranti Anna Juantara|miranti-anna-juantara} (speaking & singing)' },
+  { lang: "Italian", voice: '{Giulia Franceschetti|giulia-franceschetti} (speaking) & {Naomi Rivieccio|naomi-rivieccio} (singing)' },
+  { lang: "Japanese", voice: '{Kinoshita Haruka / 木下晴香|kinoshita-haruka} (speaking & singing)' },
+  { lang: "Kazakh", voice: '{Şehnaza Qyzyhanova / Шехназа Қызыханова|sehnaza-qyzyhanova} (speaking & singing)' },
+  { lang: "Korean", voice: '{Sa Mun-yeong / 사문영|sa-mun-yeong} (speaking) & {Min Gyeong-a / 민경아|min-gyeong-a} (singing)' },
+  { lang: "Malay", voice: '{Shila Amzah|shila-amzah} (speaking & singing)' },
+  { lang: "<small>Taiwanese</small> Mandarin", voice: '{Chén Zhēn-yú / 陳貞伃|chen-zhen-yu} (speaking) & {Cài Yǒng-Chún / 蔡永淳|cai-yong-chun} (singing)' },
+  { lang: "Mandarin Chinese", voice: '{Hán Xiào / 韩啸|han-xiao} (speaking) & {"Deanna" Dīng Shuǎng / 丁爽|deanna-ding} (singing)' },
+  { lang: "Norwegian", voice: '{Sampda "Samsaya" Sharma|samsaya} (speaking) & {Maria Haukaas Mittet|maria-haukaas-mittet} (singing)' },
+  { lang: "Polish", voice: '{Natalia Piotrowska|natalia-piotrowska} (speaking & singing)' },
+  { lang: "<small>Brazilian</small> Portuguese", voice: '{Lara Suleiman|lara-suleiman} (speaking & singing)' },
+  { lang: "Portuguese", voice: '{Teresa Queirós|teresa-queiros} (speaking & singing)' },
+  { lang: "Romanian", voice: '{Alexandra Crăescu|alexandra-craescu} (speaking & singing)' },
+  { lang: "Russian", voice: '{Kseniya Rassomakhina / Ксения Рассомахина|kseniya-rassomakhina} (speaking & singing)' },
+  { lang: "Serbian", voice: '{Milena Živanović / Милена Живановић|milena-zivanovic} (speaking) & {Irina Arsenijević / Ирина Арсенијевић|irina-arsenijevic} (singing)' },
+  { lang: "Slovak", voice: '{Mirka Partlová|mirka-partlova} (speaking & singing)' },
+  { lang: "<small>Latin American</small> Spanish", voice: '{Annie Rojas|annie-rojas} (speaking & singing)' },
+  { lang: "<small>Castilian</small> Spanish", voice: '{Nikki García|nikki-garcia} (speaking & singing)' },
+  { lang: "Swedish", voice: '{Marsha Songcome|marsha-songcome} (speaking & singing)' },
+  { lang: "Tamil", voice: '{Sunitha Chandru|sunitha-chandru} (speaking) & {Nincy Vincent|nincy-vincent} (singing)' },
+  { lang: "Telugu", voice: '{Deepa Venkat|deepa-venkat} (speaking) & {Sunitha Sarathy / సునీత సారధి|sunitha-sarathy} (singing)' },
+  { lang: "Thai", voice: '{Natthaphatson Simasathian / ณัฐภัสสร สิมะเสถียร|natthaphatson-simasathian} (speaking & singing)' },
+  { lang: "Turkish", voice: '{Nihan Omuz|nihan-omuz} (speaking & singing)' },
+  { lang: "Ukrainian", voice: '{Oksana Hrynko / Оксана Гринько|oksana-hrynko} (speaking) & {Olha Zhmurina / Ольга Жмуріна|olha-zhmurina} (singing)' },
+  { lang: "Vietnamese", voice: '{Phan Lê Ái Phương|phan-le-ai-phuong} (speaking & singing)' },
+];
+
+// ============================================================
+//  MODIFIE ICI : la liste des tableaux de voix existants.
+//  Un objet { "id-du-point-de-montage": tableau_de_données } — la clé
+//  à gauche est EXACTEMENT l'id que tu as mis sur le <div
+//  class="voice-table-mount" id="..."> plus haut dans le fichier (avec
+//  des tirets), la valeur à droite est le nom de la constante "const
+//  voices_xxx = [...]" (avec des underscores, obligatoire en JS).
+//  C'est le SEUL endroit à modifier quand tu ajoutes un film : plus
+//  besoin d'une ligne "renderVoiceTable(...)" séparée pour chacun, le
+//  script commun (character-scripts.html) se charge de tout relier.
+// ============================================================
+const voicesData = {
+  'voices-1992': voices_1992,
+};
+</script>
+
+{% include character-scripts.html %}
