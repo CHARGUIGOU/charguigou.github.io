@@ -1,0 +1,485 @@
+---
+layout: null
+title: "Ralph Breaks the Internet (2018) - French cast"
+# ============================================================
+# INTERRUPTEURS — MODIFIE ICI à chaque nouvelle page.
+# true  = l'encadré s'affiche
+# false = il disparaît complètement de la page
+# (pas besoin de supprimer le code HTML plus bas)
+# ============================================================
+show_additional_voices: true
+show_choir: false
+show_songs: true
+
+# ============================================================
+# COMÉDIENS (cartes photo du haut) : le "artist" de chaque fiche (dossier artists/)
+# ============================================================
+cards: [audrey-sourdive, corinne-wellong, jonathan-cohen]
+
+# ============================================================
+# INFOS DE LA PAGE, reprises sur les fiches des artistes (tableau "Roles")
+# year = date du film/doublage ; film = titre court ; language = langue du doublage
+# year accepte : 2011  |  2011-02  |  2011-02-01 (date complète, de préférence celle de sortie du doublage).
+#   Sur les fiches des artistes, seule l'ANNÉE (les 4 premiers chiffres) s'affiche, mais le tableau est trié sur
+#   la date complète : deux doublages de la même année se rangent donc dans l'ordre de leur date.
+#   Sans mois/jour, l'année compte comme le 1er janvier.
+# IMPORTANT : "film" doit être écrit EXACTEMENT comme le titre de l'apparition dans _data/characters.yml
+# (majuscules/minuscules ignorées, mais pas "II" vs "2"). C'est ce titre qui permet de prendre l'image du
+# personnage DANS CE FILM (sur cette page et sur les fiches des artistes).
+# ============================================================
+year: 2019-02-13
+film: "Ralph Breaks the Internet"
+language: "French"
+
+# ============================================================
+# VOIX ADDITIONNELLES CRÉDITÉES : les "artist" de leurs fiches, dans l'ordre d'affichage
+# (une fiche par personne ; elles apparaissent sur la page de la personne avec "Additional voice")
+# ============================================================
+additional:
+  - "pauline-brunner"
+  - "sam-salhi"
+  - "christian-peythieu"
+  - "marion-lecrivain"
+  - "richard-leroussel"
+  - "olivier-benard"
+  - "guillaume-bourboulon"
+  - "ivan-gonzalez"
+  - "alexis-rangheard"
+  - "marie-christine-robert"
+  - "carole-gioan"
+  - "mathilde-martin"
+  - "emmanuel-daumas"
+  - "my-abderrahim-el-boumeshouli"
+  - "sylvain-urban"
+
+# CHOEUR (affiché si show_choir: true) : mêmes règles que additional.
+choir: []
+
+# ============================================================
+# CHANSONS : "titre natif | titre anglais | interprètes | note"
+# - titre natif vide = pas de ligne native (le titre anglais passe en gras ; la note s'affiche à côté)
+# - interprètes séparés par ; : "fiche @ Personnage" (le personnage est facultatif)
+# - un interprète qui commence par & est précédé de "&" au lieu de ";" (ex : &Choir)
+# - plusieurs voix pour un même personnage : répète le "@ Personnage" pour chacune
+# ============================================================
+songs:
+  - "La course infernale | A Place Called Slaughter Race | dorothee-pousseo @ vanellope; elisabeth-ventura @ shank; ? @ fridge-thief-ralph; ? @ butcher-boy; ? @ little-debbie; ? @ clown-ralph; ? @ felony; ? @ shark-ralph; ? @ dog1-ralph; ? @ dog2-ralph; ? @ tattooed-guy-ralph; olivier-podesta; daniel-beretta; michael-lelong; richard-rossignol; olivier-constantin; magali-bonfils; &mery-lanzafame"
+  - " | Never Gonna Give You Up | francois-xavier-demaison @ ralph | Performed in English"
+
+# ============================================================
+# TECHNICAL STAFF : "personne(s) | poste". Plusieurs personnes : sépare-les par ;
+# Un studio (ou tout texte qui n'est pas une fiche) s'affiche tel quel, sans lien.
+# ============================================================
+staff:
+  - "jean-marc-pannetier | Dubbing director"
+  - "claude-lombard | Musical director"
+  - "jean-marc-pannetier | Adaptation"
+  - "claude-lombard | Lyrics"
+  - "pierre-buteau | Sound engineer (dialogues)"
+  - "estienne-boussuge | Sound engineer (songs)"
+  - "guillaume-berat | Sound editing"
+  - "boualem-lamhene | Creative executive"
+  - "virginie-courgenay | Creative executive"
+  - "dubbing-brothers | Dubbing studio"
+  - "shepperton-international | Mixing studio"
+
+# ============================================================
+# TABLEAU CAST : une ligne par personnage, au format
+#     "nom natif | nom original | comédien | note | id du personnage"
+# - comédien = le "artist" de sa fiche ; "?" = inconnu
+#     "fiche = Texte" : affiche "Texte" à la place du nom officiel, sur cette page seulement (le lien reste).
+#     Pour un groupe fusionné, écris-le sur la PREMIÈRE ligne du groupe.
+# - même comédien sur plusieurs lignes qui se suivent = fusion automatique (rowspan)
+# - ligne avec natif et nom vides = autre voix du même personnage (fusion automatique)
+# - note (facultatif) : texte ajouté après le nom, ex : (speaking &amp; singing) ou ?
+#     Sans note mais avec un id, laisse le champ vide : "… | tommy-chu | | ralph"
+# - id du personnage (facultatif, 5e champ) : l'id de ce personnage dans _data/characters.yml (ex : ralph, elsa).
+#     Il sert à la vignette du personnage (voir cast_images plus bas) ; la fiche de l'artiste, elle, retrouve
+#     toute seule l'image du personnage d'après son nom original, sans qu'il soit nécessaire de mettre un id ici.
+#     Mets l'id quand le nom original ne suffit pas à retrouver le personnage (ex : "Hey Nongman…" -> nongman).
+#     "-" à cet endroit = aucune image pour cette ligne.
+# - bandeau : "banner | Texte | URL image | sparkle glow | id"
+# ============================================================
+cast_columns: "French name | Original name | Voices"
+
+# VIGNETTES DES PERSONNAGES dans ce tableau (une colonne de petites images à gauche) :
+#   cast_images: false  = jamais de vignettes sur cette page
+#   cast_images: true   = vignettes pour tous les personnages trouvés dans _data/characters.yml
+#                         (id déduit du nom original si le 5e champ est vide ; "-" pour exclure une ligne)
+#   (ligne supprimée)   = vignettes seulement pour les lignes où tu as écrit un id en 5e champ
+# Les fiches des artistes affichent toujours les images, quel que soit ce réglage.
+cast_images: true
+cast:
+  - "Ralph | @ralph | francois-xavier-demaison"
+  - "Vanellope | @vanellope | dorothee-pousseo | (speaking &amp; singing)"
+  - "Shank | @shank | audrey-sourdive (speaking) + elisabeth-ventura (singing)"
+  - "Yesss | @yesss | corinne-wellong"
+  - "Spamley | @spamley | jonathan-cohen"
+  - "Jesaistout | @knowsmore | benoit-briere | (Quebec French version)"
+  - "Double Dan | @double-dan | xavier-fagnon"
+  - "M. Litwak | @mr-litwak | patrice-melennec"
+  - "eBoy | @eboy | alexis-tomassian"
+  - "Mafoi | @maybe-ralph | thierry-darmor"
+  - "Commissaire-priseur 1 | @auctioneers-ralph | thierry-darmor"
+  - "Petit boucher | @butcher-boy | thierry-buisson (speaking) + ? (singing)"
+  - "Felony | @felony | carole-gioan (speaking) + ? (singing)"
+  - "Présentatrice TV | @news-anchor-ralph | carole-gioan"
+  - "Commissaire-priseur 3 | @auctioneers-ralph | carole-gioan"
+  - "Pyro | @pyro | olivier-benard"
+  - "Hé Nongman | @hey-nongman | olivier-benard"
+  - "Chèvre | @goat-ralph | olivier-benard"
+  - "Little Debbie | @little-debbie | juliette-poissonnier (speaking) + ? (singing)"
+  - "Colleen | @colleen-ballinger | juliette-poissonnier"
+  - "Dani Hernandez | @dani-fernandez | juliette-poissonnier"
+  - "Maman au collant | @ballet-mom | juliette-poissonnier"
+  - "Commissaire-priseur 2 | @auctioneer2 | juliette-poissonnier"
+  - "Pop up Instagram | @instagram-popup | juliette-poissonnier"
+  - "Maman de Mo | @mos-mom | thais-buforn | juliette-poissonnier"
+  - "Elaine eBay | @ebay-elayne | annie-le-youdec"
+  - "Lee le fonctionnaire | @lee-office-nerd | daniel-njo-lobe"
+  - "McNeely | @mc-neely | diouc-koma"
+  - "Jimmy | @jimmy-ralph | hugo-brunswick"
+  - "Grand-mère de Jimmy | @jimmys-grandma | denise-metmer"
+  - "Swati | @swati | angele-humeau"
+  - "Nafisa | @nafisa | pauline-brunner"
+  - "Tiffany | @tiffany-herrera | pauline-brunner"
+  - "Michel | @arthur-virus | sam-salhi"
+  - "Commissaire-priseur 4 | @auctioneers-ralph | guillaume-bourboulon"
+  - "Bébé Mo | @baby-mo | mila-pointet"
+  - "Boyd | @silhouette-additional | julien-alluguette"
+  - "Bloqueur de Pop-up | @popup-blocker-ralph | alexis-rangheard"
+  - "Soumissionnaire concurrent | @male-bidder-ralph | mike-fedee"
+  - "Homme chez Disney | Man at Disney | ivan-gonzalez | | silhouette-additional"
+  - "Ben | @ben-ralph | ?"
+  - "Daniel | @daniel-ralph | ?"
+  - "Dan | @dan-ralph | ?"
+  - "Wayne | @wayne-ralph | ?"
+  - "banner | Arcade characters | ralph-arcade-characters.png | sparkle glow | arcade-characters"
+  - "Félix | Felix | donald-reignoux | | fix-it-felix"
+  - "Calhoun | Calhoun | isabelle-desplantes | | calhoun"
+  - "Tapper | @tapper | patrick-raynal"
+  - "Taffyta | @taffyta-muttonfudge | adeline-chetail"
+  - "Adèle Machandelle | @candlehead | pauline-brunner"
+  - "Jean-Hubert | @rancis-fluggerbutter | thomas-sagols"
+  - "Duncan | @duncan | antoni-forteza | cedric-dumond"
+  - "Wynnchel | @wynnchel | marc-perez"
+  - "Le contrôleur | @surge-protector | michel-dodane"
+  - "Aigre Bill | @sour-bill | arnaud-leonard"
+  - "Zangief | @zangief | michel-elias"
+  - "Gene | @gene | achille-orsoni"
+  - "Sonic | @sonic | olivier-korol"
+  - "banner | Movie characters | ralph-movie-characters.png | sparkle glow"
+  - "Buzz l'Éclair | @buzz-lightyear | richard-darbois"
+  - "Bourriquet | @eeyore | wahid-lamamra"
+  - "C-3PO | @c3po | jean-claude-donda"
+  - "Grincheux | @grumpy | jean-claude-donda"
+  - "Baby Groot | @baby-groot | guillaume-orsat"
+#  - "? | @fn-3181 | ?"
+  - "Stormtroopers | @stormtroopers | raphael-cohen"
+  - " |  | valery-schatz"
+  - " |  | francois-raison"
+  - "banner | Disney Princesses | ralph-princesses.png | sparkle glow | ralph-princesses"
+  - "Blanche Neige | @snow-white | valerie-siclay | (speaking & ?)"
+  - "Cendrillon | @cinderella | laura-blanc"
+  - "Aurore | @aurora | laura-prejean"
+  - "Ariel | @ariel | marie-galey | (speaking &amp; singing)"
+  - "Belle | @belle | leopoldine-serre"
+  - "Jasmine | @jasmine | victoria-grosbois"
+  - "Pocahontas | @pocahontas | mathilda-may"
+  - "Mulan | @mulan | valerie-karsenti"
+  - "Tiana | @tiana | aurelie-konate"
+  - "Raiponce | @rapunzel | maeva-meline"
+  - "Merida | @merida | berenice-bejo"
+  - "Anna | @anna | emmylou-homs"
+  - "Elsa | @elsa | noemie-orphelin"
+  - "Vaiana | @moana | cerise-calixte"
+
+# ============================================================
+# GALERIE (diaporama du bas de page) : une ligne par image, 3 colonnes séparées par « | » :
+#     "fichier | légende | recadrage"
+#   fichier   : le nom du fichier sur Cloudinary (le début de l'URL est ajouté tout seul, voir cast-gallery.html).
+#   légende   : facultatif ; affichée au survol de la miniature (voile bleu) et sous l'image ouverte.
+#   recadrage : facultatif ; partie gardée dans la miniature carrée : north (haut, par défaut), center, south.
+#   gallery_full : facultatif ; pour les très grandes images ou à trame fine, taille de l'affichage plein écran.
+#   gallery_base : facultatif ; seulement si les images sont ailleurs que sur le Cloudinary habituel.
+# ============================================================
+# gallery_full: "w_1600,q_auto:best"
+gallery:
+  - "Ralph_Breaks_the_Internet_French_1.jpg"
+
+---
+{% include header.html %}
+<title>{{ page.title }}</title>
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap" rel="stylesheet">   <!-- police des bandeaux (Cinzel) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
+<!-- ============================================================
+     POLICE DU TITRE LOCALISÉ (optionnel) — seulement pour les pages dont
+     le titre est dans une écriture non latine. Étapes :
+     1) copie le <link> de la langue voulue (liste ci-dessous) juste sous le <link> « GOOGLE FONT » ci-dessus ;
+     2) dans le petit bloc <style> :root { ... } plus bas (juste sous l'include), remplace la valeur de :
+        --title-native-font par : 'Nom de la police', var(--cast-font)
+        (le nom seulement, jamais la balise <link> ; ça règle le titre ET les titres de chansons) ;
+     3) si le poids indiqué est « 400 seulement », mets --title-native-weight: 400 dans ce même bloc
+        (sinon le navigateur fabrique un faux gras).
+     Sans rien changer, le titre garde la police du site.
+     Les langues sont classées par ordre alphabétique (l'arabe en premier).
+
+     Arabic (Standard, Egyptian)
+       <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+       → 'Amiri'   (poids : 400, 700 ; écriture de droite à gauche : ajoute dir="rtl" sur la div du titre)
+
+     Armenian
+       <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wdth,wght@62.5..100,100..900&display=swap" rel="stylesheet">
+       → 'Noto Sans Armenian'   (poids : 100 à 900)
+
+     Bengali
+       <link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+       → 'Tiro Bangla'   (poids : 400 seulement)
+
+     Chinese - Cantonese (Hong Kong)
+       <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&display=swap" rel="stylesheet">
+       → 'Noto Serif HK'   (poids : 200 à 900)
+
+     Chinese - Simplified
+       <link href="https://fonts.googleapis.com/css2?family=Long+Cang&display=swap" rel="stylesheet">
+       → 'Long Cang'   (poids : 400 seulement)
+
+     Chinese - Traditional (Taiwan)
+       <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC:wght@300;400;700&display=swap" rel="stylesheet">
+       → 'LXGW WenKai Mono TC'   (poids : 300, 400, 700)
+
+     Cyrillic (Bulgarian, Russian, Kazakh, Ukrainian, Serbian, Abkhaz, Karachay-Balkar, Kabardian, Crimean Tatar)
+       <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+       → 'Cormorant Garamond'   (poids : 300 à 700)
+
+     Georgian
+       <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Georgian:wght@100..900&display=swap" rel="stylesheet">
+       → 'Noto Serif Georgian'   (poids : 100 à 900)
+
+     Greek
+       <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+       → 'EB Garamond'   (poids : 400 à 800)
+
+     Hebrew
+       <link href="https://fonts.googleapis.com/css2?family=David+Libre:wght@400;500;700&display=swap" rel="stylesheet">
+       → 'David Libre'   (poids : 400, 500, 700 ; écriture de droite à gauche : ajoute dir="rtl" sur la div du titre)
+
+     Hindi, Marathi
+       <link href="https://fonts.googleapis.com/css2?family=Tillana:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+       → 'Tillana'   (poids : 400 à 800)
+
+     Japanese
+       <link href="https://fonts.googleapis.com/css2?family=Yuji+Mai&display=swap" rel="stylesheet">
+       → 'Yuji Mai'   (poids : 400 seulement)
+
+     Kannada
+       <link href="https://fonts.googleapis.com/css2?family=Tiro+Kannada&display=swap" rel="stylesheet">
+       → 'Tiro Kannada'   (poids : 400 seulement)
+
+     Korean
+       <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap" rel="stylesheet">
+       → 'Nanum Brush Script'   (poids : 400 seulement)
+
+     Malayalam
+       <link href="https://fonts.googleapis.com/css2?family=Chilanka&display=swap" rel="stylesheet">
+       → 'Chilanka'   (poids : 400 seulement)
+
+     Tamil
+       <link href="https://fonts.googleapis.com/css2?family=Meera+Inimai&display=swap" rel="stylesheet">
+       → 'Meera Inimai'   (poids : 400 seulement)
+
+     Telugu
+       <link href="https://fonts.googleapis.com/css2?family=Gurajada&display=swap" rel="stylesheet">
+       → 'Gurajada'   (poids : 400 seulement)
+
+     Thai
+       <link href="https://fonts.googleapis.com/css2?family=Sriracha&display=swap" rel="stylesheet">
+       → 'Sriracha'   (poids : 400 seulement)
+     ============================================================ -->
+
+{% include cast-style-v2.html %}
+<style>
+/* RÉGLAGES PROPRES À CETTE PAGE : ces valeurs écrasent les valeurs par défaut de
+   _includes/cast-style-v2.html (liste complète des réglages dans ce fichier). Ajoute ici
+   toute autre variable à changer sur cette page seulement. */
+:root {
+
+  /* ---------- TITRE DU FILM ---------- */
+  --title-native-font: var(--cast-font);   /* police du titre localisé (voir la liste des polices plus haut) */
+  --title-native-size: 24px;
+  --title-native-weight: 700;   /* graisse du titre localisé : 400 = normal, 700 = gras (mets 400 pour les polices « 400 seulement ») */
+
+  /* ---------- TABLEAU CAST (colonne des noms natifs) ---------- */
+  --cast-native-name-font: var(--title-native-font);   /* police de la colonne des noms natifs (par défaut : celle du titre du film) */
+  --cast-native-name-scale: 1;   /* taille des noms natifs : multiple du texte courant (1 = normal ; 1.2 = +20%) */
+
+  /* ---------- CHANSONS ---------- */
+  --song-native-font: var(--title-native-font);   /* police des titres natifs des chansons (par défaut : celle du titre du film) */
+  --song-native-size: 1em;   /* taille des titres natifs des chansons (1em = taille normale du texte) */
+  --song-native-weight: var(--title-native-weight);   /* graisse des titres natifs des chansons (par défaut : celle du titre du film) */
+}
+</style>
+
+<div class="cast-wrap">
+
+  <!-- ============================================================
+       TITRE — MODIFIE ICI à chaque nouvelle page
+       ============================================================ -->
+  <div class="cast-title-native">
+    <span class="native-text">Ralph 2.0</span><span class="native-year">(2018)</span>
+  </div>
+  <div class="cast-title-english">Ralph Breaks the Internet</div>
+  <hr class="cast-hr">
+
+  <!-- COMÉDIENS (cartes photo) et TABLEAU CAST : générés depuis le front matter tout en haut
+       (cards: et cast:) et depuis les fiches du dossier artists/. -->
+  {% include cast-cards.html %}
+
+  {% include cast-table.html %}
+
+  <!-- ============================================================
+       ENCADRÉS OPTIONNELS "ADDITIONAL VOICES" / "CHOIR"
+       Ils s'affichent ou non selon les interrupteurs tout en haut du
+       fichier (show_additional_voices / show_choir / show_songs).
+       MODIFIE ICI : un <div> par personne, "Nom / Nom natif". Ils se
+       rangent ligne par ligne (Nom 1 à gauche, Nom 2 à droite, Nom 3
+       à gauche...), colonne de gauche alignée à droite, colonne de
+       droite alignée à gauche.
+       ============================================================ -->
+  {% if page.show_additional_voices %}
+  <div class="info-box" id="additional-voices">
+    <div class="info-box-title">Additional voices/Choir</div>
+    {% include cast-names.html names=page.additional %}
+
+  {% if page.additional_intl %}
+  <div class="voices-subtitle">International Additional Voices</div>
+
+    {% include cast-names.html names=page.additional_intl %}
+  {% endif %}
+  </div>
+  {% endif %}
+
+  {% if page.show_choir %}
+  <div class="info-box" id="choir">
+    <div class="info-box-title">Choir</div>
+    {% include cast-names.html names=page.choir %}
+  </div>
+  {% endif %}
+
+  <!-- ============================================================
+       ENCADRÉ "SONGS" — un .song-item par chanson.
+       Film sans chansons ? Mets show_songs: false tout en haut du fichier.
+       MODIFIE ICI : titre natif en texte simple (il reste en gras
+       même avec un "? »" quand tu ne le connais pas) ; si tu as un
+       vrai lien (vidéo/source), entoure-le d'un <a href="..."> pour
+       qu'il devienne bleu avec soulignement au survol. Titre anglais
+       entre parenthèses, puis la ligne "performed by" avec un acteur
+       par personnage, séparés par " ; ", et "& Choir" à la fin si
+       besoin. Italique : uniquement "performed by :" et le nom du
+       personnage, via <i>...</i> (tout le reste est en texte normal).
+       ============================================================ -->
+  {% if page.show_songs %}
+  <div class="info-box" id="songs">
+    <div class="info-box-title">Songs</div>
+    <ul class="song-list">
+      {% include cast-songs.html %}
+    </ul>
+  </div>
+  {% endif %}
+
+
+  <!-- ============================================================
+       ENCADRÉ "TECHNICAL STAFF" — une ligne par poste.
+       MODIFIE ICI : "?" si tu ne connais pas le nom. Le studio tout
+       en bas reste en italique, centré, tout en MAJUSCULES.
+       ============================================================ -->
+  <div class="info-box" id="staff">
+    <div class="info-box-title">Technical Staff</div>
+    {% include cast-staff.html %}
+    <div class="studio-line">DISNEY CHARACTER VOICES INTERNATIONAL, INC.</div>
+  </div>
+
+  <hr class="cast-hr" style="margin-top:30px;">
+
+  <!-- ============================================================
+       TRIVIA — une <li> par anecdote (supprime le bloc entier s'il
+       n'y en a aucune pour cette page).
+       ============================================================ -->
+  <ul class="cast-trivia">
+    <li>Release dates :<br>
+    France - <b>19 January 2019</b> <small>(L'Alpe d'Huez Film Festival)</small><br>
+    France - <b>13 February 2019</b> <small>(Cinemas)</small></li>
+    <li>In the <i>Catalan</i> version :<br>
+    The voices of Merida, Anna, Elsa and Moana are from the <b>original classic movies</b>;<br>
+    The voices of Ariel, Belle, Jasmine and Pocahontas were the voices of those Princesses in the <b>Castilian Spanish dubs</b>;<br>
+    The voices of Snow White, Cinderella, Aurora, Mulan, Tiana and Rapunzel are <b>new</b> (<i>as their original films weren't dubbed in Catalan</i>).</li>
+    <li><b>Benoît Brière</b>, the Quebec actor who voices here KnowsMore, was the voice of <i>King Candy</i> in the first film, for both France and Quebec again.</li>
+    <li>The performance of <b>Olivier Benard</b> as the Goat was used as the <i>International version</i> for most international dubs around the world.</li>
+    <li><b>Jean-Claude Donda</b>, the voice of Grumpy (among others), was the voice of <b>Doc</b> in the 2001 re-dub of <i>Snow White and the Seven Dwarfs</i>.</li>
+    <li>Following the original version, the voice of Baby Mo is done by <b>Mila Pointet</b>, the original voice of Toddler Moana in Disney's <i>Moana</i> (2016).<br>
+    She's the daugther of <b>Dorothée Pousseo</b>, the voice of Vanellope.</li>
+    <li>All the French additional voices, except <i>My Abderrahim El Boumeshouli</i> and <i>Sylvain Urban</i>, then performed the additional voices for the <b>International version</b>: a group of undistinct background voices (walla) in no recognizable language.
+    <li>Denise Metmer, the voice of Jimmy's Grandma, was miscredited as <i>Denis Metmer</i>.</li>
+  </ul>
+
+  <!-- ============================================================
+       GALERIE
+       ============================================================ -->
+
+<div class="gallery-title">Gallery</div>
+<div class="gallery-carousel" id="galleryCarousel">
+  <button class="gallery-arrow prev" type="button" aria-label="Previous images">&#8249;</button>
+  <div class="gallery-track" id="galleryTrack">
+    {% include cast-gallery.html %}
+  </div>
+  <button class="gallery-arrow next" type="button" aria-label="Next images">&#8250;</button>
+</div>
+ 
+  <!-- ============================================================
+       LIENS VERS LES PAGES SIMILAIRES (optionnel)
+       - .related-prev : film(s) qui viennent AVANT celui-ci (à gauche,
+         flèche vers la gauche). Ex : sur la page du live-action 2022,
+         un lien vers Pinocchio (2011).
+       - .related-next : film(s) qui viennent APRÈS (à droite, flèche
+         vers la droite).
+       Plusieurs films dans un bloc ? Ajoute simplement un <a> par ligne.
+       Pas de film avant (ou après) ? Supprime tout le bloc
+       correspondant (prev ou next) : l'autre reste à sa place.
+       ============================================================ -->
+  <div class="cast-related">
+    <div class="related-prev">
+      <a href="https://disneyinternationaldubbings.weebly.com/wreck-it-ralph--catalan-cast.html" target="_blank" rel="noopener"><span class="related-arrow">➤</span>Wreck-it Ralph (2012)</a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SOURCES + CONTACT — tout en bas de la page.
+       Le titre "Sources" : mets "Source" au singulier s'il n'y en a qu'une.
+       MODIFIE ICI : une <li> par source (numérotées automatiquement).
+       La petite flèche ↑ est OPTIONNELLE : ajoute-la seulement si tu
+       veux qu'une source fasse remonter vers une boîte précise, avec
+       href="#cast", "#additional-voices", "#choir", "#songs" ou
+       "#staff". Sans flèche, la source reste simple.
+       ============================================================ -->
+  <div class="sources-title">Sources</div>
+  <ol class="sources-list">
+    <li>DVD credits</li>
+    <li>Marta Barbarà <a href="#ralph-princesses" class="back-ref" title="Back to Cast">↑</a></li>
+    <li><a href="LINK+Ralph_Breaks_the_Internet_-_Catalan_cast_B%C3%A1rbara_Mestanza.jpg" target="_blank" rel="noopener">Bàrbara Mestanza</a> <a href="#cast" class="back-ref" title="Back to Cast">↑</a></li>
+    <li><a href="LINK+Ralph_Breaks_the_Internet_-_Catalan_cast_Berta_Cortes.png" target="_blank" rel="noopener">Berta Cortés</a> <a href="#ralph-princesses" class="back-ref" title="Back to Cast">↑</a></li>
+    <li><a href="LINK+Ralph_Breaks_the_Internet_-_Catalan_cast_Ines_Moraleda_as_Belle.png" target="_blank" rel="noopener">Inés Moraleda</a> <a href="#ralph-princesses" class="back-ref" title="Back to Cast">↑</a></li>
+    <li><a href="LINK+Ralph_Breaks_the_Internet_-_Catalan_cast_Irene_Mir%C3%A0s.jpg" target="_blank" rel="noopener">Irene Miràs</a> <a href="#cast" class="back-ref" title="Back to Cast">↑</a></li>
+    <li><a href="LINK+Ralph_Breaks_the_Internet_-_Catalan_cast_Laia_Prats.jpg" target="_blank" rel="noopener">Laia Prats</a> <a href="#songs" class="back-ref" title="Back to Cast">↑</a></li>
+    <li><a href="LINK+Ralph_Breaks_the_Internet_-_Catalan_cast_Laura_Jara.jpg" target="_blank" rel="noopener">Laura Fernández Jara</a> <a href="#ralph-princesses" class="back-ref" title="Back to Cast">↑</a></li>
+    <li><a href="LINK+Ralph_Breaks_the_Internet_-_Catalan_cast_Marc_G%C3%B3mez.jpg" target="_blank" rel="noopener">Marc Gómez</a> <a href="#cast" class="back-ref" title="Back to Cast">↑</a></li>
+    <li><a href="LINK+Ralph_Breaks_the_Internet_-_Catalan_cast_V%C3%ADctor_G%C3%B3mez.jpg" target="_blank" rel="noopener">Víctor Gómez Casademunt</a> <a href="#cast" class="back-ref" title="Back to Cast">↑</a></li>
+    <li><a href="LINK+Ralph_Breaks_the_Internet_-_Catalan_cast_Marcel_Navarro.jpg" target="_blank" rel="noopener">Marcel Navarro</a> <a href="#cast" class="back-ref" title="Back to Cast">↑</a></li>
+    <li>Ángel del Río <a href="#arcade-characters" class="back-ref" title="Back to Cast">↑</a></li>
+  </ol>
+ <div class="cast-note">If someone has more information about this dub, please <a href="/contact.html" target="_blank" rel="noopener"><span style="font-style:normal;">contact me</span></a></div>
+</div>
+
+{% include cast-scripts-v2.html %}
