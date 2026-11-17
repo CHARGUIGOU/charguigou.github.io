@@ -47,3 +47,13 @@ characters:
   thumb: "tr:w-240,c-at_max/characters"
   zoom: "tr:w-900,c-at_max/characters"
   card: "tr:w-360,c-at_max/characters"
+
+# ------------------------------------------------------------
+# GIF DES PAGES « MOVIE CAST BY LANGUAGE » (clap, « No Dub », bobine) : sur ImageKit, adresse COMPLÈTE ici.
+# Si les fichiers changent de place ou de taille, c'est le seul endroit à modifier.
+# (Les pages utilisent {{ site.data.images.gifs.clap }}, .nosound ou .reel ; la transformation tr:w-100 = 100 px de large.)
+# ------------------------------------------------------------
+gifs:
+  clap:    "https://ik.imagekit.io/charguigou/tr:w-100/main/Clap_Cinema.gif"
+  nosound: "https://ik.imagekit.io/charguigou/tr:w-100/main/No_sound_Movie_Cast.gif"
+  reel:    "https://ik.imagekit.io/charguigou/tr:w-100/main/Bobine_Cinema.gif"
