@@ -57,3 +57,16 @@ gifs:
   clap:    "https://ik.imagekit.io/charguigou/tr:w-100/main/Clap_Cinema.gif"
   nosound: "https://ik.imagekit.io/charguigou/tr:w-100/main/No_sound_Movie_Cast.gif"
   reel:    "https://ik.imagekit.io/charguigou/tr:w-100/main/Bobine_Cinema.gif"
+
+# ------------------------------------------------------------
+# GALERIES DES PAGES CAST (diaporama du bas de page) : 2 hébergeurs possibles, choisis PAR PAGE.
+# - Cloudinary (par défaut) : base + réglage + "/" + fichier, avec les réglages "gallery_thumb" (miniature) de "presets" ci-dessus
+#   et, pour le plein écran, gallery_full dans le front matter de la page (facultatif).
+# - ImageKit : écrire  gallery_host: "imagekit"  dans le front matter de la page. Les fichiers sont dans le dossier « posters ».
+#   Miniature : "thumb" (carrée, {pos} = top / center / bottom, mis automatiquement) ; plein écran : "full".
+#   Sur ImageKit le réglage vient AVANT le dossier : c'est pourquoi "/posters" est écrit à la fin des réglages.
+# ------------------------------------------------------------
+gallery_imagekit:
+  base: "https://ik.imagekit.io/charguigou/"
+  thumb: "tr:w-400,h-400,fo-{pos}/posters"
+  full: "tr:w-1600,q-90/posters"
