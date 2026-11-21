@@ -74,7 +74,9 @@ language: "Language"
 #   - plusieurs comédiens dans la MÊME cellule (ex : voix parlée + chantée) : « artist-1 (speaking) + artist-2 (singing) » ;
 #       un « ? » à l'intérieur d'une parenthèse ne vaut que pour cette personne : « artist-2 (singing?) » ;
 #   - bandeau de catégorie (image + texte, sur toute la largeur) : "banner | Texte | URL de l'image | sparkle glow | id-d-ancrage"
-#       · Texte = le titre affiché sur le bandeau ; URL = l'image de fond (laisse vide pour un bandeau sans image) ;
+#       · Texte = le titre affiché sur le bandeau ; image = le NOM DU FICHIER de l'image de fond, hébergée sur ImageKit à la racine
+#         (ex : ralph-arcade-characters.png ; l'adresse est construite avec banner_base et presets.banner de images.yml).
+#         Une URL complète (contenant « :// ») est aussi acceptée telle quelle. Laisse vide pour un bandeau sans image ;
 #       · effets (facultatif) : sparkle (poussière de fée), glow (halo derrière le texte), ou les deux ;
 #       · id-d-ancrage (facultatif) : permet un lien direct vers ce bandeau (page.html#mon-id).
 #
@@ -101,7 +103,7 @@ cast:
   - "nom natif | Original name | ?"
   - "nom natif 2 | Original name 2 | artist-slug-2 = Texte affiché à la place du nom officiel"
   - " |  | artist-slug-3"
-  - "banner | Titre du bandeau | https://res.cloudinary.com/dofvjifeo/image/upload/IMAGE-DU-BANDEAU.png | sparkle glow"
+  - "banner | Titre du bandeau | IMAGE-DU-BANDEAU.png | sparkle glow"
   - "nom natif | Original name | artist-slug"
 
 # ============================================================
@@ -110,6 +112,8 @@ cast:
 #   COLONNE 1 — titre natif : le titre dans la langue du doublage. VIDE = pas de ligne native : le titre anglais passe en gras.
 #   COLONNE 2 — titre anglais : le titre original, affiché entre guillemets (ex : Let it Go).
 #   COLONNE 3 — interprètes, séparés par « ; » : "fiche @ Personnage" (le « @ Personnage » est facultatif).
+#               Un interprète écrit SANS « @ Personnage » est affiché dans la chanson sans rôle, et sa fiche reçoit une ligne « Singer »
+#               pour ce film (une seule fois par film, même s'il chante dans plusieurs chansons).
 #               « Personnage » = de préférence l'id du personnage (ex : ralph) : son nom vient de characters.xlsx ; sinon texte libre
 #               (ex : Dwarfs' Choir). Le rôle est repris sur la fiche de l'artiste.
 #               Interprètes qui se suivent avec le MÊME rôle : le rôle n'est affiché qu'après le dernier (« a ; b ; c @ Dwarfs' Choir »
@@ -125,11 +129,13 @@ songs:
 # ============================================================
 # VOIX ADDITIONNELLES CRÉDITÉES : les "artist" de leurs fiches, dans l'ordre d'affichage
 # (une fiche par personne ; elles apparaissent sur la page de la personne avec "Additional voice")
+# Texte libre facultatif après un « | » : "artist-slug | International version" s'affiche en petit après le nom, sur cette page
+# ET sur la fiche de l'artiste (après « Additional voice »).
 # ============================================================
 additional:
   - "artist-slug-1"
   - "artist-slug-2"
-  - "artist-slug-3"
+  - "artist-slug-3 | note facultative"
 
 # Voix additionnelles internationales : une fiche si le texte est l'identifiant d'une fiche, sinon texte simple.
 additional_intl:
@@ -154,12 +160,17 @@ staff:
 # ============================================================
 # GALERIE (diaporama du bas de page) : une ligne par image, 3 colonnes séparées par « | » :
 #     "fichier | légende | recadrage"
-#   fichier   : le nom du fichier sur Cloudinary (le début de l'URL est ajouté tout seul, voir cast-gallery.html).
+#   fichier   : le nom du fichier (le début de l'URL est ajouté tout seul à partir de images.yml, voir cast-gallery.html).
+#               Évite les espaces et les parenthèses dans les noms de fichiers (utilise des « _ »).
 #   légende   : facultatif ; affichée au survol de la miniature (voile bleu) et sous l'image ouverte.
 #   recadrage : facultatif ; partie gardée dans la miniature carrée : north (haut, par défaut), center, south.
-#   gallery_full : facultatif ; pour les très grandes images ou à trame fine, taille de l'affichage plein écran.
+#   gallery_host : facultatif ; « imagekit » = les images sont sur ImageKit (dossier posters). Sans cette ligne : Cloudinary.
+#                  Miniatures et plein écran sont alors réglés dans images.yml (bloc gallery_imagekit).
+#   gallery_full : facultatif ; remplace la taille de l'affichage plein écran de l'hébergeur choisi (dans sa syntaxe :
+#                  Cloudinary « w_1600,q_auto:best » ; ImageKit « tr:w-1600,q-90/posters »).
 #   gallery_base : facultatif ; seulement si les images sont ailleurs que sur le Cloudinary habituel.
 # ============================================================
+# gallery_host: "imagekit"
 # gallery_full: "w_1600,q_auto:best"
 gallery:
   - "IMAGE-1.jpg | Poster"
@@ -268,6 +279,9 @@ gallery:
   --title-native-font: var(--cast-font);   /* police du titre localisé (voir la liste des polices plus haut) */
   --title-native-size: 24px;
   --title-native-weight: 700;   /* graisse du titre localisé : 400 = normal, 700 = gras (mets 400 pour les polices « 400 seulement ») */
+
+  /* ---------- PAGE SANS TITRE ANGLAIS ---------- */
+  /* --hr-space-above: 30px;   à décommenter si tu supprimes la ligne « cast-title-english » : sinon le trait colle au titre natif */
 
   /* ---------- TABLEAU CAST (colonne des noms natifs) ---------- */
   --cast-native-name-font: var(--title-native-font);   /* police de la colonne des noms natifs (par défaut : celle du titre du film) */
@@ -390,6 +404,21 @@ gallery:
          Tu peux aussi écrire à la main des <img src="..." data-full="..." data-caption="..."> à côté de l'include.
        Change "Gallery" en "Media" si tu préfères.
        ============================================================ -->
+  <!-- ============================================================
+       VIDÉO YOUTUBE (optionnel) — à placer ici, entre les anecdotes et la galerie.
+       Décommente le bloc ci-dessous et remplace VIDEO_ID (la partie après « v= » dans l'adresse YouTube).
+       Pour démarrer à un moment précis : .../embed/VIDEO_ID?start=448 (secondes). Plusieurs paramètres : sépare-les par &amp;.
+       La vidéo est centrée (max-width règle sa largeur) ; le titre reste aligné à gauche.
+       ============================================================
+  <div class="gallery-title">Video</div>
+  <div style="max-width:640px; aspect-ratio:16/9; margin:10px auto 30px auto;">
+    <iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID" title="Titre de la vidéo"
+            style="width:100%; height:100%; border:0; border-radius:8px;"
+            loading="lazy" allowfullscreen
+            allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"></iframe>
+  </div>
+  -->
+
   <div class="gallery-title">Gallery</div>
   <div class="gallery-carousel" id="galleryCarousel">
     <button class="gallery-arrow prev" type="button" aria-label="Previous images">&#8249;</button>
