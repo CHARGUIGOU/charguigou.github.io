@@ -21,7 +21,7 @@
 {%- endcomment -%}
 {%- assign cs_src = include.src -%}{%- unless cs_src -%}{%- assign cs_src = page -%}{%- endunless -%}
 {%- assign cs_film = cs_src.film | default: page.film -%}
-{%- assign artist_pages = site.pages | where_exp: "p", "p.artist" -%}
+{%- unless artist_pages -%}{%- assign artist_pages = site.pages | where_exp: "p", "p.artist" -%}{%- endunless -%}
 {%- assign colnames = cs_src.cast_columns | default: page.cast_columns | default: "Native name | Original name | Voices" | split: "|" -%}
 {%- comment -%}
   Vignettes des personnages dans ce tableau (réglage de la page : cast_images) :

@@ -3,7 +3,7 @@
     cards: [tommy-chu, melodee-mak, gu-wing-syut]
   (chaque mot = le champ "artist" d'une fiche dans /artists/)
 {%- endcomment -%}
-{%- assign artist_pages = site.pages | where_exp: "p", "p.artist" -%}
+{%- unless artist_pages -%}{%- assign artist_pages = site.pages | where_exp: "p", "p.artist" -%}{%- endunless -%}
 <div class="voice-cast">
 {%- for slug in page.cards -%}
   {%- assign a = artist_pages | where: "artist", slug | first -%}
