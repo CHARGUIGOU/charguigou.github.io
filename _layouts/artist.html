@@ -203,7 +203,7 @@
     {%- assign f = row | split: "|" -%}
     {%- assign c0 = f[0] | default: "" | strip -%}
     {%- assign c1 = f[1] | default: "" | strip -%}
-    {%- assign c2 = f[2] | default: "" | split: "=" | first | default: "" | strip -%}
+    {%- assign c2 = f[2] | default: "" | replace: " ++ ", " + " | split: "=" | first | default: "" | strip -%}
     {%- if c0 != "banner" -%}
       {%- if c0 != "" or c1 != "" -%}
         {%- assign cur_n = c0 -%}
