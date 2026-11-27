@@ -146,6 +146,8 @@
 .roles-table th[data-sort="desc"]::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 12'%3E%3Cpath d='M4 0l4 5H0z' fill='%23ccc'/%3E%3Cpath d='M4 12L0 7h8z' fill='%23333'/%3E%3C/svg%3E"); }
 .artist-info .actor-name .name-main { display: block; }
 .artist-info .actor-name .name-sub { display: block; margin-top: 4px; }
+/* Nom natif entre parenthèses : il passe tout entier à la ligne s'il ne tient pas à côté du nom (au lieu de se couper au milieu). */
+.artist-info .actor-name .name-paren { display: inline-block; }
 </style>
 
 {%- comment %} Silhouettes des lignes spéciales : dans _data/characters.yml (ids silhouette-singer, silhouette-choir, silhouette-additional) {% endcomment -%}
@@ -601,10 +603,10 @@
   {%- elsif d_nick != "" -%}
     {%- if d_prefix != "" -%}{%- assign main_text = d_prefix | append: ' "' | append: d_nick | append: '"' -%}{%- else -%}{%- assign main_text = d_nick -%}{%- endif -%}
     <span class="name-main">{{ main_text }}</span>
-    {%- if d_rom != "" %}<span class="name-sub"><span class="accent">{{ d_rom | slice: 0, 1 }}</span>{{ d_rom | slice: 1, 500 }}{% if d_native != "" %} ({{ native_html }}){% endif %}</span>
+    {%- if d_rom != "" %}<span class="name-sub"><span class="accent">{{ d_rom | slice: 0, 1 }}</span>{{ d_rom | slice: 1, 500 }}{% if d_native != "" %} <span class="name-paren">({{ native_html }})</span>{% endif %}</span>
     {%- elsif d_native != "" %}<span class="name-sub">{{ native_html }}</span>{% endif -%}
   {%- elsif head != "" -%}
-    <span class="accent">{{ head | slice: 0, 1 }}</span>{{ head | slice: 1, 500 }}{% if d_native != "" %} ({{ native_html }}){% endif %}
+    <span class="accent">{{ head | slice: 0, 1 }}</span>{{ head | slice: 1, 500 }}{% if d_native != "" %} <span class="name-paren">({{ native_html }})</span>{% endif %}
   {%- else -%}{{ native_html }}
   {%- endif -%}
 {%- endcapture -%}
