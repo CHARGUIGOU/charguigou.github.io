@@ -224,13 +224,28 @@
   var lbCaption = document.getElementById('lightboxCaption');
   var current = 0;
 
+  var preloaded = {};   // grandes images déjà demandées (pour ne les demander qu'une fois)
+  function preload(index) {
+    var s = images[(index + images.length) % images.length].getAttribute('data-full');
+    if (s && !preloaded[s]) { preloaded[s] = new Image(); preloaded[s].src = s; }
+  }
+  bigImg.addEventListener('load',  function () { box.classList.remove('loading'); });
+  bigImg.addEventListener('error', function () { box.classList.remove('loading'); });
+
   function show(index) {
     current = (index + images.length) % images.length;   // boucle : après la dernière, retour à la première
     var img = images[current];
-    bigImg.src = img.getAttribute('data-full') || img.src;   // version grande (data-full) si elle existe, sinon la miniature
+    var src = img.getAttribute('data-full') || img.src;      // version grande (data-full) si elle existe, sinon la miniature
+    // Pastille de chargement : visible tant que la grande image n'est pas arrivée (effacée par les événements load / error plus bas)
+    if (bigImg.getAttribute('src') !== src) box.classList.add('loading');
+    bigImg.src = src;
+    if (bigImg.complete && bigImg.naturalWidth) box.classList.remove('loading');   // déjà en cache : rien à attendre
     bigImg.alt = img.alt;
     lbCaption.textContent = img.getAttribute('data-caption') || '';
     counter.textContent = (current + 1) + ' / ' + images.length;
+    // On charge d'avance les deux voisines (suivante et précédente) : le clic sur une flèche devient quasi instantané
+    preload(current + 1);
+    preload(current - 1);
   }
   function open(index) {
     show(index);
@@ -249,6 +264,9 @@
 
   items.forEach(function (item, i) {
     item.addEventListener('click', function () { open(i); });
+    // Dès que la souris (ou le doigt) arrive sur une miniature, on commence à charger sa grande version
+    item.addEventListener('mouseenter', function () { preload(i); });
+    item.addEventListener('touchstart', function () { preload(i); }, { passive: true });
   });
   box.querySelector('.prev').addEventListener('click', function (e) { e.stopPropagation(); show(current - 1); });
   box.querySelector('.next').addEventListener('click', function (e) { e.stopPropagation(); show(current + 1); });
