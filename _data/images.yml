@@ -69,4 +69,4 @@ gifs:
 gallery_imagekit:
   base: "https://ik.imagekit.io/charguigou/"
   thumb: "tr:w-400,h-400,fo-{pos}/posters"
-  full: "tr:w-1600,q-90/posters"
+  full: "tr:w-1400,q-80/posters"
